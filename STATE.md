@@ -1,14 +1,16 @@
-snapshot: 2026-05-10T00:00:00Z
+snapshot: 2026-05-10T20:30:00Z
 
 # STATE.md — live project status
 
 ## Phase
 
-**Phase 0 (Reconnaissance) — partially complete; data-plane capture BLOCKED on environmental egress.** ADR-001 is filed (Accepted, Strategy C). Phase 1 can begin scaffolding the Strategy C fetch shape, but cannot validate against real GraphQL contracts until the user re-runs `scripts/live_recon.py` from a residential egress (Q-011).
+**Phase 1 (Core pipeline) — usable end-to-end on seeded data.** The portal renders Janav's dashboard, tournaments list, draw detail, and scouting cards against a realistic seed grounded in Tennis Recruiting Network + CoreTennis public profile harvest. The fetch layer is multi-source (`FetchRouter`): TennisLink primary (reachable), Clubspark deferred (Cloudflare-blocked at IP/ASN level — Q-011). The Clubspark client is a stub that raises `NotImplementedError` until residential egress lands.
+
+**Phase 0 (Reconnaissance) — partial.** Passive + live-recon evidence is captured; ADR-001 filed Accepted as Strategy C; ADR-005 filed Accepted (multi-source TennisLink-primary). Clubspark data-plane capture remains gated on residential egress, which the user has waived as a requirement — the project will operate on TennisLink + seeded data indefinitely unless that constraint is revisited.
 
 ## Active workstreams
 
-_None._
+_None at session start. The 5-agent pivot wave landed at commit `d7a8147`. Follow-up wave queued: TennisLink parser implementation, expected-outcome enrichment, sync-log persistence._
 
 ## Recently completed
 
