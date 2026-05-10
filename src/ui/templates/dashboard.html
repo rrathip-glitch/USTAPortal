@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}USTA Portal &middot; Dashboard{% endblock %}
+{% block content %}
+  <section class="page-header">
+    <h1>Dashboard</h1>
+    <p class="subtitle">Pre-tournament briefing and sync freshness at a glance.</p>
+  </section>
+
+  {% if next_tournament %}
+    <section class="card">
+      <h2>Next tournament</h2>
+      <h3>
+        <a href="/tournaments/{{ next_tournament.usta_id }}">{{ next_tournament.name }}</a>
+      </h3>
+      <dl class="kv">
+        <dt>Starts</dt><dd>{{ next_tournament.start_date or "TBD" }}</dd>
+        <dt>Level</dt><dd>{{ next_tournament.level or "?" }}</dd>
+        <dt>Location</dt>
+        <dd>
+          {{ next_tournament.location_city or "?" }},
+          {{ next_tournament.location_state or "?" }}
+        </dd>
+      </dl>
+    </section>
+  {% else %}
+    {% include "_empty.html" with context %}
+  {% endif %}
+
+  <section class="card">
+    <h2>Quick links</h2>
+    <ul class="quick-links">
+      <li><a href="/tournaments">All tournaments</a></li>
+      <li><a href="/sync">Run sync</a></li>
+      <li><a href="/health">/health</a></li>
+      <li><a href="/docs">/docs (FastAPI)</a></li>
+    </ul>
+  </section>
+{% endblock %}

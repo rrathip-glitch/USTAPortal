@@ -1,0 +1,5 @@
+FINAL_URL=https://playtennis.usta.com/Competitions/tritennis0/Tournaments/draws/CB005855-CDEF-4A4A-8885-4D3A52C9B413
+HTTP_CODE=403
+NUM_REDIRECTS=0
+CONTENT_TYPE=text/html; charset=UTF-8
+SIZE_DOWNLOAD=1747

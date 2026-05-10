@@ -8,10 +8,11 @@ snapshot: 2026-05-10T00:00:00Z
 
 ## Active workstreams
 
-_None. The bootstrap session has just completed; no agent currently holds a claim._
+_None._
 
 ## Recently completed
 
+- **Score parser (parser agent, 2026-05-10).** Implemented `parse_score`, `format_score`, and `infer_winner` in `src/parse/matches.py` covering standard sets, tiebreaks, retirements, walkovers, defaults, unfinished, pro-sets, and 10-point match tiebreaks (both bracket and `1-0(L)` shapes). Added 16 concrete + 4 property tests in `tests/unit/test_score_parser.py` plus a `valid_score_string` Hypothesis strategy in `tests/strategies.py`. ruff and mypy clean; 25 tests passing.
 - **Bootstrap (this session, 2026-05-10).** Repository scaffolded: directory structure, Python source stubs, Railway deployment config (Procfile, railway.json, nixpacks.toml, Dockerfile), test scaffolding, CI workflow, `.claude/` subagent charters and slash commands, self-improvement script (`scripts/update_canonical_docs.py`), and the canonical doc set (SPEC, AGENTS, DATA_MODEL, RECON, API_CONTRACTS, RUNBOOK, TESTING, RESEARCH). Two parallel subagents authored SPEC.md (~6,800 words across 16 sections) and RESEARCH.md (~2,500 words across 5 axes). RESEARCH.md surfaced the leading hypothesis — `playtennis.usta.com` is a Clubspark deployment with a documented GraphQL endpoint, suggesting we target GraphQL rather than HTML scraping.
 
 ## Next up

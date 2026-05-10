@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}USTA Portal &middot; {{ draw.name if draw else "Draw" }}{% endblock %}
+{% block content %}
+  <section class="page-header">
+    {% if tournament %}
+      <p class="breadcrumb">
+        <a href="/tournaments">Tournaments</a> /
+        <a href="/tournaments/{{ tournament.usta_id }}">{{ tournament.name }}</a> /
+      </p>
+    {% endif %}
+    <h1>{{ draw.name if draw else "Draw not found" }}</h1>
+  </section>
+
+  {% if not draw %}
+    {% include "_empty.html" with context %}
+  {% else %}
+    <section class="card">
+      <h2>Bracket</h2>
+      <div class="bracket-placeholder">
+        <p class="muted">
+          Bracket rendering arrives once the parser produces match relationships.
+          For now, see the entries list below.
+        </p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Entries ({{ entries|length }})</h2>
+      {% if entries %}
+        <ol class="entries">
+          {% for e in entries %}
+            <li>
+              {% if e.seed %}<span class="seed">[{{ e.seed }}]</span>{% endif %}
+              <a href="/players/{{ e.player_id }}">{{ e.player_id }}</a>
+              <span class="meta">pos {{ e.position or "?" }} &middot; {{ e.status }}</span>
+            </li>
+          {% endfor %}
+        </ol>
+      {% else %}
+        <p class="muted">No entries synced yet.</p>
+      {% endif %}
+    </section>
+  {% endif %}
+{% endblock %}

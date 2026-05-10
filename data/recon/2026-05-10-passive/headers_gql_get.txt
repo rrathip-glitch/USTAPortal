@@ -1,0 +1,11 @@
+HTTP/2 403 
+date: Sun, 10 May 2026 19:47:29 GMT
+content-type: text/html; charset=UTF-8
+cache-control: private, max-age=0, no-store, no-cache, must-revalidate, post-check=0, pre-check=0
+expires: Thu, 01 Jan 1970 00:00:01 GMT
+referrer-policy: same-origin
+x-frame-options: SAMEORIGIN
+set-cookie: __cf_bm=Bf2kUgaX9e1OVgETNQ9eG6jmgM1yX4w53a0wKBEjLyU-1778442449.1739488-1.0.1.1-EqhRD2wy0L5Kiu09hg7MEZRucP2oBfhHL191zBKM8JJUSReQgZM0FMH1ZQX6h0H2UsSp1atpwd_xkWxVvXk7WOl7dRWLWbuMPRYMqxm6RdM8G.n17pduy11FOGvPKl9d; HttpOnly; Secure; Path=/; Domain=clubspark.io; Expires=Sun, 10 May 2026 20:17:29 GMT
+server: cloudflare
+cf-ray: 9f9b74bb5c46d8ab-ORD
+

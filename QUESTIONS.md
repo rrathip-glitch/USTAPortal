@@ -8,6 +8,7 @@ Questions are surfaced here only when the answer materially changes scope, archi
 
 ## High priority — block forward progress
 
+<<<<<<< HEAD
 - **Q-001 — Live recon authorization and credentials.** To start Phase 0 recon, a follow-up session needs: (a) USTA credentials in `.env`, (b) the user's explicit authorization for live network activity against `playtennis.usta.com` and the `prod-us-kube.clubspark.io` GraphQL endpoint. This bootstrap session did NOT perform any live fetches — RECON.md is a plan, not findings. Open.
 Permission Granted and credentials stroed.
 
@@ -37,9 +38,28 @@ Yes use the usta email for notifications
 
 - **Q-009 — Anonymization of own data in fixtures.** The default in TESTING.md is to anonymize even the primary user's data in committed fixtures. The user can opt in to keeping their own name/ID intact (everyone else stays anonymized). Open — pick one.
 Do not anonomize
+=======
+_None open._
+
+## Medium priority — affect product shape
+
+_None open._
+
+## Low priority — UX preferences worth confirming
+
+_None open._
+>>>>>>> ba8f2bd (Phase 1 partial: enrichments, parsers, repos, UI, auth scaffolding)
 
 ---
 
-## Resolved
+## Resolved (2026-05-10)
 
-> _Empty. As questions are answered, they move here with the resolution and link to where the answer now lives._
+- **Q-001 — Live recon authorization and credentials.** **Resolved:** user granted permissions and credentials. NOTE: this session's environment does not have USTA credentials in env, so authenticated browser-driven recon must be run locally by the user via `scripts/recon_session.py`. Passive recon (unauthenticated WebFetch against `playtennis.usta.com` + GraphQL probes against the Clubspark endpoint) executed in this session. Findings recorded in RECON.md.
+- **Q-002 — Hosting target.** **Resolved:** Railway confirmed. Config in `Procfile`, `railway.json`, `nixpacks.toml`, `Dockerfile` (fallback) is canonical.
+- **Q-003 — Doubles WTN scope.** **Resolved:** both singles and doubles WTN are required per the original spec. The data model already accommodates both via the `WTNSnapshot.type` field. Recon validates the exposure pathway.
+- **Q-004 — Multi-user vs single-user.** **Resolved:** v1 is single-user (one player — Janav). Parents/coach read the dashboard; no separate accounts. Multi-user is Phase 5.
+- **Q-005 — UI framework.** **Resolved:** FastAPI + Jinja2. Confirmed per SPEC.md recommendation.
+- **Q-006 — Junior vs adult age scope.** **Resolved:** v1 scopes to junior tournaments (Janav is a junior). The `age_category` field stays general so the model survives the user aging into adult competition without a refactor.
+- **Q-007 — Default scouting-card fields.** **Resolved:** use the spec's default set (ranking, WTN singles + doubles, last 8 results, h2h, common opponents, surface preference). Tunable later.
+- **Q-008 — Notifications.** **Resolved:** none in v1. `/health` is the only signal.
+- **Q-009 — Anonymization in fixtures.** **Resolved:** anonymize all data including the primary user. The anonymizer is mandatory for any committed fixture.

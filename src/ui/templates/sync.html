@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}USTA Portal &middot; Sync{% endblock %}
+{% block content %}
+  <section class="page-header">
+    <h1>Sync</h1>
+    <p class="subtitle">Pull fresh data from the USTA portal into the local DB.</p>
+  </section>
+
+  <section class="card">
+    <h2>Status</h2>
+    <p>Last sync: <strong>{{ last_sync_label }}</strong></p>
+    {% if status_message %}
+      <p class="status-message">{{ status_message }}</p>
+    {% endif %}
+  </section>
+
+  <section class="card">
+    <h2>Trigger sync</h2>
+    <form method="post" action="/sync">
+      <button type="submit" class="button primary">Run sync now</button>
+    </form>
+    <p class="muted">
+      Sync is queued and runs in the background. The page will refresh with
+      progress once the worker process is wired up.
+    </p>
+  </section>
+{% endblock %}

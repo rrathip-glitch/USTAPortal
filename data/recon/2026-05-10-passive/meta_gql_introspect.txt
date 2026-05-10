@@ -1,0 +1,3 @@
+HTTP_CODE=403
+CONTENT_TYPE=text/html; charset=UTF-8
+SIZE=4548

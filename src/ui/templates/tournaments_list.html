@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}USTA Portal &middot; Tournaments{% endblock %}
+{% block content %}
+  <section class="page-header">
+    <h1>Tournaments</h1>
+    <p class="subtitle">Grouped by upcoming, in progress, and completed.</p>
+  </section>
+
+  {% set has_any = upcoming or in_progress or completed %}
+  {% if not has_any %}
+    {% include "_empty.html" with context %}
+  {% else %}
+    {% for label, items in [("Upcoming", upcoming), ("In progress", in_progress), ("Completed", completed)] %}
+      <section class="card">
+        <h2>{{ label }}</h2>
+        {% if items %}
+          <ul class="tournament-list">
+            {% for t in items %}
+              <li>
+                <a href="/tournaments/{{ t.usta_id }}">{{ t.name }}</a>
+                <span class="meta">
+                  {{ t.start_date or "TBD" }} &middot; {{ t.level or "?" }}
+                </span>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p class="muted">None.</p>
+        {% endif %}
+      </section>
+    {% endfor %}
+  {% endif %}
+{% endblock %}

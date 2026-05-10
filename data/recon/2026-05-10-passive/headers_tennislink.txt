@@ -1,0 +1,16 @@
+HTTP/2 200 
+cache-control: private,no-store
+content-type: text/html; charset=utf-8
+x-content-type-options: nosniff
+set-cookie: ASP.NET_SessionId=5sgjzsagzhkt10zxbawqgpol; path=/; secure; HttpOnly; SameSite=Strict
+set-cookie: AntiCsrfTokenTL=f25e0c66-21f6-4e93-a82f-08c2552669b9; path=/; secure; HttpOnly; SameSite=Strict
+strict-transport-security: max-age=31536000
+x-frame-options: SAMEORIGIN
+x-content-type-options: nosniff
+content-security-policy: frame-ancestors 'self' https://tennislink.usta.com/; frame-src 'self' https://account.usta.com/ https://usta.demdex.net/ https://securepubads.g.doubleclick.net/ https://ep2.adtrafficquality.google/ https://www.google.com/  https://www.googleadservices.com/ https://www.youtube.com/  https://checkoutcui.active.com/ https://switch.atdmt.com/ https://fls.doubleclick.net/ http://ad.doubleclick.net/  https://tlwidget.usta.com/ https://*.safeframe.googlesyndication.com/;
+date: Sun, 10 May 2026 19:49:54 GMT
+content-length: 68087
+set-cookie: BIGipServer~usta~tennislink.usta.com_https_pool1=!RuAPD+6Cz52zAdMGJu2Ine0I+z/QWDCP8ThaZ0PVyuiA/Cqvfj+FiR3dYnffZLiXSAC9xv1fO6g3ZwU=; expires=Sun, 10-May-2026 23:49:55 GMT; path=/; Httponly; Secure
+server-id: 86
+set-cookie: TS01f58353=01fd58e5b248069ed9e82c5951235227886c0ec85764d1f0360dd6171c2fd737cf90853ff01c1ab5935e5a4272e849a53b423050a440561257289e8374d0556382ca469c97e17c8e813ab4d9cd176ee75556e29bc44b977874f0cf30d93cab5e636cba96ba; Path=/; Domain=.tennislink.usta.com; Secure; HttpOnly
+

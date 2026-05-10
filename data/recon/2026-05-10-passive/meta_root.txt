@@ -1,0 +1,5 @@
+FINAL_URL=https://playtennis.usta.com/
+HTTP_CODE=403
+NUM_REDIRECTS=0
+CONTENT_TYPE=text/html; charset=UTF-8
+SIZE_DOWNLOAD=4548

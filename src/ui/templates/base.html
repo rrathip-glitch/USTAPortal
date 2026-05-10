@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}USTA Portal{% endblock %}</title>
+    <link rel="stylesheet" href="/static/style.css" />
+    {% block head_extra %}{% endblock %}
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="/">USTA Portal</a>
+        <nav class="nav">
+          <a href="/">Dashboard</a>
+          <a href="/tournaments">Tournaments</a>
+          <a href="/sync">Sync</a>
+        </nav>
+        <span class="last-sync-badge" title="Last successful sync">
+          Last sync: {{ last_sync_label }}
+        </span>
+      </div>
+    </header>
+    <main class="container">
+      {% block content %}{% endblock %}
+    </main>
+    <footer class="site-footer">
+      <small>USTA Portal &middot; offline-first dashboard</small>
+    </footer>
+  </body>
+</html>

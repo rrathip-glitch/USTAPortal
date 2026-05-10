@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}USTA Portal &middot; {{ tournament.name if tournament else "Tournament" }}{% endblock %}
+{% block content %}
+  <section class="page-header">
+    <p class="breadcrumb"><a href="/tournaments">Tournaments</a> /</p>
+    <h1>{{ tournament.name if tournament else "Tournament not found" }}</h1>
+  </section>
+
+  {% if not tournament %}
+    {% include "_empty.html" with context %}
+  {% else %}
+    <section class="card">
+      <h2>Details</h2>
+      <dl class="kv">
+        <dt>USTA ID</dt><dd><code>{{ tournament.usta_id }}</code></dd>
+        <dt>Level</dt><dd>{{ tournament.level or "?" }}</dd>
+        <dt>Sanction</dt><dd>{{ tournament.sanction_body or "?" }}</dd>
+        <dt>Dates</dt>
+        <dd>{{ tournament.start_date or "?" }} &ndash; {{ tournament.end_date or "?" }}</dd>
+        <dt>Location</dt>
+        <dd>
+          {{ tournament.location_city or "?" }},
+          {{ tournament.location_state or "?" }}
+        </dd>
+        <dt>Surface</dt><dd>{{ tournament.surface or "unknown" }}</dd>
+        <dt>Status</dt><dd>{{ tournament.status or "?" }}</dd>
+      </dl>
+    </section>
+
+    <section class="card">
+      <h2>Draws</h2>
+      {% if draws %}
+        <ul class="draw-list">
+          {% for d in draws %}
+            <li>
+              <a href="/draws/{{ d.usta_id }}">{{ d.name }}</a>
+              <span class="meta">{{ d.format }} &middot; size {{ d.size or "?" }}</span>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="muted">No draws have been synced for this tournament yet.</p>
+      {% endif %}
+    </section>
+  {% endif %}
+{% endblock %}

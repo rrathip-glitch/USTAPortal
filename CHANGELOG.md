@@ -4,6 +4,14 @@ Append-only. Most recent at the top.
 
 ---
 
+## 2026-05-10 — Strength-of-draw enrichment
+
+Implemented `strength_of_draw(draw, entries, ratings, focal_player_id, projected_path=None) -> StrengthOfDrawResult` in `src/enrich/strength_of_draw.py` as a pure function. Field aggregates (size, mean/median/min/max opponent rating, unrated count) and projected-path aggregates (mean, hardest, easiest) computed on a single rating axis where lower = stronger; the WTN-vs-ranking fallback decision is the caller's. Withdrawn entries are excluded from field and rating aggregates. Missing ratings are never imputed as zero — they increment `unrated_count` and skip aggregation. When `projected_path` is omitted the path is reconstructed from standard single-elim pairing on `position`, with each post-round-1 opponent picked as the lowest-rated entry in the focal player's bracket block (ties broken by smaller position; unrated treated as worst). Round-robin and other non-single-elim formats yield an empty path and `None` path aggregates. Added `tests/unit/test_strength_of_draw.py` with ten cases covering field aggregates, unrated handling, withdrawals, the path heuristic, round-robin, focal-not-in-entries, unrated path opponents, empty fields, explicit-path override, and round-2 tiebreak. ruff-clean, mypy-strict, pytest passes.
+
+— enrich agent
+
+---
+
 ## 2026-05-10 — Bootstrap
 
 Project scaffolded from an empty repo. Established the canonical doc set and the multi-agent coordination protocol that drives ongoing work.
