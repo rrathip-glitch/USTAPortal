@@ -1,0 +1,1164 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="https://www.w3.org/1999/xhtml"  xmlns:fb="https://ogp.me/ns/fb#">
+<head id="ctl00_Head1"><meta name="robots" content="NOODP" /><meta name="Title" content="Tournaments" /><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><link rel="image_src" href="/Dashboard/Common/images/SocialMedia/USTA_Logo.jpg" /><title>
+	USTA Tournaments Home
+</title><link href="../Common/css/screen.css" type="text/css" rel="stylesheet" /><link href="../Common/css/print.css" type="text/css" rel="stylesheet" media="print" /><link href="../Common/css/redmond/jquery-ui-1.8.7.custom.css" type="text/css" rel="stylesheet" />
+<!--[if IE]>
+    <link rel="stylesheet" href="css/ie.css" type="text/css" media="screen, projection" />
+  <![endif]-->
+<link href="../Common/css/usta-master.css" type="text/css" rel="stylesheet" />
+<style>
+    #usntA42Toggle {
+        bottom: 70px !important;
+        left: 1% !important;
+        opacity: 1;
+    }
+</style>
+<script id='usntA42start' src='https://a42cdn.usablenet.com/a42/usta/default/prod/cs-start' async data-rapid='true'></script>
+<script type="text/javascript" src="../Common/js/jquery.tools.min.js" language="javascript"></script> 
+
+<!-- OneTrust Cookies Consent Notice start for usta.com -->
+<script type="text/javascript" src="https://cdn.cookielaw.org/consent/43383d2d-67e6-4d4a-99cb-3ff760b82737/OtAutoBlock.js" ></script>
+<script src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js"  type="text/javascript" charset="UTF-8" data-domain-script="43383d2d-67e6-4d4a-99cb-3ff760b82737" ></script>
+<script type="text/javascript">
+    function OptanonWrapper() { }
+</script>
+<!-- OneTrust Cookies Consent Notice end for usta.com -->
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        try {
+            updateCookies();
+            if (OneTrust != null) {
+                OneTrust.OnConsentChanged(function () { updateCookies(); });
+            }
+        }
+        catch { }
+        finally {}
+        
+        function updateCookies() {
+            if (!OnetrustActiveGroups.includes('C0003')) {
+                document.cookie = "OtherPage=;max-age=0;path=/;";
+            }
+            if (!OnetrustActiveGroups.includes('C0002')) {
+                document.cookie = "_utmv#########=;max-age=0;path=/;";
+            }
+        }
+
+        setTimeout(function () {
+            if (!window.location.hostname.toLowerCase().startWith("m.") && $('meta[name="viewport"]').length > 0) {
+                $('meta[name="viewport"]').attr("content", "");
+            }
+        }, 500);
+    });
+</script>
+
+<!--USTA-20221-->
+<script type="text/javascript" src="/Dashboard/Common/js/TLWidgetTracking.js"></script>
+<!--USTA-16721 by Aaron Jee-->
+<script type="text/javascript" src="/Dashboard/Common/js/tl.jscommon.js?v=8379"></script>
+<!-- Navigation part --> 
+<link type="text/css" rel="stylesheet" href="/Dashboard/Common/css/navigation.css?v=8379" />
+<script src="/Dashboard/common/js/json2.js" type="text/javascript"></script>
+<script src="/Dashboard/common/js/jstorage.js" type="text/javascript"></script>
+<script src="/Dashboard/common/js/navigation.js?v=8379" type="text/javascript"></script>
+
+
+<!--
+<link href="../Common/css/redmond/jquery-ui-1.8.7.custom.css" type="text/css" rel="stylesheet" />
+
+	<script src="../Common/js/jquery-1.7.2.min.js"></script>
+
+	<script src="../Common/js/jquery-ui-1.8.23.custom.min.js"></script>
+
+<script type="text/javascript" src="../Common/jquery-1.6.1.min.js" language="javascript"></script>
+<script type="text/javascript" src="../Common/js/jquery-ui-1.8.23.custom.min.js" language="javascript"></script>
+-->
+
+<script type="text/javascript" language="javascript">
+    function pageLoad() {
+        
+        // pageLoad from social media
+        if (typeof contentPageLoad == 'function') {
+            contentPageLoad();
+        }
+
+        // pageLoad for content pages
+        if (typeof contentPageLoad2 == 'function') {
+            contentPageLoad2();
+        }
+    }
+</script>
+    
+    <meta name="description" content="Search TennisLink tournaments and rankings to join top competitions and track your progress." />
+    <script language="javascript" type="text/javascript">
+        function openSimpleSearchHelp() {
+            window.open("Player_Search_Help.htm", "SimpleSearchHelpWin", "toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=650, height=450");
+        }
+        function Help(url) {
+
+            var oWin = window.open(url, 'Help', 'toolbar=0,menubar=0,location=0,directories=0,scrollbars=0,width=650,height=400');
+
+            if (window.focus) { oWin.focus() }
+            return false;
+        }
+        function HelpHowTo() {
+            window.open('/Tournaments/Help/HelpHome.aspx', 'Help', 'toolbar=0,menubar=0,scrollbars=1,resizable=yes,location=0,directories=0,width=780,height=500,top=100,left=10');
+        }
+
+        function onEnter(e, n) {
+            if (!e) var e = window.event;
+            var key = e.keyCode ? e.keyCode : e.which;
+            if (key == 13) {
+                if (n == "tmt") {
+                    $('[id$=btnFindATournament]').focus();
+                }
+                else if (n == "rank") {
+                    $('[id$=btnFindARanking]').focus();
+                }
+            }
+        }
+        function is_int(value) {
+            var reg = /\D/;
+            return value.match(reg) == null;
+        }
+
+        function validateFindRanking() {
+            var errMessage = $("#errorSection_FindRanking");
+            var input = $("#" + 'ctl00_mainContent_txtFindARanking');
+            input.removeClass('inputErrorHighlight');
+            var searchTerm = input.val().trim();
+            errMessage.hide();
+            if (searchTerm == '') {
+                errMessage.html("Please enter USTA Account # or Player Name.");
+                errMessage.show();
+                input.addClass('inputErrorHighlight');
+                return false;
+            }
+
+            if (is_int(searchTerm) != true) {
+                var result = validateSearchMemberName(searchTerm);
+                if (!result.success) {
+                    errMessage.html(result.error);
+                    errMessage.show();
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function FindRatingLevel() {
+            var errMessage = $("#errorSection_FindRanking");
+            var input = $(".RatingInput");
+            input.removeClass('inputErrorHighlight');
+            var searchTerm = input.val().trim();
+            errMessage.hide();
+            if (searchTerm == '') {
+                errMessage.html("Please enter USTA Account # or Player Name.");
+                errMessage.show();
+                input.addClass('inputErrorHighlight');
+                return false;
+            }
+
+            if (is_int(searchTerm) != true) {
+                var result = validateSearchMemberName(searchTerm);
+                if (!result.success) {
+                    errMessage.html(result.error);
+                    errMessage.show();
+                    return false;
+                }
+            }
+            location.href = "/Dashboard/Main/Progression/RatingSearch.aspx?p=" + TL.JSCommon.encode64forUrlParameter(searchTerm);
+            return false;
+        }
+
+    </script>
+
+<script type='text/javascript'>  var _gaq = _gaq || [];  _gaq.push(['_setAccount', 'UA-2530891-13']);  _gaq.push(['_trackPageview']);(function() {var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);})(); </script>
+</head>
+
+<body>
+    
+<form method="post" action="./Default.aspx" id="aspnetForm">
+<div class="aspNetHidden">
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="ctl00_ScriptManager1_HiddenField" id="ctl00_ScriptManager1_HiddenField" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUKMTY0Njk3MjAxMg9kFgJmD2QWBGYPZBYIAhAPFQEEODM3OWQCEQ8WAh4EaHJlZgUrL0Rhc2hib2FyZC9Db21tb24vY3NzL25hdmlnYXRpb24uY3NzP3Y9ODM3OWQCEg8VAQQ4Mzc5ZAIXD2QWAmYPFgIeBFRleHQFvwM8c2NyaXB0IHR5cGU9J3RleHQvamF2YXNjcmlwdCc+ICB2YXIgX2dhcSA9IF9nYXEgfHwgW107ICBfZ2FxLnB1c2goWydfc2V0QWNjb3VudCcsICdVQS0yNTMwODkxLTEzJ10pOyAgX2dhcS5wdXNoKFsnX3RyYWNrUGFnZXZpZXcnXSk7KGZ1bmN0aW9uKCkge3ZhciBnYSA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoJ3NjcmlwdCcpOyBnYS50eXBlID0gJ3RleHQvamF2YXNjcmlwdCc7IGdhLmFzeW5jID0gdHJ1ZTtnYS5zcmMgPSAoJ2h0dHBzOicgPT0gZG9jdW1lbnQubG9jYXRpb24ucHJvdG9jb2wgPyAnaHR0cHM6Ly9zc2wnIDogJ2h0dHA6Ly93d3cnKSArICcuZ29vZ2xlLWFuYWx5dGljcy5jb20vZ2EuanMnO3ZhciBzID0gZG9jdW1lbnQuZ2V0RWxlbWVudHNCeVRhZ05hbWUoJ3NjcmlwdCcpWzBdOyBzLnBhcmVudE5vZGUuaW5zZXJ0QmVmb3JlKGdhLCBzKTt9KSgpOyA8L3NjcmlwdD5kAgEPZBYYAgEPFgIfAQWMATxkaXYgaWQ9J3VzdGFIZWFkZXJXcmFwcGVyJz48L2Rpdj48c2NyaXB0IHR5cGU9J3RleHQvamF2YXNjcmlwdCc+JCgnI3VzdGFIZWFkZXJXcmFwcGVyJykubG9hZCgnL0Rhc2hib2FyZC9VU1RBSGVhZGVyV3JhcHBlci5hc3B4Jyk7PC9zY3JpcHQ+ZAIDDw8WAh4HVmlzaWJsZWdkZAIID2QWBAIBDw8WAh4LTmF2aWdhdGVVcmwFCy9EYXNoYm9hcmQvZGQCAw8PFgIfAwUNL1RvdXJuYW1lbnRzL2RkAgoPZBYCAgEPZBYCZg9kFgICAw8PFgIfAmhkZAILD2QWCgIBDxYCHwFlZAIHDxYCHwFlZAIRDw8WAh8DBSZodHRwczovL3d3dy51c3RhLmNvbS93b3JsZHRlbm5pc251bWJlcmRkAhkPZBYCAhMPFgIfAmhkAiEPFgIfAWVkAg0PZBYEAgEPFCsAAmQQFgAWABYAZAIDDxYCHwEFsRANCjxzY3JpcHQgdHlwZT0ndGV4dC9qYXZhc2NyaXB0Jz4NCiAgICB2YXIgZ29vZ2xldGFnID0gZ29vZ2xldGFnIHx8IHt9Ow0KICAgIGdvb2dsZXRhZy5jbWQgPSBnb29nbGV0YWcuY21kIHx8IFtdOw0KICAgIChmdW5jdGlvbiAoKSB7DQogICAgICAgIHZhciBnYWRzID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgnc2NyaXB0Jyk7DQogICAgICAgIGdhZHMuYXN5bmMgPSB0cnVlOw0KICAgICAgICBnYWRzLnR5cGUgPSAndGV4dC9qYXZhc2NyaXB0JzsNCiAgICAgICAgdmFyIHVzZVNTTCA9ICdodHRwczonID09IGRvY3VtZW50LmxvY2F0aW9uLnByb3RvY29sOw0KICAgICAgICBnYWRzLnNyYyA9ICh1c2VTU0wgPyAnaHR0cHM6JyA6ICdodHRwOicpICsNCiAgICAgICAgJy8vd3d3Lmdvb2dsZXRhZ3NlcnZpY2VzLmNvbS90YWcvanMvZ3B0LmpzJzsNCiAgICAgICAgdmFyIG5vZGUgPSBkb2N1bWVudC5nZXRFbGVtZW50c0J5VGFnTmFtZSgnc2NyaXB0JylbMF07DQogICAgICAgIG5vZGUucGFyZW50Tm9kZS5pbnNlcnRCZWZvcmUoZ2Fkcywgbm9kZSk7DQogICAgfSkoKTsNCjwvc2NyaXB0Pg0KPHNjcmlwdCB0eXBlPSd0ZXh0L2phdmFzY3JpcHQnPg0KICAgIGdvb2dsZXRhZy5jbWQucHVzaChmdW5jdGlvbiAoKSB7DQogICAgICAgIGdvb2dsZXRhZy5kZWZpbmVTbG90KCcvNTY4MS9VU1RBL1RvdXJuYW1lbnRzLzMwMHgyNTBfTGVmdCcsIFszMDAsIDI1MF0sICdUb3VybmFtZW50c18zMDB4MjUwX0xlZnQnKS5hZGRTZXJ2aWNlKGdvb2dsZXRhZy5wdWJhZHMoKSk7DQogICAgICAgIGdvb2dsZXRhZy5kZWZpbmVTbG90KCcvNTY4MS9VU1RBL1RvdXJuYW1lbnRzLzMwMHgyNTBfTWlkZGxlJywgWzMwMCwgMjUwXSwgJ1RvdXJuYW1lbnRfMzAweDI1MF9NaWRkbGUnKS5hZGRTZXJ2aWNlKGdvb2dsZXRhZy5wdWJhZHMoKSk7DQogICAgICAgIGdvb2dsZXRhZy5kZWZpbmVTbG90KCcvNTY4MS9VU1RBL1RvdXJuYW1lbnRzLzMwMHgyNTBfUmlnaHQnLCBbMzAwLCAyNTBdLCAnVG91cm5hbWVudHNfMzAweDI1MF9SaWdodCcpLmFkZFNlcnZpY2UoZ29vZ2xldGFnLnB1YmFkcygpKTsNCiAgICAgICAgZ29vZ2xldGFnLmVuYWJsZVNlcnZpY2VzKCk7DQogICAgfSk7DQo8L3NjcmlwdD4NCg0KPHN0eWxlPg0KI1RvdXJuYW1lbnRzXzMwMHgyNTBfTGVmdA0Kew0KICAgIGZsb2F0OmxlZnQ7DQogICAgcGFkZGluZzogMTBweCAwIDAgMHB4Ow0KfQ0KI1RvdXJuYW1lbnRfMzAweDI1MF9NaWRkbGUsICNUb3VybmFtZW50c18zMDB4MjUwX1JpZ2h0DQp7DQogICAgZmxvYXQ6bGVmdDsNCiAgICBwYWRkaW5nOiAxMHB4IDAgMCA1MHB4Ow0KfQ0KPC9zdHlsZT4NCg0KPCEtLSBVU1RBL1RvdXJuYW1lbnRzLzMwMHgyNTBfTGVmdCAtLT4NCjxkaXYgaWQ9J1RvdXJuYW1lbnRzXzMwMHgyNTBfTGVmdCcgc3R5bGU9J3dpZHRoOjMwMHB4OyBoZWlnaHQ6MjUwcHg7Jz4NCjxzY3JpcHQgdHlwZT0ndGV4dC9qYXZhc2NyaXB0Jz4NCiAgICBnb29nbGV0YWcuY21kLnB1c2goZnVuY3Rpb24gKCkgeyBnb29nbGV0YWcuZGlzcGxheSgnVG91cm5hbWVudHNfMzAweDI1MF9MZWZ0Jyk7IH0pOw0KPC9zY3JpcHQ+DQo8L2Rpdj4NCg0KPCEtLSBVU1RBL1RvdXJuYW1lbnRzLzMwMHgyNTBfTWlkZGxlIC0tPg0KPGRpdiBpZD0nVG91cm5hbWVudF8zMDB4MjUwX01pZGRsZScgc3R5bGU9J3dpZHRoOjMwMHB4OyBoZWlnaHQ6MjUwcHg7Jz4NCjxzY3JpcHQgdHlwZT0ndGV4dC9qYXZhc2NyaXB0Jz4NCiAgICBnb29nbGV0YWcuY21kLnB1c2goZnVuY3Rpb24gKCkgeyBnb29nbGV0YWcuZGlzcGxheSgnVG91cm5hbWVudF8zMDB4MjUwX01pZGRsZScpOyB9KTsNCjwvc2NyaXB0Pg0KPC9kaXY+DQoNCjwhLS0gVVNUQS9Ub3VybmFtZW50cy8zMDB4MjUwX1JpZ2h0IC0tPg0KPGRpdiBpZD0nVG91cm5hbWVudHNfMzAweDI1MF9SaWdodCcgc3R5bGU9J3dpZHRoOjMwMHB4OyBoZWlnaHQ6MjUwcHg7Jz4NCjxzY3JpcHQgdHlwZT0ndGV4dC9qYXZhc2NyaXB0Jz4NCiAgICBnb29nbGV0YWcuY21kLnB1c2goZnVuY3Rpb24gKCkgeyBnb29nbGV0YWcuZGlzcGxheSgnVG91cm5hbWVudHNfMzAweDI1MF9SaWdodCcpOyB9KTsNCjwvc2NyaXB0Pg0KPC9kaXY+DQpkAg8PFgIfAQVWPHNjcmlwdCBzcmM9J2h0dHBzOi8vd3d3LnVzdGEuY29tL3RoaXJkcGFydHkvaW5jbHVkZV9zaXRlZm9vdGVyLmpzLmFzcHg/ZD0xJz48L3NjcmlwdD5kAhAPDxYEHwEFClBST0RVQ1RJT04fAmhkZAIRDw8WAh8BBRJDb2RlIDEuMjYuMDQyLjgzNzlkZAISDw8WAh8BBQ0xLjI2LjA0Mi44Mzc5ZGQCEw8PFgIfAQUCODJkZAIUD2QWAgIBD2QWAmYPZBYCZg8WAh8BBfUCPCEtLSBTdGFydCBRdWFudGNhc3QgdGFnIC0tPiA8c2NyaXB0IHR5cGU9InRleHQvamF2YXNjcmlwdCI+IF9xb3B0aW9ucz17IHFhY2N0OiJwLTc0dUQta2dtdnA4M3ciIH07IDwvc2NyaXB0PiA8c2NyaXB0IHR5cGU9InRleHQvamF2YXNjcmlwdCIgc3JjPSIvL3NlY3VyZS5xdWFudHNlcnZlLmNvbS9xdWFudC5qcyI+PC9zY3JpcHQ+IDxub3NjcmlwdD4gPGltZyBzcmM9Ii8vc2VjdXJlLnF1YW50c2VydmUuY29tL3BpeGVsL3AtNzR1RC1rZ212cDgzdy5naWYiIHN0eWxlPSJkaXNwbGF5OiBub25lOyIgYm9yZGVyPSIwIiBoZWlnaHQ9IjEiIHdpZHRoPSIxIiBhbHQ9IlF1YW50Y2FzdCIvPiA8L25vc2NyaXB0PiA8IS0tIEVuZCBRdWFudGNhc3QgdGFnIC0tPmRkUTBhhIV0nGAcN26jPT+fr+cW8UqsVmszPnR65vc80O4=" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['aspnetForm'];
+if (!theForm) {
+    theForm = document.aspnetForm;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="/Tournaments/WebResource.axd?d=pcB6JlNPW_IMQAKhbSW0ZLhG8DLeEIWpNylQ4iJL63X-66rapkndSN6GwbaF0265B25WlUcExyHbk9T1QyWBImf2jduuUO5RVM3684qQHuI1&amp;t=638901382200000000" type="text/javascript"></script>
+
+
+<script src="/Tournaments/ScriptResource.axd?d=oq_fb7goDT8ZR3XhA0MaDadWUA2f_tBDiYW94clk-bHR6NzqU8D3CBdbUr6o_Cz8DXZEn_kauHNxhQq36j-tcuTLF30cvLDJa2zwJZj6YKpT0mnNQumfspmaGDEa3zwg0&amp;t=245582f9" type="text/javascript"></script>
+<script src="/Tournaments/ScriptResource.axd?d=WG00j6DbkJO6WbebVRNy9WfpLBByPgywAihrvPl1CF0wO7cMAq0_eSWjMojTwUPFyy3WQUMjbQtVf3zbUJkWUMCqjBjFxIgael-rPNAJlnjPnkw7nPgKbWeuKFrvxjOzcsKQvjXSg8LOL-nvvz22QA2&amp;t=245582f9" type="text/javascript"></script>
+<div class="aspNetHidden">
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="A2DB61FF" />
+</div>
+    
+<script type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('ctl00$ScriptManager1', 'aspnetForm', ['tctl00$SocialMediaPanel$updatePnlSocialMedia',''], ['ctl00$ScriptManager1',''], [], 600, 'ctl00');
+//]]>
+</script>
+<input type="hidden" name="ctl00$ScriptManager1" id="ctl00_ScriptManager1" />
+<script type="text/javascript">
+//<![CDATA[
+Sys.Application.setServerId("ctl00_ScriptManager1", "ctl00$ScriptManager1");
+Sys.Application._enableHistoryInScriptManager();
+//]]>
+</script>
+
+<div class="container wrapper">
+
+<div id="divUstaHeader" class="usta_header">
+    <div id='ustaHeaderWrapper'></div><script type='text/javascript'>$('#ustaHeaderWrapper').load('/Dashboard/USTAHeaderWrapper.aspx');</script>
+</div>
+<div id="Div1">
+    
+    
+</div>
+<a id="ctl00_lnkbutLogIn" class="login" href="javascript:__doPostBack(&#39;ctl00$lnkbutLogIn&#39;,&#39;&#39;)"></a>       
+    
+    <script type="text/javascript">
+        setNavigationConfig({
+            isLogin: 'False',
+            currentProject: 'tournaments',
+            yearNow: '2026',
+            urls: {
+                linkJoinUstaUrl: 'https://www.usta.com/en/home/myaccount/choose-account-type.html',
+                TL_Leagues_AppealInfo: 'https://support.activenetwork.com/usta/articles/en_US/Article/Appeal-NTRP-Rating',
+                TL_MenuLink_USTA_LocalLeagueCoordinators: 'https://www.usta.com/en/home/play/play-as-a-member/national/usta-league--section-coordinators-.html',
+                TL_MenuLink_USTA_LeaguesNatlChampionships: 'https://www.usta.com/en/home/play/adult-tennis/programs/national/about-usta-league-national-championships.html',
+                TL_MenuLink_USTA_NTRPRatings: 'https://www.usta.com/en/home/play/play-as-a-member/national/usta-league-faqs.html',
+                TL_MenuLink_USTA_LeagueTennisRules: 'https://www.usta.com/en/home/play/adult-tennis/programs/national/usta-league-resources.html',
+                TL_MenuLink_USTA_LeaguesFAQ: 'https://assets.usta.com/assets/1/USTA_Import/dps/usta_master/sitecore_usta/USTA/Document%20Assets/Leagues_and_Tournaments/Leagues/NTRP_FAQ.pdf',
+                TL_MenuLink_USTA_About_Leagues: 'https://www.usta.com/en/home/play/adult-tennis/programs/national/usta-league.html'
+            },
+            rootUrl: {
+                dashboard: '/Dashboard/',
+                tournaments: '/Tournaments/',
+                teamTennis: '/TeamTennis/',
+                flexLeagues: '/FlexLeagues/',
+                leagues: '/Leagues/'
+            },
+            userInfo: {
+                ustaNumberEncrypt: 'YOQLaGylBXE=',
+                personIdEncrypt: 'YOQLaGylBXE=',
+                personIdKey: 'pid',
+                ustaNumberKey: 'unum',
+                ustaNumber: '0',
+                userIdKey: 'uid',
+                userIdEncrypt: 'YOQLaGylBXE=',
+                ustaNumberUrlParamEncrypt:'YOQLaGylBXE1'
+            }
+        });
+    </script>
+    <div id="favicon"></div>
+<script type="text/javascript">
+    $("#favicon").load('/Dashboard/Common/TennisLinkRootIcon.html');
+    $(function () {
+        isProgressionTurnedOff(function (ret) {
+            if (ret) {
+                $("#divProgressionTourn").remove();
+                $("#divProgressionTT").remove();
+            }
+        });
+    });
+</script>
+<div class="TennisLinkTopNewNav">
+    <div id="navheader">
+        <script type="text/html" id="navigation_tmpl">
+            <div id="navbar">
+                <div class="new-active-logo"></div>
+                <ul>
+                    <li data-href="<#=rootUrl.leagues#>" class="<#= currentProject === 'leagues' ? 'default': ''#>">
+                        <div>USTA LEAGUE</div>
+                    </li>
+                    <li data-href="<#=rootUrl.tournaments#>" class="<#= currentProject === 'tournaments' ? 'default': ''#>">
+                        <div>TOURNAMENTS</div>
+                    </li>
+                    <li data-href="<#=rootUrl.teamTennis#>" class="<#= currentProject === 'teamTennis' ? 'default': ''#>">
+                        <div>JUNIOR TEAM TENNIS</div>
+                    </li>
+                    <li data-href="<#=rootUrl.flexLeagues#>" class="<#= currentProject === 'flexLeagues' ? 'default': ''#>">
+                        <div>USTA FLEX LEAGUES</div>
+                    </li>
+                    <li data-href="<#=rootUrl.dashboard#>/Main/Home.aspx">
+                        <div>MY TENNIS</div>
+                    </li>
+                    <# if(!isLogin) { #>
+                    <li class="login">
+                        <div>
+                            <a href="javascript:logIn();">LOGIN</a>
+                        </div>
+                    </li>
+                    <#}else{#>
+                    <li>
+                        <div>
+                            <a href="javascript:void(0);" onclick="return logOut()">LOGOUT</a>
+                        </div>
+                    </li>
+                    <#}#>
+                </ul>
+            </div>
+        </script>
+    </div>
+    <div class="quickPanel_Error hidden" id="quickPanelErrorContainer"></div>
+    <div class="quickPanel hidden">
+        <div id="q1" class="hidden">
+            <script type="text/html" id="leagues_tmpl">
+                <ul>
+                    <li>
+                        <div class="block" id="divNewLeagueRegFlowEntry">
+                            <span class="subhead">START PLAYING</span>
+                            <br />
+                            <br />
+                            <span class="normalDesciption">Have a Team Number?</span>
+                            <br />
+                            <span class="normalDesciption">If you already have a team number, you can register with it.</span>
+                            <a class="btn" style="width:180px; margin-bottom:0" href="<#=rootUrl.leagues#>TLRegistration/Registration.aspx">Register with a Team #</a>
+                            <br />
+                            <span class="normalDesciption">Seeking a Team? </span>
+                            <br />
+                            <# if(!isLogin) { #>
+                                <span class="normalDesciption">We are so excited that you want to find a place to play with USTA! The next step is to create an account and self-rate (both easy and free), or login to allow us to provide perfect matches for you!</span>
+                                <#}else{#>
+                                    <span class="normalDesciption">Click below to find leagues that fit you.</span>
+                                    <#}#>
+                                        <a class="btn" style="width:180px;margin-bottom:0" href="javascript:TL.JSCommon.RegistrationUtil.goRegistration();">Find & Sign up for a League</a>
+                                        <br />
+                                        <p><a href="<#=urls.linkJoinUstaUrl#>">Join USTA Membership</a></p>
+</div>
+                    </li>
+                <li>
+                    <div class="block">
+                        <span class="subhead">STATS & STANDINGS</span>
+                        <br />
+                        <br />
+                        <img id="ss_icon_simple_search_help" src="/Dashboard/common/Images/help2.png" style="cursor:help;position:relative;left:2px; top:5px;" title="Click for more information" onclick="openSimpleSearchHelp();"></img> 
+                        <span class="normalDesciption">
+                            Enter player name, USTA Account, team # or match #
+                        </span>
+                        <br />
+                        <input type="text" id="q_stats-standings-input"/>
+                        <button id="btnSearchStatsStanding" type="button">Search</button>
+                        <br />
+                        <br />
+                        <a href="<#=rootUrl.leagues#>Main/StatsAndStandings.aspx?SearchType=3">League Advanced Search</a>
+                        <br />
+                        <a href="<#=rootUrl.leagues#>Main/StatsAndStandings.aspx?SearchType=0">Championship Advanced Search</a>
+                        <br />                      
+                        <span class="normalDesciption" style="display:inline-block;margin-top:5px;">Need to enter or confirm scores?</span>
+                        <br />
+                        <a class="btn" style="width:100px;height:25px;vertical-align:central;line-height:25px;" href="javascript:void(0);" id="btnLinkToRecordAScore">Enter Score</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="block">
+                        <span class="subhead">FIND NTRP RATING INFO</span>
+                        <br />
+                        <br />
+                        <span class="normalDesciption">Enter USTA Account, team # or player name</span>
+                        <br />
+                        <input type="text" id="q_ntrp_input"/>
+                        <button id="btnSearchNTRP" type="button">Search</button>
+                        <br />
+                        <br />
+                        <a href="<#=rootUrl.leagues#>reports/NTRP/AdvancedSearch.aspx">Advanced Search</a>
+                        <br />
+                        <a href="javascript:void(0);" id="q_self_rate">Self-Rate</a>
+                        <br />
+                        <a href="<#=rootUrl.leagues#>reports/NTRP/FacilitySearch.aspx">Facility Search</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="block last">
+                        <span class="subhead">USTA LEAGUE INFO</span>
+                        <br />
+                        <br />
+                        <a href="<#=urls.TL_MenuLink_USTA_About_Leagues#>">About USTA League</a>
+                        <br />
+                        <!--<a href="<#=rootUrl.leagues#>HelpTutorials/Mentor_Terminal.aspx?screen=ab050000.html" onclick="openPopUpSelfRate(this.href); return false;">About Self-Rate</a>
+                        <br />-->
+                        <!--<a href="<#=urls.TL_MenuLink_USTA_LeaguesFAQ#>">USTA League FAQ</a>
+                        <br />-->
+                        <a href="<#=urls.TL_MenuLink_USTA_LeagueTennisRules#>">USTA League Tennis Rules</a>
+                        <br />
+                        <a href="<#=urls.TL_MenuLink_USTA_NTRPRatings#>">About NTRP Ratings</a>
+                        <br />
+                        <a href="<#=urls.TL_MenuLink_USTA_LeaguesNatlChampionships#>">National Championships</a>
+                        <br />
+                        <a href="<#=urls.TL_MenuLink_USTA_LocalLeagueCoordinators#>">Local League Coordinators</a>
+                        <br />
+                        <a href="<#=urls.TL_Leagues_AppealInfo#>">About Auto-Appeals</a>
+                        <br />
+                        <a href="<#=rootUrl.leagues#>RegistrationNew/Registration.aspx">Browse Leagues</a>
+                    </div>
+                </li>
+            </ul>
+            </script>
+        </div>
+        <div id="q2" class="hidden">
+            <script type="text/html" id="tournament_tmpl">
+     
+            </script>
+        </div>
+        <div id="q3" class="hidden">
+            <script type="text/html" id="team_tennis_tmpl">
+            <ul>
+                <li>
+                    <div class="block" style="height:270px;">
+                        <span class="subhead">START PLAYING</span>
+                        <br />
+                        <br />
+                        <a style="width:150px;" href="<#=rootUrl.teamTennis#>Main/Registration.aspx" class="btn">Have a Team ID?</a>
+                        <span class="normalDesciption">Click Here to Get Playing!</span>
+                        <br />
+                        <br />
+                        <a style="width:150px;" href="<#=rootUrl.teamTennis#>Main/ProgramSearch.aspx" class="btn">Find a Program</a>
+                        <span class="normalDesciption">Win or Lose we play as one.</span>
+                        <br />
+                        <br />
+                        <a href="<#=rootUrl.teamTennis#>Main/LearnMore.aspx">Learn More</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="block">
+                        <span class="subhead">FIND RECORDS</span>
+                        <br />
+                        <br />
+                        <span class="normalDesciption">By Player Name:</span>
+                        <br />
+                        <input  id="q_tt_first_name" placeholder="First Name" type="text" />
+                        <br />
+                        <input id="q_tt_last_name" placeholder="Last Name" type="text"  />
+                        <button id="btnFindByPlayerName" type="button">Find</button>
+                        <div id="divProgressionTT" style="margin-top:10px;">
+                            <span class="subhead">Find a Youth Progression Level</span>
+                            <div class="margin-bottom5">
+                                <span class="normalDesciption">Enter a USTA Account #, TT ID or player name</span>
+                            </div>
+                            <div>
+                                <input id="RatingInputTT" type="text"/>
+                                <button id="btnFindRatingTT" type="button">Find</button>
+                            </div>
+                        </div>
+                        <span class="normalDesciption">By Team Name:</span>
+                        <br />
+                        <input id="q_tt_team_name" type="text" />
+                        <button id="btnFindByTeamName" type="button">Find</button>
+                        <br />
+                        <a href="javascript:tt_findbyTeamName_help(\'<#=rootUrl.teamTennis#>Main/hlp_TeamSearch.htm\')">Help</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="block" style="height:270px;">
+                        <span class="subhead">STATS & STANDINGS</span>
+                        <br />
+                        <br />
+                        <span class="normalDesciption">USTA/Team Tennis Number:</span>
+                        <br />
+                        <input type="text" id="q_tt_personId"/>
+                        <button id="btnPersonGO" type="button">GO</button>
+                        <br />
+                        <span class="normalDesciption">Team Number:</span>
+                        <br />
+                        <input type="text" id="q_tt_team_number"/>
+                        <button id="btnTeamNumberGO" type="button">GO</button>
+                        <br />
+                        <span class="normalDesciption">Match Number:</span>
+                        <br />
+                        <input type="text" id="q_tt_match_number"/>
+                        <button id="btnMatchGO" type="button">GO</button>
+                    </div>
+                </li>
+                <li>
+                    <div class="block last">
+                        <span class="subhead">OPTIONS</span>
+                        <br />
+                        <br />
+                        <a href="<#=rootUrl.teamTennis#>Main/Stats.aspx?Load=AdvSearch&Search=">League Advanced Search</a>
+                        <br />
+                        <a href="<#=rootUrl.teamTennis#>Main/Stats.aspx?Load=AdvSearch&Search=">Championship Advanced Search</a>
+                        <br />
+                        <a href="<#=rootUrl.teamTennis#>Main/Stats.aspx">View Team Tennis Stats & Standings</a>
+                        <br />
+                        <a href="<#=rootUrl.teamTennis#>Main/Stats.aspx">My Teams</a>
+                        <br />
+                        <a href="<#=rootUrl.teamTennis#>/Main/CreateOnlineAccount.aspx?Caller=Captain">Become a Coach/Manager</a>
+                        <br />
+                        <a href="<#=rootUrl.teamTennis#>/Main/CreateOnlineAccount.aspx?Caller=Coordinator">Become a Coordinator</a>
+                        <br />
+                        <a href="<#=rootUrl.teamTennis#>Main/ChampRegistration.aspx">Championship Registration</a>
+                    </div>
+                </li>
+            </ul>
+            </script>
+        </div>
+        <div id="q4" class="hidden">
+            <script type="text/html" id="flex_league_tmpl">
+            <ul>
+                <li>
+                    <div class="block">
+                        <span class="subhead">FIND A FLEX LEAGUE</span>
+                        <br />
+                        <br />
+                        <p>
+                            <label class="normalDesciption">Division:</label>
+                            <select id="q_sel_division">
+                                <option value="0">ALL</option>
+                            </select>
+                        </p>
+                        <p>
+                            <label class="normalDesciption">State:</label>
+                            <select id="q_sel_state1">
+                                <option value="0">ALL</option>
+                            </select>
+                        </p>
+                        <p>
+                            <label class="normalDesciption">Metro Area:</label>
+                            <select id="q_sel_metro_area1">
+                                    <option value="0">ALL</option>
+                            </select>
+                        </p>
+                        <p><button id="btnFindFlexLeague" type="button">Find</button></p>                                            
+                    </div>
+                </li>
+                <li>
+                    <div class="block">
+                        <span class="subhead">STATS & STANDINGS</span>
+                        <br />
+                        <br />
+                        <p>
+                            <label class="normalDesciption">Year:</label>
+                            <select id="q_fl_year">
+                                <option value="2008">2008</option>
+                                <option value="2009">2009</option>
+                                <option value="2010">2010</option>
+                                <option value="2011">2011</option>
+                                <option value="2012">2012</option>
+                                <option value="2013">2013</option>
+                                <option value="2014">2014</option>
+                                <option value="2015">2015</option>
+                                <option value="2016">2016</option>
+                                <option value="2017">2017</option>
+                                <option value="2018">2018</option>
+                                <option value="2019">2019</option>
+                                <option value="2020">2020</option>
+                            </select>
+                        </p>
+                        <p>
+                            <label class="normalDesciption">State:</label>
+                            <select id="q_sel_state2">
+                                <option value="0">ALL</option>
+                            </select>
+                        </p>
+                        <p>
+                            <label class="normalDesciption">Metro Area:</label>
+                            <select id="q_sel_metro_area2">
+                                <option value="0">ALL</option>
+                            </select>
+                        </p>
+                            <p>
+                            <label class="normalDesciption">Flex League:</label>
+                            <select id="q_sel_flex_league">
+                                <option value="0">-------------------</option>
+                            </select>
+                        </p>
+                            <p>
+                            <label class="normalDesciption">Flight:</label>
+                            <select id="q_sel_flight">
+                                <option value="0">-------------------</option>
+                            </select>
+                        </p>
+                        <p><button id="btnViewStatsAndStadings" type="button">View</button></p>      
+                    </div>
+                </li>
+                <li>
+                    <div class="block">
+                        <span class="subhead">FIND PLAYER RECORD</span>
+                        <br />
+                        <br />
+                        <p>
+                            <input type="text" id="q_fl_first_name" placeholder="First Name" style="width:200px"/>
+                        </p>
+                        <p>
+                            <input type="text" id="q_fl_last_name" placeholder="Last Name" style="width:200px"/>
+                        </p>
+                        <p>
+                            <input type="radio" name="q_player_record" checked="checked"/><span class="normalDesciption">Exact Match</span>
+                        </p>
+                        <p>
+                            <input type="radio" name="q_player_record" id="q_name_start_with"/><span class="normalDesciption">Name Starts With</span>
+                        </p>
+                        <p><button id="btnFindPlayerRecord" type="button">View</button></p>
+                    </div>
+                </li>
+                <li>
+                    <div class="block last">
+                        <span class="subhead">OPTIONS</span>
+                        <br />
+                        <br />
+                        <p class="fl-link" data-href="<#=rootUrl.flexLeagues#>PlayerRecord/Registrations.aspx">
+                            <a href="javascript:void(0);">My Registrations</a>
+                        </p>
+                        <p class="fl-link" data-href="<#=rootUrl.flexLeagues#>PlayerRecord/Matches.aspx">
+                            <a href="javascript:void(0);">My Matches</a>
+                        </p>
+                        <p class="fl-link" data-href="<#=rootUrl.dashboard#>Main/ManageAccount.aspx?App=2">
+                            <a href="javascript:void(0);">My Profile</a>
+                        </p>
+                        <p class="fl-link" data-href="<#=rootUrl.flexLeagues#>PlayerToPlayer/FLPlayerAvailability.aspx">
+                            <a href="javascript:void(0);">My Availability Calendar</a>
+                        </p>
+                    </div>
+                </li>
+            </ul>
+            </script> 
+        </div>
+        <div id="q5" style="display: none">
+            <script type="text/html" id="my_tennis_tmpl">
+            <ul>
+                <li style="width:280px;">
+                    <div class="block">
+                        <span class="subhead">WELCOME! <#=userName#></span>
+                        <br />
+                        <br />
+                        <img src="<#=imgUrl#>" style="width:60px; height:60px;float:left;margin-right:15px;border:1px solid white;">
+                        <span class="normalDesciption">
+                            <a href="<#=lnkSection.link#>"><#=lnkSection.text#></a> > <#=location#> 
+                            <br />
+                            Membership #: <#=ustaNumber#>
+                        </span>
+                        <br />
+                        <# if(!showWTNRatingLevel) { #>
+                        <span class="normalDesciption">NTRP Level:</span>
+                        <br />
+                        <div style="clear:both;margin-left:75px;">
+                            <div class="dyfirst">
+                                <#=ntrpLevel#>
+                            </div>
+                            <div style="clear:both;"></div>
+                            <# if(canUserAppeal) { #>
+                            <a href="#" onclick="window.open(\'<#=lnkAppealRatingLevel#>\', \'_blank\'); return false;">Appeal Rating Level</a>
+                            <#}#>
+                            <br />
+                            <a href="<#=lnkManageAccount#>">Manage Account</a>
+                            <br />
+                            <a href="javascript:void(0);"  onclick="logOut();">Logout</a>
+                        </div>
+                        <#} else {#>
+                        <span class="normalDesciption">WTN Rating Level:</span>
+                        <br />
+                        <div style="clear:both;margin-left:75px;">
+                            <div>
+                                <# if(juniorLevel.trim().length > 0) {#>
+                                <span class="wtnIntegerPart"><#=wtnLevelIntegerPart#></span>
+                                <span class="wtnDecimalPart">.<#=wtnLevelDecimalPart#></span>
+                                <#}#>
+                            </div>
+                            <div style="clear:both;"></div>
+                            <br />
+                            <a href="<#=lnkManageAccount#>">Manage Account</a>
+                            <br />
+                            <a href="javascript:void(0);"  onclick="logOut();">Logout</a>
+                        </div>
+                        <#}#>
+                    </div>
+                </li>
+                <li style="width:320px;">
+                    <div class="block">
+                        <span class="subhead">MY EVENTS</span>
+                            <br />
+                            <br />
+                        <#if(myEvent.canFindTournament){#>
+                        <span class="normalDesciption italic">TOURNAMENTS</span>
+                        <br />
+                        <#}#>                        
+                        <span class="normalDesciption">
+                            <# if(myEvent.tournament) { #>
+                            <a href="<#=myEvent.tournamentLink#>">
+                                <span class="truncate" style="width:150px;display:inline-block;" title="<#=myEvent.tournament#>"><#=myEvent.tournament#></span>
+                            </a>
+                            <span style="position:relative;top:-5px"><#=myEvent.tournamentDate#></span>
+                            <#}else if(myEvent.canFindTournament){#>
+                            <a href="<#=rootUrl.tournaments#>">Find a Tournament</a>
+                            <#}#>
+                        </span>
+                        <br />
+                        <#if(myEvent.canFindLeagues){#>
+                        <span class="normalDesciption italic">USTA LEAGUE</span>
+                        <br />
+                            <#}#>
+                            <# if(myEvent.leagues) { #>
+                            <a href="<#=myEvent.leaguesLink#>"><span class="truncate" style="width:250px;display:inline-block;" title="<#=myEvent.leagues#>"><#=myEvent.leagues#></span></a>
+                            <#}else if(myEvent.canFindLeagues){#>
+                            <span><a href="<#=rootUrl.leagues#>Common/Home.aspx">Find a League</a></span>
+                            <#}#>
+                        <br />
+                            <#if(myEvent.canFindTeamTennis){#>
+                        <span class="normalDesciption italic">JUNIOR TEAM TENNIS</span>
+                        <br />
+                            <#}#> 
+                            <# if(myEvent.teamTennis) { #>
+                            <a href="<#=myEvent.teamTennisLink#>"><span class="truncate" style="width:250px;display:inline-block;" title="<#=myEvent.teamTennis#>"><#=myEvent.teamTennis#></span></a>
+                            <#}else if(myEvent.canFindTeamTennis){#>
+                            <a href="<#=rootUrl.teamTennis#>Main/ProgramSearch.aspx">Find a Program</a>
+                            <#}#>
+                        <br />
+                        <#if(myEvent.canFindFlexLeagues){#>
+                        <span class="normalDesciption italic">USTA FLEX LEAGUES</span>
+                        <br />
+                        <#}#>
+                        <# if(myEvent.flexLeagues) { #>
+                        <a href="<#=myEvent.flexLeaguesLink#>"><span class="truncate" style="width:250px;display:inline-block;" title="<#=myEvent.flexLeagues#>"><#=myEvent.flexLeagues#></span></a>
+                        <#}else if(myEvent.canFindFlexLeagues){#>
+                        <a href="<#=rootUrl.flexLeagues#>FlightSettings/FLSearch.aspx">Find a Flex League</a>
+                        <#}#>                        
+                    </div>
+                </li>
+                <li style="width:320px;" style="display: none">
+                    <div class="block last">
+                            <span class="subhead hidden">RECENTLY VIEWED</span>
+                            <br />
+                            <br />
+                    </div>
+                </li>
+            </ul>
+            </script>
+        </div>  
+    </div>
+</div>
+
+<div id="divSSOAnnouncement" style="display:none;">
+    <script type="text/html" id="SSOAnnouncement_tmpl">
+        <div style="margin:10px;">
+            <div id="SSOAnnouncementContent">
+                <#=Content #>
+            </div><br />
+            <div>
+                <input data-id="Confirmed" name="chkConfirmed" type="checkbox" />
+                <label for="chkConfirmed"><#=ConfirmText #></label>
+                <input data-id="OK" type="button" class="button" value="<#=OkText #>" style="margin-left:50px;" />
+            </div>
+        </div>
+    </script>
+</div> 
+<div class="TennisLinkWrapper">
+<div id="tdm-container">
+    
+</div>
+
+
+<div class="TennisLinkBody">
+    <div id="ctl00_TournamentsBreadcrumbs" class="breadcrumb" style="float: left;">
+        <a href="https://www.USTA.com">Home</a> &gt;
+        <a id="ctl00_lnkTennisLink" href="/Dashboard/">TennisLink</a>
+        &gt;
+        <a id="ctl00_lnkUSTATournaments" href="/Tournaments/">Tournaments</a>
+        
+    </div>
+    <div id="rep" style="float:right;" class="breadcrumb">
+        
+    </div>
+    
+        <script type="text/javascript" src="/Dashboard/Common/js/ga_social_tracking.js" language="javascript"></script>
+<div id="ctl00_SocialMediaPanel_updatePnlSocialMedia">
+	
+        <input type="hidden" name="ctl00$SocialMediaPanel$isExistSocialMedia" id="ctl00_SocialMediaPanel_isExistSocialMedia" value="False" />
+        
+    
+</div>
+<script type="text/javascript">
+    function contentPageLoad() {
+        var hasIcon = document.getElementById("ctl00_SocialMediaPanel_isExistSocialMedia")
+        if (hasIcon && hasIcon.value == "True") {
+            loadSocialMediaAsyn();
+        }
+    }
+
+
+</script>
+
+    <div style="clear: both">
+    </div>
+                
+    
+    
+    <div class="tournaments_main_banner" style="background: url(../Common/images/tournament_banner_1.png) no-repeat top left;">
+        <span id="ctl00_mainContent_litAlt" class="banner-left-side">Looking for USTA Tournaments?</span>
+        <span id="ctl00_mainContent_litAltText" class="banner-left-side-text">You can now find and register for USTA Junior Tournaments, USTA Adult Tournaments, and USTA Wheelchair Tournaments at usta.com.</span>
+        <div class="banner-right-side">
+            <a class="sign-up" href="https://playtennis.usta.com/tournaments" target="_blank" >FIND TOURNAMENTS</a>             
+        </div>
+    </div>
+    
+    <div style="text-align:left;height:auto;" id="errorSection_FindRanking" class="error_full hidden"></div>
+    <div class="DashboardMainColumn margin-top10">
+        <div class="CommonBox margin-bottom12">
+            <div class="DashboardActionsContainer" style="min-height:300px;">
+                    <div class="DashboardActionsInner"  style="min-height: 293px; width:270px;">
+                        <h2>Find Tournaments</h2>
+                    <a href="https://PlayTennis.USTA.com/Tournaments" target="_blank">Click Here</a>
+                    <h2>Find an Archived Tournament</h2>
+                    <p class="margin-bottom5 description">
+                        Enter Zip Code, Tournament # or Tournament Name</p>                  
+                    <div id="stats-standings-search">
+                        <input name="ctl00$mainContent$txtFindATournament" type="text" id="ctl00_mainContent_txtFindATournament" onkeypress="javascript:return onEnter(event,&#39;tmt&#39;)" style="width:140px;" /><br />
+                        <select name="ctl00$mainContent$ddlFindATournaments" id="ctl00_mainContent_ddlFindATournaments">
+	<option selected="selected" value=" :-1" style="color:gray;font-style:italic;">Select an Option</option>
+	<option value="A:0">Adult Sanctioned</option>
+	<option value="A:39">Adult Non-Sanctioned</option>
+	<option value="Y:0">Junior Sanctioned</option>
+	<option value="Y:39">Junior Non-Sanctioned</option>
+	<option value="A:-1">All Adult</option>
+	<option value="Y:-1">All Junior</option>
+
+</select>
+                        <br />
+                        <input type="submit" name="ctl00$mainContent$btnFindATournament" value="SEARCH" id="ctl00_mainContent_btnFindATournament" class="btnSearch" style="margin-left:0" />
+                    </div>
+                    <p id="ctl00_mainContent_parTAS" style="margin-top: 10px">
+                        <a href="../Schedule/Search.aspx">Tournaments Advanced Search</a>
+                    </p>
+                        <h2>
+                        <p>To Find Out About Junior Ratings <a id="ctl00_mainContent_lnkJrRatingInfo" href="https://www.usta.com/worldtennisnumber" target="_blank">Click Here</a></p>
+                        </h2>
+                </div>
+                     <div class="DashboardActionsInner" style="height: 293px;width:270px;border:0">
+                        <h2>Find Rankings</h2>
+                    <a href="https://www.usta.com/en/home/play/rankings.html" target="_blank">Click Here</a>
+                    <h2>Find an Archived Ranking</h2>
+                    <p class="margin-bottom5 description">
+                        Enter USTA Account # or Player Name
+                        <img src="../Images/help2.png" style="cursor:help;vertical-align: middle;margin-right:2px;" onclick="openSimpleSearchHelp();" title="Click for more information" alt="Help"></img>
+                    </p> 
+                    <div style="height:20px;">
+                        <input name="ctl00$mainContent$txtFindARanking" type="text" id="ctl00_mainContent_txtFindARanking" class="float-left" onkeypress="javascript:return onEnter(event,&#39;rank&#39;)" style="width:99px;" />
+                        <input type="submit" name="ctl00$mainContent$btnFindARanking" value="SEARCH" onclick="return validateFindRanking();" id="ctl00_mainContent_btnFindARanking" class="btnSearch float-left" />
+                    </div>
+                    <div style="margin-top: 5px; margin-bottom:5px;">
+                        <a href="../Rankings/RankingHome.aspx">Rankings Advanced Search</a>
+                    </div>
+                    
+                    
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <div class="DashboardRightColumn margin-top10">
+        
+        <div class="CommonBox margin-bottom12">
+            <div class="DashboardAboutTournaments">
+                <h2>USTA Tournaments Information</h2>
+                <ul class="quick-links">
+                    <li id="ctl00_mainContent_liER"><a href="../playerregistration/editregistration.aspx">Edit Registration</a></li>
+                    
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="clear">
+    </div>
+    <div class="clearfix padding10">
+        <h2>
+            Tournaments</h2>
+        <p>
+            Whether you play Singles or Doubles or want to compete locally or nationally, USTA
+            Tournaments is for you. Face off against competitors of a similar age and ability
+            or test your skills in fun family events. As a USTA Member, you will receive all
+            of the benefits of membership while supporting the growth of tennis in your local
+            community. Try USTA Tournament Tennis today.
+        </p>
+    </div>
+    
+
+</div>
+</div>
+
+<div id="ctl00_pnlTennisLinkRightRail" class="TennisLinkRightRail">
+	
+    <div class="cmsTowerAd"> 
+         <div class='play-tennis-widget-32363'>
+    <div id="slider_32363">
+        <div id="learnMore_32363">
+            <a href="https://www.usta.com/en/home/play/play-tennis-near-me.html" target="_blank">Learn More</a> 
+        </div>
+        <div class="slide-32363 active-slide-32363">
+            <div class="bule-32363 des-32363">
+                Want to find more tennis?
+            </div>
+            <div class="bule-32363 line-32363">
+            </div>
+            <img src="/Dashboard/common/widgets/PlayTennisBanner/images/blue.png">
+        </div>
+        <div class="slide-32363">
+            <div class="green-32363 des-32363">
+                Want to find more tennis?
+            </div>
+            <div class="green-32363 line-32363">
+            </div>
+            <img src="/Dashboard/common/widgets/PlayTennisBanner/images/green.png">
+        </div>
+        <div class="slide-32363">
+            <div class="purple-32363 des-32363">
+                Want to find more tennis?
+            </div>
+            <div class="purple-32363 line-32363">
+            </div>
+            <img src="/Dashboard/common/widgets/PlayTennisBanner/images/purple.png">
+        </div>
+        <div class="slide-32363">
+            <div class="yellow-32363 des-32363">
+                Want to find more tennis?
+            </div>
+            <div class="yellow-32363 line-32363">
+            </div>
+            <img src="/Dashboard/common/widgets/PlayTennisBanner/images/yellow.png">
+        </div>
+    </div>
+</div>
+<style type="text/css">
+
+@font-face { font-family: 'Graphik-Regular-App'; src: url('/Dashboard/common/widgets/PlayTennisBanner/font/Graphik-Regular-App.woff2') format('woff2'); }
+@font-face { font-family: 'Graphik-Semibold-App'; src: url('/Dashboard/common/widgets/PlayTennisBanner/font/Graphik-Semibold-App.woff2') format('woff2'); }
+@font-face { font-family: 'GraphikXXCondensed-Bold-App'; src: url('/Dashboard/common/widgets/PlayTennisBanner/font/GraphikXXCondensed-Bold-App.woff2') format('woff2'); }
+    .play-tennis-widget-32363 {
+        background-color: #fff;
+        border: 1px solid #000;
+        margin: 3px;
+        width: 163px;
+        height: 853px;
+        overflow:hidden;
+    }
+        .play-tennis-widget-32363 .bule-32363 {
+            background-color: #09B5F7;
+            color: #000;
+        }
+        .play-tennis-widget-32363 .green-32363 {
+            background-color: #A4ED91;
+            color: #000;
+        }
+        .play-tennis-widget-32363 .purple-32363 {
+            background-color: #7B4E91;
+            color: #fff;
+        }
+        .play-tennis-widget-32363 .yellow-32363 {
+            background-color: #FFEFBE;
+            color: #000;
+        }
+        .play-tennis-widget-32363 #slider_32363 {
+            position: relative;
+        }
+        .play-tennis-widget-32363 .slide-32363 {
+            display: none;
+            width: 100%;
+        }
+            .play-tennis-widget-32363 .slide-32363 img {
+                width: 100%;
+            }
+            .play-tennis-widget-32363 .slide-32363.active-slide-32363 {
+                display: block;
+            }
+        .play-tennis-widget-32363 .des-32363 {
+            height: 360px;
+            font-family: GraphikXXCondensed-Bold-App;
+            font-size: 48pt;
+            line-height: 65px;
+            padding: 10px 0px 0px 10px;
+        }
+        .play-tennis-widget-32363 .line-32363 {
+            height: 3px;
+            margin-top: 3px;
+            margin-bottom: 6px;
+        }
+        .play-tennis-widget-32363 #learnMore_32363 {
+            position: absolute;
+            top: 290px;
+            text-align: center;
+            width: 100%
+        }
+            .play-tennis-widget-32363 #learnMore_32363 a {
+                width: 120px;
+                margin: auto;
+                background-color: #000;
+                color: #fff;
+                border-radius: 20px;
+                display: block;
+                height: 32px;
+                font-size: 14px;
+                line-height: 32px;
+                font-family: Graphik-Semibold-App;
+                text-decoration:none;
+            }
+            .play-tennis-widget-32363 #learnMore_32363 a:hover { 
+                text-decoration: none;
+            }
+</style>
+
+<script>
+    $(document).ready(function () {
+        var slides = $('.play-tennis-widget-32363 #slider_32363 .slide-32363');
+        var currentIndex = 0; 
+        setInterval(function () {            
+            $(slides[currentIndex]).removeClass('active-slide-32363');
+            currentIndex = (currentIndex + 1) % slides.length; 
+            $(slides[currentIndex]).addClass('active-slide-32363');
+        }, 10000); 
+    });
+</script>
+    </div>
+
+</div>
+
+<div style="background:#003871; clear:both">
+<div id="ctl00_divTennisLinkFooter" class="container TennisLinkFooter">
+    <!--Chris Redirect URL-->
+    
+    <!--Chris End-->
+    <!--Google Ads bottom Begins-->
+    
+<script type='text/javascript'>
+    var googletag = googletag || {};
+    googletag.cmd = googletag.cmd || [];
+    (function () {
+        var gads = document.createElement('script');
+        gads.async = true;
+        gads.type = 'text/javascript';
+        var useSSL = 'https:' == document.location.protocol;
+        gads.src = (useSSL ? 'https:' : 'http:') +
+        '//www.googletagservices.com/tag/js/gpt.js';
+        var node = document.getElementsByTagName('script')[0];
+        node.parentNode.insertBefore(gads, node);
+    })();
+</script>
+<script type='text/javascript'>
+    googletag.cmd.push(function () {
+        googletag.defineSlot('/5681/USTA/Tournaments/300x250_Left', [300, 250], 'Tournaments_300x250_Left').addService(googletag.pubads());
+        googletag.defineSlot('/5681/USTA/Tournaments/300x250_Middle', [300, 250], 'Tournament_300x250_Middle').addService(googletag.pubads());
+        googletag.defineSlot('/5681/USTA/Tournaments/300x250_Right', [300, 250], 'Tournaments_300x250_Right').addService(googletag.pubads());
+        googletag.enableServices();
+    });
+</script>
+
+<style>
+#Tournaments_300x250_Left
+{
+    float:left;
+    padding: 10px 0 0 0px;
+}
+#Tournament_300x250_Middle, #Tournaments_300x250_Right
+{
+    float:left;
+    padding: 10px 0 0 50px;
+}
+</style>
+
+<!-- USTA/Tournaments/300x250_Left -->
+<div id='Tournaments_300x250_Left' style='width:300px; height:250px;'>
+<script type='text/javascript'>
+    googletag.cmd.push(function () { googletag.display('Tournaments_300x250_Left'); });
+</script>
+</div>
+
+<!-- USTA/Tournaments/300x250_Middle -->
+<div id='Tournament_300x250_Middle' style='width:300px; height:250px;'>
+<script type='text/javascript'>
+    googletag.cmd.push(function () { googletag.display('Tournament_300x250_Middle'); });
+</script>
+</div>
+
+<!-- USTA/Tournaments/300x250_Right -->
+<div id='Tournaments_300x250_Right' style='width:300px; height:250px;'>
+<script type='text/javascript'>
+    googletag.cmd.push(function () { googletag.display('Tournaments_300x250_Right'); });
+</script>
+</div>
+
+    <!--Google Ads bottom Ends-->
+
+</div>
+<div class="container USTAFooter">
+    
+    <script src='https://www.usta.com/thirdparty/include_sitefooter.js.aspx?d=1'></script>
+    
+    <span id="ctl00_lblBuildNumber" style="color:#477DC6;">Code 1.26.042.8379</span>
+      
+    <span id="ctl00_lblIP" style="color:#477DC6;">82</span>
+</div>
+</div>
+</div>
+<!-- Start Quantcast tag --> <script type="text/javascript"> _qoptions={ qacct:"p-74uD-kgmvp83w" }; </script> <script type="text/javascript" src="//secure.quantserve.com/quant.js"></script> <noscript> <img src="//secure.quantserve.com/pixel/p-74uD-kgmvp83w.gif" style="display: none;" border="0" height="1" width="1" alt="Quantcast"/> </noscript> <!-- End Quantcast tag -->
+ 
+<script type="text/javascript" src="/Dashboard/Common/js/AdobeTracker.js"></script>  
+
+<div id="ctl00_ucHB_newSiteCatalyst">
+	
+    <!-- Note this gives a link to loads up the Google and Quandcast links -->
+    <!-- Start Quantcast tag --> <script type="text/javascript"> _qoptions={ qacct:"p-74uD-kgmvp83w" }; </script> <script type="text/javascript" src="//secure.quantserve.com/quant.js"></script> <noscript> <img src="//secure.quantserve.com/pixel/p-74uD-kgmvp83w.gif" style="display: none;" border="0" height="1" width="1" alt="Quantcast"/> </noscript> <!-- End Quantcast tag -->
+
+
+    <!--Adobe Launch Script-->
+    <script src="https://assets.adobedtm.com/15c795eb812c/4ff15bded0fc/launch-108cb2d65a52.min.js" async></script>
+    
+    <script type="text/javascript">
+        window.addEventListener("load", function () {
+            window.AdobeTrackerService.track_pageName('https://tennislink.usta.com/Tournaments/Common/Default.aspx');
+        });
+    </script>
+
+</div> 
+    
+ 
+ 
+ <script type="text/javascript">
+   
+     Sys.WebForms.PageRequestManager.getInstance().add_endRequest(EndRequestHandler);
+     function EndRequestHandler(sender, args) {   
+            
+         /*reset default button */
+         __defaultFired = false;
+
+         $(document).ready(function () {
+             $("a[rel]").each(function () {
+                 if ($($(this).attr("rel")).length > 0) {
+                     $(this).overlay({ mask: '#333', fixed: false });
+                 }
+             });
+         });
+     }
+</script>
+
+
+<script type="text/javascript">
+//<![CDATA[
+(function() {var fn = function() {$get("ctl00_ScriptManager1_HiddenField").value = '';Sys.Application.remove_init(fn);};Sys.Application.add_init(fn);})();//]]>
+</script>
+</form>
+    
+    
+    <iframe id="ifrmSyncUSTASSO" src="https://tennislink.usta.com/Dashboard/Common/SyncUSTASSO.aspx" width="0" height="0"></iframe>
+</body>
+</html>

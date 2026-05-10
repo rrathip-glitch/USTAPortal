@@ -1,8 +1,8 @@
 # USTA Portal
 
-A personal tournament intelligence dashboard for a USTA tennis player. Authenticated sync from `playtennis.usta.com`, persisted locally, augmented with computed intelligence (opponent scouting, WTN tracking, head-to-head, strength-of-draw). The dashboard becomes the canonical interface — you detach from the USTA site after sync.
+A personal tournament intelligence dashboard for a USTA tennis player. Authenticated sync from USTA-operated surfaces, persisted locally, augmented with computed intelligence (opponent scouting, WTN tracking, head-to-head, strength-of-draw). The dashboard becomes the canonical interface — you detach from the USTA site after sync.
 
-> **Status:** bootstrap. The skeleton is in place; recon (Phase 0) is the next active workstream and gates Phase 1 application code. See `STATE.md` for what's live right now.
+> **Status:** Phase 0 partial. The skeleton and the parser/enrichment math layers are in place. Live data-plane recon against the new Clubspark surface is BLOCKED on residential egress (Cloudflare 403s every datacenter IP this project can reach); the active data plane is TennisLink. See `STATE.md` for what's live right now.
 
 ## What it does (v1 target)
 
@@ -23,17 +23,26 @@ A personal tournament intelligence dashboard for a USTA tennis player. Authentic
 | --- | --- |
 | [SPEC.md](SPEC.md) | The 16-section master specification. Read this first. |
 | [STATE.md](STATE.md) | What's live, what's in flight, what's queued. |
-| [AGENTS.md](AGENTS.md) | Multi-agent coordination charter. |
-| [DECISIONS.md](DECISIONS.md) | Architecture decisions (ADRs). |
-| [QUESTIONS.md](QUESTIONS.md) | Open questions for the user. |
-| [TODO.md](TODO.md) | Prioritized backlog. |
-| [RECON.md](RECON.md) | USTA site reconnaissance plan and findings. |
+| [AGENTS.md](AGENTS.md) | Multi-agent coordination charter and agent registry. |
+| [DECISIONS.md](DECISIONS.md) | Architecture decisions (ADRs). ADR-001 Accepted as Strategy C; ADR-002 storage. |
+| [QUESTIONS.md](QUESTIONS.md) | Open and resolved questions for the user. |
+| [TODO.md](TODO.md) | Prioritized backlog by phase. |
+| [RECON.md](RECON.md) | USTA site reconnaissance findings; status BLOCKED on residential egress. |
 | [RESEARCH.md](RESEARCH.md) | Prior-art research notes. |
 | [DATA_MODEL.md](DATA_MODEL.md) | Canonical entity definitions. |
-| [API_CONTRACTS.md](API_CONTRACTS.md) | Discovered USTA endpoints. |
-| [RUNBOOK.md](RUNBOOK.md) | Operations and troubleshooting. |
-| [TESTING.md](TESTING.md) | Test strategy. |
+| [API_CONTRACTS.md](API_CONTRACTS.md) | Hypothesized and confirmed USTA endpoints, with anti-bot posture. |
+| [RUNBOOK.md](RUNBOOK.md) | Operations and troubleshooting trees. |
+| [TESTING.md](TESTING.md) | Test strategy, schema-drift detection, anonymization, mock-data testing. |
 | [CHANGELOG.md](CHANGELOG.md) | Append-only history. |
+
+## Data sources
+
+The project pulls from two USTA-operated surfaces, treated very differently:
+
+- **TennisLink (`tennislink.usta.com`)** — the legacy ASP.NET WebForms surface. Anonymously reachable from every egress tested so far, including this development environment. It is the **primary live data source** for v1: tournaments the user is entered in, draws, match results, and the Janav-account profile sync all land here. Parsers and sync wiring for TennisLink are tracked as the Phase 1.5 TennisLink track in TODO.md.
+- **Clubspark / `playtennis.usta.com`** — the new Clubspark-backed SPA with the documented GraphQL endpoint. **Deferred.** Cloudflare blocks every datacenter egress this project has access to (GCP sandbox, Anthropic WebFetch infrastructure, and likely Railway — see the deploy caveat below). The extraction strategy is filed as ADR-001 / Strategy C (Playwright-resident requests through a long-lived browser context), but cannot be exercised until recon runs from a residential egress. Q-011 tracks the unblock.
+
+Posture: until residential recon completes, the live product runs on TennisLink data. The Clubspark fetch layer is scaffolded against mocked GraphQL but not validated against real captures.
 
 ## Quick start (local development)
 
@@ -44,11 +53,12 @@ python -m venv .venv && source .venv/bin/activate
 pip install -e ".[dev]"
 cp .env.example .env  # then fill in USTA_USERNAME and USTA_PASSWORD
 python -m src.cli.main init-db
+python scripts/seed_dev_data.py    # populate a realistic Janav-themed demo dataset
 uvicorn src.main:app --reload
 # open http://localhost:8000
 ```
 
-The web app boots even with no data — sync is wired up after Phase 1 lands.
+`scripts/seed_dev_data.py` inserts a synthetic Janav-themed dataset (player, opponents, tournament, draw, matches, ranking and WTN snapshots) stamped with `dev-` id prefixes so it can never collide with real fetched data. The dashboard is immediately demoable from this seed, no live USTA fetch required.
 
 ## Deploy on Railway
 
@@ -59,6 +69,8 @@ The repo is configured for Railway out of the box.
 3. Set environment variables in the Railway dashboard from `.env.example`.
 4. Deploy. Railway uses Nixpacks by default; the included `nixpacks.toml` brings Python 3.11 and Playwright Chromium system deps. If the Nixpacks build fails on Playwright, switch the builder to Docker — the included `Dockerfile` (based on `mcr.microsoft.com/playwright/python`) is a known-good fallback.
 5. Healthcheck path is `/health`, configured in `railway.json`.
+
+**Egress caveat.** Railway runs from datacenter IP space; we have not yet verified whether its egress is also Cloudflare-blocked on the Clubspark edge. Treat the deployment as testable today for the UI shell and the TennisLink data plane only. The Clubspark data plane on Railway is unverified and is part of the Q-011 follow-up (sub-question b).
 
 ## Posture
 

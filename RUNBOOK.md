@@ -46,6 +46,14 @@ python -m src.cli.main export draw <draw_id> --format json > out.json
 
 ## Troubleshooting tree
 
+### If a sync hits Cloudflare 403
+
+The first triage question: which host returned the 403?
+
+1. Read the failing URL from the log. If it's `playtennis.usta.com`, `prod-us-kube.clubspark.io`, `prd-itf-kube.clubspark.pro`, or `worldtennisnumber.com`, the host is Cloudflare-fronted on the Clubspark edge. This block keys on outbound IP/ASN, not on TLS fingerprint or browser realism — confirmed by the 2026-05-10 live-recon attempt (see RECON.md and DECISIONS.md ADR-001). No header tweak, UA spoof, or retry will help. Recovery: switch the affected entity type to its TennisLink equivalent if one exists, or pause that workstream until residential recon resolves Q-011. Do **not** attempt evasion from this egress — it will not work and risks an account flag.
+2. If the failing host is `tennislink.usta.com` or `www.usta.com`, the 403 is real and is the application's own anti-abuse response. Back off: raise `REQUEST_INTERVAL_SECONDS` to 10–20, kill any concurrency, and try one fetch manually. If the block persists for more than an hour, surface to the user before retrying.
+3. If the failing host is `account.usta.com` (Auth0), the issue is not Cloudflare — go to "Auth fails" below.
+
 ### Auth fails (401, login page returned, cookie expired)
 
 1. Verify env vars are set: `python -c "from src.config import settings; print(bool(settings.usta_username))"`.
@@ -69,6 +77,10 @@ python -m src.cli.main export draw <draw_id> --format json > out.json
 4. Append a `## Schema drift` entry to API_CONTRACTS.md with date, query, change, and recovery action.
 
 ### WTN missing from player payload
+
+WTN sourcing is currently **deferred to residential recon**. `worldtennisnumber.com` and the WTN GraphQL endpoint at `prd-itf-kube.clubspark.pro` are both behind the same Cloudflare IP/ASN block as the rest of the Clubspark edge. The demo dataset emitted by `scripts/seed_dev_data.py` populates synthetic WTN values so the UI is exercisable today; those values are placeholders, not real ratings. Once Q-011 resolves and a residential session captures real WTN payloads, real values replace them.
+
+If you see WTN missing during a live sync after residential recon completes:
 
 1. Confirm the endpoint still includes WTN at all — fetch the same player in a browser, check the rendered profile.
 2. If the browser shows WTN but our parser misses it, the field name moved. Treat as schema drift.
