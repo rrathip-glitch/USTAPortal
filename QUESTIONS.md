@@ -8,7 +8,7 @@ Questions are surfaced here only when the answer materially changes scope, archi
 
 ## Open
 
-_None._
+- **Q-011 — Residential egress for recon and sync (TOP PRIORITY).** Live recon from this development environment (egress IP `34.58.203.104`, GCP) hit a hard Cloudflare 403 on `playtennis.usta.com` and on every Clubspark host (`prod-us-kube.clubspark.io`, `prd-itf-kube.clubspark.pro`, `worldtennisnumber.com`) before login could be attempted. Real Chromium 141 with anti-detection flags reproduces the block, confirming the rule is on IP/ASN not TLS fingerprint. **The user must re-run `scripts/live_recon.py` from a residential network** (their own laptop, or via a port-forward / SSH tunnel through their home router) to capture authenticated GraphQL traffic. Without this, ADR-001's chosen Strategy C is filed but **unverified against real data-plane traffic**, and Phase 1 (the fetch layer) has no captured GraphQL contracts to build against. Sub-questions: (a) Will the user run recon from their machine with the existing script? (b) For the eventual Railway production deploy, are Railway's egress IPs also Cloudflare-blocked? If yes, we need a residential-egress proxy story before Phase 4 — track as a follow-up after (a) resolves.
 
 ## Newly opened (follow-up from Q-008 resolution)
 

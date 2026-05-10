@@ -1,0 +1,13 @@
+{
+  "ts": "2026-05-10T20:01:15.263655+00:00",
+  "status": "stop:bot_wall:sorry, you have been blocked",
+  "request_count": 4,
+  "response_count": 4,
+  "distinct_hosts": [
+    "playtennis.usta.com"
+  ],
+  "graphql_operation_count": 0,
+  "graphql_operation_names": {},
+  "bearer_seen": false,
+  "visited": {}
+}

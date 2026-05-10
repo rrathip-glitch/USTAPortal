@@ -4,7 +4,7 @@ A live table of the endpoints we depend on. Populated by recon and refreshed eve
 
 ## Status
 
-**Passive recon complete (2026-05-10); authenticated recon still required.** The rows below have been graded against what the 2026-05-10 passive probes actually observed. Most data-surface rows remain unconfirmed because the Cloudflare WAF blocks anonymous probing entirely; the auth-surface rows are now anchored on the OIDC discovery document, which is anonymously fetchable. Cell-by-cell evidence is in RECON.md "Findings (passive recon, 2026-05-10)" and the artifacts under `data/recon/2026-05-10-passive/`.
+**Passive recon complete (2026-05-10); live authenticated recon attempted same day and BLOCKED at the Cloudflare edge by an IP/ASN-level rule against this environment's egress (`34.58.203.104`, GCP).** No authenticated GraphQL traffic was captured; the rows below are unchanged from the passive snapshot, and authenticated capture must be re-attempted from a residential egress before any data-plane row moves from "Host confirmed exists" to "Confirmed". The auth-plane rows remain anchored on the anonymously-fetchable OIDC discovery document. Cell-by-cell evidence is in RECON.md "Findings (passive recon, 2026-05-10)" and "Findings (live recon attempt, 2026-05-10)" plus artifacts under `data/recon/2026-05-10-passive/` and `data/recon/2026-05-10-live/`.
 
 ## Endpoint inventory
 
@@ -72,9 +72,16 @@ CSRF likely **not** required on the GraphQL endpoint since bearer-token auth is 
 
 ## Anti-bot posture
 
-**Cloudflare WAF in front of every Clubspark host with TLS/JA3 fingerprint enforcement.** Confirmed empirically: stock curl 8.5.0 (OpenSSL) and Python urllib both receive HTTP 403 + Cloudflare interstitial on every probe to `playtennis.usta.com`, `prod-us-kube.clubspark.io`, `prd-itf-kube.clubspark.pro`, `worldtennisnumber.com`, and `docs.worldtennisnumber.com` — including for `robots.txt`. Two different stock TLS stacks failing identically is the diagnostic for fingerprint-level blocking. Practical implication: any direct httpx call (even with valid Bearer token) will be 403'd unless tunnelled through a real browser context (Playwright `page.request`) or a TLS-impersonating client (`curl_cffi` with Chrome impersonation).
+**Cloudflare WAF in front of every Clubspark host, with both TLS/JA3 fingerprint enforcement AND IP/ASN-level blocking of cloud-datacenter egress.** Confirmed empirically across two independent recon passes:
 
-`services.usta.com` is on **Akamai Bot Manager** instead (separate WAF, sets `_abck`/`bm_sz`), so different evasion pattern if/when we need that surface.
+- Passive (2026-05-10, `data/recon/2026-05-10-passive/`): stock curl 8.5.0 and Python urllib both 403 on every probe — including `robots.txt`. Two stock TLS stacks failing identically is the fingerprint diagnostic.
+- Live (2026-05-10, `data/recon/2026-05-10-live/`): real Chromium 141 driven via Playwright with `--disable-blink-features=AutomationControlled`, an init-script that hides `navigator.webdriver`, a Chrome-141-matching UA, and Xvfb-backed non-headless mode — STILL 403, with `cf-ray: 9f9b89cf9e96c0a8-ORD`. The browser's TLS handshake completes and Cloudflare returns its own HTML, which is the diagnostic for **application-layer WAF rejection on IP/ASN, not on TLS or browser fingerprint**. Outbound IP at the time was `34.58.203.104` (GCP datacenter range).
+
+Practical implication, refined: a real Playwright browser is **not sufficient on its own** — the egress IP also has to be off Cloudflare's datacenter blocklist. Any httpx replay (stock or `curl_cffi`-impersonating) and any Playwright run from a known datacenter ASN will fail at the same WAF rule. **Recon and sync must run from a residential egress.** ADR-001 has been promoted to Accepted with this constraint as a hard operational rider.
+
+`services.usta.com` is on **Akamai Bot Manager** instead (separate WAF, sets `_abck`/`bm_sz`), so different evasion pattern if/when we need that surface. From this environment Chromium reports `ERR_HTTP_RESPONSE_CODE_FAILURE` rather than a 403 page, which suggests Akamai is either dropping the request or returning a non-standard response shape — distinct failure mode from Cloudflare's HTML interstitial.
+
+`account.usta.com` (Auth0) is **not** Cloudflare-fronted and is reachable from this environment (200 on OIDC discovery, JWKS, and `/authorize` endpoints — the latter returns a 400 with title `USTA-DIGITAL-PROD` confirming the Auth0 tenant is brand-customized for USTA). Auth0 hosts the entire login dance unimpeded by the egress block, so the login UI side of recon would work here — but every post-login data fetch hits Cloudflare and fails. Net: nothing useful is reachable from this environment for the data plane.
 
 ## Rate-limit posture
 

@@ -1,0 +1,44 @@
+{
+  "oidc_discovery": {
+    "status": 200,
+    "url": "https://account.usta.com/.well-known/openid-configuration",
+    "title": ""
+  },
+  "jwks": {
+    "status": 200,
+    "url": "https://account.usta.com/.well-known/jwks.json",
+    "title": ""
+  },
+  "authorize_no_args": {
+    "status": 400,
+    "url": "https://account.usta.com/authorize",
+    "title": "USTA-DIGITAL-PROD"
+  },
+  "playtennis_root": {
+    "status": 403,
+    "url": "https://playtennis.usta.com/"
+  },
+  "clubspark_gql": {
+    "status": 403,
+    "url": "https://prod-us-kube.clubspark.io/usta/tournaments/api/graphql"
+  },
+  "wtn_gql": {
+    "status": 403,
+    "url": "https://prd-itf-kube.clubspark.pro/tods-gw-api/graphql"
+  },
+  "wtn_site": {
+    "status": 403,
+    "url": "https://worldtennisnumber.com/"
+  },
+  "www_usta": {
+    "status": 200,
+    "url": "https://www.usta.com/en/home.html"
+  },
+  "tennislink": {
+    "status": 200,
+    "url": "https://tennislink.usta.com/Dashboard/Main/default.aspx"
+  },
+  "services_usta": {
+    "error": "Page.goto: net::ERR_HTTP_RESPONSE_CODE_FAILURE at https://services.usta.com/v1\nCall log:\n  - navigating to \"https://services.usta.com/v1\", waiting until \"load\"\n"
+  }
+}

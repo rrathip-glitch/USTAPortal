@@ -4,7 +4,7 @@ This file accumulates findings from investigating `playtennis.usta.com`. It is i
 
 ## Status
 
-**Recon: PARTIAL — passive only (2026-05-10).** Anonymous probes from this session were uniformly blocked at the edge (see Findings below); no authenticated traffic has been captured because this session has no credentials and no real browser. Authenticated recon is still required before ADR-001 is decided. Passive findings have, however, **materially shifted the leading hypothesis** away from Strategy A (pure httpx replay) toward Strategy C (browser-resident requests), and have surfaced an Auth0-OIDC auth fact that was previously unknown. ADR-001 status remains **Proposed** pending authenticated session evidence.
+**Recon: BLOCKED — environmental egress block (2026-05-10).** A live authenticated recon session was attempted in this environment with credentials loaded from `settings` and Chromium 141 driven via Playwright (both headless and Xvfb-backed non-headless variants tried). **Every navigation to a Cloudflare-fronted Clubspark host returned HTTP 403 with the Cloudflare "Sorry, you have been blocked" interstitial, before any login could be attempted.** Login was never reached — `playtennis.usta.com/` 403'd on the very first GET of the session, with `cf-ray: 9f9b89cf9e96c0a8-ORD`. The block is unconditional on path and reproduces from a real Chromium browser with `--disable-blink-features=AutomationControlled` and a Chrome-141 user agent matching the actual binary, ruling out fingerprint as the cause. The egress IP of this environment (`34.58.203.104`, GCP datacenter range) is the relevant variable: **Cloudflare's WAF on the Clubspark edge categorically rejects this IP / ASN range, regardless of TLS stack, headers, JS challenge solvability, or browser realism.** Passive recon (2026-05-10) reached the identical 403 from curl and urllib; live Playwright recon now confirms the block survives even a real Chromium TLS handshake. See "Findings (live recon attempt, 2026-05-10)" below. Per the recon charter's stop conditions, the session **stopped immediately and did not attempt evasion**. Authenticated recon must be re-run from a residential / non-datacenter egress (see Risk and Stop conditions, and the new top item in QUESTIONS.md). ADR-001 status moves to **Accepted** with the strategy "C-residential" — see DECISIONS.md.
 
 ## Working hypothesis
 
@@ -176,7 +176,7 @@ These move out of QUESTIONS.md and live here as resolved findings:
 
 ### Still gated on authenticated recon
 
-All of the following remain TBD until a real-browser session can be driven (via `scripts/recon_session.py` with credentials):
+All of the following remain TBD until a real-browser session can be driven (via `scripts/live_recon.py` with credentials) **from a residential / non-datacenter egress**:
 
 - The actual GraphQL queries the SPA fires (names, variables, response shapes) — `TournamentData`, `EventList`, etc. as currently hypothesized.
 - Whether the access token is a JWT and what its `aud`/`scope`/`iss` claims look like.
@@ -186,3 +186,37 @@ All of the following remain TBD until a real-browser session can be driven (via 
 - Pagination shape (cursor vs offset).
 - Identifier formats (GUIDs everywhere vs mixed).
 - Whether `curl_cffi` (Chrome JA3 impersonation) is sufficient to bypass the Cloudflare check once we hold a valid bearer token, or whether requests must always go through a live Playwright browser context.
+- Whether the user's account requires MFA on login (could not be tested — login screen never reached).
+
+## Findings (live recon attempt, 2026-05-10)
+
+Artifacts under `data/recon/2026-05-10-live/`:
+
+- `network.jsonl` — 8 lines (4 requests / 4 responses) from the only navigation that completed: `GET https://playtennis.usta.com/` → 403, plus three Cloudflare `cdn-cgi/...` asset GETs from the interstitial chrome.
+- `STOP_REASON.txt` — `STOP: bot_wall:sorry, you have been blocked at url=https://playtennis.usta.com/`.
+- `summary.json` — `{request_count: 4, response_count: 4, distinct_hosts: ["playtennis.usta.com"], graphql_operation_count: 0, bearer_seen: false, status: "stop:bot_wall:..."}`.
+- `cf_interstitial.html` — full body (4,268 bytes) of the Cloudflare 403 interstitial. Contains `<h1>Sorry, you have been blocked</h1>` and `Cloudflare Ray ID: 9f9b89cf9e96c0a8`. Block message attributes the action to "this website is using a security service to protect itself from online attacks" — i.e., the WAF, not a captcha challenge or rate-limit page.
+- `host_reachability.json` — per-host status from this environment, captured separately to characterize the block boundary.
+
+**Host reachability matrix from this environment (`34.58.203.104`, GCP):**
+
+| Host | Status | Notes |
+| --- | --- | --- |
+| `account.usta.com/.well-known/openid-configuration` | 200 | Not Cloudflare. Auth0 reachable. |
+| `account.usta.com/.well-known/jwks.json` | 200 | Not Cloudflare. |
+| `account.usta.com/authorize` (no args) | 400 | Auth0 reachable; "USTA-DIGITAL-PROD" page title rendered — confirms Auth0 tenant brand-customized for USTA. |
+| `playtennis.usta.com/` | **403 Cloudflare** | Block. |
+| `prod-us-kube.clubspark.io/usta/tournaments/api/graphql` | **403 Cloudflare** | Block (data API). |
+| `prd-itf-kube.clubspark.pro/tods-gw-api/graphql` | **403 Cloudflare** | Block (WTN API). |
+| `worldtennisnumber.com/` | **403 Cloudflare** | Block. |
+| `www.usta.com/en/home.html` | 200 | AEM marketing site, not Cloudflare-fronted. |
+| `tennislink.usta.com/Dashboard/Main/default.aspx` | 200 | Legacy ASP.NET, not Cloudflare-fronted. |
+| `services.usta.com/v1` | net error | Akamai BMP layer; chromium reports `ERR_HTTP_RESPONSE_CODE_FAILURE`. |
+
+**Diagnostic:** the four 403'd hosts are exactly the four behind Cloudflare's Clubspark-edge ruleset; everything else is reachable. The browser's TLS handshake completes (no `ERR_SSL_*`), the request reaches Cloudflare, and Cloudflare returns its own HTML — so this is application-layer WAF rejection, not a network drop. The same 403 was returned to curl and urllib in the passive recon, which is consistent with **the rule keying on outbound IP / ASN**, not on TLS fingerprint or headers. Practical implication: **no recon code change in this environment will produce a successful login or GraphQL capture.** A residential egress (e.g., the user's own machine, a residential proxy, or a port-forward through a non-datacenter network) is required.
+
+**What we did NOT learn (still TBD, repeated for emphasis):** zero authenticated traffic. zero GraphQL operations observed. zero bearer tokens captured. The httpx replay test was not exercised because there was no captured request to replay. ADR-001's Strategy A-prime vs Strategy C decision is therefore **made on the strength of the consistency between live and passive findings** (Cloudflare blocks anything that doesn't look like a real residential browser, regardless of the request's other properties), not on a captured-and-replayed bearer token.
+
+### Resolved questions from QUESTIONS.md (live recon)
+
+- **Q (was implied): Can authenticated recon be performed from this development environment?** → **Resolved: NO.** The egress IP is in a Cloudflare blocklist for the Clubspark edge. Recon must run from the user's own machine or a residential network. Surfaced as a new top-priority item in QUESTIONS.md.
