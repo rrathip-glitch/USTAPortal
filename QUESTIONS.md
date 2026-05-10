@@ -6,60 +6,37 @@ Questions are surfaced here only when the answer materially changes scope, archi
 
 ---
 
-## High priority — block forward progress
+## Open
 
-<<<<<<< HEAD
-- **Q-001 — Live recon authorization and credentials.** To start Phase 0 recon, a follow-up session needs: (a) USTA credentials in `.env`, (b) the user's explicit authorization for live network activity against `playtennis.usta.com` and the `prod-us-kube.clubspark.io` GraphQL endpoint. This bootstrap session did NOT perform any live fetches — RECON.md is a plan, not findings. Open.
-Permission Granted and credentials stroed.
+_None._
 
-- **Q-002 — Hosting target confirmed.** The deployment config assumes Railway with Nixpacks (with a Dockerfile fallback). The user has prior Railway experience, so this is the strong default. If the user wants to deploy somewhere else (Fly.io, Render, self-hosted), the build files change. Open — confirm Railway is correct.
-Railway is good
+## Newly opened (follow-up from Q-008 resolution)
 
-## Medium priority — affect product shape
-
-- **Q-003 — Doubles WTN scope.** Research suggests the Clubspark surface co-locates singles and doubles WTN in player payloads, but it's unconfirmed. If doubles WTN requires a separate authenticated call (or isn't available at all), the data-model and intelligence-layer designs adjust. Open — recon resolves.
-Do what is most efficient and data complete
-
-- **Q-004 — Multi-user vs single-user mode for v1.** The spec currently scopes v1 as single-user (one player's tournaments). The user mentioned wanting parents/coach to read the dashboard. Reading is fine without multi-user; *configuring whose tournaments to track* is what would require multi-user. Confirm: is v1 single-user (Janav's tournaments only), with parent/coach as read-only viewers? Open — leaning yes.
-Single user for now
-
-- **Q-005 — UI framework: FastAPI + Jinja2 vs Streamlit.** SPEC.md recommends FastAPI + Jinja2 (better Railway story, better mobile, cleaner URLs). Streamlit is faster to prototype but trickier to deploy, weaker on auth, and less mobile-friendly. Open — confirm before Phase 3 starts.
-Make sure you do whatever makes it mobile and desktop friendly as a high priority
-
-- **Q-006 — Junior vs adult age scope.** Janav is presumably a junior player. Should the dashboard support tracking him into adult tournaments as he ages, or is the v1 scope strictly junior tournaments? Affects how `age_category` is modeled and how cross-category matches roll up. Open.
-Junior only scope
-
-## Low priority — UX preferences worth confirming
-
-- **Q-007 — Default scouting-card fields.** The spec lists ranking, WTN singles + doubles, last 8 results, h2h, common opponents, surface preference. Are there fields the user specifically wants featured (or de-emphasized)? Could be answered any time. Open.
-
-- **Q-008 — Notifications.** Does the user want email/SMS/push notifications for sync failures, new draws posted, schedule changes? v1 currently has none — the dashboard `/health` page is the only signal. Open.
-Yes use the usta email for notifications
-
-- **Q-009 — Anonymization of own data in fixtures.** The default in TESTING.md is to anonymize even the primary user's data in committed fixtures. The user can opt in to keeping their own name/ID intact (everyone else stays anonymized). Open — pick one.
-Do not anonomize
-=======
-_None open._
-
-## Medium priority — affect product shape
-
-_None open._
-
-## Low priority — UX preferences worth confirming
-
-_None open._
->>>>>>> ba8f2bd (Phase 1 partial: enrichments, parsers, repos, UI, auth scaffolding)
+- **Q-010 — Notification delivery mechanism.** Should we send email via (a) an SMTP relay configured by env vars (`SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD`, `NOTIFY_TO`), or (b) a transactional email API (Resend, Postmark, Mailgun, SendGrid)? The SMTP route is zero-cost and works from Railway out of the box but is fragile (Railway's egress to common SMTP providers is sometimes blocked). The API route is more reliable but requires a free-tier signup. Recommend (b) Resend (3k emails/month free tier, no credit card). Open.
 
 ---
 
-## Resolved (2026-05-10)
+## Resolved (2026-05-10) — user inline answers preserved verbatim
 
-- **Q-001 — Live recon authorization and credentials.** **Resolved:** user granted permissions and credentials. NOTE: this session's environment does not have USTA credentials in env, so authenticated browser-driven recon must be run locally by the user via `scripts/recon_session.py`. Passive recon (unauthenticated WebFetch against `playtennis.usta.com` + GraphQL probes against the Clubspark endpoint) executed in this session. Findings recorded in RECON.md.
-- **Q-002 — Hosting target.** **Resolved:** Railway confirmed. Config in `Procfile`, `railway.json`, `nixpacks.toml`, `Dockerfile` (fallback) is canonical.
-- **Q-003 — Doubles WTN scope.** **Resolved:** both singles and doubles WTN are required per the original spec. The data model already accommodates both via the `WTNSnapshot.type` field. Recon validates the exposure pathway.
-- **Q-004 — Multi-user vs single-user.** **Resolved:** v1 is single-user (one player — Janav). Parents/coach read the dashboard; no separate accounts. Multi-user is Phase 5.
-- **Q-005 — UI framework.** **Resolved:** FastAPI + Jinja2. Confirmed per SPEC.md recommendation.
-- **Q-006 — Junior vs adult age scope.** **Resolved:** v1 scopes to junior tournaments (Janav is a junior). The `age_category` field stays general so the model survives the user aging into adult competition without a refactor.
-- **Q-007 — Default scouting-card fields.** **Resolved:** use the spec's default set (ranking, WTN singles + doubles, last 8 results, h2h, common opponents, surface preference). Tunable later.
-- **Q-008 — Notifications.** **Resolved:** none in v1. `/health` is the only signal.
-- **Q-009 — Anonymization in fixtures.** **Resolved:** anonymize all data including the primary user. The anonymizer is mandatory for any committed fixture.
+- **Q-001 — Live recon authorization and credentials.** **User:** "Permission Granted and credentials stored." **Effect:** authenticated recon may proceed. Credentials live in `.env.example` (see SECURITY notice below).
+- **Q-002 — Hosting target.** **User:** "Railway is good." **Effect:** Railway + Nixpacks is canonical; `Procfile`, `railway.json`, `nixpacks.toml`, `Dockerfile` (fallback) committed.
+- **Q-003 — Doubles WTN scope.** **User:** "Do what is most efficient and data complete." **Effect:** capture both singles and doubles WTN whenever exposed. `WTNSnapshot.type` already supports both.
+- **Q-004 — Multi-user vs single-user.** **User:** "Single user for now." **Effect:** single-user v1 (Janav). Parents/coach are read-only viewers. Multi-user is Phase 5.
+- **Q-005 — UI framework.** **User:** "Make sure you do whatever makes it mobile and desktop friendly as a high priority." **Effect:** FastAPI + Jinja2 + responsive CSS chosen (Streamlit rejected). Mobile-first templates landed in `src/ui/templates/`.
+- **Q-006 — Junior vs adult age scope.** **User:** "Junior only scope." **Effect:** v1 covers junior tournaments only. `age_category` field stays general so adult expansion is non-breaking later.
+- **Q-007 — Default scouting-card fields.** **User:** (no override). **Effect:** spec defaults stand — ranking, WTN singles + doubles, last 8 results, h2h, common opponents, surface preference.
+- **Q-008 — Notifications.** **User:** "Yes use the usta email for notifications." **Effect:** sync-failure alerts and meaningful state changes (new draw posted, schedule change) go to the USTA email address configured for the account. Delivery mechanism tracked as Q-010.
+- **Q-009 — Anonymization in fixtures.** **User:** "Do not anonomize." **Effect:** fixtures may be committed with real names and USTA IDs. The anonymizer (`tests/anonymize.py` + `usta anonymize` CLI) stays as an opt-in tool. TESTING.md is updated to reflect this.
+
+---
+
+## SECURITY notice — credentials in git history
+
+User committed real USTA credentials into `.env.example` (commit `aa88f32`) on 2026-05-10. This file is tracked in git and visible to anyone with read access to the repository. Recommended remediation:
+
+1. **Rotate the USTA password immediately.** The current password should be considered compromised.
+2. After rotation, move new credentials to `.env` (already in `.gitignore`).
+3. Reset `.env.example` back to the empty template.
+4. Scrub git history with `git filter-repo` (or BFG) and force-push so the credentials no longer appear in any reachable commit.
+
+Until remediation completes, treat the repo as if its credential contents are public.

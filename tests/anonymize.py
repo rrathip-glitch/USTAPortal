@@ -26,7 +26,6 @@ import hashlib
 import json
 import re
 import uuid
-from collections.abc import Iterable
 from pathlib import Path
 from typing import Any
 
@@ -38,15 +37,17 @@ _NAMESPACE = uuid.UUID("d3b07384-d9a8-5f6e-9b3a-6c9f2e7c8d10")
 _NAME_KEY_RE = re.compile(r"name|first|last|displayname", re.IGNORECASE)
 _EMAIL_KEY_RE = re.compile(r"email", re.IGNORECASE)
 _PHONE_KEY_RE = re.compile(r"phone|mobile|tel", re.IGNORECASE)
-_ID_KEY_RE = re.compile(r"(^|_)id$|guid|uuid|playerid|userid|tournamentid|drawid|matchid", re.IGNORECASE)
+_ID_KEY_RE = re.compile(
+    r"(^|_)id$|guid|uuid|playerid|userid|tournamentid|drawid|matchid",
+    re.IGNORECASE,
+)
 
 # Substring patterns for scrubbing inside free-form strings.
 _GUID_RE = re.compile(
     r"\b[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}\b"
 )
-# Numeric ID heuristic: 6+ consecutive digits (USTA IDs are typically 7-9
-# digits; phone numbers and dates are excluded by length / surrounding context
-# in practice). This is intentionally conservative.
+# Numeric ID heuristic: 6+ consecutive digits. USTA IDs are typically 7-9
+# digits; short numbers (scores, dates fragments) are intentionally excluded.
 _NUMERIC_ID_RE = re.compile(r"\b\d{6,}\b")
 
 
@@ -55,8 +56,6 @@ def _is_guid(value: str) -> bool:
 
 
 def _is_numeric_id(value: str) -> bool:
-    # Plain digit string of >=6 chars. Excludes dates like "2026-05-10" or
-    # decimal scores because those contain non-digit characters.
     return value.isdigit() and len(value) >= 6
 
 
@@ -66,7 +65,6 @@ def _fake_guid(real: str) -> str:
 
 def _fake_numeric(real: str) -> str:
     digest = hashlib.sha256(real.encode("utf-8")).hexdigest()
-    # Map first 12 hex chars → integer → 9-digit zero-padded.
     n = int(digest[:12], 16) % 1_000_000_000
     return f"{n:09d}"
 
@@ -97,28 +95,22 @@ def anonymize_string(s: str, mapping: dict[str, str]) -> str:
     if not s:
         return s
 
-    def _sub_guid(match: re.Match[str]) -> str:
+    def _sub(match: re.Match[str]) -> str:
         return _map_id(match.group(0), mapping)
 
-    def _sub_numeric(match: re.Match[str]) -> str:
-        return _map_id(match.group(0), mapping)
-
-    out = _GUID_RE.sub(_sub_guid, s)
-    out = _NUMERIC_ID_RE.sub(_sub_numeric, out)
+    out = _GUID_RE.sub(_sub, s)
+    out = _NUMERIC_ID_RE.sub(_sub, out)
     return out
 
 
 def _anonymize_value(key: str | None, value: Any, mapping: dict[str, str]) -> Any:
-    # Dict / list — recurse.
     if isinstance(value, dict):
         return _anonymize_dict(value, mapping)
     if isinstance(value, list):
         return [_anonymize_value(key, item, mapping) for item in value]
 
-    # Non-string scalars: recurse into nothing, but numeric ids stored as ints
-    # under id-shaped keys still need mapping.
+    # bool is a subclass of int — handle first so it isn't treated as numeric.
     if isinstance(value, bool):
-        # bool is a subclass of int; preserve as-is.
         return value
     if isinstance(value, int) and key is not None and _ID_KEY_RE.search(key):
         as_str = str(value)
@@ -128,21 +120,17 @@ def _anonymize_value(key: str | None, value: Any, mapping: dict[str, str]) -> An
     if not isinstance(value, str):
         return value
 
-    # Strings.
     if key is not None:
         if _EMAIL_KEY_RE.search(key) or _PHONE_KEY_RE.search(key):
             return ""
-        if _ID_KEY_RE.search(key):
-            # Whole field is an id — map directly even if shape is non-standard.
-            if _is_guid(value) or _is_numeric_id(value):
-                return _map_id(value, mapping)
-            # Fall through to substring scan.
+        if _ID_KEY_RE.search(key) and (_is_guid(value) or _is_numeric_id(value)):
+            return _map_id(value, mapping)
+        # Otherwise fall through — substring scrubber will catch embedded ids.
         if _NAME_KEY_RE.search(key):
             if not value:
                 return value
             return _fake_name(value)
 
-    # Free-form string: scrub embedded ids.
     return anonymize_string(value, mapping)
 
 
@@ -176,4 +164,4 @@ def anonymize(
     return out, mapping
 
 
-__all__: Iterable[str] = ("anonymize", "anonymize_string")
+__all__ = ["anonymize", "anonymize_string"]
