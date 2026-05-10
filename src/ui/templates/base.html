@@ -5,13 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{% block title %}USTA Portal{% endblock %}</title>
     <link rel="stylesheet" href="/static/style.css" />
+    <script src="https://unpkg.com/htmx.org@1.9.12" defer></script>
     {% block head_extra %}{% endblock %}
   </head>
   <body>
     <header class="site-header">
       <div class="header-inner">
-        <a class="brand" href="/">USTA Portal</a>
-        <nav class="nav">
+        <a class="brand" href="/">
+          <span class="brand-mark" aria-hidden="true"></span>
+          USTA Portal
+        </a>
+        <nav class="nav" aria-label="Primary">
           <a href="/">Dashboard</a>
           <a href="/tournaments">Tournaments</a>
           <a href="/sync">Sync</a>
@@ -25,7 +29,14 @@
       {% block content %}{% endblock %}
     </main>
     <footer class="site-footer">
-      <small>USTA Portal &middot; offline-first dashboard</small>
+      <div class="row">
+        <span>USTA Portal v{{ app_version }}</span>
+        {% if synthetic_data %}
+          <span class="chip synthetic" title="The database contains synthetic fixture data, not real USTA records.">
+            synthetic data
+          </span>
+        {% endif %}
+      </div>
     </footer>
   </body>
 </html>

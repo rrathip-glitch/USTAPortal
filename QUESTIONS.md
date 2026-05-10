@@ -18,15 +18,17 @@ Questions are surfaced here only when the answer materially changes scope, archi
 
 ## Resolved (2026-05-10) — user inline answers preserved verbatim
 
-- **Q-001 — Live recon authorization and credentials.** **User:** "Permission Granted and credentials stored." **Effect:** authenticated recon may proceed. Credentials live in `.env.example` (see SECURITY notice below).
-- **Q-002 — Hosting target.** **User:** "Railway is good." **Effect:** Railway + Nixpacks is canonical; `Procfile`, `railway.json`, `nixpacks.toml`, `Dockerfile` (fallback) committed.
-- **Q-003 — Doubles WTN scope.** **User:** "Do what is most efficient and data complete." **Effect:** capture both singles and doubles WTN whenever exposed. `WTNSnapshot.type` already supports both.
-- **Q-004 — Multi-user vs single-user.** **User:** "Single user for now." **Effect:** single-user v1 (Janav). Parents/coach are read-only viewers. Multi-user is Phase 5.
-- **Q-005 — UI framework.** **User:** "Make sure you do whatever makes it mobile and desktop friendly as a high priority." **Effect:** FastAPI + Jinja2 + responsive CSS chosen (Streamlit rejected). Mobile-first templates landed in `src/ui/templates/`.
-- **Q-006 — Junior vs adult age scope.** **User:** "Junior only scope." **Effect:** v1 covers junior tournaments only. `age_category` field stays general so adult expansion is non-breaking later.
-- **Q-007 — Default scouting-card fields.** **User:** (no override). **Effect:** spec defaults stand — ranking, WTN singles + doubles, last 8 results, h2h, common opponents, surface preference.
-- **Q-008 — Notifications.** **User:** "Yes use the usta email for notifications." **Effect:** sync-failure alerts and meaningful state changes (new draw posted, schedule change) go to the USTA email address configured for the account. Delivery mechanism tracked as Q-010.
-- **Q-009 — Anonymization in fixtures.** **User:** "Do not anonomize." **Effect:** fixtures may be committed with real names and USTA IDs. The anonymizer (`tests/anonymize.py` + `usta anonymize` CLI) stays as an opt-in tool. TESTING.md is updated to reflect this.
+Each resolved question lists the doc that now owns the answer in operational form.
+
+- **Q-001 — Live recon authorization and credentials.** **User:** "Permission Granted and credentials stored." **Effect:** authenticated recon may proceed. Credentials live in `.env.example` (see SECURITY notice below). Answer now lives in [RECON.md](RECON.md) "Findings (live recon attempt, 2026-05-10)" and in CHANGELOG 2026-05-10.
+- **Q-002 — Hosting target.** **User:** "Railway is good." **Effect:** Railway + Nixpacks is canonical; `Procfile`, `railway.json`, `nixpacks.toml`, `Dockerfile` (fallback) committed. Answer now lives in [README.md](README.md) "Deploy on Railway" and [RUNBOOK.md](RUNBOOK.md) "Railway-specific notes".
+- **Q-003 — Doubles WTN scope.** **User:** "Do what is most efficient and data complete." **Effect:** capture both singles and doubles WTN whenever exposed. `WTNSnapshot.type` already supports both. Answer now lives in [DATA_MODEL.md](DATA_MODEL.md) "WTNSnapshot". Full pathway confirmation still gated on residential recon (Q-011) — tracked there.
+- **Q-004 — Multi-user vs single-user.** **User:** "Single user for now." **Effect:** single-user v1 (Janav). Parents/coach are read-only viewers. Multi-user is Phase 5. Answer now lives in [SPEC.md](SPEC.md) (scope sections) and [TODO.md](TODO.md) Phase 5.
+- **Q-005 — UI framework.** **User:** "Make sure you do whatever makes it mobile and desktop friendly as a high priority." **Effect:** FastAPI + Jinja2 + responsive CSS chosen (Streamlit rejected). Mobile-first templates landed in `src/ui/templates/`. Answer now lives in [SPEC.md](SPEC.md) UI section.
+- **Q-006 — Junior vs adult age scope.** **User:** "Junior only scope." **Effect:** v1 covers junior tournaments only. `age_category` field stays general so adult expansion is non-breaking later. Answer now lives in [DATA_MODEL.md](DATA_MODEL.md) "Player" and [SPEC.md](SPEC.md) scope.
+- **Q-007 — Default scouting-card fields.** **User:** (no override). **Effect:** spec defaults stand — ranking, WTN singles + doubles, last 8 results, h2h, common opponents, surface preference. Answer now lives in [SPEC.md](SPEC.md) scouting-card section.
+- **Q-008 — Notifications.** **User:** "Yes use the usta email for notifications." **Effect:** sync-failure alerts and meaningful state changes go to the USTA email address configured for the account. Delivery mechanism tracked as Q-010 above. Answer now lives in [SPEC.md](SPEC.md) notifications section.
+- **Q-009 — Anonymization in fixtures.** **User:** "Do not anonomize." **Effect:** fixtures may be committed with real names and USTA IDs. The anonymizer (`tests/anonymize.py` + `usta anonymize` CLI) stays as an opt-in tool. Answer now lives in [TESTING.md](TESTING.md) "Anonymized fixtures".
 
 ---
 

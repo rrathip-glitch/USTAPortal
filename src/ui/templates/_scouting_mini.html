@@ -1,0 +1,29 @@
+{# Mini scouting card. Expects: card = {player, player_id, singles_wtn, doubles_wtn, form} #}
+{% set p = card.player %}
+{% set wtn = card.singles_wtn %}
+<div class="scouting-mini">
+  <div class="name">
+    {% if p %}
+      <a href="/players/{{ p.usta_id }}">{{ p.full_name }}</a>
+    {% else %}
+      <span class="muted">Unknown player</span>
+    {% endif %}
+  </div>
+  <div class="wtn {{ 'tier-' ~ wtn_tier(wtn.value if wtn else None) }}">
+    {% if wtn %}{{ "%.1f"|format(wtn.value) }}{% else %}--{% endif %}
+  </div>
+  <div class="id-line">
+    {% if p %}{{ p.section or "Section TBD" }}{% if p.age_category %} &middot; {{ p.age_category }}{% endif %}
+    {% else %}<code>{{ card.player_id }}</code>{% endif %}
+  </div>
+  {% if card.form and card.form.recent_results %}
+    <div class="form-strip" aria-label="Recent form">
+      {% for r in card.form.recent_results[:5] %}
+        <span class="result-pill {{ 'win' if r.result == 'W' else ('loss' if r.result == 'L' else 'unknown') }}"
+              title="{{ r.score_raw or 'score TBD' }}">
+          {{ r.result if r.result != 'unknown' else '·' }}
+        </span>
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>

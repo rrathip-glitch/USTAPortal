@@ -21,6 +21,14 @@ class Settings(BaseSettings):
         default="",
         description="The primary user's USTA player ID. Captured during recon.",
     )
+    usta_source_preference: str = Field(
+        default="",
+        description=(
+            "Comma-separated source preference for src.fetch.router.FetchRouter; "
+            "empty falls back to the router's DEFAULT_SOURCE_PREFERENCE "
+            "('tennislink,clubspark'). See ADR-005."
+        ),
+    )
 
     database_url: str = Field(default="sqlite:///./data/db/usta.db")
     raw_cache_dir: Path = Field(default=Path("./data/raw"))

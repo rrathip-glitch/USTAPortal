@@ -37,6 +37,8 @@ Escalation: any time an agent encounters a question whose answer would meaningfu
 
 ## 4. Reconnaissance Phase
 
+**Pivot note (2026-05-10).** Live recon confirmed `playtennis.usta.com` (and the rest of the Clubspark edge) is Cloudflare-blocked at IP/ASN layer from every egress available to this dev environment; ADR-001 stands as Accepted (Strategy C) but the Clubspark data plane is deferred until the user re-runs recon from a residential egress (Q-011). In the meantime, `tennislink.usta.com` — the legacy ASP.NET surface — is reachable from this environment and becomes the **primary data source** for v1. The fetch layer was refactored into a multi-source design (`FetchRouter` with TennisLink and Clubspark drivers) captured in ADR-005; the rest of this section is the original recon charter, still applicable to whichever source we're attacking.
+
 Reconnaissance is mandatory before Phase 1 application code begins, beyond the lightweight stubs needed to prove the agent harness works. The reason is that the entire shape of the fetch and auth layers depends on facts about `playtennis.usta.com` that we do not know at the time of this draft, and guessing them produces a fetch layer that has to be rewritten the moment recon finishes. Phase 0, executed by Agent-Recon in a session that has access to working USTA credentials, produces `RECON.md`, fills the initial draft of `API_CONTRACTS.md`, and resolves ADR-001.
 
 The investigative surface, in priority order. The auth flow: is login a classical form POST that sets a session cookie, or is it OIDC against a federated identity provider (the USTA has historically used Okta and Auth0 in different surfaces), or is it a hybrid where a CMS-side cookie is exchanged for an API bearer token? What are the cookie names? Is there a CSRF token tied to the session, and where is it injected (meta tag, response header, hidden form input)? What is the refresh behavior — silent refresh on a timer, refresh on 401, or hard re-login? Does the auth surface expose multi-factor and, if so, can a session be persisted long enough that MFA is rare?
@@ -80,26 +82,34 @@ Two normalization rules pervade the schema. First, USTA ID is the primary key fo
 The architecture is a conventional layered design, described top-down. Each layer is a Python package under `usta_portal/` and depends only on the layer below it. The diagram below sketches the topology; the prose underneath explains the responsibilities and the orchestration sequence that ties the layers together at sync time.
 
 ```
-+---------------------------------------------------+
-|  UI            (FastAPI routes + Jinja2 templates) |
-+---------------------------------------------------+
-|  Enrichment    (h2h, form, strength-of-draw, elo)  |
-+---------------------------------------------------+
-|  Storage       (SQLite via repositories.py)        |
-+---------------------------------------------------+
-|  Parse         (entity-typed parsers; fixture-fed) |
-+---------------------------------------------------+
-|  Fetch         (rate-limited httpx + Playwright)   |
-+---------------------------------------------------+
-|  Auth          (session lifecycle, cookie jar)     |
-+---------------------------------------------------+
-|  Raw cache     (data/raw/<endpoint>/<hash>.<ext>)  |
-+---------------------------------------------------+
++------------------------------------------------------------+
+|  UI            (FastAPI routes + Jinja2 templates)         |
++------------------------------------------------------------+
+|  Enrichment    (h2h, form, strength-of-draw, elo)          |
++------------------------------------------------------------+
+|  Storage       (SQLite via repositories.py)                |
++------------------------------------------------------------+
+|  Parse         (entity-typed parsers; source-aware)        |
++------------------------------------------------------------+
+|  Fetch.Router  (FetchRouter — dispatches to a source)      |
+|     |-- TennisLinkClient  (primary today; ASP.NET HTML)    |
+|     `-- ClubsparkClient   (deferred stub — gated on Q-011) |
+|  Fetch.Client  (generic httpx: rate-limit, retry, cache)   |
++------------------------------------------------------------+
+|  Auth          (session lifecycle, cookie jar / Playwright)|
++------------------------------------------------------------+
+|  Raw cache     (data/raw/<two-hex>/<sha256-hex>.<ext>)     |
++------------------------------------------------------------+
 ```
 
-The **Auth** layer owns the session lifecycle: log in, persist the session (cookie jar plus any bearer token and expiry), refresh proactively, and surface `AuthExpiredError` cleanly to higher layers. Whether the layer drives Playwright or pure httpx depends on ADR-001. The auth state is a small finite-state machine (logged out, logging in, authenticated, refreshing, locked-out) with explicit transitions, so that retries and backoff have something concrete to interrogate.
+The **Auth** layer owns the session lifecycle: log in, persist the session (cookie jar plus any bearer token and expiry), refresh proactively, and surface `AuthExpiredError` cleanly to higher layers. Whether the layer drives Playwright or pure httpx depends on the source — TennisLink today is reachable with plain httpx (it sets `ASP.NET_SessionId` and an `AntiCsrfTokenTL` cookie that we replay), while Clubspark requires Playwright per ADR-001. The auth state is a small finite-state machine (logged out, logging in, authenticated, refreshing, locked-out) with explicit transitions, so that retries and backoff have something concrete to interrogate.
 
-The **Fetch** layer wraps a request signature into a function call: "fetch the draw for this draw ID" returns a parsed envelope, but under the hood it performs the HTTP call (httpx, Playwright, or both per ADR-001), writes the raw response to the raw cache, and returns the cache path along with the response. Fetch enforces rate limits with a token bucket — default one request per two seconds, jittered, and respecting `Retry-After` headers — and is the only layer that touches the network. In normal operation, the parse layer reads from cache; fetch is invoked only when a request signature is not cached or the cache entry is past its TTL.
+The **Fetch** layer is split into a generic transport (`FetchClient` in `src/fetch/client.py` — rate limit, retry/backoff, raw-cache writer, header redaction) and a multi-source router (`FetchRouter` in `src/fetch/router.py`). The router exposes the *entity-level* surface that the orchestrator calls: `get_player(id)`, `get_tournament(id)`, `get_draw(id)`. It dispatches to one of two source-specific clients per ADR-005:
+
+- `TennisLinkClient` (`src/fetch/tennislink_client.py`) — primary today. Talks to `tennislink.usta.com`, an ASP.NET WebForms surface that is *not* Cloudflare-fronted and is reachable from datacenter egress. Returns raw HTML; parsers in `src/parse/` typed-extract from it.
+- `ClubsparkClient` (`src/fetch/clubspark_client.py`) — deferred stub. The Strategy-C target from ADR-001; each method raises `NotImplementedError` until residential egress is available (Q-011). The router catches that exception, logs cleanly, and falls through to TennisLink.
+
+Source dispatch logic: the router honors a configured preference order (default `tennislink,clubspark`, overridable via `USTA_SOURCE_PREFERENCE`), with a heuristic exception — if the entity id is a Clubspark-shaped GUID (`8-4-4-4-12` hex) the router tries Clubspark first since the caller clearly has Clubspark data. On `BlockedEgressError` (Cloudflare 403 on Clubspark) or `NotImplementedError`, the router falls through to the next source; on any other error it propagates to the orchestrator. Rate limits live in the underlying `FetchClient` — default one request per two seconds, jittered, respecting `Retry-After`.
 
 The **Parse** layer turns raw responses into typed entities. Parsers are structured per endpoint and per entity, are pure functions of the raw input, and never perform IO. This is what enables the "reparse from cache" recovery story: after a parser bug fix, we run `usta-portal reparse` and rebuild the SQLite database from the existing raw cache without hitting the network. Parse errors are typed (`ParseError`, with `SchemaDriftError` as a subclass for the case where the response shape has shifted in a way that suggests USTA changed the page), so that the schema-drift canary in Section 9 can react meaningfully.
 
@@ -185,11 +195,16 @@ The `/health` endpoint returns 200 with a JSON payload `{status, db, last_sync}`
 
 A Dockerfile fallback is documented for the case where Nixpacks proves insufficient — typically when a system dependency we need is unavailable in Nixpacks' Nix package set. The fallback base is `mcr.microsoft.com/playwright/python:v1.48.0-jammy`, which ships with Chromium and all the runtime libraries already installed and tested by the Playwright maintainers; the only cost is image size, which is acceptable. Deploy command: `railway up` from the repo root.
 
+**Cloudflare egress risk (open).** The 2026-05-10 live recon found that this environment's GCP egress IP is on Cloudflare's datacenter blocklist for the Clubspark edge — every request to `playtennis.usta.com` returns 403 before any header or cookie is evaluated. Railway publishes its own pool of egress IPs that are also in datacenter ranges, so the same block likely applies to a Railway-hosted worker once we try to run the Clubspark side of the FetchRouter from there. This is tracked as a sub-question under Q-011: before the Phase 4 deploy, the user must confirm Railway egress reaches Clubspark, and if it does not, we either route Clubspark fetches through a small residential-egress relay (a tunnel running on the user's home network) or accept that Clubspark stays deferred until that relay exists. TennisLink — the primary source today — is *not* Cloudflare-fronted and is expected to work from Railway without any of this; this section only blocks the Clubspark plane, not v1 functionality. ADR-005 captures the dual-source design that makes this risk a graceful degradation rather than a deploy blocker.
+
 ## 13. Roadmap
 
-The phased plan, from now to a v1 the user can rely on. **Phase 0 — Recon.** Executed in a session with credentials. Produces ADR-001, fills `RECON.md` and the initial `API_CONTRACTS.md`. Gates Phase 1.
+The phased plan, from now to a v1 the user can rely on. **Phase 0 — Recon.** *Partially complete (2026-05-10).* Passive recon and a live recon attempt are filed in `RECON.md`; ADR-001 is Accepted as Strategy C with the residential-egress rider; ADR-005 splits the data plane into two sources. **What remains in Phase 0:** Q-011 — the user re-runs `scripts/live_recon.py` from a residential egress so we can capture real Clubspark GraphQL contracts and lift Clubspark out of "deferred". Until then, Phase 1 runs against TennisLink only.
 
-**Phase 1 — Core pipeline.** Auth (per ADR-001), fetch, parse for tournament/draw/player/match, repositories, sync CLI under Typer. The success criterion for Phase 1 is `usta-portal sync` against the user's account producing a populated SQLite database with at least one tournament, one draw, every entry, every player profile (with WTN), and every match.
+**Phase 1 — Core pipeline.** Split into two parallel tracks per ADR-005.
+
+- **Phase 1a — TennisLink track (in flight).** `TennisLinkClient` in `src/fetch/tennislink_client.py`, parsers for the legacy ASP.NET pages, the multi-source `FetchRouter`, sync CLI under Typer wired to the router. This is the path that produces v1 data today. The success criterion is `usta sync` against the user's account, via TennisLink, producing a populated SQLite database with at least one tournament, one draw, every entry, every player profile (with WTN where TennisLink exposes it), and every match.
+- **Phase 1b — Clubspark track (gated on Q-011).** Once a residential recon captures real GraphQL contracts: implement `ClubsparkClient` against the Playwright-resident BrowserContext (Strategy C, ADR-001), parsers for the GraphQL payloads, and lift the `NotImplementedError` stubs. The router already prefers Clubspark for GUID-shaped ids, so the day-1 wiring is a single-file swap.
 
 **Phase 2 — Intelligence.** Head-to-head, form windows, strength-of-draw, the Elo-style expected-outcome rating, opponent scouting cards as data structures (UI to follow).
 

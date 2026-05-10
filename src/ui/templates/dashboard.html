@@ -1,38 +1,113 @@
 {% extends "base.html" %}
 {% block title %}USTA Portal &middot; Dashboard{% endblock %}
 {% block content %}
+
+{% if user %}
+  <section class="hero">
+    <p class="eyebrow">Dashboard &middot; {{ user.full_name }}</p>
+    {% if next_tournament %}
+      <h1>
+        Next tournament:
+        <a href="/tournaments/{{ next_tournament.usta_id }}">{{ next_tournament.name }}</a>
+      </h1>
+      <div class="hero-meta">
+        <span>{{ next_tournament.start_date or "Dates TBD" }}
+          {% if next_tournament.end_date and next_tournament.end_date != next_tournament.start_date %}
+            &ndash; {{ next_tournament.end_date }}
+          {% endif %}
+        </span>
+        {% if next_tournament.location_city or next_tournament.location_state %}
+          <span>{{ next_tournament.location_city or "" }}{% if next_tournament.location_state %}, {{ next_tournament.location_state }}{% endif %}</span>
+        {% endif %}
+        {% if next_tournament.level %}<span>Level {{ next_tournament.level }}</span>{% endif %}
+        {% if next_tournament.surface and next_tournament.surface != "unknown" %}<span>{{ next_tournament.surface|capitalize }}</span>{% endif %}
+      </div>
+      {% if countdown is not none %}
+        <div class="countdown">
+          <span class="num">
+            {% if countdown == 0 %}today
+            {% elif countdown == 1 %}1
+            {% elif countdown > 0 %}{{ countdown }}
+            {% else %}{{ -countdown }}
+            {% endif %}
+          </span>
+          <span class="label">
+            {% if countdown == 0 %}starting today
+            {% elif countdown == 1 %}day to go
+            {% elif countdown > 0 %}days to go
+            {% else %}days ago
+            {% endif %}
+          </span>
+        </div>
+      {% endif %}
+    {% else %}
+      <h1>No upcoming tournaments</h1>
+      <p class="hero-meta">Run a sync to discover what's next.</p>
+    {% endif %}
+  </section>
+
+  <section class="stat-strip">
+    <div class="stat tier-{{ wtn_tier(singles_wtn.value if singles_wtn else None) }}">
+      <div class="label">Singles WTN</div>
+      <div class="value">{% if singles_wtn %}{{ "%.1f"|format(singles_wtn.value) }}{% else %}--{% endif %}</div>
+      <div class="sub">{% if singles_wtn %}as of {{ singles_wtn.as_of }}{% else %}no snapshot{% endif %}</div>
+    </div>
+    <div class="stat tier-{{ wtn_tier(doubles_wtn.value if doubles_wtn else None) }}">
+      <div class="label">Doubles WTN</div>
+      <div class="value">{% if doubles_wtn %}{{ "%.1f"|format(doubles_wtn.value) }}{% else %}--{% endif %}</div>
+      <div class="sub">{% if doubles_wtn %}as of {{ doubles_wtn.as_of }}{% else %}no snapshot{% endif %}</div>
+    </div>
+    <div class="stat">
+      <div class="label">Sectional</div>
+      <div class="value">
+        {% if sectional_ranking and sectional_ranking.position %}#{{ sectional_ranking.position }}{% else %}--{% endif %}
+      </div>
+      <div class="sub">
+        {% if sectional_ranking %}{{ sectional_ranking.category }}{% else %}no ranking{% endif %}
+      </div>
+    </div>
+    <div class="stat">
+      <div class="label">Last 8</div>
+      <div class="value">{{ format_record(form.wins, form.losses) if form else "--" }}</div>
+      <div class="sub">
+        {% if form and form.current_streak[1] > 0 %}
+          {{ form.current_streak[1] }}-{{ form.current_streak[0]|lower }} streak
+        {% else %}
+          recent record
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
+  {% if next_opponent_card %}
+    <section class="card">
+      <h2>Projected R1 opponent</h2>
+      {% set card = next_opponent_card %}
+      {% include "_scouting_mini.html" %}
+    </section>
+  {% endif %}
+
+  {% if recent_tournaments %}
+    <section class="card">
+      <h2>Recent tournaments</h2>
+      {% for t in recent_tournaments %}
+        <a class="draw-card" href="/tournaments/{{ t.usta_id }}">
+          <div class="name">{{ t.name }}</div>
+          <div class="meta">
+            {{ t.start_date or "?" }}
+            {% if t.location_city %} &middot; {{ t.location_city }}{% if t.location_state %}, {{ t.location_state }}{% endif %}{% endif %}
+            {% if t.level %} &middot; Level {{ t.level }}{% endif %}
+          </div>
+        </a>
+      {% endfor %}
+    </section>
+  {% endif %}
+{% else %}
   <section class="page-header">
     <h1>Dashboard</h1>
     <p class="subtitle">Pre-tournament briefing and sync freshness at a glance.</p>
   </section>
+  {% include "_empty.html" with context %}
+{% endif %}
 
-  {% if next_tournament %}
-    <section class="card">
-      <h2>Next tournament</h2>
-      <h3>
-        <a href="/tournaments/{{ next_tournament.usta_id }}">{{ next_tournament.name }}</a>
-      </h3>
-      <dl class="kv">
-        <dt>Starts</dt><dd>{{ next_tournament.start_date or "TBD" }}</dd>
-        <dt>Level</dt><dd>{{ next_tournament.level or "?" }}</dd>
-        <dt>Location</dt>
-        <dd>
-          {{ next_tournament.location_city or "?" }},
-          {{ next_tournament.location_state or "?" }}
-        </dd>
-      </dl>
-    </section>
-  {% else %}
-    {% include "_empty.html" with context %}
-  {% endif %}
-
-  <section class="card">
-    <h2>Quick links</h2>
-    <ul class="quick-links">
-      <li><a href="/tournaments">All tournaments</a></li>
-      <li><a href="/sync">Run sync</a></li>
-      <li><a href="/health">/health</a></li>
-      <li><a href="/docs">/docs (FastAPI)</a></li>
-    </ul>
-  </section>
 {% endblock %}

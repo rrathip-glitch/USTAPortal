@@ -3,40 +3,115 @@
 {% block content %}
   <section class="page-header">
     <h1>{{ player.full_name if player else "Player not found" }}</h1>
+    {% if player %}
+      <p class="subtitle">
+        {{ player.age_category or "Age TBD" }}
+        {% if player.section %} &middot; {{ player.section }}{% endif %}
+        {% if player.district %} &middot; {{ player.district }}{% endif %}
+      </p>
+    {% endif %}
   </section>
 
   {% if not player %}
     {% include "_empty.html" with context %}
   {% else %}
-    <section class="card scouting-card">
-      <h2>Scouting card</h2>
-      <dl class="kv">
-        <dt>USTA ID</dt><dd><code>{{ player.usta_id }}</code></dd>
-        <dt>Section</dt><dd>{{ player.section or "?" }}</dd>
-        <dt>District</dt><dd>{{ player.district or "?" }}</dd>
-        <dt>Age category</dt><dd>{{ player.age_category or "?" }}</dd>
-        <dt>Singles WTN</dt>
-        <dd>{{ singles_wtn.value if singles_wtn else "—" }}</dd>
-        <dt>Doubles WTN</dt>
-        <dd>{{ doubles_wtn.value if doubles_wtn else "—" }}</dd>
-      </dl>
+
+    <section class="stat-strip">
+      <div class="stat tier-{{ wtn_tier(singles_wtn.value if singles_wtn else None) }}">
+        <div class="label">Singles WTN</div>
+        <div class="value">{% if singles_wtn %}{{ "%.1f"|format(singles_wtn.value) }}{% else %}--{% endif %}</div>
+        <div class="sub">{% if singles_wtn %}as of {{ singles_wtn.as_of }}{% else %}no snapshot{% endif %}</div>
+      </div>
+      <div class="stat tier-{{ wtn_tier(doubles_wtn.value if doubles_wtn else None) }}">
+        <div class="label">Doubles WTN</div>
+        <div class="value">{% if doubles_wtn %}{{ "%.1f"|format(doubles_wtn.value) }}{% else %}--{% endif %}</div>
+        <div class="sub">{% if doubles_wtn %}as of {{ doubles_wtn.as_of }}{% else %}no snapshot{% endif %}</div>
+      </div>
+      <div class="stat">
+        <div class="label">Last 8</div>
+        <div class="value">{{ format_record(form.wins, form.losses) if form else "--" }}</div>
+        <div class="sub">
+          {% if form and form.current_streak[1] > 0 %}
+            {{ form.current_streak[1] }}-{{ form.current_streak[0]|lower }} streak
+          {% else %}recent record{% endif %}
+        </div>
+      </div>
+      <div class="stat">
+        <div class="label">USTA ID</div>
+        <div class="value" style="font-size:0.9rem;font-weight:500;"><code>{{ player.usta_id }}</code></div>
+        <div class="sub">
+          {% if user and h2h_total > 0 and user.usta_id != player.usta_id %}
+            <a href="/h2h/{{ user.usta_id }}/{{ player.usta_id }}">H2H: {{ h2h_total }} prior</a>
+          {% else %}
+            primary key
+          {% endif %}
+        </div>
+      </div>
     </section>
 
-    <section class="card">
-      <h2>Recent matches</h2>
-      {% if matches %}
+    {% if form and form.recent_results %}
+      <section class="card">
+        <h2>Recent form (last 8)</h2>
+        <div class="form-strip">
+          {% for r in form.recent_results %}
+            <span class="result-pill {{ 'win' if r.result == 'W' else ('loss' if r.result == 'L' else 'unknown') }}"
+                  title="{{ r.score_raw or 'score TBD' }}">
+              {{ r.result if r.result != 'unknown' else '·' }}<span class="score">{{ r.score_raw or '' }}</span>
+            </span>
+          {% endfor %}
+        </div>
+      </section>
+    {% endif %}
+
+    {% if ranking_history %}
+      <section class="card">
+        <h2>Ranking trajectory</h2>
+        {% for entry in ranking_history %}
+          <div style="margin-bottom:0.5rem;">
+            <div class="meta" style="font-weight:600;color:var(--fg-soft);">{{ entry.category }}</div>
+            <div class="form-strip" style="gap:0.4rem;">
+              {% for s in entry.snapshots %}
+                <span class="chip outline" title="{{ s.as_of }}">
+                  #{{ s.position or "?" }}
+                </span>
+              {% endfor %}
+            </div>
+          </div>
+        {% endfor %}
+      </section>
+    {% endif %}
+
+    {% if matches %}
+      <section class="card">
+        <h2>Match history ({{ matches|length }})</h2>
         <ul class="match-list">
           {% for m in matches %}
+            {% set opp_id = m.player_b_id if m.player_a_id == player.usta_id else m.player_a_id %}
+            {% set opp = opponents_by_id.get(opp_id) %}
+            {% set won = m.winner_id == player.usta_id %}
+            {% set lost = m.winner_id is not none and m.winner_id != player.usta_id %}
             <li>
-              <span class="round">{{ m.round or "?" }}</span>
-              vs <a href="/players/{{ m.player_b_id if m.player_a_id == player.usta_id else m.player_a_id }}">opponent</a>
-              <span class="score">{{ m.score_raw or "score TBD" }}</span>
+              <span class="round">{{ m.round or "--" }}</span>
+              <span class="opp">
+                {% if opp %}
+                  <a href="/players/{{ opp.usta_id }}">{{ opp.full_name }}</a>
+                {% elif opp_id %}
+                  <a href="/players/{{ opp_id }}"><code>{{ opp_id }}</code></a>
+                {% else %}
+                  <span class="muted">opponent TBD</span>
+                {% endif %}
+              </span>
+              <span class="marker {{ 'win' if won else ('loss' if lost else '') }}">
+                {% if won %}W{% elif lost %}L{% else %}--{% endif %}
+              </span>
+              <span class="score meta-line">
+                {{ m.score_raw or "score TBD" }}
+                {% if m.scheduled_at %} &middot; {{ m.scheduled_at.date() }}{% endif %}
+              </span>
             </li>
           {% endfor %}
         </ul>
-      {% else %}
-        <p class="muted">No match history synced yet.</p>
-      {% endif %}
-    </section>
+      </section>
+    {% endif %}
   {% endif %}
 {% endblock %}

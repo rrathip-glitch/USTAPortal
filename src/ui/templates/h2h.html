@@ -2,33 +2,65 @@
 {% block title %}USTA Portal &middot; H2H{% endblock %}
 {% block content %}
   <section class="page-header">
-    <h1>Head-to-head</h1>
-    <p class="subtitle">
+    <p class="breadcrumb">Head-to-head</p>
+    <h1>
       <a href="/players/{{ player_a_id }}">{{ player_a.full_name if player_a else player_a_id }}</a>
-      vs.
+      <span class="muted">vs.</span>
       <a href="/players/{{ player_b_id }}">{{ player_b.full_name if player_b else player_b_id }}</a>
-    </p>
+    </h1>
+  </section>
+
+  <section class="card">
+    <h2>Overall record</h2>
+    <div class="h2h-score">
+      <div class="side">
+        <div class="num">{{ wins_a }}</div>
+        <div class="name">{{ player_a.full_name if player_a else player_a_id }}</div>
+      </div>
+      <div class="dash">&ndash;</div>
+      <div class="side">
+        <div class="num">{{ wins_b }}</div>
+        <div class="name">{{ player_b.full_name if player_b else player_b_id }}</div>
+      </div>
+    </div>
+    {% if streak_length > 0 %}
+      <p class="meta" style="text-align:center;margin-top:0.4rem;">
+        Current streak:
+        <strong>
+          {{ (player_a.full_name if player_a else player_a_id) if streak_kind == "a" else (player_b.full_name if player_b else player_b_id) }}
+        </strong>
+        has won the last {{ streak_length }}.
+      </p>
+    {% endif %}
   </section>
 
   {% if not matches %}
     {% include "_empty.html" with context %}
   {% else %}
     <section class="card">
-      <h2>Record</h2>
-      <p class="h2h-summary">
-        <strong>{{ wins_a }}</strong> &ndash; <strong>{{ wins_b }}</strong>
-        <span class="muted">({{ matches|length }} prior meetings)</span>
-      </p>
-    </section>
-
-    <section class="card">
-      <h2>All meetings</h2>
+      <h2>All meetings ({{ matches|length }})</h2>
       <ul class="match-list">
         {% for m in matches %}
+          {% set a_won = m.winner_id == player_a_id %}
+          {% set b_won = m.winner_id == player_b_id %}
           <li>
-            <span class="round">{{ m.round or "?" }}</span>
-            <span class="score">{{ m.score_raw or "score TBD" }}</span>
-            <span class="meta">winner: {{ m.winner_id or "?" }}</span>
+            <span class="round">{{ m.round or "--" }}</span>
+            <span class="opp">
+              {% if a_won %}
+                <strong>{{ player_a.full_name if player_a else player_a_id }}</strong> def. {{ player_b.full_name if player_b else player_b_id }}
+              {% elif b_won %}
+                <strong>{{ player_b.full_name if player_b else player_b_id }}</strong> def. {{ player_a.full_name if player_a else player_a_id }}
+              {% else %}
+                <span class="muted">winner TBD</span>
+              {% endif %}
+            </span>
+            <span class="marker {{ 'win' if a_won else ('loss' if b_won else '') }}">
+              {% if a_won %}A{% elif b_won %}B{% else %}--{% endif %}
+            </span>
+            <span class="score meta-line">
+              {{ m.score_raw or "score TBD" }}
+              {% if m.scheduled_at %} &middot; {{ m.scheduled_at.date() }}{% endif %}
+            </span>
           </li>
         {% endfor %}
       </ul>

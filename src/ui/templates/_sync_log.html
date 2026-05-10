@@ -1,0 +1,17 @@
+<div id="sync-log-block">
+  {% if status_message %}
+    <p class="status-message">{{ status_message }}</p>
+  {% endif %}
+  <p class="meta" style="margin:0.6rem 0;">
+    Last sync: <strong>{{ last_sync_full }}</strong>
+    {% if duration_label %} &middot; duration: <strong>{{ duration_label }}</strong>{% endif %}
+  </p>
+  <div class="sync-log" aria-live="polite">
+    {% if sync_log %}
+      {% for line in sync_log %}{{ line }}
+{% endfor %}
+    {% else %}
+      <span class="empty">No sync activity recorded yet.</span>
+    {% endif %}
+  </div>
+</div>

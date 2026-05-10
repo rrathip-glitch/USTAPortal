@@ -68,6 +68,13 @@ plugins = ["pydantic.mypy"]
 module = ["playwright.*"]
 ignore_missing_imports = true
 
+# src.fetch.tennislink_client is authored by a sibling agent and may not have
+# landed at any given moment. The router imports it lazily and tolerates the
+# absence at runtime; tell mypy to do the same.
+[[tool.mypy.overrides]]
+module = ["src.fetch.tennislink_client"]
+ignore_missing_imports = true
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 asyncio_mode = "auto"

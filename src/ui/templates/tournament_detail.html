@@ -4,40 +4,46 @@
   <section class="page-header">
     <p class="breadcrumb"><a href="/tournaments">Tournaments</a> /</p>
     <h1>{{ tournament.name if tournament else "Tournament not found" }}</h1>
+    {% if tournament %}
+      <p class="subtitle">
+        {{ tournament.start_date or "?" }}
+        {% if tournament.end_date and tournament.end_date != tournament.start_date %} &ndash; {{ tournament.end_date }}{% endif %}
+        {% if tournament.location_city or tournament.location_state %}
+          &middot; {{ tournament.location_city or "" }}{% if tournament.location_state %}, {{ tournament.location_state }}{% endif %}
+        {% endif %}
+      </p>
+    {% endif %}
   </section>
 
   {% if not tournament %}
     {% include "_empty.html" with context %}
   {% else %}
     <section class="card">
-      <h2>Details</h2>
-      <dl class="kv">
-        <dt>USTA ID</dt><dd><code>{{ tournament.usta_id }}</code></dd>
-        <dt>Level</dt><dd>{{ tournament.level or "?" }}</dd>
-        <dt>Sanction</dt><dd>{{ tournament.sanction_body or "?" }}</dd>
-        <dt>Dates</dt>
-        <dd>{{ tournament.start_date or "?" }} &ndash; {{ tournament.end_date or "?" }}</dd>
-        <dt>Location</dt>
-        <dd>
-          {{ tournament.location_city or "?" }},
-          {{ tournament.location_state or "?" }}
-        </dd>
-        <dt>Surface</dt><dd>{{ tournament.surface or "unknown" }}</dd>
-        <dt>Status</dt><dd>{{ tournament.status or "?" }}</dd>
-      </dl>
+      <div class="badge-row" style="display:flex;gap:0.35rem;flex-wrap:wrap;">
+        {% if tournament.level %}<span class="chip outline">Level {{ tournament.level }}</span>{% endif %}
+        {% if tournament.surface and tournament.surface != "unknown" %}<span class="chip outline">{{ tournament.surface|capitalize }}</span>{% endif %}
+        {% if tournament.ball %}<span class="chip outline">{{ tournament.ball }}</span>{% endif %}
+        {% if tournament.sanction_body %}<span class="chip outline">{{ tournament.sanction_body }}</span>{% endif %}
+        <span class="chip {% if tournament.status == 'in_progress' %}amber{% elif tournament.status == 'completed' %}outline{% endif %}">
+          {{ tournament.status|replace("_", " ") }}
+        </span>
+      </div>
     </section>
 
     <section class="card">
-      <h2>Draws</h2>
+      <h2>Draws ({{ draws|length }})</h2>
       {% if draws %}
-        <ul class="draw-list">
-          {% for d in draws %}
-            <li>
-              <a href="/draws/{{ d.usta_id }}">{{ d.name }}</a>
-              <span class="meta">{{ d.format }} &middot; size {{ d.size or "?" }}</span>
-            </li>
-          {% endfor %}
-        </ul>
+        {% for d in draws %}
+          <a class="draw-card" href="/draws/{{ d.usta_id }}">
+            <div class="name">{{ d.name }}</div>
+            <div class="meta">
+              {{ d.format|replace("_", " ") }}
+              {% if d.size %} &middot; {{ d.size }}-player{% endif %}
+              {% if d.age_group %} &middot; {{ d.age_group }}{% endif %}
+              {% if d.gender %} &middot; {{ d.gender }}{% endif %}
+            </div>
+          </a>
+        {% endfor %}
       {% else %}
         <p class="muted">No draws have been synced for this tournament yet.</p>
       {% endif %}

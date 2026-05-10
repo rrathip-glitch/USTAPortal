@@ -9,30 +9,89 @@
       </p>
     {% endif %}
     <h1>{{ draw.name if draw else "Draw not found" }}</h1>
+    {% if draw %}
+      <p class="subtitle">
+        {{ draw.format|replace("_", " ") }}
+        {% if draw.size %} &middot; {{ draw.size }}-player{% endif %}
+        {% if user_entry %}
+          &middot; your position: {{ user_entry.position or "?" }}{% if user_entry.seed %} (seed [{{ user_entry.seed }}]){% endif %}
+        {% endif %}
+      </p>
+    {% endif %}
   </section>
 
   {% if not draw %}
     {% include "_empty.html" with context %}
   {% else %}
-    <section class="card">
-      <h2>Bracket</h2>
-      <div class="bracket-placeholder">
-        <p class="muted">
-          Bracket rendering arrives once the parser produces match relationships.
-          For now, see the entries list below.
-        </p>
-      </div>
-    </section>
+
+    {% if user_entry and path_cards %}
+      <section class="card">
+        <h2>Your path</h2>
+        <div class="bracket">
+          {% set rounds = ["R1", "R2", "R3", "R4", "QF", "SF", "F"] %}
+          {% for card in path_cards %}
+            <div class="round">
+              <div class="round-label">{{ rounds[loop.index0] if loop.index0 < rounds|length else "Round " ~ loop.index }}</div>
+              {% if card.player %}
+                <div class="opp-name">
+                  <a href="/players/{{ card.player.usta_id }}">{{ card.player.full_name }}</a>
+                </div>
+                <div class="opp-wtn">
+                  {% if card.singles_wtn %}
+                    <span class="tier-{{ wtn_tier(card.singles_wtn.value) }}">
+                      WTN {{ "%.1f"|format(card.singles_wtn.value) }}
+                    </span>
+                  {% else %}
+                    <span class="muted">unrated</span>
+                  {% endif %}
+                </div>
+                {% if card.form and card.form.recent_results %}
+                  <div class="form-strip" style="margin-top:0.3rem;">
+                    {% for r in card.form.recent_results[:5] %}
+                      <span class="result-pill {{ 'win' if r.result == 'W' else ('loss' if r.result == 'L' else 'unknown') }}">{{ r.result if r.result != 'unknown' else '·' }}</span>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+              {% else %}
+                <div class="opp-name muted">Unknown opponent</div>
+                <div class="opp-wtn"><code>{{ card.player_id }}</code></div>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+        {% if sod and sod.average_opponent_rating %}
+          <p class="meta" style="margin-top:0.6rem;">
+            Field average WTN: {{ "%.1f"|format(sod.average_opponent_rating) }}
+            {% if sod.field_min_rating %} &middot; toughest in field: {{ "%.1f"|format(sod.field_min_rating) }}{% endif %}
+            &middot; {{ sod.field_size }} entries
+          </p>
+        {% endif %}
+      </section>
+    {% endif %}
 
     <section class="card">
       <h2>Entries ({{ entries|length }})</h2>
       {% if entries %}
         <ol class="entries">
           {% for e in entries %}
+            {% set p = players_by_id.get(e.player_id) %}
+            {% set wtn = wtn_by_id.get(e.player_id) %}
             <li>
-              {% if e.seed %}<span class="seed">[{{ e.seed }}]</span>{% endif %}
-              <a href="/players/{{ e.player_id }}">{{ e.player_id }}</a>
-              <span class="meta">pos {{ e.position or "?" }} &middot; {{ e.status }}</span>
+              <span class="seed {{ 'empty' if not e.seed else '' }}">{% if e.seed %}{{ e.seed }}{% else %}--{% endif %}</span>
+              <span class="pname {{ 'you' if user and e.player_id == user.usta_id else '' }}">
+                {% if p %}
+                  <a href="/players/{{ p.usta_id }}">{{ p.full_name }}</a>
+                {% else %}
+                  <a href="/players/{{ e.player_id }}"><code>{{ e.player_id }}</code></a>
+                {% endif %}
+                {% if e.status and e.status != 'entered' %}
+                  <span class="chip outline" style="margin-left:0.4rem;">{{ e.status|replace("_", " ") }}</span>
+                {% endif %}
+              </span>
+              <span class="wtn-cell tier-{{ wtn_tier(wtn.value if wtn else None) }}">
+                {% if wtn %}{{ "%.1f"|format(wtn.value) }}{% else %}--{% endif %}
+              </span>
+              <span class="pos-cell">pos {{ e.position or "?" }}</span>
             </li>
           {% endfor %}
         </ol>

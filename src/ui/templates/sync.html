@@ -3,25 +3,21 @@
 {% block content %}
   <section class="page-header">
     <h1>Sync</h1>
-    <p class="subtitle">Pull fresh data from the USTA portal into the local DB.</p>
+    <p class="subtitle">Pull fresh data from the USTA portal into the local database.</p>
+  </section>
+
+  <section class="card">
+    <h2>Trigger</h2>
+    <form hx-post="/sync" hx-target="#sync-log-block" hx-swap="outerHTML" method="post" action="/sync">
+      <button type="submit" class="button primary">Run sync now</button>
+      <span class="meta" style="margin-left:0.6rem;">
+        Single-writer; safe to retry. The fetch worker is the placeholder for now.
+      </span>
+    </form>
   </section>
 
   <section class="card">
     <h2>Status</h2>
-    <p>Last sync: <strong>{{ last_sync_label }}</strong></p>
-    {% if status_message %}
-      <p class="status-message">{{ status_message }}</p>
-    {% endif %}
-  </section>
-
-  <section class="card">
-    <h2>Trigger sync</h2>
-    <form method="post" action="/sync">
-      <button type="submit" class="button primary">Run sync now</button>
-    </form>
-    <p class="muted">
-      Sync is queued and runs in the background. The page will refresh with
-      progress once the worker process is wired up.
-    </p>
+    {% include "_sync_log.html" %}
   </section>
 {% endblock %}
