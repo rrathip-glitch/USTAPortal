@@ -1,16 +1,21 @@
-snapshot: 2026-05-10T20:30:00Z
+snapshot: 2026-05-10T20:40:00Z
 
 # STATE.md — live project status
 
 ## Phase
 
-**Phase 1 (Core pipeline) — usable end-to-end on seeded data.** The portal renders Janav's dashboard, tournaments list, draw detail, and scouting cards against a realistic seed grounded in Tennis Recruiting Network + CoreTennis public profile harvest. The fetch layer is multi-source (`FetchRouter`): TennisLink primary (reachable), Clubspark deferred (Cloudflare-blocked at IP/ASN level — Q-011). The Clubspark client is a stub that raises `NotImplementedError` until residential egress lands.
+**Phase 1 (Core pipeline) — usable end-to-end on seeded data.** The portal renders Janav's dashboard, tournaments list, draw detail (with expected-outcome probability bars), and scouting cards. The fetch layer is multi-source (`FetchRouter`) with TennisLink httpx-client + parsers complete and Clubspark stubbed. Sync runs are persisted in a v2-schema `sync_runs` table; the `/sync` UI shows recent runs and the latest log. 258 tests passing, 1 skipped (Playwright manual).
 
-**Phase 0 (Reconnaissance) — partial.** Passive + live-recon evidence is captured; ADR-001 filed Accepted as Strategy C; ADR-005 filed Accepted (multi-source TennisLink-primary). Clubspark data-plane capture remains gated on residential egress, which the user has waived as a requirement — the project will operate on TennisLink + seeded data indefinitely unless that constraint is revisited.
+**Phase 0 (Reconnaissance) — partial, with two material findings that reshape the strategy:**
+
+1. **TennisLink stopped accepting new tournament records in late 2018.** Confirmed by the TennisLink parsers agent: post-2018 searches return "No tournaments results found"; only pre-2019 ranking snapshots and historical match records are available. TennisLink is therefore a *historical* secondary source, not a current data source. Janav (class of 2032, Boys' 12s) doesn't appear in TennisLink — he would have been 4-5 years old in 2018, before he started competing.
+2. **Janav's real USTA ID is recovered: `971BA48D-A2EA-4FB7-8305-F42EA466F6DF`** — a Clubspark GUID surfaced via WebSearch on an indexed playtennis.usta.com tournament page. The seeded Player row now uses this real ID as its primary key, so when residential egress to Clubspark is eventually available, the seeded row and the GraphQL response align without a remapping step.
+
+**Net data-source reality.** Current-season tournament discovery and live draws live only on Clubspark, which is Cloudflare-blocked from every egress this project can reach. The dashboard runs on the realistic seeded dataset (Janav's real identity + synthetic opponents/draws anchored to real TriTennis tournament names). The architecture is forward-compatible: when residential egress arrives, the Clubspark client stops raising `NotImplementedError`, the sync orchestrator picks up real responses, and the synthetic surrounds get overwritten.
 
 ## Active workstreams
 
-_None at session start. The 5-agent pivot wave landed at commit `d7a8147`. Follow-up wave queued: TennisLink parser implementation, expected-outcome enrichment, sync-log persistence._
+_None at session start. The follow-up wave landed at commit `6e10bca`; the real-USTA-ID anchoring + strategic-doc realignment is the current Orchestrator-led work, not a subagent task._
 
 ## Recently completed
 

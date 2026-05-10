@@ -657,12 +657,11 @@ class _TyperEchoTee:
             buffer.write(str(message))
             buffer.write("\n")
 
-        typer.echo = _tee  # type: ignore[assignment]
+        typer.echo = _tee
         return self
 
-    def __exit__(self, *exc: object) -> bool:
-        typer.echo = self._original  # type: ignore[assignment]
-        return False
+    def __exit__(self, *exc: object) -> None:
+        typer.echo = self._original
 
 
 if __name__ == "__main__":

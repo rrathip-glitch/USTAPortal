@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pytest
 
-from src.parse.tennislink_rankings import parse_ranking_list
+from src.parse.tennislink_rankings import ParseError, parse_ranking_list
 
 FIXTURES = Path(__file__).resolve().parent.parent / "fixtures" / "tennislink"
 
@@ -56,3 +56,17 @@ def test_parse_ranking_list_scope_is_sectional(ranking_list_html: str) -> None:
 
     snapshots = parse_ranking_list(ranking_list_html)
     assert snapshots[0].scope == "sectional"
+
+
+# --- edge cases --------------------------------------------------------------
+
+
+def test_parse_ranking_list_empty_html_raises_parse_error() -> None:
+    with pytest.raises(ParseError):
+        parse_ranking_list("")
+
+
+def test_parse_ranking_list_wrong_page_raises_parse_error() -> None:
+    bogus = "<html><body><h1>Different site</h1></body></html>"
+    with pytest.raises(ParseError):
+        parse_ranking_list(bogus)

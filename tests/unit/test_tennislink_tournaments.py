@@ -13,6 +13,7 @@ from pathlib import Path
 import pytest
 
 from src.parse.tennislink_tournaments import (
+    ParseError,
     parse_tournament_detail,
     parse_tournament_search_results,
 )
@@ -87,3 +88,34 @@ def test_parse_detail_extracts_draws(detail_html: str) -> None:
     # Genders are inferred from event labels.
     genders = {d.gender for d in draws}
     assert "M" in genders and "F" in genders
+
+
+# --- edge cases --------------------------------------------------------------
+
+
+def test_search_results_empty_html_raises_parse_error() -> None:
+    with pytest.raises(ParseError):
+        parse_tournament_search_results("")
+
+
+def test_search_results_wrong_page_raises_parse_error() -> None:
+    """A non-TennisLink page must raise ParseError, not silently return [].
+
+    The "wrong page" canary distinguishes "we navigated somewhere
+    unexpected" from "the search returned no rows" — the former is a bug,
+    the latter is normal.
+    """
+    bogus = "<html><body><h1>Some other site</h1><p>Hello world.</p></body></html>"
+    with pytest.raises(ParseError):
+        parse_tournament_search_results(bogus)
+
+
+def test_detail_empty_html_raises_parse_error() -> None:
+    with pytest.raises(ParseError):
+        parse_tournament_detail("")
+
+
+def test_detail_wrong_page_raises_parse_error() -> None:
+    bogus = "<html><body><p>Just some random page.</p></body></html>"
+    with pytest.raises(ParseError):
+        parse_tournament_detail(bogus)

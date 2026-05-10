@@ -15,6 +15,9 @@ from datetime import date
 from bs4 import BeautifulSoup, Tag
 
 from src.models.ranking import RankingSnapshot
+from src.parse.players import ParseError
+
+__all__ = ["ParseError", "parse_ranking_list"]
 
 # Header text shape: "*B14 2019 GA Standings (Combined)"
 # Where:
@@ -42,8 +45,19 @@ def parse_ranking_list(html: str) -> list[RankingSnapshot]:
     parseable, ``as_of`` falls back to today.
     """
 
+    if not html or not html.strip():
+        raise ParseError("empty HTML passed to parse_ranking_list")
+
     soup = BeautifulSoup(html, "lxml")
     out: list[RankingSnapshot] = []
+
+    grid = soup.find("table", id="grdMain")
+    body_text = soup.get_text(" ", strip=True)
+    if grid is None and "Ranking List" not in body_text:
+        raise ParseError(
+            "ranking_list: missing grdMain table AND no 'Ranking List' "
+            "marker; not a TennisLink ranking-list page"
+        )
 
     title = _extract_title(soup)
     parsed_header = HEADER_RE.search(title) if title else None

@@ -2,10 +2,12 @@
 
 Goal: produce a believable junior-tennis season that lets the FastAPI
 dashboard render meaningful pages today — before the real-fetch pipeline
-clears Cloudflare. Every entity is stamped with a clearly synthetic ID
-prefix (``JANAV-SYNTHETIC-``, ``OPP-SYNTHETIC-``, ``T-SYNTH-``, etc.) and
-a ``synthetic://janav-portal/...`` profile URL so this data is never
-mistaken for a real USTA fetch.
+clears Cloudflare. Janav's own player row uses his REAL Clubspark USTA ID
+(``971BA48D-A2EA-4FB7-8305-F42EA466F6DF``, recovered via WebSearch on
+2026-05-10); everything else (opponents, tournaments, draws, matches) is
+stamped with synthetic ID prefixes (``OPP-SYNTHETIC-``, ``T-SYNTH-``,
+``D-SYNTH-``, ``M-SYNTH-``) so the demo data can never be confused with
+a real USTA fetch.
 
 What seeded data is grounded in?
 - The player record uses confirmed facts harvested from public sources
@@ -59,13 +61,23 @@ from src.store.repositories import (
 # Constants — anchored to data/research/janav-discovery.md
 # ---------------------------------------------------------------------------
 
-JANAV_USTA_ID = "JANAV-SYNTHETIC-001"
+# Janav's USTA ID is the Clubspark GUID recovered via WebSearch on 2026-05-10
+# from an indexed playtennis.usta.com tournament page. The profile body
+# itself is Cloudflare-blocked from every egress this project can reach,
+# but the GUID is canonical — so seeding with the real ID means that when
+# residential egress eventually unblocks Clubspark, the row's primary key
+# already aligns with what the GraphQL surface returns. Everything ELSE
+# about Janav (record, opponents, draw context) is still grounded in the
+# Tennis Recruiting Network + CoreTennis harvest plus synthetic gap-fill.
+JANAV_USTA_ID = "971BA48D-A2EA-4FB7-8305-F42EA466F6DF"
 JANAV_FULL_NAME = "Janav Thasen"
 JANAV_SECTION = "Florida"  # HIGH-confidence inference from Weston FL hometown.
 JANAV_AGE_CATEGORY = "Boys' 12s"  # Corrected from spec's 16s guess; he's class of 2032.
 JANAV_DISTRICT = "Broward"  # plausible for a Weston, FL player.
 
-SYNTHETIC_PROFILE = f"synthetic://janav-portal/player/{JANAV_USTA_ID}"
+# Real Clubspark profile URL pattern, even though the body 403s today.
+JANAV_PROFILE_URL = f"https://playtennis.usta.com/profiles/{JANAV_USTA_ID}"
+SYNTHETIC_PROFILE = JANAV_PROFILE_URL
 
 DISCOVERY_PATH = Path(__file__).resolve().parents[1] / "data" / "research" / "janav-discovery.md"
 
@@ -139,7 +151,7 @@ def _build_opponents() -> list[Player]:
                 section="Florida",
                 district="Broward",
                 age_category="Boys' 12s",
-                profile_url=f"synthetic://janav-portal/player/{sid}",
+                profile_url=f"synthetic://opponent/{sid}",
                 last_fetched_at=_now(),
             )
         )

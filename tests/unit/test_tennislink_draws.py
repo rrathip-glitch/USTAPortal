@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from src.parse.tennislink_draws import parse_draw
+from src.parse.tennislink_draws import ParseError, parse_draw
 
 FIXTURES = Path(__file__).resolve().parent.parent / "fixtures" / "tennislink"
 
@@ -72,3 +72,17 @@ def test_parse_draw_handles_tiebreak_scores(draw_html: str) -> None:
         assert any(
             s.tiebreak_a is not None or s.tiebreak_b is not None for s in m.sets
         )
+
+
+# --- edge cases --------------------------------------------------------------
+
+
+def test_parse_draw_empty_html_raises_parse_error() -> None:
+    with pytest.raises(ParseError):
+        parse_draw("")
+
+
+def test_parse_draw_wrong_page_raises_parse_error() -> None:
+    bogus = "<html><body><h1>Some other page</h1></body></html>"
+    with pytest.raises(ParseError):
+        parse_draw(bogus)

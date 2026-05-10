@@ -754,7 +754,8 @@ def _spawn_sync_subprocess() -> str:
     """
     cmd = [sys.executable, "-m", "src.cli.main", "sync"]
     try:
-        subprocess.Popen(  # noqa: S603 - inputs are static, not user-supplied
+        # Inputs are static, not user-supplied — safe to spawn directly.
+        subprocess.Popen(
             cmd,
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL,

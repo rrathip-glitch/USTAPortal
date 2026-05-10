@@ -166,7 +166,7 @@ def _read_sync_runs(db_path: Path) -> list[tuple[str, str, int, int, int, int]]:
         ).fetchall()
     finally:
         conn.close()
-    return [tuple(r) for r in rows]  # type: ignore[misc]
+    return [(r[0], r[1], r[2], r[3], r[4], r[5]) for r in rows]
 
 
 def test_sync_records_a_run_row(

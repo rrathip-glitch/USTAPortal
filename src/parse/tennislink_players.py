@@ -44,7 +44,25 @@ def parse_player_profile(html: str) -> Player:
     ranking list before persisting.
     """
 
+    if not html or not html.strip():
+        raise ParseError("empty HTML passed to parse_player_profile")
+
     soup = BeautifulSoup(html, "lxml")
+
+    body_text = soup.get_text(" ", strip=True)
+    # A genuine TennisLink player history page has either the form action
+    # with MID= or the page-title text "Player Results".
+    page_form = soup.find("form")
+    has_mid_action = (
+        isinstance(page_form, Tag)
+        and isinstance(page_form.get("action", ""), str)
+        and "MID=" in (page_form.get("action", "") or "")
+    )
+    if not has_mid_action and "Player Results" not in body_text and "Player Tournament History" not in body_text:
+        raise ParseError(
+            "player_profile: missing MID-bearing form action AND no "
+            "'Player Results' marker; not a TennisLink player page"
+        )
 
     mid = "0"
     form = soup.find("form")
@@ -76,11 +94,25 @@ def parse_player_search_results(html: str) -> list[Player]:
     surface — useful for "find player named X in section Y" workflows.
     """
 
+    if not html or not html.strip():
+        raise ParseError("empty HTML passed to parse_player_search_results")
+
     soup = BeautifulSoup(html, "lxml")
     out: list[Player] = []
 
     grid = soup.find("table", id="grdMain")
     if grid is None or not isinstance(grid, Tag):
+        # If the page isn't even a TennisLink-shaped grid page, surface that.
+        body_text = soup.get_text(" ", strip=True)
+        if (
+            "RankingHome.aspx" not in (str(soup) or "")
+            and "Ranking List" not in body_text
+            and "Player Record" not in body_text
+        ):
+            raise ParseError(
+                "player_search_results: no grdMain ranking grid AND page "
+                "does not look like a TennisLink rankings/player surface"
+            )
         return out
 
     rows = grid.find_all("tr")

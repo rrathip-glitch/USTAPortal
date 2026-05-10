@@ -14,6 +14,7 @@ from pathlib import Path
 import pytest
 
 from src.parse.tennislink_players import (
+    ParseError,
     parse_player_profile,
     parse_player_search_results,
 )
@@ -71,3 +72,28 @@ def test_parse_player_search_carries_section(ranking_list_html: str) -> None:
     assert sections, "expected at least one row to carry a section value"
     # The fixture is a GA standings list, so Southern dominates the top.
     assert "Southern" in sections
+
+
+# --- edge cases --------------------------------------------------------------
+
+
+def test_parse_player_profile_empty_html_raises_parse_error() -> None:
+    with pytest.raises(ParseError):
+        parse_player_profile("")
+
+
+def test_parse_player_profile_wrong_page_raises_parse_error() -> None:
+    bogus = "<html><body><h1>Different site</h1></body></html>"
+    with pytest.raises(ParseError):
+        parse_player_profile(bogus)
+
+
+def test_parse_player_search_empty_html_raises_parse_error() -> None:
+    with pytest.raises(ParseError):
+        parse_player_search_results("")
+
+
+def test_parse_player_search_wrong_page_raises_parse_error() -> None:
+    bogus = "<html><body><h1>Different site</h1></body></html>"
+    with pytest.raises(ParseError):
+        parse_player_search_results(bogus)

@@ -26,9 +26,20 @@ from src.models.player import Player
 from src.store.repositories import PlayerRepository
 
 # Synthetic-data prefixes are the seeder's contract with the UI: any player ID
-# starting with one of these is a fixture, not real USTA data. The footer
-# badge surfaces this so a viewer never confuses a demo run with reality.
-SYNTHETIC_PREFIXES: tuple[str, ...] = ("JANAV-SYNTHETIC", "OPP-SYNTHETIC")
+# starting with one of these is a fixture, not real USTA data. Janav's own
+# player row is keyed by his real Clubspark GUID (recovered via WebSearch on
+# 2026-05-10) so the row's primary key already aligns with what residential
+# Clubspark egress would return; everything *around* him (opponents, draws,
+# matches) is still synthetic until real Clubspark data is reachable.
+# The footer badge surfaces this so a viewer never confuses a demo run with
+# reality.
+SYNTHETIC_PREFIXES: tuple[str, ...] = (
+    "OPP-SYNTHETIC",
+    "T-SYNTH",
+    "D-SYNTH",
+    "M-SYNTH",
+)
+JANAV_REAL_USTA_ID = "971BA48D-A2EA-4FB7-8305-F42EA466F6DF"
 
 WtnTier = Literal["elite", "strong", "club", "developing", "unrated"]
 
@@ -71,8 +82,7 @@ def resolve_user_player(conn: sqlite3.Connection, configured_id: str) -> Player 
     Precedence:
 
     1. ``USTA_USER_PLAYER_ID`` from settings, if it resolves to a real row.
-    2. The first synthetic-Janav player, by ``JANAV-SYNTHETIC`` prefix
-       lexicographic order. This is the fallback the seeded dev DB hits.
+    2. Janav's real Clubspark GUID — the canonical seeded fallback.
     3. ``None`` — the dashboard then renders its empty state.
     """
     repo = PlayerRepository(conn)
@@ -81,13 +91,7 @@ def resolve_user_player(conn: sqlite3.Connection, configured_id: str) -> Player 
         if hit is not None:
             return hit
 
-    row = conn.execute(
-        "SELECT usta_id FROM players WHERE usta_id LIKE 'JANAV-SYNTHETIC%' "
-        "ORDER BY usta_id LIMIT 1"
-    ).fetchone()
-    if row is None:
-        return None
-    return repo.get(row[0])
+    return repo.get(JANAV_REAL_USTA_ID)
 
 
 def db_has_synthetic_data(conn: sqlite3.Connection) -> bool:

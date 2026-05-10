@@ -83,6 +83,24 @@ These are append-only — every observation is a new row, so we can plot traject
 
 **Demo-dataset note.** `scripts/seed_dev_data.py` emits WTN values for the dev player and opponents so the UI is demoable today. Those values are **synthetic placeholders pending residential recon of `worldtennisnumber.com`** — the host is Cloudflare-blocked from every datacenter egress this project has access to, so real WTN payloads have not yet been captured. Once Q-011 resolves and a live capture lands, the seeder is updated to reflect realistic ranges, and any code paths that key off WTN should not assume the demo values match production scales.
 
+## Operational entities
+
+These entities are not part of the tournament-data domain; they record what the data plane itself did. The `/sync` UI page and `usta sync-log` CLI both read this table.
+
+### SyncRun
+
+One row per invocation of `usta sync` or the `/sync` POST handler. Created with `status='running'` at the start of the run; finalized with the terminal status, counts, and the captured log when the run completes (success or failure).
+
+- `id` — autoincrement primary key.
+- `started_at`, `finished_at` — ISO-8601 strings; `finished_at` is null while the row is in `running` state.
+- `source` — `tennislink` | `clubspark` | `multi`. Mirrors the `FetchRouter` source taxonomy; `multi` is recorded when the configured source preference contains more than one source.
+- `status` — `running` | `ok` | `partial` | `failed`. `partial` means the run completed but reported one or more errored entities; `failed` means an unhandled exception aborted the run.
+- `fetched_count`, `parsed_count`, `persisted_count`, `errored_count` — counters mirrored from the orchestrator's `SyncSummary`.
+- `error_summary` — top-level error message when `status='failed'`; null otherwise.
+- `log_text` — multi-line capture of `typer.echo` output and the loguru sink during the run. Rendered in the `/sync` UI inside a scrollable `<pre>` panel; the table is bounded only by SQLite's TEXT column limit, so callers should keep individual log captures reasonable.
+
+The `SyncRunRepository` commits per write (unlike the entity repositories, which let the caller batch). Operational rows are infrequent and a row should be durable as soon as it exists, so the per-call commit is intentional.
+
 ## Derived entities
 
 These are computed on the fly from primary/snapshot entities. They are not persisted unless caching is required for performance (it isn't, at v1's data volume).

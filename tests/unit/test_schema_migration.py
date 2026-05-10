@@ -12,7 +12,6 @@ from pathlib import Path
 
 from src.store.db import SCHEMA_VERSION, init_schema
 
-
 # A snapshot of the v1 ``SCHEMA_SQL`` — kept here verbatim so the migration
 # test exercises the exact pre-v2 shape regardless of how the live module
 # evolves. If you find yourself updating this constant in lockstep with the

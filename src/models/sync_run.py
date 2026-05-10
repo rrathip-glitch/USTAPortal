@@ -27,7 +27,6 @@ from typing import Literal
 
 from pydantic import BaseModel, Field
 
-
 SyncRunSource = Literal["tennislink", "clubspark", "multi"]
 SyncRunStatus = Literal["running", "ok", "partial", "failed"]
 

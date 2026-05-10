@@ -334,13 +334,26 @@ def _parse_location_from_detail(soup: BeautifulSoup) -> tuple[str | None, str | 
 
     # The address is rendered as e.g. "2575 Sportsplex Drive<br>Coral Springs, FL 33065"
     # inside the more_info section. We find any <td> that contains a two-letter
-    # state code preceded by a comma and a 5-digit ZIP after it.
-    addr_re = re.compile(r"([A-Za-z][A-Za-z .'\-]+),\s+([A-Z]{2})\s+\d{5}")
+    # state code preceded by a comma and a 5-digit ZIP after it. Pick the
+    # final word-run before the comma so we don't smuggle the street into the
+    # city slot.
+    addr_re = re.compile(
+        r"\b([A-Za-z][A-Za-z .'\-]{1,40}),\s+([A-Z]{2})\s+\d{5}"
+    )
     for td in soup.find_all("td"):
-        text = td.get_text(separator=" ", strip=True)
-        m = addr_re.search(text)
-        if m:
-            return m.group(1).strip(), m.group(2)
+        text = td.get_text(separator="\n", strip=True)
+        for line in text.splitlines():
+            m = addr_re.search(line)
+            if m is not None:
+                # Strip leading street-number/road-name remnants — keep
+                # only the trailing run of word tokens before the comma.
+                city = m.group(1).strip()
+                # If multiple commas in the matched group, take the part
+                # after the last comma as the "city".
+                tokens = [t.strip() for t in city.split(",") if t.strip()]
+                if tokens:
+                    city = tokens[-1]
+                return city, m.group(2)
     return None, None
 
 

@@ -83,7 +83,10 @@ def test_seed_persists_janav_profile() -> None:
         assert janav.section == "Florida"
         assert janav.age_category == "Boys' 12s"
         assert janav.profile_url is not None
-        assert janav.profile_url.startswith("synthetic://")
+        # Janav's player row uses his real Clubspark profile URL (the row's
+        # primary key is his real USTA GUID), so it aligns with what
+        # residential Clubspark egress would return.
+        assert janav.profile_url == f"https://playtennis.usta.com/profiles/{JANAV_USTA_ID}"
         assert janav.last_fetched_at is not None
     finally:
         conn.close()
