@@ -1,0 +1,40 @@
+# Nixpacks build for FastAPI + Playwright Chromium.
+# Mirrors prior Railway deploys: Python 3.11, Chromium system deps, post-install
+# pulls the Chromium browser bundle so Playwright can launch in production.
+
+providers = ["python"]
+
+[phases.setup]
+nixPkgs = [
+  "python311",
+  "gcc",
+  "chromium",
+  "nss",
+  "atk",
+  "at-spi2-atk",
+  "cups",
+  "libdrm",
+  "libxkbcommon",
+  "libXcomposite",
+  "libXdamage",
+  "libXfixes",
+  "libXrandr",
+  "mesa",
+  "pango",
+  "cairo",
+  "alsa-lib",
+]
+
+[phases.install]
+cmds = [
+  "python -m venv /opt/venv",
+  ". /opt/venv/bin/activate && pip install --upgrade pip",
+  ". /opt/venv/bin/activate && pip install -e .",
+  ". /opt/venv/bin/activate && playwright install chromium",
+]
+
+[phases.build]
+cmds = ["echo build phase complete"]
+
+[start]
+cmd = ". /opt/venv/bin/activate && uvicorn src.main:app --host 0.0.0.0 --port $PORT"
