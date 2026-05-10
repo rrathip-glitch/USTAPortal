@@ -65,5 +65,11 @@ playwright-report/
 test-results/
 .playwright/
 
+# Recon session state — contains live auth tokens and cookies
+data/recon/*/storage_state.json
+data/recon/*/network.jsonl
+data/recon/*/dom/
+data/recon/*/gql/
+
 # Railway
 .railway/

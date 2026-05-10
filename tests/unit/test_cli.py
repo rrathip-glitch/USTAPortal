@@ -49,9 +49,9 @@ def _reload_settings(monkeypatch: pytest.MonkeyPatch, **env: str) -> None:
     """Apply env vars and reload the modules that read them at import time."""
     for k, v in env.items():
         monkeypatch.setenv(k, v)
+    import src.cli.main as cli_main
     import src.config
     import src.store.db
-    import src.cli.main as cli_main
 
     importlib.reload(src.config)
     importlib.reload(src.store.db)

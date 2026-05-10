@@ -16,6 +16,16 @@ Append-only. New ADRs go at the bottom. Status changes happen in place but the o
 
 **Decision.** Pending recon. Research strongly suggests Strategy A is viable because the underlying surface is Clubspark GraphQL, which is a well-behaved JSON API and not an HTML SPA. Recon validates by attempting a direct httpx call with captured cookies.
 
+**Pre-recon evidence (2026-05-10, passive only — not sufficient to flip status).** Anonymous probes against the relevant hosts (see RECON.md "Findings (passive recon, 2026-05-10)") produced two facts that materially shift the leaning:
+
+1. **The Clubspark hosts (`playtennis.usta.com`, `prod-us-kube.clubspark.io`, `prd-itf-kube.clubspark.pro`, `worldtennisnumber.com`) are uniformly fronted by Cloudflare with TLS/JA3 fingerprint enforcement.** Both curl (OpenSSL) and Python `urllib` receive HTTP 403 + Cloudflare interstitials on every probe — including `robots.txt`, which proves the rule is unconditional on path. This is fingerprint-level blocking, not header- or cookie-level. Implication: **naive Strategy A (stock httpx with replayed cookies) will not work** — even with a valid Auth0 bearer token in hand, the TLS handshake itself will be rejected. Strategy A is only viable if augmented with `curl_cffi` (Chrome JA3 impersonation), making it effectively "Strategy A-prime: TLS-impersonating httpx."
+
+2. **The auth surface is OIDC via Auth0** (issuer `https://account.usta.com/`, confirmed by `account.usta.com/.well-known/openid-configuration` returning a JSON document containing the unmistakable `http://auth0.com/oauth/grant-type/...` vendor URIs). Implication: login is browser-driven Universal Login, not a form POST we can replicate. Playwright is required for the login dance regardless of which fetch strategy we pick — meaning Strategy A and Strategy C both rely on Playwright for auth and differ only in whether bulk fetches go through the browser context (C) or through a TLS-impersonating httpx client warmed with the Playwright-captured token (A-prime).
+
+The leading post-passive-recon expectation is therefore **either Strategy A-prime (Playwright login → `curl_cffi` httpx with bearer token) or Strategy C (Playwright everywhere)**, with the choice between them gated on whether `curl_cffi` actually clears the Cloudflare check once it carries a real bearer token. We will not know until authenticated recon runs. Strategy A in its naive httpx form is effectively eliminated. Strategy B (Playwright-only without any httpx) remains a fallback if `curl_cffi` also fails.
+
+**Status remains Proposed**; this entry documents the strengthened expectation only. The decision is filed once `scripts/recon_session.py` produces evidence of an actual bearer-replay attempt against the GraphQL endpoint.
+
 **Consequences.** TBD per resolution.
 
 ---
