@@ -17,8 +17,11 @@ Each named agent has a charter file in `.claude/agents/` that scopes its tools a
 | parser | `.claude/agents/parser.md` | one parser module + tests + fixture | After ADR-001, per entity |
 | enrich | `.claude/agents/enrich.md` | one enrichment module + tests | Phase 2, per metric |
 | ui | `.claude/agents/ui.md` | one route + template + test | Phase 3, per page |
+| tennislink | (charter deferred) | TennisLink parsers, TennisLink sync wiring, Janav profile sync from legacy surface | Phase 1.5 wave; primary live data plane while Clubspark is blocked |
+| rearchitect | (charter deferred) | SPEC.md and DECISIONS.md edits when scope changes warrant it | When a wave's evidence demands updates to canonical strategy docs |
+| docs-clean | (charter deferred) | Alignment passes across README, RUNBOOK, TESTING, TODO, AGENTS, DATA_MODEL, QUESTIONS, CHANGELOG | After multi-agent waves leave drift between the code and the docs |
 
-Agents NOT named here should not exist. If a workstream doesn't fit, the Orchestrator first proposes a new charter (a new file in `.claude/agents/`) before spawning.
+The bottom three rows are agents that have emerged in practice during the multi-wave development cycle but do not yet have formal charter files in `.claude/agents/`. Their scopes are constrained by the prompts the Orchestrator dispatches them with rather than a checked-in charter; the formal charter files are deferred until each role stabilizes. Agents not in this table — formal or de-facto — should not exist. If a workstream doesn't fit any row, the Orchestrator first proposes a new charter (a new file in `.claude/agents/`, or a new row here for an emerging role) before spawning.
 
 ## Coordination protocol
 

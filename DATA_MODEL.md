@@ -81,6 +81,8 @@ These are append-only — every observation is a new row, so we can plot traject
 - `confidence` — 0-1; recon to confirm field name and scale. If WTN exposes a "rating reliability" indicator, that goes here.
 - `as_of` — the date stamped on the WTN datum.
 
+**Demo-dataset note.** `scripts/seed_dev_data.py` emits WTN values for the dev player and opponents so the UI is demoable today. Those values are **synthetic placeholders pending residential recon of `worldtennisnumber.com`** — the host is Cloudflare-blocked from every datacenter egress this project has access to, so real WTN payloads have not yet been captured. Once Q-011 resolves and a live capture lands, the seeder is updated to reflect realistic ranges, and any code paths that key off WTN should not assume the demo values match production scales.
+
 ## Derived entities
 
 These are computed on the fly from primary/snapshot entities. They are not persisted unless caching is required for performance (it isn't, at v1's data volume).
@@ -88,6 +90,8 @@ These are computed on the fly from primary/snapshot entities. They are not persi
 ### HeadToHead
 
 Inputs: `(player_a, player_b)`. Output: list of matches both played each other, aggregate record, last match summary, per-surface split.
+
+**Walkover / default handling.** Matches with `outcome` of `walkover` or `default` are included in the returned `match_list` (they're part of the two players' history) but only contribute to the win/loss aggregate **when `winner_id` is set on the match**. A walkover or default that USTA recorded without a definitive winner appears in the list for completeness but does not move the aggregate record either way. Retirements always have a winner (per the score parser's invariants in `src/parse/matches.py`) and always count.
 
 ### FormWindow
 
