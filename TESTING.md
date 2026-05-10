@@ -50,6 +50,12 @@ Score parsing is small but tricky. Properties to assert:
 
 `hypothesis` strategies for these live in `tests/strategies.py` (to land with the score parser).
 
+## Mock-data testing
+
+`scripts/seed_dev_data.py` is the canonical way to populate a fresh local database with a realistic Janav-themed dataset without ever hitting the USTA site. The seeder writes synthetic players, a tournament with at least one draw, draw entries, completed and scheduled matches, ranking snapshots, and synthetic WTN snapshots (the last are placeholders pending residential recon — see DATA_MODEL.md WTN note). Every seeded row has an id prefix `dev-` so it can never collide with real fetched data.
+
+UI integration tests use the seeded dataset directly: a test that exercises `/`, `/tournaments`, `/draws/{id}`, or the scouting-card pages can call `init_schema` followed by `scripts.seed_dev_data.main()` in a fixture, then drive the FastAPI test client against the resulting state. This keeps UI tests fully offline, deterministic, and independent of the live fetch layer — the same reason fixture-based parser tests are deterministic. When schema fields land or change in `DATA_MODEL.md`, the seeder is updated in lockstep so the demo path keeps reflecting what the UI will see in production.
+
 ## Anonymized fixtures
 
 Recon and live sync produce raw responses with real player names, IDs, and other PII. Before any fixture is committed:
