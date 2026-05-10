@@ -70,4 +70,44 @@ The leading post-passive-recon expectation is therefore **either Strategy A-prim
 
 ---
 
+## ADR-005 — Multi-source fetch with TennisLink primary, Clubspark deferred
+
+**Status:** Accepted (2026-05-10).
+
+**Context.** ADR-001 (Accepted, Strategy C) committed the project to Playwright-resident Clubspark fetches *if* an egress that Cloudflare doesn't block were available. Live recon on 2026-05-10 (`data/recon/2026-05-10-live/host_reachability.json`) confirmed that this environment's GCP egress and any datacenter-range egress we can reasonably reach from a CI agent or a Railway worker is uniformly Cloudflare-403'd on every Clubspark host (`playtennis.usta.com`, `prod-us-kube.clubspark.io`, `prd-itf-kube.clubspark.pro`, `worldtennisnumber.com`). The user re-running `scripts/live_recon.py` from a residential egress (Q-011) is the unblock for Clubspark, but that gate is not closed today and v1 cannot ship behind it. Simultaneously, the same recon found that **`tennislink.usta.com`** — the legacy ASP.NET WebForms surface — is reachable from this environment (200 OK, sets `ASP.NET_SessionId` + `AntiCsrfTokenTL`) and serves enough of the data model (tournaments, draws, matches, players) to power v1 in the meantime. The architectural question this ADR answers: how do we structure the fetch layer so that v1 ships on TennisLink today *and* lights up Clubspark automatically once Q-011 resolves, without a second rewrite?
+
+**Options.**
+
+- **TennisLink only.** Build the fetch layer around a single TennisLink driver, treat Clubspark as out of scope. Pro: simplest. Con: throws away the strategy C design and forces a second rewrite when Clubspark unblocks. Con: TennisLink is the *legacy* surface — fields that exist only on Clubspark (notably WTN in its full shape, doubles WTN, real-time draw updates) are lost.
+- **Wait for residential egress.** Block all of Phase 1 on Q-011. Pro: ships against the higher-fidelity source first. Con: indefinite wait, no actual product output until the user runs recon from their laptop.
+- **Dual-source via FetchRouter.** Build a router (`src/fetch/router.py`) that exposes the entity-level surface (`get_player`, `get_tournament`, `get_draw`) and dispatches to TennisLink or Clubspark based on a configurable preference order and the shape of the entity id. TennisLink lands today, Clubspark lands as a stub that raises `NotImplementedError`. Router catches the deferred error (and a new `BlockedEgressError` for Cloudflare-style refusals) and falls through to the next source.
+
+**Decision.** Option 3 — dual-source via FetchRouter.
+
+**Rationale.**
+
+1. **Ships v1 today.** TennisLink is the primary surface, the orchestrator is wired end-to-end against the router, and parsers can land independently on each source. No work is gated on Q-011 except the Clubspark-specific entity coverage.
+2. **No rewrite when Clubspark unblocks.** The router already prefers Clubspark for GUID-shaped ids and falls through cleanly when the stub fires. Replacing the stub with the real `BrowserContext`-driven client is a single-file swap; the orchestrator, parsers, and storage layer don't move.
+3. **Graceful degradation.** If Clubspark works for some entities and not others (e.g., the live recon succeeds for tournaments but fails for the WTN sub-call), the router falls through per-call rather than per-source. The user always gets the best data the environment can produce.
+4. **Honest about provenance.** Source attribution survives into the raw cache — every cache entry already carries the request URL, which encodes the source — so when both sources cover the same entity we can compare them and prefer the higher-fidelity one in the parse layer.
+
+**Implementation surface.**
+
+- `src/fetch/client.py` — unchanged. The generic httpx transport (rate limit, retry, cache, redaction). Used by `TennisLinkClient` and, in future, by any HTTP plane that doesn't need Playwright.
+- `src/fetch/tennislink_client.py` — owned by the TennisLink subagent. Interface: `search_tournaments`, `get_tournament`, `get_draw`, `get_player`, `close`. Returns raw HTML/JSON bodies.
+- `src/fetch/clubspark_client.py` — stub. Same interface, every method raises `NotImplementedError` pointing at ADR-001 and Q-011.
+- `src/fetch/router.py` — `FetchRouter` with the dispatch logic above and a new `BlockedEgressError` for fallthrough.
+- `src/fetch/__init__.py` — exports `FetchClient`, `FetchRouter`, `BlockedEgressError`, and the existing exception types.
+- `src/cli/main.py` — `usta sync` and `usta sync-loop` instantiate the router, walk player → tournaments → draws → matches, and produce a coherent summary even when parsers are not yet wired.
+
+**Consequences.**
+
+- Pro: v1 ships against the TennisLink data model today. No infinite wait for residential recon.
+- Pro: when the user runs recon from their laptop and Clubspark unblocks, lighting it up is one ADR (closing Q-011) and one client implementation — no orchestrator, parser, or storage churn.
+- Pro: the same router handles the Railway egress question (SPEC §12). If Railway's egress is also Cloudflare-blocked on the Clubspark plane, the deploy still works — Clubspark falls through, TennisLink runs.
+- Con: the parse layer has to be source-aware for any entity covered by both sources. Mitigated by the parsers being pure functions of the raw body — the source tag is just another input.
+- Con: two sources means two surfaces of schema drift. The schema-drift canary (SPEC §9) needs to fire per source. Out of scope for this ADR but a documented follow-on.
+
+---
+
 > _Future ADRs land below as they're filed._

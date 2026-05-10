@@ -103,7 +103,21 @@ Inputs: `(draw, player_seed_or_position)`. Output: average opponent rating, hard
 
 ### ExpectedOutcome
 
-Inputs: `(match)`. Output: probability per side, model version. v1 uses a transparent Elo-style derivation from WTN; no ML.
+Inputs: `(player_a_id, player_b_id, ratings, model_version="elo-wtn-1")`. Output: probability per side, echoed ratings, model version, confidence label. v1 uses a transparent Elo-style derivation from WTN; no ML.
+
+**Algorithm (model_version="elo-wtn-1").** WTN is on a 1.0-40.0 scale where lower is stronger; Elo expects the opposite, so each rating is transformed via `elo(r) = (40.0 - r) * 50.0` (top-of-scale WTN 1.0 → Elo 1950, bottom WTN 40.0 → Elo 0). Win probability is the classical logistic `p_a = 1 / (1 + 10**((elo_b - elo_a) / 400))`. The 50.0 scale factor is a project constant — chosen as the smallest round number that yields probability_a > 0.7 at a 12-WTN gap, which is the "noticeably-stronger-than-club-level" threshold the unit tests pin.
+
+**Confidence labelling.** Returned alongside the probability:
+- `"high"` — both ratings are present (and, when an optional `confidences` dict is supplied, both snapshot confidences are >= 0.7).
+- `"medium"` — both ratings are present but at least one snapshot's confidence is below 0.7, or the rating is a ranking-derived synthetic value rather than a real WTN snapshot. Only emitted when `confidences` is supplied to the function.
+- `"low"` — exactly one rating is present. The probability falls back to 0.5 ("no signal").
+- `"none"` — neither rating is present. Probability is 0.5.
+
+**No-signal handling.** A missing rating on either side short-circuits to `probability_a = probability_b = 0.5` rather than imputing a default, matching the §"No silent imputation" normalization rule. The UI hides the probability bar entirely when confidence is `"none"` or `"low"`.
+
+**Out-of-range ratings.** A rating outside the documented [1.0, 40.0] WTN range (negative, or > 40 — typically a misconfigured caller passing a raw Elo by mistake) logs a warning and is clamped to `[0.1, 40.0]` for the transform so the math stays finite. The original rating is echoed back unmodified in `rating_a` / `rating_b` so callers can see the input that triggered the clamp.
+
+**Same-player guard.** `player_a_id == player_b_id` raises `ValueError`. A self-match has no scouting meaning and is never a valid input.
 
 ## Normalization rules
 

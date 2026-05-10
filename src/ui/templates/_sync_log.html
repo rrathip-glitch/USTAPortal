@@ -6,10 +6,15 @@
     Last sync: <strong>{{ last_sync_full }}</strong>
     {% if duration_label %} &middot; duration: <strong>{{ duration_label }}</strong>{% endif %}
   </p>
-  <div class="sync-log" aria-live="polite">
+  {% if latest_run and latest_run.error_summary %}
+    <p class="status-message status-error">
+      Error: {{ latest_run.error_summary }}
+    </p>
+  {% endif %}
+  <div class="sync-log" aria-live="polite" style="max-height:24rem; overflow:auto;">
     {% if sync_log %}
-      {% for line in sync_log %}{{ line }}
-{% endfor %}
+      <pre>{% for line in sync_log %}{{ line }}
+{% endfor %}</pre>
     {% else %}
       <span class="empty">No sync activity recorded yet.</span>
     {% endif %}

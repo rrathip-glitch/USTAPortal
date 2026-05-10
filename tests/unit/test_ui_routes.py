@@ -82,12 +82,78 @@ def test_sync_get_renders() -> None:
     assert "Sync" in response.text
 
 
-def test_sync_post_returns_acknowledgement() -> None:
+def test_sync_post_returns_acknowledgement(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    # Don't actually shell out to a sync subprocess in the smoke test —
+    # patch ``_spawn_sync_subprocess`` to a no-op that returns a marker.
+    from src.ui import app as ui_app
+
+    monkeypatch.setattr(
+        ui_app, "_spawn_sync_subprocess", lambda: "Sync queued (test stub)."
+    )
     response = client.post("/sync")
     assert response.status_code == 200
-    # Either the placeholder banner or the log line that the worker appended.
     text_lower = response.text.lower()
     assert "sync" in text_lower and ("queued" in text_lower or "acknowledged" in text_lower)
+
+
+def test_sync_get_renders_no_runs_message_when_empty(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """An empty sync_runs table renders the friendly 'No sync runs yet' string."""
+    db_file = tmp_path / "empty.db"
+    db_url = f"sqlite:///{db_file}"
+
+    from src import config as config_module
+
+    monkeypatch.setattr(config_module.settings, "database_url", db_url)
+
+    response = client.get("/sync")
+    assert response.status_code == 200
+    assert "No sync runs yet" in response.text
+
+
+def test_sync_get_renders_last_sync_when_run_exists(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Inserting a finished row makes the GET render the 'Last sync' summary."""
+    db_file = tmp_path / "with_run.db"
+    db_url = f"sqlite:///{db_file}"
+
+    from src import config as config_module
+
+    monkeypatch.setattr(config_module.settings, "database_url", db_url)
+
+    # Stand up the schema and insert one finished run.
+    from src.store.db import connect, init_schema
+    from src.store.repositories import SyncRunRepository
+
+    conn = connect()
+    try:
+        init_schema(conn)
+        repo = SyncRunRepository(conn)
+        run_id = repo.start(source="tennislink")
+        repo.finish(
+            run_id=run_id,
+            status="ok",
+            fetched=2,
+            parsed=2,
+            persisted=2,
+            errored=0,
+            error_summary=None,
+            log_text="syncing tournaments...\n  scope: all tournaments",
+        )
+    finally:
+        conn.close()
+
+    response = client.get("/sync")
+    assert response.status_code == 200
+    body = response.text
+    assert "Last sync:" in body
+    assert "ok" in body
+    # The captured log line should appear in the rendered <pre> block.
+    assert "syncing tournaments" in body
 
 
 def test_static_css_served() -> None:
@@ -113,10 +179,10 @@ def seeded_db(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Iterator[Path]
     db_url = f"sqlite:///{db_file}"
 
     from src import config as config_module
-    from src.store import db as db_module
 
+    # ``src.store.db`` imports ``settings`` by name from ``src.config`` at
+    # module load. Patching the shared object reaches both call sites.
     monkeypatch.setattr(config_module.settings, "database_url", db_url)
-    monkeypatch.setattr(db_module.settings, "database_url", db_url)
 
     # Seed via the script the other agent owns. If seeding fails (the script
     # is mid-rewrite, etc.), skip rather than fail — this test is a contract
@@ -165,9 +231,41 @@ def test_dashboard_contains_seeded_janav_and_next_tournament(seeded_db: Path) ->
     response = client.get("/")
     assert response.status_code == 200
     body = response.text
-    # The dashboard surfaces the user's name in the hero eyebrow and the
-    # next-tournament name as the heading link target.
-    assert player_name in body, f"expected player name {player_name!r} on dashboard"
-    assert next_tourney[1] in body, (
+    # Jinja autoescapes HTML-significant characters in template output
+    # (apostrophes -> &#39;, etc.). Normalise the body to plain text via
+    # MarkupSafe's unescape so the smoke check stays readable.
+    from markupsafe import Markup
+
+    normalised = Markup(body).unescape()
+    assert player_name in normalised, (
+        f"expected player name {player_name!r} on dashboard"
+    )
+    assert next_tourney[1] in normalised, (
         f"expected tournament name {next_tourney[1]!r} on dashboard"
     )
+
+    # Drill into a Boys 12 Singles draw the seeder always produces and assert
+    # that the projected-path expected-outcome wiring renders at least one
+    # probability percentage. This is the smoke check for the
+    # `expected_outcomes_along_path(...)` integration into /draws/{id}.
+    import re
+
+    conn = sqlite3.connect(seeded_db)
+    try:
+        draw_row = conn.execute(
+            "SELECT usta_id FROM draws WHERE name LIKE '%Boys 12 Singles%' LIMIT 1"
+        ).fetchone()
+    finally:
+        conn.close()
+    if draw_row is None:
+        pytest.skip("seeder did not produce a Boys 12 Singles draw")
+
+    draw_response = client.get(f"/draws/{draw_row[0]}")
+    assert draw_response.status_code == 200
+    draw_body = Markup(draw_response.text).unescape()
+    # The expected-outcome label is "vs. <opponent> — NN%". A regex against
+    # the rendered probability is the load-bearing assertion: a percent sign
+    # tied to the expected-outcome block proves the wiring works end-to-end.
+    assert re.search(
+        r"<strong[^>]*>\s*\d+%\s*</strong>", draw_body
+    ), "expected at least one rendered expected-outcome probability on /draws/{id}"

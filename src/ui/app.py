@@ -24,8 +24,9 @@ the same file in production.
 from __future__ import annotations
 
 import sqlite3
-from datetime import UTC, datetime, timedelta
-from pathlib import Path
+import subprocess
+import sys
+from datetime import datetime
 from typing import Any
 
 from fastapi import APIRouter, Request
@@ -33,11 +34,16 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
 from src.config import settings
+from src.enrich.expected_outcome import (
+    ExpectedOutcomeResult,
+    expected_outcomes_along_path,
+)
 from src.enrich.form import FormResult, recent_form
 from src.enrich.strength_of_draw import StrengthOfDrawResult, strength_of_draw
 from src.models.draw import Draw, DrawEntry
 from src.models.match import Match
 from src.models.player import Player
+from src.models.sync_run import SyncRun
 from src.models.tournament import Tournament
 from src.models.wtn import WTNSnapshot
 from src.store.repositories import (
@@ -46,12 +52,13 @@ from src.store.repositories import (
     MatchRepository,
     PlayerRepository,
     RankingSnapshotRepository,
+    SyncRunRepository,
     TournamentRepository,
     WTNSnapshotRepository,
 )
 from src.ui.helpers import (
-    db_has_synthetic_data,
     days_until,
+    db_has_synthetic_data,
     format_record,
     resolve_user_player,
     wtn_tier,
@@ -66,9 +73,9 @@ templates.env.globals["wtn_tier"] = wtn_tier
 templates.env.globals["days_until"] = days_until
 templates.env.globals["format_record"] = format_record
 
-# Path to a tiny on-disk sync log. The sync POST handler appends to this and
-# the GET handler renders the tail. Real sync workers write the same file.
-_SYNC_LOG_PATH = Path("data/sync.log")
+# Sync state is now read from the ``sync_runs`` table populated by
+# ``usta sync`` (see ``src.cli.main``). The legacy ``data/sync.log`` file is
+# no longer consulted.
 
 
 # ---------------------------------------------------------------------------
@@ -376,6 +383,7 @@ async def draw_detail(request: Request, usta_id: str) -> HTMLResponse:
     wtn_by_id: dict[str, WTNSnapshot | None] = {}
     sod: StrengthOfDrawResult | None = None
     path_cards: list[dict[str, Any]] = []
+    path_outcomes: list[ExpectedOutcomeResult] = []
     user: Player | None = None
     user_entry: DrawEntry | None = None
 
@@ -422,6 +430,14 @@ async def draw_detail(request: Request, usta_id: str) -> HTMLResponse:
                         if sod is not None:
                             for opp_id in sod.projected_path:
                                 path_cards.append(_scouting_snippet(conn, opp_id))
+                            try:
+                                path_outcomes = expected_outcomes_along_path(
+                                    user.usta_id,
+                                    list(sod.projected_path),
+                                    ratings,
+                                )
+                            except Exception:
+                                path_outcomes = []
         except Exception:
             draw, tournament, entries = None, None, []
         finally:
@@ -439,6 +455,7 @@ async def draw_detail(request: Request, usta_id: str) -> HTMLResponse:
             wtn_by_id=wtn_by_id,
             sod=sod,
             path_cards=path_cards,
+            path_outcomes=path_outcomes,
             user=user,
             user_entry=user_entry,
             message=f"No draw with ID {usta_id} has been synced.",
@@ -599,89 +616,153 @@ async def h2h(request: Request, a: str, b: str) -> HTMLResponse:
 
 
 # ---------------------------------------------------------------------------
-# Sync — placeholder log + htmx-friendly partial swap
+# Sync — backed by the ``sync_runs`` table.
 # ---------------------------------------------------------------------------
+#
+# The previous design mirrored a tail of ``data/sync.log`` on disk and posted
+# a placeholder "queued" message. That has been replaced with a SQLite-backed
+# log: the CLI's ``usta sync`` command writes ``sync_runs`` rows, and this
+# route reads them back. The legacy ``data/sync.log`` file is no longer
+# written, but is preserved on disk if it exists from a prior session
+# (read-only — we don't truncate or migrate it).
 
 
-def _read_sync_log() -> list[str]:
+def _format_run_summary(run: SyncRun) -> str:
+    """Human-friendly one-liner for the "Last sync" header on /sync."""
+    when = (run.finished_at or run.started_at).isoformat(timespec="seconds")
+    return (
+        f"{run.status} at {when} "
+        f"(fetched={run.fetched_count}, parsed={run.parsed_count}, "
+        f"persisted={run.persisted_count}, errored={run.errored_count})"
+    )
+
+
+def _format_duration(run: SyncRun) -> str:
+    """Compute a duration label for a run, or ``"--"`` if it's still running."""
+    if run.finished_at is None:
+        return "in flight"
+    delta = run.finished_at - run.started_at
+    seconds = max(0.0, delta.total_seconds())
+    if seconds < 1.0:
+        return "<1s"
+    if seconds < 60.0:
+        return f"{seconds:.1f}s"
+    minutes, sec = divmod(int(seconds), 60)
+    return f"{minutes}m{sec:02d}s"
+
+
+def _sync_context(
+    *,
+    status_message: str | None,
+    latest: SyncRun | None,
+    recent_runs: list[SyncRun],
+) -> dict[str, Any]:
+    """Build the template context dict shared by GET /sync and POST /sync."""
+    if latest is None:
+        last_label = "No sync runs yet"
+        log_lines: list[str] = []
+        duration_label = "--"
+    else:
+        last_label = _format_run_summary(latest)
+        # Render up to the last 200 lines so the UI is bounded.
+        log_lines = [line for line in latest.log_text.splitlines() if line.strip()][-200:]
+        duration_label = _format_duration(latest)
+    return {
+        "status_message": status_message,
+        "last_sync_full": last_label,
+        "duration_label": duration_label,
+        "latest_run": latest,
+        "recent_runs": recent_runs,
+        "sync_log": log_lines,
+    }
+
+
+def _load_sync_state() -> tuple[SyncRun | None, list[SyncRun]]:
+    """Read the latest run + the most recent 10 runs, falling through to empty."""
+    conn = _open_conn()
+    if conn is None:
+        return None, []
     try:
-        if not _SYNC_LOG_PATH.exists():
-            return []
-        text = _SYNC_LOG_PATH.read_text(encoding="utf-8")
-    except OSError:
-        return []
-    return [line for line in text.splitlines() if line.strip()][-25:]
-
-
-def _append_sync_log(line: str) -> None:
-    try:
-        _SYNC_LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
-        with _SYNC_LOG_PATH.open("a", encoding="utf-8") as fh:
-            fh.write(line + "\n")
-    except OSError:
-        # Swallow — log is best-effort. A read-only filesystem in some hosting
-        # environments shouldn't break the UI.
-        pass
+        repo = SyncRunRepository(conn)
+        try:
+            latest = repo.latest()
+        except Exception:
+            latest = None
+        try:
+            recent = repo.recent(limit=10)
+        except Exception:
+            recent = []
+        return latest, recent
+    finally:
+        conn.close()
 
 
 @router.get("/sync", response_class=HTMLResponse)
 async def sync_page(request: Request) -> HTMLResponse:
-    conn = _open_conn()
-    last = _last_sync_label(conn)
-    if conn is not None:
-        conn.close()
+    latest, recent = _load_sync_state()
     return templates.TemplateResponse(
         request,
         "sync.html",
         _base_context(
             None,
-            status_message=None,
-            sync_log=_read_sync_log(),
-            last_sync_full=last,
-            duration_label="--",
+            **_sync_context(
+                status_message=None,
+                latest=latest,
+                recent_runs=recent,
+            ),
         ),
     )
 
 
 @router.post("/sync", response_class=HTMLResponse)
 async def sync_trigger(request: Request) -> HTMLResponse:
-    """Queue a sync. Currently a placeholder — the real worker writes here too."""
-    started = datetime.now(UTC)
-    _append_sync_log(
-        f"[{started.isoformat(timespec='seconds')}] sync queued (worker placeholder)"
-    )
-    # Pretend it took a beat. The duration field is for UI affordance, not truth.
-    finished = started + timedelta(seconds=0)
-    _append_sync_log(
-        f"[{finished.isoformat(timespec='seconds')}] sync acknowledged "
-        f"(no fetcher wired yet); 0 entities updated"
+    """Spawn a sync subprocess and return a 'queued' acknowledgement.
+
+    Running ``asyncio.run(_run_sync(...))`` synchronously inside the FastAPI
+    event loop would block every other request for as long as the sync
+    takes. Instead we shell out to the CLI in a detached subprocess —
+    ``Popen`` with no ``wait()`` — and report back immediately. The CLI
+    records its own ``sync_runs`` row, so the next GET on /sync (or htmx
+    poll, etc.) will surface the result.
+    """
+    status_message = _spawn_sync_subprocess()
+    latest, recent = _load_sync_state()
+    context = _sync_context(
+        status_message=status_message,
+        latest=latest,
+        recent_runs=recent,
     )
 
     # htmx posts return just the swappable fragment. Plain form posts get the
     # full page.
     if request.headers.get("hx-request") == "true":
-        return templates.TemplateResponse(
-            request,
-            "_sync_log.html",
-            {
-                "sync_log": _read_sync_log(),
-                "status_message": "Sync acknowledged (worker placeholder).",
-                "last_sync_full": _last_sync_label(None),
-                "duration_label": "<1s",
-            },
-        )
+        return templates.TemplateResponse(request, "_sync_log.html", context)
 
     return templates.TemplateResponse(
         request,
         "sync.html",
-        _base_context(
-            None,
-            status_message="Sync queued (not yet implemented).",
-            sync_log=_read_sync_log(),
-            last_sync_full=_last_sync_label(None),
-            duration_label="<1s",
-        ),
+        _base_context(None, **context),
     )
+
+
+def _spawn_sync_subprocess() -> str:
+    """Detach a ``usta sync`` subprocess; return a status message for the UI.
+
+    On any failure to spawn (e.g. the python executable is unavailable in
+    a hostile sandbox), we fall through to a friendly note rather than
+    raising — the /sync page must always render.
+    """
+    cmd = [sys.executable, "-m", "src.cli.main", "sync"]
+    try:
+        subprocess.Popen(  # noqa: S603 - inputs are static, not user-supplied
+            cmd,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            close_fds=True,
+        )
+    except OSError as exc:
+        return f"Sync could not be queued ({exc.strerror or exc!r})."
+    return "Sync queued; refresh in a moment to see results."
 
 
 __all__ = ["router"]

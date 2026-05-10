@@ -20,13 +20,14 @@ from __future__ import annotations
 import json
 import sqlite3
 import unicodedata
-from datetime import date, datetime
+from datetime import UTC, date, datetime
 from typing import Any
 
 from src.models.draw import Draw, DrawEntry
 from src.models.match import Match, SetScore
 from src.models.player import Player
 from src.models.ranking import RankingSnapshot
+from src.models.sync_run import SyncRun, SyncRunSource, SyncRunStatus
 from src.models.tournament import Tournament
 from src.models.wtn import WTNSnapshot
 
@@ -612,3 +613,194 @@ class WTNSnapshotRepository:
             confidence=confidence,
             as_of=_parse_date(as_of) or date.min,
         )
+
+
+# ---------------------------------------------------------------------------
+# SyncRunRepository
+# ---------------------------------------------------------------------------
+
+
+# Field names that ``update`` accepts. Keeping this an explicit allowlist
+# prevents the **fields kwargs path from reaching arbitrary columns.
+_SYNC_RUN_UPDATABLE_FIELDS = frozenset(
+    {
+        "started_at",
+        "finished_at",
+        "source",
+        "status",
+        "fetched_count",
+        "parsed_count",
+        "persisted_count",
+        "errored_count",
+        "error_summary",
+        "log_text",
+    }
+)
+
+
+def _utcnow_iso() -> str:
+    """Return current UTC time as ISO-8601 (with timezone)."""
+    return datetime.now(UTC).isoformat()
+
+
+class SyncRunRepository:
+    """CRUD for the operational ``sync_runs`` table.
+
+    Unlike the entity repositories above this one **does** commit on its
+    own, because callers tend to be operational code paths (CLI, UI) that
+    want each row durable as soon as it's written rather than batched into
+    a wider transaction. The row is small and the writes are infrequent, so
+    the per-call commit is not a contention concern.
+    """
+
+    def __init__(self, conn: sqlite3.Connection) -> None:
+        self._conn = conn
+
+    def start(self, source: str) -> int:
+        """Insert a new ``running`` row and return its autoincrement id."""
+        cursor = self._conn.execute(
+            """
+            INSERT INTO sync_runs (
+                started_at, finished_at, source, status,
+                fetched_count, parsed_count, persisted_count, errored_count,
+                error_summary, log_text
+            ) VALUES (?, NULL, ?, 'running', 0, 0, 0, 0, NULL, '')
+            """,
+            (_utcnow_iso(), source),
+        )
+        self._conn.commit()
+        run_id = cursor.lastrowid
+        if run_id is None:  # pragma: no cover - sqlite always returns one
+            raise RuntimeError("SyncRunRepository.start: lastrowid was None")
+        return int(run_id)
+
+    def update(self, run_id: int, **fields: Any) -> None:
+        """Patch a subset of columns on an existing run row.
+
+        Only fields in :data:`_SYNC_RUN_UPDATABLE_FIELDS` are permitted;
+        anything else raises ``ValueError`` so a caller's typo doesn't
+        silently no-op.
+        """
+        if not fields:
+            return
+        unknown = set(fields) - _SYNC_RUN_UPDATABLE_FIELDS
+        if unknown:
+            raise ValueError(f"SyncRunRepository.update: unknown fields {sorted(unknown)}")
+        assignments = ", ".join(f"{k} = ?" for k in fields)
+        params = [*fields.values(), run_id]
+        self._conn.execute(
+            f"UPDATE sync_runs SET {assignments} WHERE id = ?",
+            params,
+        )
+        self._conn.commit()
+
+    def finish(
+        self,
+        run_id: int,
+        status: str,
+        fetched: int,
+        parsed: int,
+        persisted: int,
+        errored: int,
+        error_summary: str | None,
+        log_text: str,
+    ) -> None:
+        """Final UPDATE that stamps ``finished_at`` and writes the captured log."""
+        self._conn.execute(
+            """
+            UPDATE sync_runs
+               SET finished_at    = ?,
+                   status         = ?,
+                   fetched_count  = ?,
+                   parsed_count   = ?,
+                   persisted_count = ?,
+                   errored_count  = ?,
+                   error_summary  = ?,
+                   log_text       = ?
+             WHERE id = ?
+            """,
+            (
+                _utcnow_iso(),
+                status,
+                fetched,
+                parsed,
+                persisted,
+                errored,
+                error_summary,
+                log_text,
+                run_id,
+            ),
+        )
+        self._conn.commit()
+
+    def latest(self) -> SyncRun | None:
+        row = self._conn.execute(
+            "SELECT * FROM sync_runs ORDER BY started_at DESC, id DESC LIMIT 1"
+        ).fetchone()
+        if row is None:
+            return None
+        return self._row_to_run(row)
+
+    def recent(self, limit: int = 10) -> list[SyncRun]:
+        rows = self._conn.execute(
+            "SELECT * FROM sync_runs ORDER BY started_at DESC, id DESC LIMIT ?",
+            (limit,),
+        ).fetchall()
+        return [self._row_to_run(r) for r in rows]
+
+    def running(self) -> SyncRun | None:
+        """Return the first row whose ``status`` is ``running``, or ``None``."""
+        row = self._conn.execute(
+            "SELECT * FROM sync_runs WHERE status = 'running' "
+            "ORDER BY started_at DESC, id DESC LIMIT 1"
+        ).fetchone()
+        if row is None:
+            return None
+        return self._row_to_run(row)
+
+    @staticmethod
+    def _row_to_run(row: tuple[Any, ...]) -> SyncRun:
+        (
+            id_,
+            started_at,
+            finished_at,
+            source,
+            status,
+            fetched_count,
+            parsed_count,
+            persisted_count,
+            errored_count,
+            error_summary,
+            log_text,
+        ) = row
+        # The Pydantic model's Literal types are narrower than the column
+        # storage. Defensive cast: if the DB has somehow stored an unknown
+        # value (manual surgery, stray migration), surface it as-is and let
+        # Pydantic validate.
+        return SyncRun(
+            id=id_,
+            started_at=_parse_datetime(started_at) or datetime.min,
+            finished_at=_parse_datetime(finished_at),
+            source=_safe_source(source),
+            status=_safe_status(status),
+            fetched_count=fetched_count or 0,
+            parsed_count=parsed_count or 0,
+            persisted_count=persisted_count or 0,
+            errored_count=errored_count or 0,
+            error_summary=error_summary,
+            log_text=log_text or "",
+        )
+
+
+def _safe_source(value: str) -> SyncRunSource:
+    if value in {"tennislink", "clubspark", "multi"}:
+        return value  # type: ignore[return-value]
+    # Anything stored outside the taxonomy is treated as "multi" — the
+    # generic bucket — so the UI never crashes on a stray value.
+    return "multi"
+
+
+def _safe_status(value: str) -> SyncRunStatus:
+    if value in {"running", "ok", "partial", "failed"}:
+        return value  # type: ignore[return-value]
+    return "failed"

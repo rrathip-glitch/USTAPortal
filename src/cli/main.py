@@ -19,6 +19,8 @@ what we persisted, what errored. No silent failures.
 from __future__ import annotations
 
 import asyncio
+import contextlib
+import io
 import json
 import sqlite3
 from importlib import import_module
@@ -27,10 +29,12 @@ from types import ModuleType
 from typing import Any
 
 import typer
+from loguru import logger as _loguru_logger
 
 from src.config import settings
 from src.fetch.router import FetchRouter, configured_source_preference
 from src.store.db import db_path, init_schema
+from src.store.repositories import SyncRunRepository
 from tests.anonymize import anonymize as _anonymize_payload
 
 app = typer.Typer(no_args_is_help=True, add_completion=False)
@@ -63,6 +67,11 @@ _OPT_LOOP_ITERATIONS = typer.Option(
         "to run sync once on a loop interval."
     ),
 )
+_OPT_SYNC_LOG_LIMIT = typer.Option(
+    10,
+    "--limit",
+    help="How many recent sync runs to display (default 10).",
+)
 
 
 # ---------------------------------------------------------------------------
@@ -75,17 +84,109 @@ def sync(
     tournament: str | None = _OPT_TOURNAMENT,
     force: bool = _OPT_FORCE,
 ) -> None:
-    """One-shot sync. Walks the user's player → tournaments → draws → matches."""
-    typer.echo("syncing tournaments...")
-    if tournament:
-        typer.echo(f"  scope: tournament={tournament}")
-    else:
-        typer.echo("  scope: all tournaments for the primary user")
-    typer.echo(f"  force-refetch: {force}")
-    typer.echo(f"  source preference: {','.join(configured_source_preference())}")
+    """One-shot sync. Walks the user's player → tournaments → draws → matches.
 
-    summary = asyncio.run(_run_sync(tournament=tournament, force=force))
-    _print_sync_summary(summary)
+    Records a row in ``sync_runs`` (status ``running`` → ``ok``/``partial``/
+    ``failed``) so the ``/sync`` UI page and ``usta sync-log`` can surface
+    operational state without tailing files.
+    """
+    capture = _LogCapture()
+
+    # Open a dedicated DB connection for the run's bookkeeping. We deliberately
+    # open this BEFORE the orchestrator's own connection so the ``running`` row
+    # is durable even if the orchestrator's setup fails.
+    bookkeeping_conn: sqlite3.Connection | None = None
+    run_id: int | None = None
+    try:
+        bookkeeping_conn = _connect_and_init_db()
+        run_repo = SyncRunRepository(bookkeeping_conn)
+        run_id = run_repo.start(source=_sync_source_label())
+    except Exception as exc:  # pragma: no cover - defensive
+        # If we can't even record the run, log it and proceed without
+        # bookkeeping rather than blocking the actual sync.
+        typer.echo(f"  sync_runs: failed to record run start ({exc!r}); continuing without log")
+        bookkeeping_conn = None
+        run_id = None
+
+    capture.echo("syncing tournaments...")
+    if tournament:
+        capture.echo(f"  scope: tournament={tournament}")
+    else:
+        capture.echo("  scope: all tournaments for the primary user")
+    capture.echo(f"  force-refetch: {force}")
+    capture.echo(f"  source preference: {','.join(configured_source_preference())}")
+
+    error_summary: str | None = None
+    summary: SyncSummary
+    sink_id: int | None = capture.attach_loguru()
+    try:
+        with capture.tee_typer_echo():
+            try:
+                summary = asyncio.run(_run_sync(tournament=tournament, force=force))
+                _print_sync_summary(summary)
+            except Exception as exc:
+                error_summary = f"{type(exc).__name__}: {exc}"
+                capture.echo(f"sync: aborted by exception: {error_summary}")
+                summary = SyncSummary()
+                summary["errored"] = 1
+                _record_finish(
+                    bookkeeping_conn,
+                    run_id,
+                    status="failed",
+                    summary=summary,
+                    error_summary=error_summary,
+                    log_text=capture.text(),
+                )
+                raise
+    finally:
+        if sink_id is not None:
+            capture.detach_loguru(sink_id)
+
+    status = "ok" if summary["errored"] == 0 else "partial"
+    _record_finish(
+        bookkeeping_conn,
+        run_id,
+        status=status,
+        summary=summary,
+        error_summary=None,
+        log_text=capture.text(),
+    )
+
+    if bookkeeping_conn is not None:
+        with _IgnoreErrors():
+            bookkeeping_conn.close()
+
+
+@app.command(name="sync-log")
+def sync_log(limit: int = _OPT_SYNC_LOG_LIMIT) -> None:
+    """Print the last N sync runs in a tabular format."""
+    if limit <= 0:
+        typer.echo("sync-log: --limit must be a positive integer.")
+        raise typer.Exit(code=2)
+    conn = _connect_and_init_db()
+    try:
+        runs = SyncRunRepository(conn).recent(limit=limit)
+    finally:
+        with _IgnoreErrors():
+            conn.close()
+    if not runs:
+        typer.echo("sync-log: no sync runs recorded yet.")
+        return
+    typer.echo(
+        f"{'started_at':<32}{'source':<12}{'status':<10}"
+        f"{'fetched':>9}{'parsed':>9}{'persisted':>11}{'errored':>9}"
+    )
+    typer.echo("-" * 92)
+    for run in runs:
+        typer.echo(
+            f"{run.started_at.isoformat():<32}"
+            f"{run.source:<12}"
+            f"{run.status:<10}"
+            f"{run.fetched_count:>9}"
+            f"{run.parsed_count:>9}"
+            f"{run.persisted_count:>11}"
+            f"{run.errored_count:>9}"
+        )
 
 
 @app.command(name="sync-loop")
@@ -434,6 +535,134 @@ async def _run_sync_loop(*, interval: float, iterations: int) -> None:
             typer.echo(f"sync-loop: completed {iterations} iteration(s); exiting.")
             return
         await asyncio.sleep(interval)
+
+
+# ---------------------------------------------------------------------------
+# Sync run bookkeeping helpers
+# ---------------------------------------------------------------------------
+
+
+def _sync_source_label() -> str:
+    """Pick a source label for the sync_runs row.
+
+    The orchestrator dispatches across the configured source preference;
+    when there's more than one it's logged as ``multi``. With a single
+    source we record that source's name verbatim.
+    """
+    prefs = configured_source_preference()
+    if len(prefs) == 1:
+        return prefs[0]
+    return "multi"
+
+
+def _record_finish(
+    conn: sqlite3.Connection | None,
+    run_id: int | None,
+    *,
+    status: str,
+    summary: SyncSummary,
+    error_summary: str | None,
+    log_text: str,
+) -> None:
+    """Best-effort terminal UPDATE on the sync_runs row.
+
+    If either the connection or the run id is missing (because bookkeeping
+    failed at start time), this is a no-op — the actual sync flow has
+    already run and we shouldn't crash the CLI on a logging failure.
+    """
+    if conn is None or run_id is None:
+        return
+    repo = SyncRunRepository(conn)
+    try:
+        repo.finish(
+            run_id=run_id,
+            status=status,
+            fetched=summary["fetched"],
+            parsed=summary["parsed"],
+            persisted=summary["persisted"],
+            errored=summary["errored"],
+            error_summary=error_summary,
+            log_text=log_text,
+        )
+    except Exception as exc:  # pragma: no cover - defensive
+        typer.echo(f"  sync_runs: failed to record run finish ({exc!r})")
+
+
+class _LogCapture:
+    """Capture both ``typer.echo`` and loguru output into one buffer.
+
+    Used by the ``sync`` command to persist a multi-line log into the
+    ``sync_runs.log_text`` column. The buffer is plain text — no rich
+    formatting — so the UI can render it inside a ``<pre>`` panel without
+    sanitization concerns beyond standard Jinja autoescaping.
+    """
+
+    def __init__(self) -> None:
+        self._buffer = io.StringIO()
+
+    # --- typer.echo tee ----------------------------------------------------
+
+    def echo(self, message: str = "") -> None:
+        """Write to stdout via ``typer.echo`` AND append to the buffer."""
+        typer.echo(message)
+        self._buffer.write(message)
+        self._buffer.write("\n")
+
+    def tee_typer_echo(self) -> _TyperEchoTee:
+        """Context manager that wraps ``typer.echo`` so every call lands in the buffer."""
+        return _TyperEchoTee(self._buffer)
+
+    # --- loguru sink -------------------------------------------------------
+
+    def attach_loguru(self) -> int | None:
+        """Add a loguru sink that mirrors records into the buffer.
+
+        Returns the sink id so the caller can detach it on teardown.
+        Returns ``None`` if loguru rejected the sink (e.g. the logger has
+        already been removed in a teardown sequence).
+        """
+        try:
+            return _loguru_logger.add(
+                self._buffer,
+                format="{time:YYYY-MM-DDTHH:mm:ss} | {level:<8} | {name}:{function}:{line} - {message}",
+                level=settings.log_level,
+                enqueue=False,
+            )
+        except Exception:  # pragma: no cover - defensive
+            return None
+
+    def detach_loguru(self, sink_id: int) -> None:
+        with contextlib.suppress(ValueError, KeyError):
+            _loguru_logger.remove(sink_id)
+
+    # --- accessor ----------------------------------------------------------
+
+    def text(self) -> str:
+        return self._buffer.getvalue()
+
+
+class _TyperEchoTee:
+    """Context manager that monkey-patches ``typer.echo`` to also write to a buffer."""
+
+    def __init__(self, buffer: io.StringIO) -> None:
+        self._buffer = buffer
+        self._original = typer.echo
+
+    def __enter__(self) -> _TyperEchoTee:
+        original = self._original
+        buffer = self._buffer
+
+        def _tee(message: object = "", *args: Any, **kwargs: Any) -> None:
+            original(message, *args, **kwargs)
+            buffer.write(str(message))
+            buffer.write("\n")
+
+        typer.echo = _tee  # type: ignore[assignment]
+        return self
+
+    def __exit__(self, *exc: object) -> bool:
+        typer.echo = self._original  # type: ignore[assignment]
+        return False
 
 
 if __name__ == "__main__":

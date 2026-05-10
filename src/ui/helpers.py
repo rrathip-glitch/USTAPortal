@@ -116,8 +116,8 @@ def format_record(wins: int, losses: int) -> str:
 __all__ = [
     "SYNTHETIC_PREFIXES",
     "WtnTier",
-    "db_has_synthetic_data",
     "days_until",
+    "db_has_synthetic_data",
     "format_record",
     "resolve_user_player",
     "wtn_tier",

@@ -17,8 +17,8 @@ A live table of the endpoints we depend on. Populated by recon and refreshed eve
 | Auth0 JWKS | `https://account.usta.com/.well-known/jwks.json` | GET | None | Public keys for verifying id_token signatures | **Confirmed exists** via OIDC discovery |
 | Auth0 logout | `https://account.usta.com/oidc/logout` | GET (browser redirect) | Session cookie or `id_token_hint` | End session | **Confirmed exists** via OIDC discovery |
 | Auth0 MFA challenge | `https://account.usta.com/mfa/challenge` | POST | Per Auth0 MFA flow | MFA step (likely OOB or OTP) | **Confirmed exists** via OIDC discovery; whether enforced TBD |
-| Tournaments GraphQL | `https://prod-us-kube.clubspark.io/usta/tournaments/api/graphql` | POST | TBD — likely `Authorization: Bearer <Auth0 JWT>` plus `Origin: https://playtennis.usta.com` | Tournament / draw / player / match data | **Host confirmed exists** (Cloudflare-fronted, 403 with cf-ray on every anonymous probe); request/response shape **unconfirmed**. Introspection blocked at WAF before reaching app. |
-| WTN GraphQL | `https://prd-itf-kube.clubspark.pro/tods-gw-api/graphql` | POST | TBD — bearer token with WTN audience scope | Singles + doubles WTN | **Host confirmed exists** (Cloudflare-fronted, 403); fields unconfirmed. May or may not be needed if WTN is embedded in the tournaments payload. |
+| Tournaments GraphQL | `https://prod-us-kube.clubspark.io/usta/tournaments/api/graphql` | POST | TBD — likely `Authorization: Bearer <Auth0 JWT>` plus `Origin: https://playtennis.usta.com` | Tournament / draw / player / match data | **❌ Blocked from Claude Code egress** (Cloudflare WAF, IP/ASN block on GCP datacenter range; reachable from residential egress only). Host exists; request/response shape unconfirmed. |
+| WTN GraphQL | `https://prd-itf-kube.clubspark.pro/tods-gw-api/graphql` | POST | TBD — bearer token with WTN audience scope | Singles + doubles WTN | **❌ Blocked from Claude Code egress** (same Cloudflare rule). May or may not be needed if WTN is embedded in the tournaments payload. |
 | Legacy tennislink | `https://tennislink.usta.com/Dashboard/Main/default.aspx` | GET / form POST | `ASP.NET_SessionId` + `AntiCsrfTokenTL` cookies | Legacy NTRP rankings, legacy team-tennis data | **Confirmed reachable anonymously** (200, ASP.NET WebForms with Vue 2 overlay). Not the primary target; documented in case Phase 5 needs NTRP history. |
 | USTA services API | `https://services.usta.com/v1/...` | TBD | TBD; Akamai BMP cookies (`_abck`, `bm_sz`) on every response | Unknown — possibly membership / NTRP / ranking surface called by AEM marketing site | **Host confirmed exists** (`awselb/2.0` returns 404 plain text on `/`, `/v1`, `/v1/players`, `/v1/tournaments` — the API exists but those paths don't). Behind Akamai Bot Manager. |
 | WTN docs | `https://docs.worldtennisnumber.com/api-docs/` | GET | "USTA-issued credentials" per RESEARCH.md | API documentation site | Anonymously **403 Cloudflare**, consistent with prior research. |
@@ -36,7 +36,7 @@ A live table of the endpoints we depend on. Populated by recon and refreshed eve
 | Response shape on success | **Unknown.** RESEARCH.md cites community-documented `EventList` and `TournamentData` queries returning JSON; we have not verified. |
 | Cookies set | Cloudflare `__cf_bm` (Domain=`clubspark.io`, 30 min, HttpOnly+Secure). |
 
-## GraphQL queries (hypothesized)
+## GraphQL queries (hypothesized — currently blocked)
 
 Per RESEARCH.md, community-documented queries on the Clubspark surface include `EventList` and `TournamentData`. We expect to need at minimum:
 
@@ -51,12 +51,41 @@ Each row in the table below lands its actual query body (variables, response sha
 
 | Query | Variables | Response top-level keys | Pagination | Confirmed? |
 | --- | --- | --- | --- | --- |
-| TournamentData | TBD | TBD | TBD | ❌ |
-| EventList | TBD | TBD | TBD | ❌ |
-| Draw | TBD | TBD | TBD | ❌ |
-| Player | TBD | TBD | TBD | ❌ |
-| PlayerRankings | TBD | TBD | TBD | ❌ |
-| PlayerMatches | TBD | TBD | TBD | ❌ |
+| TournamentData | TBD | TBD | TBD | ❌ Blocked from Claude Code egress |
+| EventList | TBD | TBD | TBD | ❌ Blocked from Claude Code egress |
+| Draw | TBD | TBD | TBD | ❌ Blocked from Claude Code egress |
+| Player | TBD | TBD | TBD | ❌ Blocked from Claude Code egress |
+| PlayerRankings | TBD | TBD | TBD | ❌ Blocked from Claude Code egress |
+| PlayerMatches | TBD | TBD | TBD | ❌ Blocked from Claude Code egress |
+
+## TennisLink endpoints (primary, ASP.NET)
+
+Per ADR-001's residential-egress rider and the Clubspark block, TennisLink (`tennislink.usta.com`) is the **primary reachable data source** from this environment. It is the legacy ASP.NET WebForms surface; responses are HTML, server-rendered. All endpoints below were probed anonymously on 2026-05-10 with stock `curl` from this GCP egress — no Cloudflare in front, no JA3 sensitivity, no auth required for read access. Fixtures live in `tests/fixtures/tennislink/`.
+
+| Endpoint | Method | Parameters | Auth | Key DOM selectors / response shape | Confirmed |
+| --- | --- | --- | --- | --- | --- |
+| `https://tennislink.usta.com/tournaments/schedule/search.aspx` | GET | none (renders form) | none | Form action posts back to itself; the page's JS rewrites `action` to `SearchResults.aspx?<all params>` and re-submits as GET. ASP.NET `__VIEWSTATE` + `__VIEWSTATEGENERATOR` hidden inputs present. Division options parsed from `<select name="ctl00$mainContent$ddlDivision">`. | ✅ 200 (fixture: `tournament_search_form.html`) |
+| `https://tennislink.usta.com/tournaments/schedule/SearchResults.aspx` | GET | `typeofsubmit`, `Keywords`, `TournamentID`, `SectionDistrict`, `City`, `State`, `Zip`, `Month`, `Year`, `StartDate`, `EndDate`, `Day`, `Division`, `Category`, `Surface`, `OnlineEntry`, `DrawsSheets`, `UserTime`, `Sanctioned`, `Action` | none | Tournament rows live in `<table id="dgTournaments">`. Each row contains: date `<td>`, `<a href="javascript:Go(<id>)">` with the tournament name + dash-separated tournament number (e.g. `WINTER CHMPS. - 100000202`), location `<td>`, and a `<ul class="plain-list compact">` of divisions. Pagination links are `javascript:__doPostBack('dgTournaments:_ctl1:_ctl<N>','')` — **no GET-pageable URL**. | ✅ 200 (fixture: `tournament_search_results.html`) |
+| `https://tennislink.usta.com/tournaments/TournamentHome/Tournament.aspx` | GET | `T=<int>` required; `E=<int>` optional; `tab=Draws\|Contacts\|Results\|Dates` optional | none | `<h1>` = tournament name. `<table class="tournament_info">` contains Tournament ID, Dates, Divisions (as `<ul>`). Second `tournament_info margin` table has Section, District, Surface Type, Draws Posted, Last Updated. Organization block has `<table id="organization">`. Sanction-body image at `<img src="../images/logos/<Section>Sect_2c.png">`. | ✅ 200 (fixture: `tournament_detail.html`, T=211365 TriTennis Holiday Series) |
+| `https://tennislink.usta.com/tournaments/TournamentHome/Tournament.aspx?T=...&E=...&tab=Draws` | GET | `T`, `E` (event ID, e.g. `5`), `tab=Draws` | none | Event dropdown `<select id="ctl00_mainContent_ControlTabs3_ddlEvents">` with options like `<option value="#5">Boys' 14 Singles</option>`. Player slots: `<a href="/tournaments/Draws/PlayerTournamentHistory.aspx?MID=...">PLAYER NAME</a>` followed by city/state. Round headers `Finals`, `SF`, `QF` appear as text labels. Match scores in `<div>` siblings: format `6-3; 6-2` or `6-7(3); 6-3; 10-7` (semicolon-separated sets, parens for tiebreak in losing set's games count). | ✅ 200 (fixture: `draw_detail.html`, T=211365 E=5 Boys' 14 Singles) |
+| `https://tennislink.usta.com/tournaments/Draws/PlayerTournamentHistory.aspx` | GET | `MID=<numeric>` required; `Years=-1\|-5\|YYYY` optional | none | `<div class="mtitle">Player Results</div>` header; year-by-year list of tournaments the player entered. Each entry links back to `Tournament.aspx?T=...`. **Player's name does not appear on this page** — only visible from referring context. If no matches: `<td>&nbsp;No match information is available.&nbsp;</td>`. | ✅ 200 (probed, not committed as fixture since the example MID page is empty) |
+| `https://tennislink.usta.com/tournaments/Rankings/RankingHome.aspx` | GET (form) / POST (submit) | optional `RankingListID=<int>` for deep-link | none | Three search forms in one page: (1) ranking list (section/year/division/list-type → POST), (2) player record (USTA# or name → POST), (3) player ranking (USTA# or name → POST). Division dropdown values: `D1001` Boys 18 Singles, `D1003` Boys 16 Singles, `D1005` Boys 14 Singles, `D1101` Boys 18 Doubles. Section dropdown values: `15` Florida, `10` Eastern, `30` Southern, `40` Mid-Atlantic, `15XX` for sub-districts. POST submission requires `__VIEWSTATE` + `__VIEWSTATEGENERATOR` round-trip (server-validated MAC). | ✅ 200 (fixture: `rankings_home.html`) |
+| `https://tennislink.usta.com/Tournaments/Rankings/RankingListsPrint.aspx` | GET | `id=<list_id>` required; `e=<0\|1>` (eligibles), `sortby=<rank\|name\|section\|district>` | none | Title row in `<td class="FieldData">` (e.g. `*B14 2019 GA Standings (Combined)`). Data table `<table id="grdMain">`. Header row labels: Rank, Name, City, State, Section, District, Points. Per-row spans `grdMain_ctl<NN>_lblRank`, `_lblFullName` (format `"Last, First "`), `_lblCity`, `_lblState`, `_lblSection`, `_lblDistrict`, `_lblPoints`. **Cleanest TennisLink endpoint — flat tabular HTML, no postback dance.** | ✅ 200 (fixture: `ranking_list.html`, id=2102615 B14 2019 GA Standings) |
+| `https://tennislink.usta.com/tournaments/Rankings/RankingListNote.aspx` | GET | `id=<list_id>` | none | Popup-style methodology note for a ranking list (`<p>` text only). | ✅ 200 (probed; not fixtured since low value) |
+| `https://tennislink.usta.com/tournaments/` | GET | none | none | Hub page with links to advanced search, rankings, registration, archived results. Redirects to `/Tournaments/Common/Default.aspx`. | ✅ 200 (fixture: `tournament_home.html`) |
+
+### Identifier formats observed on TennisLink
+
+- **Tournament ID** (`T=`): integer, 1-6 digits. Range observed 1 (a 1996 archived event) to 232435 (Nov 2018 TriTennis). Stable, monotonically increasing.
+- **Event ID** (`E=`): single-digit integer (per tournament). E.g., `E=5` is Boys 14 Singles within tournament 211365.
+- **Player Tournament ID** (`MID=`): ~30-digit numeric string per player. Example: `1180182182182183184177178177179`. Recon hypothesis: per-digit obfuscated USTA member number. v1 treats it opaquely.
+- **Ranking List ID**: 7-digit integer (e.g. `2102615`, `1684711`). Discovered via RankingHome search; deep-linkable.
+- **USTA Member Number** (the form's `txtPlayerUSTANo` field): plain integer up to 2^32 (4,294,967,296).
+- **Division code** (`ddlDivision` value on search; `Division` field on rankings): short alphanumeric like `GB16` (search) or `D1003` (rankings).
+
+### Anti-bot posture (TennisLink)
+
+**No Cloudflare. No Akamai. No bot challenge.** TennisLink sets `ASP.NET_SessionId` (HttpOnly+Secure+SameSite=Strict), `AntiCsrfTokenTL` (HttpOnly+Secure+SameSite=Strict, validated only on state-changing POSTs), a `BIGipServer~usta~tennislink.usta.com_https_pool1` F5 cookie, and a TS01-prefixed cookie. All GET endpoints return 200 to stock `curl` from this environment's GCP datacenter egress (`34.58.203.104`). Rate-limit posture: not yet measured; default 2-second interval applies.
 
 ## Schema drift log
 

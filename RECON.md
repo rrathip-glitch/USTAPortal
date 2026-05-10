@@ -188,6 +188,49 @@ All of the following remain TBD until a real-browser session can be driven (via 
 - Whether `curl_cffi` (Chrome JA3 impersonation) is sufficient to bypass the Cloudflare check once we hold a valid bearer token, or whether requests must always go through a live Playwright browser context.
 - Whether the user's account requires MFA on login (could not be tested — login screen never reached).
 
+## TennisLink surface (confirmed 2026-05-10)
+
+The pivot per ADR-001: with `playtennis.usta.com` (Clubspark) blocked at Cloudflare from every egress this environment has access to, `tennislink.usta.com` is the primary reachable data source. TennisLink is the legacy ASP.NET WebForms surface (Vue 2 overlay on top). It is **NOT** Cloudflare-fronted, returns 200 to stock `curl` and to `WebFetch` from this environment's GCP egress, and is anonymously crawlable for the public-facing tournament/draw/ranking views. All probes used a stock Chrome 120 UA over plain `curl 8.5.0` with `-L`. Two-second sleeps between requests. Captures saved to `tests/fixtures/tennislink/`.
+
+| Path | Method | Parameters | Auth | Anonymous status | Title / page render |
+| --- | --- | --- | --- | --- | --- |
+| `/tournaments/` | GET | none | none | 200 (redirects to `/Tournaments/Common/Default.aspx`) | "USTA Tournaments Home". Hub page; links to advanced search, rankings, registration. |
+| `/tournaments/schedule/search.aspx` | GET (renders form) / POST (submit) | form fields below | none | 200 | "Tournaments - Find A Tournament". The advanced-search form, server-rendered with ASP.NET `__VIEWSTATE` + `__EVENTVALIDATION`. |
+| `/tournaments/schedule/SearchResults.aspx` | **GET** (query-string params, derived from the form's `hdn*` mirror inputs) | `typeofsubmit` (`quick`\|`advanced`), `Keywords`, `TournamentID`, `SectionDistrict`, `City`, `State`, `Zip`, `Month`, `Year`, `StartDate`, `EndDate`, `Day`, `Division` (e.g. `GB16`), `Category`, `Surface`, `OnlineEntry`, `DrawsSheets`, `UserTime`, `Sanctioned` (`Y`\|`N`\|empty), `Action` | none | 200 | "Tournaments - Search Results". Returns paginated `<table id="dgTournaments">` with one row per tournament. Pagination is via `__doPostBack('dgTournaments:_ctl1:_ctl<N>', '')` — there is **no `?Page=N` query param**; pagination requires ASP.NET postback (state-bearing). |
+| `/tournaments/TournamentHome/Tournament.aspx` | GET | `T=<numeric id>` (required); optional `E=<event_id>`, `tab=Draws`\|`Contacts`\|`Results`\|`Dates` | none | 200 | Tournament detail page. `<h1>` = tournament name. Tournament metadata in `<table class="tournament_info">`. Sanction body shown as image at `images/logos/<Section>Sect_2c.png`. Tabs lazily load via postback when no `tab=` param. |
+| `/tournaments/TournamentHome/Tournament.aspx?T=...&tab=Draws` | GET | `T`, optional `E` | none | 200 | Tournament with Draws tab pre-selected. Event dropdown `ctl00_mainContent_ControlTabs3_ddlEvents`. With `E=<n>` URL also pre-selects a specific event. |
+| `/tournaments/TournamentHome/Tournament.aspx?T=...&E=...&tab=Draws` | GET | `T`, `E`, `tab=Draws` | none | 200 | Draw view for a single event. Player slots are `<a href="/tournaments/Draws/PlayerTournamentHistory.aspx?MID=...">`. Scores rendered inline as text like `6-3; 6-2` or `6-7(3); 6-3; 10-7` in `<div>` siblings of the player cells. Round headers visible as `Finals`, `SF`, `QF`, etc. |
+| `/tournaments/Draws/PlayerTournamentHistory.aspx` | GET | `MID=<player_id>`; optional `Years=<-1\|-5\|YYYY>` | none | 200 | Per-player tournament history. The page shows results by year but no player name in `<h1>` — name is only readable from the referring draw page or the rankings list. `MID` is a ~30-digit numeric string (not a GUID) that encodes the USTA member ID. |
+| `/tournaments/Rankings/RankingHome.aspx` | GET (renders form) / POST (submit) | `RankingListID=<id>` (deep-link mode) or form fields | none | 200 | "Find a Ranking or Player Record". Two side-by-side forms: (a) section/year/division/list-type ranking lookup, (b) player record / player ranking lookup by USTA# or name. List of section codes: `15` Florida, `10` Eastern, `30` Southern, etc., with `15XX` for sub-districts. Division codes: `D1001` Boys 18 Singles, `D1003` Boys 16 Singles, `D1005` Boys 14 Singles, `D1101` Boys 18 Doubles, etc. USTA member numbers are integers up to `4294967296` (32-bit). |
+| `/Tournaments/Rankings/RankingListsPrint.aspx` | GET | `id=<list_id>`, `e=<0\|1>` (eligibles only), `sortby=<rank\|name\|section\|district>` | none | 200 | Print-friendly ranking list. Fields per row: `lblRank`, `lblFullName` (`"Last, First"`), `lblCity`, `lblState`, `lblSection`, `lblDistrict`, `lblPoints`. `id` is the canonical Ranking List ID — known IDs include `2102615` (B14 2019 GA Standings Combined), `1684711` (Boys 14 Singles Seeding). |
+| `/tournaments/Rankings/RankingListNote.aspx` | GET | `id=<list_id>` | none | 200 (popup) | Notes/methodology popup for a ranking list. |
+
+**Pivotal observations.**
+
+1. **Tournament IDs are integers** (`T=` value), not GUIDs. Range observed: 3-digit (legacy archived tournaments from 2001) up to 6-digit (current as of the data's freeze date). `tritennis0` referenced in our example URL maps to TriTennis Holiday Series tournaments with T-values 193908, 208151, 208153, 211365-211372, 232433, 232435 etc.
+2. **Player IDs (`MID=`) are ~30-digit numeric strings**, not GUIDs. Example: `1180182182182183184177178177179`. The shape suggests a USTA member number with per-digit obfuscation (each visible digit corresponds to one underlying member-ID digit, biased by some constant). Recon to confirm decoding; for v1 we treat the `MID` opaquely as the canonical TennisLink player identifier.
+3. **TennisLink stopped accepting new tournament records in late 2018 / early 2019.** Searches for any tournament with `Year >= 2019` and `Division=GB16` return `"No tournaments results found."`. The highest TriTennis tournament ID 232435 dates from November 2018. **TennisLink is a frozen historical archive, not a live data plane for current junior tournaments.** Current junior tournaments live on `playtennis.usta.com` (Clubspark, the host blocked from this environment). This is the single most important finding from this run — see "Implications for sync strategy" below.
+4. **Search results paginate via ASP.NET postback only.** There is no `?Page=N` query parameter; navigating to page 2+ requires a stateful POST carrying `__VIEWSTATE`, `__EVENTVALIDATION`, `__EVENTTARGET=dgTournaments:_ctl1:_ctl<N>`. For v1, sync should rely on filter narrowness (year + section + division) to keep result sets on the first page rather than implementing the viewstate-walking pagination.
+5. **Rankings list IDs are stable integers and deep-linkable.** Once we have a list ID (discovered via the RankingHome search), `RankingListsPrint.aspx?id=<id>&e=1&sortby=rank` returns the full sorted list with no auth and no viewstate dance. This is the cleanest TennisLink endpoint — full ranking table as flat HTML rows.
+6. **No standalone player profile page on TennisLink.** `PlayerTournamentHistory.aspx?MID=` is the closest equivalent, but it intentionally does **not** print the player's name — names are only visible by walking up the referring draw or ranking page. This is a known TennisLink privacy stance, not a parsing problem.
+7. **CSRF token `AntiCsrfTokenTL` is set on every response** but is only validated on state-changing POSTs (registration flows). Public GET endpoints work without the cookie. We still capture and forward cookies in the client to remain a well-behaved client.
+
+**Implications for sync strategy.** The TennisLink data plane is read-only legacy archive — useful for:
+- Historical ranking snapshots (Snowball into `RankingSnapshot` rows from 2001-2018).
+- Historical match results / draw walks (for archival H2H, opponent history).
+- USTA member-number resolution (the rankings list joins names ↔ MIDs).
+
+It is **not** useful for:
+- Current-season tournament discovery (no records after early 2019).
+- Current draws or live scores.
+- Current WTN / ratings (TennisLink predates WTN).
+
+The user's stated need ("find tournaments my kid Janav can enter, evaluate opponents") requires the **current** data plane (`playtennis.usta.com`), which remains Cloudflare-blocked. **TennisLink can serve as a partial historical lookup but cannot, on its own, support the v1 dashboard's primary use case.** The orchestrator must decide whether to (a) procure a residential egress for Clubspark access (the original Strategy C from ADR-001), (b) ship a "history-only" v1 that lives entirely off TennisLink, or (c) pause the data layer entirely. Surfaced in QUESTIONS.md.
+
+### Janav Thasen lookup
+
+The legacy TennisLink search for `Keywords=thasen` returned `No tournaments results found.` — consistent with the finding that TennisLink has no post-2018 junior records and Janav (Weston FL, class of 2032, ~11-12 years old in 2024) only played from 2023 onward on the modern Clubspark surface. A WebSearch for `"Janav Thasen" tennis` confirms his existence on **TennisRecruiting (player.asp?id=1065914), CoreTennis (id 203938), UTR (profile 3059480), and `playtennis.usta.com/Competitions/mgtennis/Tournaments/players/971BA48D-A2EA-4FB7-8305-F42EA466F6DF`** — the Clubspark URL pattern with the GUID. The Clubspark URL was probed and returned 403 from our egress, as expected. **Conclusion: Janav has no TennisLink player ID; his canonical USTA identifier is the Clubspark player GUID `971BA48D-A2EA-4FB7-8305-F42EA466F6DF`.** No fixture is committed for him on TennisLink — there's nothing to commit. The GUID is logged here as the bridge identifier for whenever Clubspark recon can run from a residential egress.
+
 ## Findings (live recon attempt, 2026-05-10)
 
 Artifacts under `data/recon/2026-05-10-live/`:

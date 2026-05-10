@@ -11,7 +11,7 @@
     <form hx-post="/sync" hx-target="#sync-log-block" hx-swap="outerHTML" method="post" action="/sync">
       <button type="submit" class="button primary">Run sync now</button>
       <span class="meta" style="margin-left:0.6rem;">
-        Single-writer; safe to retry. The fetch worker is the placeholder for now.
+        Single-writer; safe to retry. The POST spawns ``usta sync`` in a detached subprocess.
       </span>
     </form>
   </section>
@@ -19,5 +19,39 @@
   <section class="card">
     <h2>Status</h2>
     {% include "_sync_log.html" %}
+  </section>
+
+  <section class="card">
+    <h2>Recent runs</h2>
+    {% if recent_runs %}
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Started</th>
+            <th>Source</th>
+            <th>Status</th>
+            <th class="num">Fetched</th>
+            <th class="num">Parsed</th>
+            <th class="num">Persisted</th>
+            <th class="num">Errored</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for run in recent_runs %}
+            <tr>
+              <td>{{ run.started_at.isoformat(timespec='seconds') }}</td>
+              <td>{{ run.source }}</td>
+              <td><span class="status status-{{ run.status }}">{{ run.status }}</span></td>
+              <td class="num">{{ run.fetched_count }}</td>
+              <td class="num">{{ run.parsed_count }}</td>
+              <td class="num">{{ run.persisted_count }}</td>
+              <td class="num">{{ run.errored_count }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p class="empty">No sync runs yet.</p>
+    {% endif %}
   </section>
 {% endblock %}

@@ -30,6 +30,7 @@
         <div class="bracket">
           {% set rounds = ["R1", "R2", "R3", "R4", "QF", "SF", "F"] %}
           {% for card in path_cards %}
+            {% set outcome = path_outcomes[loop.index0] if path_outcomes and loop.index0 < path_outcomes|length else None %}
             <div class="round">
               <div class="round-label">{{ rounds[loop.index0] if loop.index0 < rounds|length else "Round " ~ loop.index }}</div>
               {% if card.player %}
@@ -45,6 +46,19 @@
                     <span class="muted">unrated</span>
                   {% endif %}
                 </div>
+                {% if outcome and outcome.confidence not in ("none", "low") %}
+                  {% set pct = (outcome.probability_a * 100)|round|int %}
+                  {% set favored = outcome.probability_a >= 0.5 %}
+                  <div class="expected-outcome" title="model: {{ outcome.model_version }}; confidence: {{ outcome.confidence }}" style="margin-top:0.3rem;">
+                    <div class="eo-label">
+                      vs. {{ card.player.full_name }} &mdash;
+                      <strong style="color: {{ 'var(--win)' if favored else 'var(--loss)' }};">{{ pct }}%</strong>
+                    </div>
+                    <div class="eo-bar" style="background: var(--border); border-radius: var(--radius-sm); height: 6px; overflow: hidden; margin-top: 0.15rem;">
+                      <div style="width: {{ pct }}%; height: 100%; background: {{ 'var(--win)' if favored else 'var(--loss)' }};"></div>
+                    </div>
+                  </div>
+                {% endif %}
                 {% if card.form and card.form.recent_results %}
                   <div class="form-strip" style="margin-top:0.3rem;">
                     {% for r in card.form.recent_results[:5] %}
