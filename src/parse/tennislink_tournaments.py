@@ -31,8 +31,8 @@ from src.parse.players import ParseError
 
 __all__ = [
     "ParseError",
-    "parse_tournament_search_results",
     "parse_tournament_detail",
+    "parse_tournament_search_results",
 ]
 
 # Tournament rows in SearchResults.aspx have an anchor like:
@@ -76,18 +76,23 @@ def parse_tournament_search_results(html: str) -> list[Tournament]:
     # Either the dgTournaments grid is present, or the "no results" banner.
     grid = soup.find("table", id=re.compile(r"dgTournaments$"))
     page_text = soup.get_text(" ", strip=True)
-    if grid is None and "No tournaments results found" not in page_text:
-        if "Tournaments - Search Results" not in page_text:
-            raise ParseError(
-                "tournament_search_results: dgTournaments table missing and "
-                "page does not look like a TennisLink search results page"
-            )
+    if (
+        grid is None
+        and "No tournaments results found" not in page_text
+        and "Tournaments - Search Results" not in page_text
+    ):
+        raise ParseError(
+            "tournament_search_results: dgTournaments table missing and "
+            "page does not look like a TennisLink search results page"
+        )
 
     # Each tournament occupies one <tr> inside the dgTournaments grid that
     # contains a `javascript:Go(<id>)` anchor. We pivot on those anchors
     # rather than CSS-classing because TennisLink's classes are inconsistent.
     for anchor in soup.find_all("a", href=GO_TOURNAMENT_RE):
-        m = GO_TOURNAMENT_RE.search(anchor.get("href", ""))
+        href_attr = anchor.get("href", "")
+        href_str = href_attr if isinstance(href_attr, str) else ""
+        m = GO_TOURNAMENT_RE.search(href_str)
         if not m:
             continue
         usta_id = m.group(1)

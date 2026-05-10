@@ -73,3 +73,6 @@ data/recon/*/gql/
 
 # Railway
 .railway/
+
+# Local scratch / test artifacts produced by integration tests
+tmp/

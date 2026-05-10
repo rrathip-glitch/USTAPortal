@@ -417,27 +417,30 @@ async def _sync_for_primary_user(
         summary["errored"] += 1
         return
 
-    player_parser = _try_import_parser("src.parse.players")
-    if player_parser is None or not hasattr(player_parser, "parse_player_tournaments"):
-        typer.echo(
-            "  tennislink parser not yet available; "
-            "fetched body cached, skipping walk."
-        )
-        return
-
+    # The TennisLink player-history page does not directly carry the
+    # primary user's tournament list as a structured array (it is rendered
+    # by VIEWSTATE postbacks). For v1, persist the player profile shell
+    # we can extract and skip the tournament-walk discovery from a single
+    # MID page; orchestrators that want a wider walk should pass
+    # ``--tournament <id>`` directly. See parser TODOs.
     try:
-        tournament_ids: list[str] = list(
-            player_parser.parse_player_tournaments(body)
-        )
+        from src.parse.tennislink_players import parse_player_profile
+
+        player_obj = parse_player_profile(body)
         summary["parsed"] += 1
     except Exception as exc:
         typer.echo(f"  player parse failed: {exc!r}")
         summary["errored"] += 1
         return
 
-    typer.echo(f"  discovered {len(tournament_ids)} tournaments for player {player_id}")
-    for tid in tournament_ids:
-        await _sync_single_tournament(router, conn, tid, summary)
+    try:
+        from src.store.repositories import PlayerRepository
+
+        PlayerRepository(conn).upsert(player_obj)
+        summary["persisted"] += 1
+    except Exception as exc:
+        typer.echo(f"  player persist failed: {exc!r}")
+        summary["errored"] += 1
 
 
 async def _sync_single_tournament(
@@ -455,30 +458,41 @@ async def _sync_single_tournament(
         summary["errored"] += 1
         return
 
-    tournament_parser = _try_import_parser("src.parse.tournaments")
-    if tournament_parser is None or not hasattr(tournament_parser, "parse_tournament"):
-        typer.echo("  tennislink parser for tournament not available; skipping parse.")
-        return
-
     try:
-        parsed = tournament_parser.parse_tournament(body)
+        from src.parse.tennislink_tournaments import parse_tournament_detail
+
+        tournament, draws = parse_tournament_detail(body)
+        # The parser cannot know the URL's `T=` value — backfill the
+        # caller-provided id when the page didn't expose its own.
+        if not tournament.usta_id:
+            tournament = tournament.model_copy(update={"usta_id": tournament_id})
+        for d in draws:
+            if not d.tournament_id:
+                d.tournament_id = tournament.usta_id
         summary["parsed"] += 1
     except Exception as exc:
         typer.echo(f"  tournament {tournament_id} parse failed: {exc!r}")
         summary["errored"] += 1
         return
 
-    # Persistence wiring goes here once Tournament/Draw repos are tied in.
-    # For now the parsed object is logged and counted but not written —
-    # the orchestrator agent does not own repository writes (Docs-Clean /
-    # parser agents do). Bumping a placeholder keeps the summary honest
-    # without inventing data.
-    draw_ids = list(getattr(parsed, "draw_ids", []) or [])
-    if not draw_ids:
+    try:
+        from src.store.repositories import DrawRepository, TournamentRepository
+
+        TournamentRepository(conn).upsert(tournament)
+        draw_repo = DrawRepository(conn)
+        for d in draws:
+            draw_repo.upsert(d)
+        summary["persisted"] += 1 + len(draws)
+    except Exception as exc:
+        typer.echo(f"  tournament {tournament_id} persist failed: {exc!r}")
+        summary["errored"] += 1
         return
 
-    for draw_id in draw_ids:
-        await _sync_single_draw(router, conn, draw_id, summary)
+    # Walk each draw's bracket so matches and entries actually land. We
+    # only walk if the draw carries a usable composite id (T:E shape).
+    for d in draws:
+        if ":" in d.usta_id:
+            await _sync_single_draw(router, conn, d.usta_id, summary)
 
 
 async def _sync_single_draw(
@@ -488,10 +502,96 @@ async def _sync_single_draw(
     summary: SyncSummary,
 ) -> None:
     try:
-        await router.get_draw(draw_id)
+        body = await router.get_draw(draw_id)
         summary["fetched"] += 1
     except Exception as exc:
         typer.echo(f"  draw {draw_id} fetch failed: {exc!r}")
+        summary["errored"] += 1
+        return
+
+    try:
+        from src.parse.tennislink_draws import parse_draw
+
+        draw, entries, matches = parse_draw(body)
+        summary["parsed"] += 1
+        # The draw's parsed tournament_id is read from the page's form
+        # action, which on a refetched bracket may not match the caller's
+        # composite id. When the caller passed a "T=<t>:E=<e>" id, prefer
+        # the caller's tournament id as the FK target — that's the row
+        # the orchestrator just persisted upstream.
+        if ":" in draw_id:
+            t_part = draw_id.split(":", 1)[0]
+            t_val = t_part.split("=", 1)[1] if "=" in t_part else t_part
+            if t_val:
+                draw.tournament_id = t_val
+                # Keep the composite usta_id consistent so subsequent
+                # lookups of the same draw resolve. We carry the parsed
+                # event id (after the colon) into the new composite.
+                e_part = (
+                    draw_id.split(":", 1)[1]
+                    if ":" in draw_id
+                    else draw.usta_id.split(":", 1)[-1]
+                )
+                e_val = e_part.split("=", 1)[1] if "=" in e_part else e_part
+                draw.usta_id = f"{t_val}:{e_val}" if e_val else f"{t_val}"
+                for e in entries:
+                    e.draw_id = draw.usta_id
+                for m in matches:
+                    m.draw_id = draw.usta_id
+    except Exception as exc:
+        typer.echo(f"  draw {draw_id} parse failed: {exc!r}")
+        summary["errored"] += 1
+        return
+
+    try:
+        from src.store.repositories import (
+            DrawEntryRepository,
+            DrawRepository,
+            MatchRepository,
+            PlayerRepository,
+        )
+
+        # The draw row was already upserted by the tournament step; doing
+        # it again is idempotent (INSERT OR REPLACE).
+        DrawRepository(conn).upsert(draw)
+
+        # Entries reference players via FK; ensure the players exist
+        # first (with whatever name we extracted from the bracket).
+        player_repo = PlayerRepository(conn)
+        # The parser stuffed Player objects into the entries flow via
+        # _extract_players; we don't have direct access to that map here,
+        # so the entries' player_id values point at MIDs that may not yet
+        # exist in players table. Best-effort: create stub Player rows
+        # with name "(unknown)" so the FK is satisfied.
+        from src.models.player import Player
+        from src.parse.tennislink_draws import parse_draw as _parse_draw  # noqa: F401
+
+        for e in entries:
+            existing = player_repo.get(e.player_id)
+            if existing is None:
+                player_repo.upsert(
+                    Player(usta_id=e.player_id, full_name="(unknown)")
+                )
+
+        entry_repo = DrawEntryRepository(conn)
+        for e in entries:
+            entry_repo.upsert(e)
+
+        match_repo = MatchRepository(conn)
+        # Matches synthesized from the draw page don't have USTA-assigned
+        # IDs (TennisLink doesn't expose them on the bracket view); skip
+        # them rather than fabricate a key. Matches with usta_id set get
+        # persisted.
+        persisted_matches = 0
+        for m in matches:
+            if m.usta_id is None:
+                continue
+            match_repo.upsert(m)
+            persisted_matches += 1
+
+        summary["persisted"] += 1 + len(entries) + persisted_matches
+    except Exception as exc:
+        typer.echo(f"  draw {draw_id} persist failed: {exc!r}")
         summary["errored"] += 1
 
 
