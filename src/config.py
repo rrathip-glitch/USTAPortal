@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from pydantic import Field
+from pydantic import Field, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -40,6 +40,10 @@ class Settings(BaseSettings):
 
     port: int = Field(default=8000)
     environment: str = Field(default="development")
+
+    resend_api_key: SecretStr | None = Field(default=None)
+    notify_from: str = Field(default="noreply@example.com")
+    notify_to: str | None = Field(default=None)
 
 
 settings = Settings()
