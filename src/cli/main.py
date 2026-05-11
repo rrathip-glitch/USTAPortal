@@ -72,6 +72,31 @@ _OPT_SYNC_LOG_LIMIT = typer.Option(
     "--limit",
     help="How many recent sync runs to display (default 10).",
 )
+_OPT_RANK_AGE = typer.Option(
+    12,
+    "--age",
+    help="Age category (numeric): 10, 12, 14, 16, 18.",
+)
+_OPT_RANK_GENDER = typer.Option(
+    "B",
+    "--gender",
+    help="Gender flag: B (boys), G (girls), X (mixed).",
+)
+_OPT_RANK_SCOPE = typer.Option(
+    "national",
+    "--scope",
+    help="Scope: national, sectional, or district.",
+)
+_OPT_RANK_SECTION = typer.Option(
+    None,
+    "--section",
+    help="Section name (required when --scope=sectional).",
+)
+_OPT_RANK_FORCE = typer.Option(
+    False,
+    "--force",
+    help="Bypass the raw cache and re-fetch from Clubspark.",
+)
 
 
 # ---------------------------------------------------------------------------
@@ -187,6 +212,163 @@ def sync_log(limit: int = _OPT_SYNC_LOG_LIMIT) -> None:
             f"{run.persisted_count:>11}"
             f"{run.errored_count:>9}"
         )
+
+
+@app.command(name="sync-rankings")
+def sync_rankings(
+    age: int = _OPT_RANK_AGE,
+    gender: str = _OPT_RANK_GENDER,
+    scope: str = _OPT_RANK_SCOPE,
+    section: str | None = _OPT_RANK_SECTION,
+    force: bool = _OPT_RANK_FORCE,
+) -> None:
+    """Fetch a ranking list via the residential-proxy provider.
+
+    Rankings-First wave. Today this is a skeleton: the residential-proxy
+    backend exists in :mod:`src.fetch.residential_proxy`, the Clubspark
+    fetch method is a stub, and the parser is a stub. The command itself
+    is wired through the same ``sync_runs`` bookkeeping pattern as
+    ``usta sync``, so the moment credentials + parsers land it produces
+    real rows without further plumbing.
+
+    Without ``RESIDENTIAL_PROXY_PROVIDER`` configured the command prints a
+    friendly message and exits ``0`` — the orchestrator wants the absence
+    of credentials to be a soft state, not a hard failure.
+    """
+    typer.echo(
+        f"sync-rankings: age={age} gender={gender} scope={scope} "
+        f"section={section or '-'} force={force}"
+    )
+
+    if not settings.residential_proxy_provider:
+        typer.echo(
+            "  No residential-proxy provider configured. "
+            "Set RESIDENTIAL_PROXY_PROVIDER + credentials in .env. "
+            "See data/reference/known_urls.md for the data-plane decision."
+        )
+        return
+
+    # Record the sync_runs row so the UI surfaces this attempt.
+    bookkeeping_conn: sqlite3.Connection | None = None
+    run_id: int | None = None
+    try:
+        bookkeeping_conn = _connect_and_init_db()
+        run_repo = SyncRunRepository(bookkeeping_conn)
+        run_id = run_repo.start(source="clubspark")
+    except Exception as exc:  # pragma: no cover - defensive
+        typer.echo(f"  sync_runs: failed to record run start ({exc!r}); continuing")
+        bookkeeping_conn = None
+        run_id = None
+
+    summary = SyncSummary()
+    error_summary: str | None = None
+    status = "ok"
+    log_lines: list[str] = []
+
+    try:
+        log_lines.append(f"provider: {settings.residential_proxy_provider}")
+        typer.echo(f"  provider: {settings.residential_proxy_provider}")
+
+        asyncio.run(
+            _run_sync_rankings(
+                age=age,
+                gender=gender,
+                scope=scope,
+                section=section,
+                summary=summary,
+            )
+        )
+    except NotImplementedError as exc:
+        # Expected today — fetch_rankings + parser are stubs.
+        error_summary = f"NotImplementedError: {exc}"
+        typer.echo(f"  pending implementation: {exc}")
+        summary["errored"] += 1
+        status = "partial"
+    except Exception as exc:
+        error_summary = f"{type(exc).__name__}: {exc}"
+        typer.echo(f"  sync-rankings aborted: {error_summary}")
+        summary["errored"] += 1
+        status = "failed"
+
+    _print_sync_summary(summary)
+    log_text = "\n".join(log_lines)
+
+    _record_finish(
+        bookkeeping_conn,
+        run_id,
+        status=status,
+        summary=summary,
+        error_summary=error_summary,
+        log_text=log_text,
+    )
+    if bookkeeping_conn is not None:
+        with _IgnoreErrors():
+            bookkeeping_conn.close()
+
+
+async def _run_sync_rankings(
+    *,
+    age: int,
+    gender: str,
+    scope: str,
+    section: str | None,
+    summary: SyncSummary,
+) -> None:
+    """Run the (deferred) sync-rankings flow.
+
+    Today: instantiate the residential-proxy backend, then call the
+    Clubspark client's deferred ``fetch_rankings`` method, which raises
+    :class:`NotImplementedError`. The caller (``sync_rankings``) catches
+    that and records a ``partial`` run in ``sync_runs``.
+
+    When the orchestrator wires real fetching + parsing, the chain is:
+
+    1. ``backend = get_residential_proxy(...)``
+    2. ``body = await client.fetch_rankings(age, gender, scope, section)``
+    3. ``ranking_list, entries = parse_clubspark_rankings(body)``
+    4. ``repo.upsert_list(ranking_list)`` + iterate ``upsert_entry(entry)``
+    """
+    from src.fetch.clubspark_client import ClubsparkClient
+    from src.fetch.residential_proxy import (
+        ResidentialProxyConfigError,
+        get_residential_proxy,
+    )
+    from src.parse.clubspark_rankings import parse_clubspark_rankings
+    from src.store.repositories import RankingListRepository
+
+    # Instantiate the residential-proxy backend so any config error is
+    # surfaced *before* the deferred-fetch call. This is the wiring the
+    # orchestrator can hold the line on while credentials land.
+    try:
+        _backend = get_residential_proxy()
+    except ResidentialProxyConfigError as exc:
+        # Translate to a clear NotImplementedError so the outer handler
+        # records this as a "partial" run rather than a "failed" one.
+        raise NotImplementedError(
+            f"Residential-proxy backend not ready: {exc}"
+        ) from exc
+
+    # When the chain below lands for real, this is where ``conn`` and
+    # ``RankingListRepository(conn)`` come in. Keeping the reference
+    # in scope so ruff doesn't flag the unused import for future devs.
+    _ = RankingListRepository
+
+    client = ClubsparkClient()
+    try:
+        body = await client.fetch_rankings(
+            age=age,
+            gender=gender,
+            scope=scope,
+            section=section,
+        )
+        summary["fetched"] += 1
+    finally:
+        await client.close()
+
+    # Equally a NotImplementedError today; the chain above will raise
+    # first under the current stub.
+    _list, _entries = parse_clubspark_rankings(body)
+    summary["parsed"] += 1
 
 
 @app.command(name="sync-loop")

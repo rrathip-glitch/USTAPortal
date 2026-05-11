@@ -51,6 +51,7 @@ from src.store.repositories import (
     DrawRepository,
     MatchRepository,
     PlayerRepository,
+    RankingListRepository,
     RankingSnapshotRepository,
     SyncRunRepository,
     TournamentRepository,
@@ -611,6 +612,57 @@ async def h2h(request: Request, a: str, b: str) -> HTMLResponse:
             streak_kind=streak_kind,
             streak_length=streak_length,
             message="No prior meetings between these players have been synced.",
+        ),
+    )
+
+
+# ---------------------------------------------------------------------------
+# Rankings — captured ranking lists rendered from local SQLite.
+# ---------------------------------------------------------------------------
+
+
+@router.get("/rankings/u12-boys-national", response_class=HTMLResponse)
+async def rankings_u12_boys_national(request: Request) -> HTMLResponse:
+    """Boys' 12s national ranking list, most-recent capture.
+
+    Reads from the ``ranking_lists`` table (Rankings-First wave). When no
+    list has been synced yet, renders an empty state pointing the user at
+    the ``usta sync-rankings`` CLI command.
+    """
+    ranking_list: Any = None
+    entries: list[Any] = []
+
+    conn = _open_conn()
+    if conn is not None:
+        try:
+            repo = RankingListRepository(conn)
+            matching = repo.list_by_filter(
+                age_category="Boys 12s",
+                gender="M",
+                scope="national",
+                section=None,
+            )
+            if matching:
+                ranking_list = matching[0]
+                entries = repo.get_entries(ranking_list.id)
+        except Exception:
+            ranking_list = None
+            entries = []
+        finally:
+            conn.close()
+
+    return templates.TemplateResponse(
+        request,
+        "rankings_list.html",
+        _base_context(
+            None,
+            list_title="Boys' 12s — National Rankings",
+            ranking_list=ranking_list,
+            entries=entries,
+            user_player_id=settings.usta_user_player_id,
+            age=12,
+            gender_flag="B",
+            scope="national",
         ),
     )
 

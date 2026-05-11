@@ -26,7 +26,13 @@ from typing import Any
 from src.models.draw import Draw, DrawEntry
 from src.models.match import Match, SetScore
 from src.models.player import Player
-from src.models.ranking import RankingSnapshot
+from src.models.ranking import (
+    Gender,
+    RankingList,
+    RankingListEntry,
+    RankingSnapshot,
+    Scope,
+)
 from src.models.sync_run import SyncRun, SyncRunSource, SyncRunStatus
 from src.models.tournament import Tournament
 from src.models.wtn import WTNSnapshot
@@ -804,3 +810,200 @@ def _safe_status(value: str) -> SyncRunStatus:
     if value in {"running", "ok", "partial", "failed"}:
         return value  # type: ignore[return-value]
     return "failed"
+
+
+# ---------------------------------------------------------------------------
+# RankingListRepository — captured ranking lists (header + entries)
+# ---------------------------------------------------------------------------
+
+
+def _safe_gender(value: str) -> Gender:
+    if value in {"M", "F", "X"}:
+        return value  # type: ignore[return-value]
+    # Unknown column storage — coerce to "X" (mixed/unspecified) rather than
+    # raising. Future tightening: add a strict mode.
+    return "X"
+
+
+def _safe_scope(value: str) -> Scope:
+    if value in {"national", "sectional", "district"}:
+        return value  # type: ignore[return-value]
+    return "national"
+
+
+class RankingListRepository:
+    """CRUD for ``ranking_lists`` + ``ranking_list_entries``.
+
+    Unlike per-player ``RankingSnapshotRepository`` (one row per player +
+    category + date), this repository owns the *whole list* — the header
+    row in ``ranking_lists`` plus N entry rows in ``ranking_list_entries``.
+
+    Caller transaction control: ``upsert_list`` and ``upsert_entry`` do
+    NOT commit; the orchestrator decides when to flush. This matches the
+    existing entity repositories (Player/Tournament/Draw/etc).
+    """
+
+    def __init__(self, conn: sqlite3.Connection) -> None:
+        self._conn = conn
+
+    # -- header --------------------------------------------------------------
+
+    def upsert_list(self, list_obj: RankingList) -> None:
+        self._conn.execute(
+            """
+            INSERT OR REPLACE INTO ranking_lists (
+                id, age_category, gender, scope, section,
+                as_of, source, total_players, fetched_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                list_obj.id,
+                _nfc(list_obj.age_category),
+                list_obj.gender,
+                list_obj.scope,
+                _nfc(list_obj.section),
+                _iso(list_obj.as_of),
+                list_obj.source,
+                list_obj.total_players,
+                _iso(list_obj.fetched_at),
+            ),
+        )
+
+    def get_list(self, list_id: str) -> RankingList | None:
+        row = self._conn.execute(
+            """
+            SELECT id, age_category, gender, scope, section,
+                   as_of, source, total_players, fetched_at
+            FROM ranking_lists
+            WHERE id = ?
+            """,
+            (list_id,),
+        ).fetchone()
+        if row is None:
+            return None
+        return self._row_to_list(row)
+
+    def list_by_filter(
+        self,
+        age_category: str,
+        gender: str,
+        scope: str,
+        section: str | None = None,
+    ) -> list[RankingList]:
+        """Return matching lists, newest ``as_of`` first.
+
+        ``section`` is matched literally — pass ``None`` for national-scope
+        queries and ``"Florida"`` (etc.) for sectional ones. Returning a
+        list rather than a single row lets the caller pick the newest or
+        walk history without a second query.
+        """
+        if section is None:
+            rows = self._conn.execute(
+                """
+                SELECT id, age_category, gender, scope, section,
+                       as_of, source, total_players, fetched_at
+                FROM ranking_lists
+                WHERE age_category = ? AND gender = ? AND scope = ?
+                  AND section IS NULL
+                ORDER BY as_of DESC, fetched_at DESC
+                """,
+                (_nfc(age_category), gender, scope),
+            ).fetchall()
+        else:
+            rows = self._conn.execute(
+                """
+                SELECT id, age_category, gender, scope, section,
+                       as_of, source, total_players, fetched_at
+                FROM ranking_lists
+                WHERE age_category = ? AND gender = ? AND scope = ?
+                  AND section = ?
+                ORDER BY as_of DESC, fetched_at DESC
+                """,
+                (_nfc(age_category), gender, scope, _nfc(section)),
+            ).fetchall()
+        return [self._row_to_list(r) for r in rows]
+
+    # -- entries -------------------------------------------------------------
+
+    def upsert_entry(self, entry: RankingListEntry) -> None:
+        self._conn.execute(
+            """
+            INSERT OR REPLACE INTO ranking_list_entries (
+                list_id, position, player_usta_id, player_name_raw,
+                points, section, wtn_singles, wtn_doubles
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                entry.list_id,
+                entry.position,
+                entry.player_usta_id,
+                _nfc(entry.player_name_raw),
+                entry.points,
+                _nfc(entry.section),
+                entry.wtn_singles,
+                entry.wtn_doubles,
+            ),
+        )
+
+    def get_entries(self, list_id: str) -> list[RankingListEntry]:
+        rows = self._conn.execute(
+            """
+            SELECT list_id, position, player_usta_id, player_name_raw,
+                   points, section, wtn_singles, wtn_doubles
+            FROM ranking_list_entries
+            WHERE list_id = ?
+            ORDER BY position
+            """,
+            (list_id,),
+        ).fetchall()
+        return [self._row_to_entry(r) for r in rows]
+
+    # -- row mappers ---------------------------------------------------------
+
+    @staticmethod
+    def _row_to_list(row: tuple[Any, ...]) -> RankingList:
+        (
+            id_,
+            age_category,
+            gender,
+            scope,
+            section,
+            as_of,
+            source,
+            total_players,
+            fetched_at,
+        ) = row
+        return RankingList(
+            id=id_,
+            age_category=age_category,
+            gender=_safe_gender(gender),
+            scope=_safe_scope(scope),
+            section=section,
+            as_of=_parse_date(as_of) or date.min,
+            source=source,
+            total_players=int(total_players or 0),
+            fetched_at=_parse_datetime(fetched_at) or datetime.min,
+        )
+
+    @staticmethod
+    def _row_to_entry(row: tuple[Any, ...]) -> RankingListEntry:
+        (
+            list_id,
+            position,
+            player_usta_id,
+            player_name_raw,
+            points,
+            section,
+            wtn_singles,
+            wtn_doubles,
+        ) = row
+        return RankingListEntry(
+            list_id=list_id,
+            position=int(position),
+            player_usta_id=player_usta_id,
+            player_name_raw=player_name_raw,
+            points=points if points is None else int(points),
+            section=section,
+            wtn_singles=wtn_singles,
+            wtn_doubles=wtn_doubles,
+        )

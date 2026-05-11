@@ -1,0 +1,20 @@
+
+Welcome to Bright Data! Here are your proxy details
+Country: US
+Latitude: 37.751
+Longitude: -97.822
+Timezone: America/Chicago
+ASN number: 203020
+ASN Organization name: HostRoyale Technologies Pvt Ltd
+IP version: IPv4
+
+Common usage examples:
+
+Web-Unlocker automatically chooses the best location according to the target site, but you can still target a specific country if you need:
+{..., "country": "us"}  // Make the web unlocker utilize US based proxy peers
+{..., "ua": "mobile"}  //  Make the web unlocker utilize mobile-device User-Agents
+
+To get a simple JSON response, use https://geo.brdtest.com/mygeo.json
+
+More information on: https://docs.brightdata.com/scraping-automation/web-unlocker/introduction
+

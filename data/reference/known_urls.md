@@ -189,13 +189,53 @@ null for Janav; a stub record exists under the auto-generated tennisID
 proxy (Bright Data Web Unlocker) or a residential-captured Bearer token
 is required to fetch it.
 
-Working query template for the WTN crawler (against stg-itf via curl_cffi):
+Working query templates (validated 2026-05-11 against PRODUCTION
+`prd-itf-kube.clubspark.pro` via Bright Data Web Unlocker, and against
+STAGING `stg-itf-kube.clubspark.io` via `curl_cffi(impersonate="chrome131")`):
+
+Lookup by TennisID:
 ```graphql
 { person(id: { identifier: "<tennisID>", type: TennisID }) {
     id tennisID nativeGivenName nativeFamilyName birthYear
     worldTennisNumbers { tennisNumber type confidence isRanked ratingDate }
 } }
 ```
+
+Search by name (use this when you only have first+last from a TennisLink
+ranking row):
+```graphql
+{ publicPersons(filter: { search: { term: "<first last>" } }) {
+    items {
+      id tennisID nativeGivenName nativeFamilyName birthYear
+      worldTennisNumbers { tennisNumber type confidence isRanked ratingDate }
+    }
+} }
+```
+
+`SearchFilterOptions` schema (introspected 2026-05-11):
+- `term: String!` (required)
+- `fuzzy: Boolean`
+- `exactMatch: Boolean`
+- `autocomplete: Boolean`
+
+Note: the previous attempt with `searchTerm` was wrong — that field doesn't
+exist. The field is just `term`. Likewise `country` is NOT a field on
+`Person` — drop it from selection sets.
+
+Janav's production record (queried 2026-05-11):
+- tennisID: `JAN9450835`
+- nativeGivenName: `"Thasen"`, nativeFamilyName: `"Janav"` (note: first/last
+  appear swapped in the database; respect this in any string-match code)
+- birthYear: `0` (placeholder; minor whose DOB is suppressed)
+- `worldTennisNumbers: null` — Janav has NO WTN yet. He is in the system
+  but unrated. Likely because he's young (~11-12) and has not entered enough
+  ITF-affiliated events to be assigned a WTN.
+- His sister Vihana Thasen (tennisID `THA5459427`) does have a WTN:
+  singles 27.97 / doubles 31.55.
+
+His Clubspark GUID `971BA48D-A2EA-4FB7-8305-F42EA466F6DF` returns
+`person: null` for all six `PersonIDEnum` types — that GUID does not
+appear in this production ITF dataset under any indexed identifier.
 
 Auth: USTA Connect (Clubspark SSO) at `https://login-playtennis.usta.com/`.
 Developer-portal contact: `ustaconnect@usta.com`.
@@ -228,6 +268,54 @@ position (if any) needs the TennisLink form-submission to recover. The
 TennisRecruiting rank 146 is the strongest *public* proxy until then.
 
 ---
+
+## Bright Data Web Unlocker — verified API shape (2026-05-11)
+
+Endpoint: `POST https://api.brightdata.com/request`
+Auth: `Authorization: Bearer <BRIGHT_DATA_API_KEY>` (NOT HTTP Basic — the
+previous design used customer_id+zone+password Basic auth, which is the
+*proxy-mode* style; we're using REST-mode with a single API token).
+Content-Type: `application/json`
+
+Payload schema (verified by trial against the live API; the API rejects
+unknown keys with `"error":"Request validation failed","error_code":"validation"`):
+
+```json
+{
+  "zone": "<zone_name>",        // required; e.g. "web_unlocker1"
+  "url": "<target_url>",        // required
+  "format": "raw",              // "raw" returns upstream body verbatim; default returns JSON envelope
+  "country": "us",              // ISO-2 country for the residential exit IP
+  "method": "POST",             // optional; defaults to GET
+  "body": "<raw post body>",    // optional; only valid for POST. KEY IS "body", NOT "data"/"payload"
+  "headers": {                  // optional; passed through to the target
+    "Content-Type": "application/json"
+  }
+}
+```
+
+Verdicts from probe (2026-05-11):
+- `playtennis.usta.com/` static homepage: 200, 53,648 bytes — Cloudflare cleared
+- `playtennis.usta.com/Competitions/.../draws/<guid>` (SPA shell): 200, 53,551 bytes — Cloudflare cleared but bracket data is hydrated client-side; need GraphQL for the data
+- `prd-itf-kube.clubspark.pro/tods-gw-api/graphql` (production WTN GraphQL): 200 — schema fully responsive; real WTN data returns for searches like `publicPersons(filter: { search: { term: "Rudy Quan" } })` -> `tennisNumber: 6.1` etc.
+
+Account state at point of test: `customer: hl_7bae0245`, zone `web_unlocker1`
+active. Response time ~4-5 seconds per call. Trial credit ~$5 / ~1,500 requests.
+
+Zone listing: `GET https://api.brightdata.com/zone/get_active_zones` with
+Bearer auth returns `[{"name":"web_unlocker1","type":"unblocker"}]`.
+
+Account status: `GET /status` returns `{"status":"active","customer":"...",
+"can_make_requests":false,"auth_fail_reason":"zone_not_found",...}` — the
+"can_make_requests:false" + "zone_not_found" is a misleading default; once
+the zone is supplied in the request payload, calls work.
+
+Implementation note for `src/fetch/residential_proxy.py`: the
+`BrightDataWebUnlockerBackend` class was scaffolded assuming Basic auth +
+customer_id/zone/password env vars. Adjust to Bearer auth + a single
+`BRIGHT_DATA_API_KEY` + `BRIGHT_DATA_ZONE` (default "web_unlocker1") env
+var. The payload shape above is the verified one — replace any `data`,
+`payload`, `postdata` key with `body`.
 
 ## How to use this file
 

@@ -16,7 +16,7 @@ from pathlib import Path
 from src.config import settings
 
 
-SCHEMA_VERSION = 2
+SCHEMA_VERSION = 3
 
 SCHEMA_SQL = """
 CREATE TABLE IF NOT EXISTS schema_meta (
@@ -126,6 +126,36 @@ CREATE TABLE IF NOT EXISTS wtn_snapshots (
     PRIMARY KEY (player_id, type, as_of)
 );
 
+CREATE TABLE IF NOT EXISTS ranking_lists (
+    id TEXT PRIMARY KEY,
+    age_category TEXT NOT NULL,
+    gender TEXT NOT NULL,
+    scope TEXT NOT NULL,
+    section TEXT,
+    as_of TEXT NOT NULL,
+    source TEXT NOT NULL,
+    total_players INTEGER NOT NULL DEFAULT 0,
+    fetched_at TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_ranking_lists_filter
+    ON ranking_lists(age_category, gender, scope, section, as_of DESC);
+
+CREATE TABLE IF NOT EXISTS ranking_list_entries (
+    list_id TEXT NOT NULL REFERENCES ranking_lists(id),
+    position INTEGER NOT NULL,
+    player_usta_id TEXT NOT NULL REFERENCES players(usta_id),
+    player_name_raw TEXT NOT NULL,
+    points INTEGER,
+    section TEXT,
+    wtn_singles REAL,
+    wtn_doubles REAL,
+    PRIMARY KEY (list_id, position)
+);
+
+CREATE INDEX IF NOT EXISTS idx_ranking_list_entries_player
+    ON ranking_list_entries(player_usta_id);
+
 CREATE INDEX IF NOT EXISTS idx_matches_draw ON matches(draw_id);
 CREATE INDEX IF NOT EXISTS idx_matches_player_a ON matches(player_a_id);
 CREATE INDEX IF NOT EXISTS idx_matches_player_b ON matches(player_b_id);
@@ -181,6 +211,9 @@ def init_schema(conn: sqlite3.Connection | None = None) -> None:
     - **v1 → v2:** add ``sync_runs`` table and its index. No data migration
       is required because the table is new and only operational metadata —
       no historical reconstruction needed.
+    - **v2 → v3:** add ``ranking_lists`` + ``ranking_list_entries`` tables
+      with supporting indexes. Both are new — no data migration. Supports
+      the Rankings-First wave (Clubspark-sourced full ranking captures).
     """
     own_conn = conn is None
     conn = conn or connect()

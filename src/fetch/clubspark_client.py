@@ -70,6 +70,36 @@ class ClubsparkClient:
         """Fetch a player profile page by id."""
         raise NotImplementedError(_DEFERRED_MSG)
 
+    async def fetch_rankings(
+        self,
+        age: int,
+        gender: str,
+        scope: str,
+        section: str | None = None,
+    ) -> str:
+        """Fetch a Clubspark ranking list (raw HTML/JSON body).
+
+        Pending residential-proxy wiring. The shape exists so the
+        Rankings-First CLI command can dispatch through this method and the
+        moment proxy credentials arrive, the implementation drops in here
+        without changing any caller.
+
+        TODO: when the orchestrator provides residential-proxy credentials,
+        wire this to:
+            1. instantiate :class:`src.fetch.residential_proxy.ResidentialProxyBackend`
+               via :func:`get_residential_proxy`,
+            2. POST a GraphQL query (``rankings(...)``-shaped — confirm the
+               exact field name once we can call the live endpoint) at
+               ``https://prod-us-kube.clubspark.io/usta/tournaments/api/graphql``,
+            3. return the response body as text.
+        See ADR-001 and ``data/reference/known_urls.md``.
+        """
+        raise NotImplementedError(
+            "Pending residential-proxy wiring — see TODO.md "
+            "(Rankings-First wave). When credentials arrive, "
+            "wire to src.fetch.residential_proxy.get_residential_proxy()."
+        )
+
     async def close(self) -> None:
         """No-op while deferred; drains the (future) browser context later."""
         return None
