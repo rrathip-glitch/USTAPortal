@@ -21,16 +21,14 @@ RUN pip install --upgrade pip && pip install -e .
 # Now copy the rest of the repo (templates, scripts, fixtures, docs).
 COPY . .
 
-# Persistent volume layout. Railway attaches its own volume at /data
-# via the dashboard (Docker's VOLUME directive is not allowed on
-# Railway's Metal builder). The directories must exist inside the
-# image for first-boot init-db.
+# Pre-create the /data layout so init-db has somewhere to write on
+# first boot. Railway attaches its persistent storage at /data via
+# the dashboard; no Docker-level directive is needed (or allowed).
 RUN mkdir -p /data/raw /data/db /data/exports
 
 EXPOSE 8000
 
-# Default to the web process. Railway's `startCommand` (in railway.json)
-# overrides this and prepends `python -m src.cli.main init-db` so the
-# schema exists before uvicorn binds. The worker service overrides CMD
-# via Railway settings or via the Procfile entry below.
+# Default web command. Railway's startCommand in railway.json wins
+# when set; the Procfile worker entry overrides CMD for the worker
+# service.
 CMD ["sh", "-c", "python -m src.cli.main init-db && uvicorn src.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
