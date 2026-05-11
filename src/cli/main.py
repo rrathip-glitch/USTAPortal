@@ -59,12 +59,12 @@ _OPT_LOOP_INTERVAL = typer.Option(
     3600.0, "--interval", help="Seconds between sync runs in loop mode."
 )
 _OPT_LOOP_ITERATIONS = typer.Option(
-    0,
+    -1,
     "--iterations",
     help=(
-        "Cap on loop iterations. 0 (default) means the daemon shape is not "
-        "yet implemented — pass a positive integer (e.g. --iterations 1) "
-        "to run sync once on a loop interval."
+        "Cap on loop iterations. -1 (default) means run forever — the "
+        "shape Railway's worker process wants. 0 short-circuits with a "
+        "friendly notice; any positive integer caps the loop for tests."
     ),
 )
 _OPT_SYNC_LOG_LIMIT = typer.Option(
@@ -196,11 +196,12 @@ def sync_loop(
 ) -> None:
     """Run sync on an interval. Used by the Railway worker process.
 
-    The infinite-daemon shape is not yet implemented; without
-    ``--iterations N`` (N >= 1) this prints intent and exits cleanly.
+    With the default ``--iterations -1`` the loop runs forever (Railway
+    worker shape). ``--iterations 0`` short-circuits with a notice;
+    positive integers cap the loop for tests.
     """
-    if iterations <= 0:
-        typer.echo("sync-loop: not yet implemented — pass --iterations N to run finitely.")
+    if iterations == 0:
+        typer.echo("sync-loop: 0 iterations requested; exiting cleanly.")
         return
     typer.echo(f"sync-loop: interval={interval}s, iterations={iterations}")
     asyncio.run(_run_sync_loop(interval=interval, iterations=iterations))
@@ -887,13 +888,22 @@ def _print_sync_summary(summary: SyncSummary) -> None:
 
 
 async def _run_sync_loop(*, interval: float, iterations: int) -> None:
+    """Drive ``_run_sync`` on a fixed interval.
+
+    ``iterations < 0`` runs forever (Railway worker shape). ``iterations > 0``
+    caps the loop. Per-iteration exceptions are caught + logged so a
+    transient network blip never kills the worker — the next tick retries.
+    """
     count = 0
     while True:
         count += 1
         typer.echo(f"sync-loop: iteration {count}")
-        summary = await _run_sync(tournament=None, force=False)
-        _print_sync_summary(summary)
-        if count >= iterations:
+        try:
+            summary = await _run_sync(tournament=None, force=False)
+            _print_sync_summary(summary)
+        except Exception as exc:  # noqa: BLE001 - worker survives any error
+            typer.echo(f"sync-loop: iteration {count} crashed: {exc!r}")
+        if iterations > 0 and count >= iterations:
             typer.echo(f"sync-loop: completed {iterations} iteration(s); exiting.")
             return
         await asyncio.sleep(interval)

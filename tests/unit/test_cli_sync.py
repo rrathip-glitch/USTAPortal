@@ -132,13 +132,14 @@ def test_where_am_i_with_unset_player_id(
     assert "<unset>" in result.output
 
 
-def test_sync_loop_default_prints_not_yet_implemented() -> None:
-    """The infinite daemon shape is deferred; default sync-loop call says so."""
+def test_sync_loop_zero_iterations_short_circuits() -> None:
+    """`--iterations 0` exits cleanly with a friendly notice (default
+    is now ``-1`` → forever; tests pass an explicit cap to terminate)."""
     from src.cli.main import app
 
-    result = runner.invoke(app, ["sync-loop"])
+    result = runner.invoke(app, ["sync-loop", "--iterations", "0"])
     assert result.exit_code == 0, result.output
-    assert "not yet implemented" in result.output
+    assert "0 iterations" in result.output
 
 
 def test_sync_loop_with_iterations_runs_once(
