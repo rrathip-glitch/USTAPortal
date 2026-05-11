@@ -793,7 +793,7 @@ class SyncRunRepository:
 
 
 def _safe_source(value: str) -> SyncRunSource:
-    if value in {"tennislink", "clubspark", "multi"}:
+    if value in {"usta_api", "tennislink", "clubspark", "multi"}:
         return value  # type: ignore[return-value]
     # Anything stored outside the taxonomy is treated as "multi" — the
     # generic bucket — so the UI never crashes on a stray value.

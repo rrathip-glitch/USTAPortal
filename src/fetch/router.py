@@ -8,25 +8,28 @@ orchestrator:
 
 Under the hood it dispatches to one of:
 
-- :class:`src.fetch.tennislink_client.TennisLinkClient` — primary today.
-  Owned by the TennisLink subagent; we import it lazily so this file does
-  not break if it hasn't landed yet.
+- :class:`src.fetch.usta_api_client.UstaApiClient` — primary today
+  (2026-05-11). Anonymous AWS API Gateway behind the playerapp.usta.com
+  National Search. Reachable from any egress; no Cloudflare block.
+- :class:`src.fetch.tennislink_client.TennisLinkClient` — secondary;
+  historical archive (frozen post-2018) for matches and rankings.
 - :class:`src.fetch.clubspark_client.ClubsparkClient` — deferred; raises
   :class:`NotImplementedError` until residential egress (Q-011).
 
-Dispatch logic (per ADR-005):
+Dispatch logic (per ADR-005, updated 2026-05-11):
 
 1. Honor the configured source preference order (default
-   ``["tennislink", "clubspark"]``).
+   ``["usta_api", "tennislink", "clubspark"]``).
 2. As a tie-break heuristic, if the entity id *looks* like a Clubspark GUID
-   (``8-4-4-4-12`` hex) and Clubspark is in the preference list, try
-   Clubspark first regardless of order — the caller clearly has a
-   Clubspark id. TennisLink ids are short numeric strings.
+   (``8-4-4-4-12`` hex) and ``usta_api`` is in the preference list, try
+   ``usta_api`` first — the AEM index is keyed by GUID. TennisLink ids
+   are short numeric strings; we leave the configured order for them.
 3. If the current source raises :class:`BlockedEgressError` (Cloudflare 403
    on Clubspark, or any "the edge refused our IP" signal), the router
    falls through to the next source and logs a clean message.
 4. If the current source raises :class:`NotImplementedError` (the
-   Clubspark stub today), same fallthrough.
+   Clubspark stub today, or the USTA API for per-id detail), same
+   fallthrough.
 
 Errors that are *not* fallthrough-worthy (auth expired, transient network,
 parse failure) propagate to the caller — the orchestrator is the one that
@@ -50,8 +53,8 @@ _GUID_RE = re.compile(
 )
 _TENNISLINK_ID_RE = re.compile(r"^\d{4,12}$")
 
-DEFAULT_SOURCE_PREFERENCE: tuple[str, ...] = ("tennislink", "clubspark")
-KNOWN_SOURCES: frozenset[str] = frozenset({"tennislink", "clubspark"})
+DEFAULT_SOURCE_PREFERENCE: tuple[str, ...] = ("usta_api", "tennislink", "clubspark")
+KNOWN_SOURCES: frozenset[str] = frozenset({"usta_api", "tennislink", "clubspark"})
 
 
 class BlockedEgressError(RuntimeError):
@@ -100,12 +103,14 @@ class FetchRouter:
         self,
         tennislink: _SourceClient | None = None,
         clubspark: _SourceClient | None = None,
+        usta_api: _SourceClient | None = None,
         source_preference: tuple[str, ...] | None = None,
     ) -> None:
         # Lazy-instantiate the source clients only when first needed; this
         # keeps the router cheap to construct in tests and in `where-am-i`.
         self._tennislink: _SourceClient | None = tennislink
         self._clubspark: _SourceClient | None = clubspark
+        self._usta_api: _SourceClient | None = usta_api
 
         prefs = source_preference if source_preference is not None else DEFAULT_SOURCE_PREFERENCE
         for name in prefs:
@@ -124,7 +129,7 @@ class FetchRouter:
         await self.close()
 
     async def close(self) -> None:
-        for client in (self._tennislink, self._clubspark):
+        for client in (self._usta_api, self._tennislink, self._clubspark):
             if client is None:
                 continue
             try:
@@ -158,13 +163,20 @@ class FetchRouter:
     def _ordered_sources_for_id(self, entity_id: str) -> list[str]:
         """Return the source-name list to try for this id.
 
-        Honors :attr:`source_preference` but bumps Clubspark to the front
-        when the id is GUID-shaped (the caller clearly has Clubspark data).
+        Honors :attr:`source_preference` but bumps GUID-aware sources to
+        the front when the id is GUID-shaped (the caller clearly has
+        Clubspark / USTA-API data). Preference among GUID-aware sources:
+        ``usta_api`` first if available (anonymously reachable, low
+        latency), then ``clubspark`` (authenticated, residential-only).
         """
         prefs = list(self._source_preference)
-        if looks_like_guid(entity_id) and "clubspark" in prefs:
-            prefs.remove("clubspark")
-            prefs.insert(0, "clubspark")
+        if looks_like_guid(entity_id):
+            for guid_source in ("clubspark", "usta_api"):
+                # Move each GUID-aware source to the front, in order;
+                # the loop's order ensures ``usta_api`` ends up first.
+                if guid_source in prefs:
+                    prefs.remove(guid_source)
+                    prefs.insert(0, guid_source)
         return prefs
 
     async def _dispatch(self, method: str, entity_id: str) -> Any:
@@ -230,6 +242,10 @@ class FetchRouter:
             if self._clubspark is None:
                 self._clubspark = self._build_clubspark()
             return self._clubspark
+        if source_name == "usta_api":
+            if self._usta_api is None:
+                self._usta_api = self._build_usta_api()
+            return self._usta_api
         return None
 
     @staticmethod
@@ -263,6 +279,29 @@ class FetchRouter:
         from src.fetch.clubspark_client import ClubsparkClient
 
         instance: _SourceClient = ClubsparkClient()
+        return instance
+
+    @staticmethod
+    def _build_usta_api() -> _SourceClient | None:
+        """Lazily import and instantiate the anonymous USTA API client.
+
+        Returns ``None`` if the import fails (e.g. during partial check-
+        out / refactor) so the router can fall through to TennisLink.
+        """
+        try:
+            from src.fetch.usta_api_client import UstaApiClient
+        except ImportError as exc:
+            logger.warning(
+                "FetchRouter: USTA API client not importable (%s); skipping.",
+                exc,
+            )
+            return None
+
+        try:
+            instance: _SourceClient = UstaApiClient()
+        except Exception as exc:  # pragma: no cover - defensive
+            logger.warning("FetchRouter: UstaApiClient instantiation failed: %s", exc)
+            return None
         return instance
 
 

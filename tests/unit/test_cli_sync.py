@@ -21,6 +21,11 @@ runner = CliRunner()
 
 def _reload_cli(monkeypatch: pytest.MonkeyPatch, **env: str) -> object:
     """Apply env vars and reload settings + CLI to pick them up."""
+    # USTA-API live discovery is unconditionally disabled inside these
+    # tests — they exercise the orchestration shell, not the data plane.
+    # Tests that want to drive the discovery path should override this
+    # via their own env dict before passing through here.
+    env.setdefault("USTA_DISCOVER_ENABLED", "false")
     for k, v in env.items():
         monkeypatch.setenv(k, v)
     # Make doubly sure tennislink_client is unavailable for the sync tests

@@ -384,6 +384,15 @@ async def _run_sync(*, tournament: str | None, force: bool) -> SyncSummary:
         if tournament:
             await _sync_single_tournament(router, conn, tournament, summary)
         else:
+            # 1) Live USTA-API discovery: pull every nearby tournament and
+            #    persist it. This is the only path today that backfills the
+            #    UI with real, current data (TennisLink is frozen post-2018;
+            #    Clubspark is Cloudflare-blocked at edge). See ADR-006.
+            if settings.usta_discover_enabled:
+                await _discover_from_usta_api(conn, summary)
+            else:
+                typer.echo("  usta_api: discovery disabled by config.")
+            # 2) Player profile / history (best-effort against TennisLink).
             await _sync_for_primary_user(router, conn, summary)
     finally:
         with _IgnoreErrors():
@@ -393,6 +402,88 @@ async def _run_sync(*, tournament: str | None, force: bool) -> SyncSummary:
             conn.close()
 
     return summary
+
+
+async def _discover_from_usta_api(
+    conn: sqlite3.Connection,
+    summary: SyncSummary,
+) -> None:
+    """Walk the anonymous USTA Play Tennis API for nearby tournaments.
+
+    Uses the configured anchor (``USTA_ANCHOR_LAT`` / ``USTA_ANCHOR_LON``
+    / ``USTA_ANCHOR_DISTANCE_MILES`` / ``USTA_ANCHOR_PLAYER_TYPE``) to
+    bound the ElasticSearch query, paginates through all hits, parses
+    each into a (Tournament, [Draw]) pair, and upserts them into the
+    local DB. Idempotent: re-running just refreshes ``last_fetched_at``
+    on the row.
+
+    Errors here never abort the broader sync — a network blip just
+    means the next run picks up the missing rows.
+    """
+    try:
+        from src.fetch.usta_api_client import UstaApiClient
+        from src.parse.usta_api import parse_tournament_hit
+        from src.store.repositories import DrawRepository, TournamentRepository
+    except ImportError as exc:  # pragma: no cover - defensive
+        typer.echo(f"  usta_api: imports unavailable ({exc}); skipping discovery.")
+        return
+
+    selection: dict[str, Any] = {
+        "d": settings.usta_anchor_distance_miles,
+        "lat": settings.usta_anchor_lat,
+        "lon": settings.usta_anchor_lon,
+        "type": settings.usta_anchor_player_type,
+    }
+    typer.echo(
+        "  usta_api: walking tournaments near "
+        f"({selection['lat']:.4f}, {selection['lon']:.4f}) "
+        f"d={selection['d']} type={selection['type']}"
+    )
+
+    tournament_repo = TournamentRepository(conn)
+    draw_repo = DrawRepository(conn)
+
+    async with UstaApiClient() as client:
+        try:
+            hits = await client.search_tournaments_paginated(selection)
+        except Exception as exc:
+            typer.echo(f"  usta_api: discovery failed ({exc!r}); skipping.")
+            summary["errored"] += 1
+            return
+
+    summary["fetched"] += 1
+    typer.echo(f"  usta_api: {len(hits)} tournament hits returned.")
+
+    persisted = 0
+    parsed = 0
+    for hit in hits:
+        try:
+            pair = parse_tournament_hit(hit)
+        except Exception as exc:
+            typer.echo(f"  usta_api: parse failed ({exc!r}); skipping hit.")
+            summary["errored"] += 1
+            continue
+        if pair is None:
+            continue
+        tournament, draws = pair
+        parsed += 1
+        try:
+            tournament_repo.upsert(tournament)
+            for d in draws:
+                draw_repo.upsert(d)
+            persisted += 1 + len(draws)
+        except Exception as exc:
+            typer.echo(
+                f"  usta_api: persist failed for {tournament.usta_id} ({exc!r})"
+            )
+            summary["errored"] += 1
+    conn.commit()
+
+    summary["parsed"] += parsed
+    summary["persisted"] += persisted
+    typer.echo(
+        f"  usta_api: parsed={parsed} persisted={persisted} rows."
+    )
 
 
 async def _sync_for_primary_user(
@@ -647,7 +738,9 @@ def _sync_source_label() -> str:
 
     The orchestrator dispatches across the configured source preference;
     when there's more than one it's logged as ``multi``. With a single
-    source we record that source's name verbatim.
+    source we record that source's name verbatim. ``multi`` covers the
+    canonical case where the router has ``usta_api`` + ``tennislink``
+    in its preference list (the default since 2026-05-11).
     """
     prefs = configured_source_preference()
     if len(prefs) == 1:

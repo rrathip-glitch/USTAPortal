@@ -16,8 +16,8 @@ The status taxonomy is intentionally narrow:
                  carries the top-level error message.
 
 ``source`` mirrors :class:`src.fetch.router.FetchRouter`'s source taxonomy:
-``tennislink``, ``clubspark``, or ``multi`` (the typical case where the
-router can dispatch across both).
+``usta_api``, ``tennislink``, ``clubspark``, or ``multi`` (the typical
+case where the router can dispatch across more than one).
 """
 
 from __future__ import annotations
@@ -27,7 +27,7 @@ from typing import Literal
 
 from pydantic import BaseModel, Field
 
-SyncRunSource = Literal["tennislink", "clubspark", "multi"]
+SyncRunSource = Literal["usta_api", "tennislink", "clubspark", "multi"]
 SyncRunStatus = Literal["running", "ok", "partial", "failed"]
 
 

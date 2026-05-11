@@ -89,7 +89,11 @@ class FakeClient:
 async def test_dispatch_numeric_id_picks_tennislink() -> None:
     tl = FakeClient(name="tl", get_tournament_returns="<html>tournament</html>")
     cs = FakeClient(name="cs", get_tournament_returns="should not be called")
-    router = FetchRouter(tennislink=tl, clubspark=cs)
+    api = FakeClient(
+        name="api",
+        get_tournament_raises=NotImplementedError("numeric id"),
+    )
+    router = FetchRouter(tennislink=tl, clubspark=cs, usta_api=api)
 
     result = await router.get_tournament("12345678")
     assert result == "<html>tournament</html>"
@@ -100,7 +104,11 @@ async def test_dispatch_numeric_id_picks_tennislink() -> None:
 async def test_dispatch_player_id_routes_via_router() -> None:
     tl = FakeClient(name="tl", get_player_returns="player-html")
     cs = FakeClient(name="cs")
-    router = FetchRouter(tennislink=tl, clubspark=cs)
+    api = FakeClient(
+        name="api",
+        get_player_raises=NotImplementedError("auth-only"),
+    )
+    router = FetchRouter(tennislink=tl, clubspark=cs, usta_api=api)
 
     result = await router.get_player("87654321")
     assert result == "player-html"
@@ -115,20 +123,28 @@ async def test_dispatch_player_id_routes_via_router() -> None:
 async def test_dispatch_guid_picks_clubspark_first_and_falls_through(
     caplog: pytest.LogCaptureFixture,
 ) -> None:
-    """Clubspark is preferred for GUID-shaped ids; today it NotImplementedErrors
-    and the router falls through to TennisLink with a clean log line."""
+    """For a GUID id, GUID-aware sources (``usta_api`` first, then
+    ``clubspark``) are tried before TennisLink. When both fall through
+    on NotImplementedError, TennisLink answers and the router logs a
+    clean fallthrough line.
+    """
     guid = "CB005855-CDEF-4A4A-8885-4D3A52C9B413"
+    api = FakeClient(
+        name="api",
+        get_tournament_raises=NotImplementedError("Not in commingled index"),
+    )
     cs = FakeClient(
         name="cs",
         get_tournament_raises=NotImplementedError("Deferred — see ADR-005"),
     )
     tl = FakeClient(name="tl", get_tournament_returns="tennislink html")
-    router = FetchRouter(tennislink=tl, clubspark=cs)
+    router = FetchRouter(tennislink=tl, clubspark=cs, usta_api=api)
 
     with caplog.at_level(logging.INFO, logger="src.fetch.router"):
         result = await router.get_tournament(guid)
 
     assert result == "tennislink html"
+    api.get_tournament.assert_awaited_once_with(guid)
     cs.get_tournament.assert_awaited_once_with(guid)
     tl.get_tournament.assert_awaited_once_with(guid)
     # We logged something explaining the fallthrough.
@@ -164,9 +180,14 @@ async def test_fallthrough_on_blocked_egress(caplog: pytest.LogCaptureFixture) -
         get_tournament_raises=BlockedEgressError("Cloudflare 403"),
     )
     cs = FakeClient(name="cs", get_tournament_returns="from clubspark")
+    api = FakeClient(
+        name="api",
+        get_tournament_raises=NotImplementedError("numeric id"),
+    )
     router = FetchRouter(
         tennislink=tl,
         clubspark=cs,
+        usta_api=api,
         source_preference=("tennislink", "clubspark"),
     )
 
@@ -183,7 +204,8 @@ async def test_blocked_egress_exhausted_raises() -> None:
     """All sources blocked → the last BlockedEgressError surfaces."""
     tl = FakeClient(name="tl", get_tournament_raises=BlockedEgressError("a"))
     cs = FakeClient(name="cs", get_tournament_raises=BlockedEgressError("b"))
-    router = FetchRouter(tennislink=tl, clubspark=cs)
+    api = FakeClient(name="api", get_tournament_raises=BlockedEgressError("c"))
+    router = FetchRouter(tennislink=tl, clubspark=cs, usta_api=api)
 
     with pytest.raises(BlockedEgressError):
         await router.get_tournament("12345678")
@@ -194,8 +216,13 @@ async def test_blocked_egress_exhausted_raises() -> None:
 # ---------------------------------------------------------------------------
 
 
-def test_default_source_preference_puts_tennislink_first() -> None:
-    assert DEFAULT_SOURCE_PREFERENCE[0] == "tennislink"
+def test_default_source_preference_puts_usta_api_first() -> None:
+    """Since 2026-05-11 the anonymous USTA Play Tennis API leads the
+    preference list (live, current, reachable). TennisLink is second
+    (historical archive). Clubspark stays last (auth-required, deferred).
+    """
+    assert DEFAULT_SOURCE_PREFERENCE[0] == "usta_api"
+    assert "tennislink" in DEFAULT_SOURCE_PREFERENCE
     assert "clubspark" in DEFAULT_SOURCE_PREFERENCE
 
 
@@ -227,7 +254,15 @@ async def test_router_skips_tennislink_when_module_missing(
     # Hide any existing src.fetch.tennislink_client module.
     monkeypatch.setitem(sys.modules, "src.fetch.tennislink_client", None)
 
-    router = FetchRouter(tennislink=None, clubspark=FakeClient(name="cs", get_tournament_returns="cs!"))
+    api = FakeClient(
+        name="api",
+        get_tournament_raises=NotImplementedError("numeric id"),
+    )
+    router = FetchRouter(
+        tennislink=None,
+        clubspark=FakeClient(name="cs", get_tournament_returns="cs!"),
+        usta_api=api,
+    )
 
     with caplog.at_level(logging.WARNING, logger="src.fetch.router"):
         result = await router.get_tournament("12345678")
@@ -266,6 +301,10 @@ async def test_router_uses_tennislink_when_available(
     fake_module.TennisLinkClient = _FakeTL  # type: ignore[attr-defined]
     monkeypatch.setitem(sys.modules, "src.fetch.tennislink_client", fake_module)
 
+    # For a numeric id, the USTA API fall-through is automatic (the client
+    # raises NotImplementedError before any request); the router moves on
+    # to TennisLink. We construct a router that exposes the lazy-import
+    # path and lets the real UstaApiClient short-circuit.
     router = FetchRouter()
     result = await router.get_tournament("12345678")
     assert result == "tournament:12345678"
@@ -279,7 +318,9 @@ async def test_router_uses_tennislink_when_available(
 async def test_close_calls_underlying_clients() -> None:
     tl = FakeClient(name="tl")
     cs = FakeClient(name="cs")
-    router = FetchRouter(tennislink=tl, clubspark=cs)
+    api = FakeClient(name="api")
+    router = FetchRouter(tennislink=tl, clubspark=cs, usta_api=api)
     await router.close()
     tl.close.assert_awaited_once()
     cs.close.assert_awaited_once()
+    api.close.assert_awaited_once()
