@@ -97,6 +97,25 @@ _OPT_RANK_FORCE = typer.Option(
     "--force",
     help="Bypass the raw cache and re-fetch from Clubspark.",
 )
+_OPT_RANK_LIST_ID = typer.Option(
+    None,
+    "--list-id",
+    help=(
+        "TennisLink rankinglistid (e.g. 2072448). When set, the command "
+        "fetches the printable list directly via TennisLinkClient. "
+        "Bypasses --age/--gender/--scope (which target the deferred "
+        "Clubspark flow)."
+    ),
+)
+_OPT_RANK_FROM_FIXTURE = typer.Option(
+    None,
+    "--from-fixture",
+    help=(
+        "Skip the network and parse a local HTML file instead. Useful for "
+        "unit tests and local demos. Pass with --list-id so the persisted "
+        "list keeps the TennisLink id in its slug for traceability."
+    ),
+)
 
 
 # ---------------------------------------------------------------------------
@@ -221,29 +240,48 @@ def sync_rankings(
     scope: str = _OPT_RANK_SCOPE,
     section: str | None = _OPT_RANK_SECTION,
     force: bool = _OPT_RANK_FORCE,
+    list_id: str | None = _OPT_RANK_LIST_ID,
+    from_fixture: Path | None = _OPT_RANK_FROM_FIXTURE,
 ) -> None:
-    """Fetch a ranking list via the residential-proxy provider.
+    """Fetch and persist a ranking list.
 
-    Rankings-First wave. Today this is a skeleton: the residential-proxy
-    backend exists in :mod:`src.fetch.residential_proxy`, the Clubspark
-    fetch method is a stub, and the parser is a stub. The command itself
-    is wired through the same ``sync_runs`` bookkeeping pattern as
-    ``usta sync``, so the moment credentials + parsers land it produces
-    real rows without further plumbing.
+    Two data planes are wired:
 
-    Without ``RESIDENTIAL_PROXY_PROVIDER`` configured the command prints a
-    friendly message and exits ``0`` — the orchestrator wants the absence
-    of credentials to be a soft state, not a hard failure.
+    1. **TennisLink** (active): when ``--list-id`` is supplied (and/or
+       ``--from-fixture`` is set), the command fetches the printable
+       ``RankingListsPrint.aspx?id=<LIST_ID>`` view, parses it via
+       :mod:`src.parse.tennislink_rankings_list`, and upserts both the
+       :class:`RankingList` header and every :class:`RankingListEntry`
+       row into SQLite. This is the Rankings-First v1 path. The
+       upstream data is historical (TennisLink froze the B12 plane in
+       early 2021) but the pipeline is real.
+
+    2. **Clubspark** (deferred): when neither ``--list-id`` nor
+       ``--from-fixture`` is supplied, the command falls through to the
+       residential-proxy flow described in ADR-001. Without
+       ``RESIDENTIAL_PROXY_PROVIDER`` configured it prints a friendly
+       message and exits ``0`` so the absence of credentials remains a
+       soft state.
     """
     typer.echo(
         f"sync-rankings: age={age} gender={gender} scope={scope} "
-        f"section={section or '-'} force={force}"
+        f"section={section or '-'} force={force} "
+        f"list_id={list_id or '-'} from_fixture={from_fixture or '-'}"
     )
+
+    # TennisLink path — either by list-id (fetched) or fixture (offline).
+    if list_id or from_fixture:
+        _run_tennislink_ranking_capture(
+            list_id=list_id,
+            from_fixture=from_fixture,
+        )
+        return
 
     if not settings.residential_proxy_provider:
         typer.echo(
             "  No residential-proxy provider configured. "
-            "Set RESIDENTIAL_PROXY_PROVIDER + credentials in .env. "
+            "Set RESIDENTIAL_PROXY_PROVIDER + credentials in .env, or pass "
+            "--list-id <id> (e.g. 2072448) to capture a TennisLink list. "
             "See data/reference/known_urls.md for the data-plane decision."
         )
         return
@@ -306,6 +344,158 @@ def sync_rankings(
             bookkeeping_conn.close()
 
 
+def _run_tennislink_ranking_capture(
+    *,
+    list_id: str | None,
+    from_fixture: Path | None,
+) -> None:
+    """Run the TennisLink-backed ranking-capture flow.
+
+    Either ``list_id`` or ``from_fixture`` (or both) must be set; the
+    caller (``sync_rankings``) already gates on that. When both are set,
+    the fixture wins — the on-disk HTML is parsed and ``list_id`` is
+    used only as the slug-id seed so re-loads upsert cleanly.
+
+    Records a ``sync_runs`` row tagged ``source="tennislink"`` so the
+    /sync UI page surfaces this attempt. Prints a one-line summary on
+    success: ``Persisted <N> entries from list <id> (<age_category>)``.
+    """
+    from src.models.player import Player
+    from src.parse.tennislink_rankings_list import (
+        ParseError,
+        parse_tennislink_rankings_list,
+    )
+    from src.store.repositories import PlayerRepository, RankingListRepository
+
+    # 1. Open DB + start sync_runs row.
+    bookkeeping_conn: sqlite3.Connection | None = None
+    run_id: int | None = None
+    try:
+        bookkeeping_conn = _connect_and_init_db()
+        run_repo = SyncRunRepository(bookkeeping_conn)
+        run_id = run_repo.start(source="tennislink")
+    except Exception as exc:  # pragma: no cover - defensive
+        typer.echo(f"  sync_runs: failed to record run start ({exc!r}); continuing")
+        bookkeeping_conn = None
+        run_id = None
+
+    summary = SyncSummary()
+    error_summary: str | None = None
+    status = "ok"
+    log_lines: list[str] = []
+
+    try:
+        # 2. Fetch (or load fixture).
+        if from_fixture is not None:
+            if not from_fixture.exists():
+                raise FileNotFoundError(
+                    f"--from-fixture path does not exist: {from_fixture}"
+                )
+            typer.echo(f"  loading fixture: {from_fixture}")
+            log_lines.append(f"fixture: {from_fixture}")
+            html = from_fixture.read_text(encoding="utf-8")
+        else:
+            if list_id is None:  # pragma: no cover - guarded by caller
+                raise ValueError("list_id must be set when no fixture is supplied")
+            typer.echo(f"  fetching TennisLink list {list_id}...")
+            log_lines.append(f"fetch: list_id={list_id}")
+            html = asyncio.run(_fetch_tennislink_ranking_list(list_id))
+        summary["fetched"] += 1
+
+        # 3. Parse.
+        header, entries = parse_tennislink_rankings_list(html, list_id=list_id)
+        summary["parsed"] += 1
+        log_lines.append(
+            f"parsed: id={header.id} age_category={header.age_category} "
+            f"entries={len(entries)}"
+        )
+
+        # 4. Persist. Players have to land first so the FK on
+        # ranking_list_entries.player_usta_id is satisfied.
+        if bookkeeping_conn is None:
+            raise RuntimeError("bookkeeping connection is not available; cannot persist")
+        player_repo = PlayerRepository(bookkeeping_conn)
+        ranking_repo = RankingListRepository(bookkeeping_conn)
+
+        ranking_repo.upsert_list(header)
+        summary["persisted"] += 1
+
+        for entry in entries:
+            existing = player_repo.get(entry.player_usta_id)
+            if existing is None:
+                first_name, last_name = _split_last_first(entry.player_name_raw)
+                player_repo.upsert(
+                    Player(
+                        usta_id=entry.player_usta_id,
+                        full_name=entry.player_name_raw,
+                        first_name=first_name,
+                        last_name=last_name,
+                        section=entry.section,
+                    )
+                )
+            ranking_repo.upsert_entry(entry)
+            summary["persisted"] += 1
+
+        bookkeeping_conn.commit()
+
+        typer.echo(
+            f"  Persisted {len(entries)} entries from list "
+            f"{list_id or header.id} ({header.age_category}, "
+            f"as_of={header.as_of.isoformat()})"
+        )
+
+    except ParseError as exc:
+        error_summary = f"ParseError: {exc}"
+        typer.echo(f"  sync-rankings parse failed: {error_summary}")
+        summary["errored"] += 1
+        status = "failed"
+    except FileNotFoundError as exc:
+        error_summary = f"FileNotFoundError: {exc}"
+        typer.echo(f"  sync-rankings fixture missing: {error_summary}")
+        summary["errored"] += 1
+        status = "failed"
+    except Exception as exc:
+        error_summary = f"{type(exc).__name__}: {exc}"
+        typer.echo(f"  sync-rankings aborted: {error_summary}")
+        summary["errored"] += 1
+        status = "failed"
+
+    _print_sync_summary(summary)
+    log_text = "\n".join(log_lines)
+    _record_finish(
+        bookkeeping_conn,
+        run_id,
+        status=status,
+        summary=summary,
+        error_summary=error_summary,
+        log_text=log_text,
+    )
+    if bookkeeping_conn is not None:
+        with _IgnoreErrors():
+            bookkeeping_conn.close()
+
+
+async def _fetch_tennislink_ranking_list(list_id: str) -> str:
+    """Fetch a TennisLink print-view ranking list. Returns response body."""
+    from src.fetch.tennislink_client import TennisLinkClient
+
+    async with TennisLinkClient() as client:
+        return await client.get_ranking_list(list_id)
+
+
+def _split_last_first(name_raw: str) -> tuple[str | None, str | None]:
+    """Split a ``"Last, First"`` name into (first, last). Best effort.
+
+    Returns ``(None, None)`` when the input is empty or doesn't carry a
+    comma — for those cases the caller keeps the full name in
+    ``Player.full_name`` and leaves first/last unset.
+    """
+    if not name_raw or "," not in name_raw:
+        return None, None
+    last, first = name_raw.split(",", 1)
+    return first.strip() or None, last.strip() or None
+
+
 async def _run_sync_rankings(
     *,
     age: int,
@@ -314,7 +504,7 @@ async def _run_sync_rankings(
     section: str | None,
     summary: SyncSummary,
 ) -> None:
-    """Run the (deferred) sync-rankings flow.
+    """Run the (deferred) Clubspark sync-rankings flow.
 
     Today: instantiate the residential-proxy backend, then call the
     Clubspark client's deferred ``fetch_rankings`` method, which raises

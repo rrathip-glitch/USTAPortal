@@ -628,6 +628,11 @@ async def rankings_u12_boys_national(request: Request) -> HTMLResponse:
     Reads from the ``ranking_lists`` table (Rankings-First wave). When no
     list has been synced yet, renders an empty state pointing the user at
     the ``usta sync-rankings`` CLI command.
+
+    The TennisLink list of record (id 2072448) is the historical Boys' 12
+    Combined snapshot — the TennisLink plane froze in early 2021, so this
+    is *trajectory* data, not current standings. The template renders a
+    matching footnote so the user isn't misled.
     """
     ranking_list: Any = None
     entries: list[Any] = []
@@ -660,9 +665,14 @@ async def rankings_u12_boys_national(request: Request) -> HTMLResponse:
             ranking_list=ranking_list,
             entries=entries,
             user_player_id=settings.usta_user_player_id,
+            user_name_match="Thasen",
             age=12,
             gender_flag="B",
             scope="national",
+            fixture_path=(
+                "data/recon/2026-05-11-janav-browse/tennislink-2072448.html"
+            ),
+            default_list_id="2072448",
         ),
     )
 
