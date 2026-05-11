@@ -305,3 +305,25 @@ probing 452 candidate IDs (Round 2)...
   HIT 2072452: *Boys 14 (Combined) | n=2106 | Kim, John
   HIT 2072453: *Boys 14 (Combined) | n=1831 | Kim, Aidan
   HIT 2072454: *Boys 16 (Combined) | n=2881 | Fishback, Ryan
+  HIT 2072455: *Boys 16 (Combined) | n=2531 | Fishback, Ryan
+  HIT 2072456: *Boys 16 (Combined) | n=2230 | Heck, Hunter
+  HIT 2072457: *Boys 18 (Combined) | n=3024 | Woldeab, Siem
+  HIT 2072458: *Boys 18 (Combined) | n=2677 | Woldeab, Siem
+  HIT 2072459: *Boys 18 (Combined) | n=2242 | Martin, Andres
+  HIT 2072500: None | n=735 | Ngounoue, Clervie
+  HIT 2073000: Boys' 18 Doubles | n=328 | Stinchcomb, Trey
+  HIT 2073500: None | n=406 | Foster, Zachery
+  HIT 2074500: *Girls' 18 12 Month Endorsement (Combined) | n=263 | Frazier, Josie
+  HIT 2075500: Girls' 12 Singles | n=662 | Briggs, Mischa
+  HIT 2076000: Girls' 16 Singles | n=180 | MacAvei, Sonya
+  HIT 2076500: None | n=37 | Board, Camden
+  HIT 2077000: PPR NTRP Women's 3.0 Doubles | n=2 | Johnson, N /Seck, D
+  HIT 2077500: None | n=36 | Dunavant, G /Murdock, A
+  HIT 2078500: None | n=294 | Colombo, Kayden
+  HIT 2079500: None | n=36 | Johnston, Anna Kay
+  HIT 2081500: *Girls 16's Combined Standings List (Combined) | n=614 | Jesudason, Meera
+  HIT 2082000: Girls 12 Top 200 Doubles | n=205 | Perez, Natalia
+  HIT 2083000: *Boys' 12 Endorsement + (Combined) | n=78 | Cohen, Austin
+  HIT 2083500: None | n=320 | Kerrigan, Kristin
+  HIT 2084000: Boys' 12 Singles | n=103 | Balthazor, Nolan
+DONE: hits=327, skipped=3, elapsed=293s

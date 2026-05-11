@@ -387,3 +387,63 @@
 2072451	HIT	*Boys 14 (Combined)	2396	['Kim, John', 'Wen, Evan', 'Brown, Lucas']
 2072452	HIT	*Boys 14 (Combined)	2106	['Kim, John', 'Wen, Evan', 'Brown, Lucas']
 2072453	HIT	*Boys 14 (Combined)	1831	['Kim, Aidan', 'Lasanajak, John', 'Brown, Lucas']
+2072454	HIT	*Boys 16 (Combined)	2881	['Fishback, Ryan', 'Chaudhary, Aryan', 'Lim, Zachery']
+2072455	HIT	*Boys 16 (Combined)	2531	['Fishback, Ryan', 'Chaudhary, Aryan', 'Lim, Zachery']
+2072456	HIT	*Boys 16 (Combined)	2230	['Heck, Hunter', 'McKennon, Maxwell', 'Mao, Nathan']
+2072457	HIT	*Boys 18 (Combined)	3024	['Woldeab, Siem', 'Brooksby, Jenson', 'Nakashima, Brandon']
+2072458	HIT	*Boys 18 (Combined)	2677	['Woldeab, Siem', 'Brooksby, Jenson', 'Nakashima, Brandon']
+2072459	HIT	*Boys 18 (Combined)	2242	['Martin, Andres', 'Nanda, Govind', 'Jordan, Phillip']
+2072460	EMPTY	noinfo=False
+2072461	EMPTY	noinfo=False
+2072462	EMPTY	noinfo=False
+2072463	EMPTY	noinfo=False
+2072464	EMPTY	noinfo=False
+2072465	EMPTY	noinfo=False
+2072466	EMPTY	noinfo=False
+2072467	EMPTY	noinfo=False
+2072468	EMPTY	noinfo=False
+2072469	EMPTY	noinfo=False
+2072470	EMPTY	noinfo=False
+2072471	EMPTY	noinfo=False
+2072472	EMPTY	noinfo=False
+2072473	EMPTY	noinfo=False
+2072474	EMPTY	noinfo=False
+2072475	EMPTY	noinfo=False
+2072476	EMPTY	noinfo=False
+2072477	EMPTY	noinfo=False
+2072478	EMPTY	noinfo=False
+2072479	EMPTY	noinfo=False
+2072480	EMPTY	noinfo=False
+2072481	EMPTY	noinfo=False
+2072482	EMPTY	noinfo=False
+2072483	EMPTY	noinfo=False
+2072484	EMPTY	noinfo=False
+2072485	EMPTY	noinfo=False
+2072486	EMPTY	noinfo=False
+2072487	EMPTY	noinfo=False
+2072488	EMPTY	noinfo=False
+2072500	HIT	None	735	['Ngounoue, Clervie', 'Olson, Brooklyn', 'Slama, Mia']
+2073000	HIT	Boys' 18 Doubles	328	['Stinchcomb, Trey', 'Chrysostom, Jordan', 'Garner, Finn']
+2073500	HIT	None	406	['Foster, Zachery', 'Cloud, Louis', 'Zavala, Avery']
+2074000	EMPTY	noinfo=False
+2074500	HIT	*Girls' 18 12 Month Endorsement (Combined)	263	['Frazier, Josie', 'Broerman, Catherine', 'Koenig, McKenna']
+2075000	EMPTY	noinfo=False
+2075500	HIT	Girls' 12 Singles	662	['Briggs, Mischa', 'Gowda, Kavitha', 'Trinkle, Riley']
+2076000	HIT	Girls' 16 Singles	180	['MacAvei, Sonya', 'Ratliff, Sydni', 'Kim, Jamie']
+2076500	HIT	None	37	['Board, Camden', 'Anand, Ashwin', 'Kaydalin, David']
+2077000	HIT	PPR NTRP Women's 3.0 Doubles	2	['Johnson, N /Seck, D', 'Kessler, H /McDermott, K']
+2077500	HIT	None	36	['Dunavant, G /Murdock, A', 'Sullivan, C /Klazmer, K', 'Carter, H /Speaks, A']
+2078000	EMPTY	noinfo=False
+2078500	HIT	None	294	['Colombo, Kayden', 'Sama, Suchir', 'Frierson, Robert']
+2079000	EMPTY	noinfo=False
+2079500	HIT	None	36	['Johnston, Anna Kay', 'Jones, Caroline', 'Marino, Mercedes']
+2080000	EMPTY	noinfo=False
+2080500	EMPTY	noinfo=False
+2081000	EMPTY	noinfo=False
+2081500	HIT	*Girls 16's Combined Standings List (Combined)	614	['Jesudason, Meera', 'Honer, Amelia', 'Roshkoff, Saige']
+2082000	HIT	Girls 12 Top 200 Doubles	205	['Perez, Natalia', 'Olson, Brooklyn', 'Yin, Amber']
+2082500	EMPTY	noinfo=False
+2083000	HIT	*Boys' 12 Endorsement + (Combined)	78	['Cohen, Austin', 'Valenta, Mathis', 'Saez, Dean']
+2083500	HIT	None	320	['Kerrigan, Kristin', 'Cusano, Gabriella', 'LaMette, Melissa']
+2084000	HIT	Boys' 12 Singles	103	['Balthazor, Nolan', 'Shaub, Nolan', 'Bo, Ethan']
+2084500	EMPTY	noinfo=False
