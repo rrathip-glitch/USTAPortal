@@ -1,0 +1,5 @@
+subject=CN = *.usta.com
+issuer=O = Anthropic, CN = sandbox-egress-production TLS Inspection CA
+serial=C7992AC93B3E1894B20547F7F2ACC80A04DB17
+notBefore=May 11 22:51:10 2026 GMT
+notAfter=Jun 10 22:51:09 2026 GMT
