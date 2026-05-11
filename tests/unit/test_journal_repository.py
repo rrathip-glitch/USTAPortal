@@ -21,7 +21,6 @@ from src.models.journal import MatchJournalEntry
 from src.models.player import Player
 from src.store.repositories import MatchJournalRepository, PlayerRepository
 
-
 # ---------------------------------------------------------------------------
 # Builders
 # ---------------------------------------------------------------------------

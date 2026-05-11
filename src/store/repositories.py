@@ -877,7 +877,8 @@ class MatchJournalRepository:
             (entry.player_id, entry.match_id),
         ).fetchone()
         if existing is not None:
-            existing_id, existing_created_at = existing
+            # created_at is preserved by the UPDATE below (we don't touch it).
+            existing_id = existing[0]
             self._conn.execute(
                 """
                 UPDATE match_journal
