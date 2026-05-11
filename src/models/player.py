@@ -29,3 +29,7 @@ class Player(BaseModel):
     )
     profile_url: str | None = None
     last_fetched_at: datetime | None = None
+    coach_notes: str | None = Field(
+        default=None,
+        description="Free-text coach notes (Janav's coach). Locally entered; not synced from USTA.",
+    )

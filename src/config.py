@@ -47,6 +47,14 @@ class Settings(BaseSettings):
             "tests to keep the orchestrator network-free."
         ),
     )
+    coretennis_player_id: str = Field(
+        default="",
+        description=(
+            "CoreTennis.net player id for the primary user. When set, "
+            "``usta sync`` will pull the player's profile + results from "
+            "CoreTennis and upsert their match history. Empty disables."
+        ),
+    )
 
     database_url: str = Field(default="sqlite:///./data/db/usta.db")
     raw_cache_dir: Path = Field(default=Path("./data/raw"))

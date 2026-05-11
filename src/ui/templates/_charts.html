@@ -1,0 +1,44 @@
+{#
+  Chart partial. Expects optional context variables (any subset may be absent
+  or falsy):
+
+    - ``wtn_chart_svg``     : str — output of ``render_wtn_trajectory_svg``
+    - ``wtn_chart_title``   : optional override for the section heading
+    - ``ranking_chart_svg`` : str — output of ``render_ranking_trajectory_svg``
+    - ``ranking_chart_title`` : optional override for the section heading
+
+  The route handler computes the SVG strings via ``src.ui.charts`` and passes
+  them through unchanged; this partial only wraps them with a section heading
+  and the minimal scoped styling needed to keep them legible. We deliberately
+  scope styles inline (rather than touching the global stylesheet) so the
+  partial can be dropped into a new template without touching ``base.html``.
+#}
+<style>
+  .chart-section {
+    margin: 16px 0;
+  }
+  .chart-section h3 {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0 0 8px 0;
+    color: #1f2937;
+    letter-spacing: 0.01em;
+  }
+  .chart-section svg {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+</style>
+{% if wtn_chart_svg %}
+<section class="chart-section">
+  <h3>{{ wtn_chart_title or "WTN trajectory" }}</h3>
+  {{ wtn_chart_svg | safe }}
+</section>
+{% endif %}
+{% if ranking_chart_svg %}
+<section class="chart-section">
+  <h3>{{ ranking_chart_title or "Sectional ranking" }}</h3>
+  {{ ranking_chart_svg | safe }}
+</section>
+{% endif %}

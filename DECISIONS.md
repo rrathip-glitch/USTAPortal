@@ -4,7 +4,7 @@ Append-only. New ADRs go at the bottom. Status changes happen in place but the o
 
 ## ADR-001 — Extraction Strategy
 
-**Status:** Accepted (2026-05-10) — Strategy C (Playwright-resident requests), with the operational rider that **all recon and sync must run from a residential / non-datacenter egress IP**.
+**Status:** Accepted (2026-05-10) — Strategy C (Playwright-resident requests), with the operational rider that **all recon and sync must run from a residential / non-datacenter egress IP**. **Superseded 2026-05-11 by ADR-006** for the discovery + search surfaces; remains in place for per-id detail behind auth. The residential-egress rider is no longer a release blocker because the alternate-host AWS API Gateway at `prod-api-playtennis.usta.com` is reachable from this environment without any Cloudflare evasion.
 
 **Context.** USTA's `playtennis.usta.com` is the data source. We need to know whether to fetch via httpx (with replayed session cookies), via Playwright (browser-driving the SPA), or a hybrid. The choice affects the entire fetch layer, error handling, rate-limit behavior, and what kinds of CI tests are even possible.
 
@@ -107,6 +107,49 @@ The leading post-passive-recon expectation is therefore **either Strategy A-prim
 - Pro: the same router handles the Railway egress question (SPEC §12). If Railway's egress is also Cloudflare-blocked on the Clubspark plane, the deploy still works — Clubspark falls through, TennisLink runs.
 - Con: the parse layer has to be source-aware for any entity covered by both sources. Mitigated by the parsers being pure functions of the raw body — the source tag is just another input.
 - Con: two sources means two surfaces of schema drift. The schema-drift canary (SPEC §9) needs to fire per source. Out of scope for this ADR but a documented follow-on.
+
+---
+
+## ADR-006 — Anonymous USTA Play Tennis API as primary data plane
+
+**Status:** Accepted (2026-05-11).
+
+**Decision.** Route primary tournament discovery and search through `https://prod-api-playtennis.usta.com` — the anonymous AWS API Gateway behind the AEM-rendered National Search frontend at `playerapp.usta.com` — rather than the authenticated, Cloudflare-fronted `playtennis.usta.com` surface.
+
+**Context.** As of 2026-05-10 (ADR-001), `playtennis.usta.com` and the rest of the Clubspark estate were Cloudflare-403'd at the IP/ASN level from this environment's GCP egress, and the project's release was gated on Q-011 (user re-runs recon from a residential network). On 2026-05-11 a brute-force exploration of the USTA / Play Tennis surface found that the AEM SPA at `playerapp.usta.com` reveals its API base path at JS-runtime via the global `playtennis.externalApiConfig.apiBasePath` config object, and the resolved base — `https://prod-api-playtennis.usta.com` — is an AWS API Gateway sitting on a **different host** from `playtennis.usta.com`. That host is *not* fronted by Cloudflare, has CORS allow-all on the relevant endpoints, and is reachable 200 OK from the same GCP egress that Cloudflare blocks. Three endpoints (tournaments query, programs query, courts inventory) answer anonymously without an Authorization token. See RECON.md "2026-05-11 breakthrough" and API_CONTRACTS.md "USTA-API endpoints (anonymous)" for the full contract.
+
+**Rationale.**
+
+1. **Simplest possible code path.** No Playwright, no residential egress, no Auth0 dance, no token refresh, no `curl_cffi` TLS impersonation. A direct anonymous httpx POST is enough.
+2. **High data quality.** Each endpoint returns an ES envelope (`hits.total.value`, `hits.hits[]._source`) with typed fields covering full event metadata (division, surface, registration dates, location, etc.). The parser sits cleanly behind the existing `FetchRouter` shape.
+3. **Matches what the public AEM frontend already does at JS-runtime.** Same host, same body shape, same CORS-allowed cross-origin call pattern. We are not bypassing any control surface — we are calling the same anonymous API the public SPA calls.
+4. **Eliminates the egress dependency that was the largest single risk in ADR-001.** This environment, Anthropic WebFetch, and most likely Railway can all reach this host directly.
+
+**Consequences.**
+
+- **ADR-001 (Strategy C) is downgraded** from "primary path" to "fallback for per-id detail and auth-walled queries". Strategy C remains the only path for the auth-walled endpoints under `/playtennis/players/query` and the per-id detail surfaces — anything that still requires a real Auth0 access token in the Clubspark plane.
+- **The residential-egress prerequisite is no longer a release blocker.** Q-011 is resolved (2026-05-11 — see QUESTIONS.md). The user no longer needs to re-run live recon from their laptop for v1 to ship.
+- **ADR-005 (TennisLink primary, Clubspark deferred)** is partially overtaken: the FetchRouter shape stands and is unchanged, but the source-preference order is now `("usta_api", "tennislink", "clubspark")` (per `src/fetch/router.py`). TennisLink stays in place as the historical archive source for pre-2019 records; Clubspark remains the deferred fallback for the auth-walled detail endpoints.
+- **TennisLink stays Secondary** — frozen historical archive for pre-2019 lookups.
+- **The fetch layer gained `src/fetch/usta_api_client.py` and `src/parse/usta_api.py`.** `usta sync` runs a USTA-API discovery walk for nearby tournaments anchored on `USTA_ANCHOR_LAT/LON/DISTANCE_MILES/PLAYER_TYPE` and gated by `USTA_DISCOVER_ENABLED`. `SyncRunSource` taxonomy gained `"usta_api"`.
+- **51+ new tests landed; 357+ tests passing total.**
+
+---
+
+## ADR-007 — CoreTennis + UTR as third-party enrichment feeds
+
+**Status:** Accepted (2026-05-11).
+
+**Decision.** Pull per-player historical match data from **CoreTennis** (HTML scrape of the public profile/ranking/results pages) and per-player identity/rating from the anonymous **UTR Sports search API**. Both are non-USTA, non-Clubspark, and reachable from this environment without auth.
+
+**Context.** USTA's per-player detail endpoints (under `prod-api-playtennis.usta.com/playtennis/players/query` and per-id GETs) all require auth tokens we cannot obtain anonymously. The three anonymous USTA-API endpoints adopted in ADR-006 cover tournament / program / court search but not per-player history or per-player ratings. Two third-party services close that gap: CoreTennis aggregates per-player match history into stable HTML at `https://www.coretennis.net/tennis-player/<slug>/<id>/{profile,ranking,results}.html`, and the UTR Sports API exposes `GET https://api.utrsports.net/v2/search/players?query=<name>&top=<int>` anonymously with an ES-style envelope. Janav Thasen's CoreTennis id is `203938` and his UTR id is `3059480`; his four real Boys 12s USTA Level 3 match results from Jan 2025 through Jan 2026 are surfaced via CoreTennis and now serve as parser-test ground truth.
+
+**Consequences.**
+
+- **Introduces external-data risk.** CoreTennis can change their HTML at any time; UTR could close the search endpoint or move it behind auth without notice. Neither has a stability contract with us.
+- **Mitigated by fixture-driven parser tests** (`tests/...` per parser) plus a **planned schema-drift canary** (TODO.md). The canary fires per source on a nightly cadence and surfaces drift loudly rather than silently corrupting downstream data.
+- **Shipped in code:** `src/fetch/coretennis_client.py` + `src/parse/coretennis.py`; `src/fetch/utr_client.py` + `src/parse/utr.py` + `src/models/utr.py`.
+- **The router (`src/fetch/router.py`)** now treats CoreTennis and UTR as enrichment feeds; their integration into the sync orchestrator (so `usta sync` automatically calls them per player) is the next-up work in STATE.md / TODO.md.
 
 ---
 

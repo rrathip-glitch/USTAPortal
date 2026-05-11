@@ -1,6 +1,6 @@
 # TODO.md — outstanding work for the world-class final product
 
-This list is what stands between today's branch (`0025e8e`, 283 tests passing, dashboard demoable on Janav-anchored seeded data) and a polished, daily-use tournament intelligence product. Items are roughly ordered by impact; the "Critical path" block is what materially changes whether the product is real or a demo.
+This list is what stands between today's state (357+ tests passing, dashboard live on real USTA Play Tennis data per the 2026-05-11 breakthrough) and a polished, daily-use tournament intelligence product. Items are roughly ordered by impact; the "Critical path" block is what materially changes whether the product is real or a demo.
 
 For history of what's already shipped, see `CHANGELOG.md`. For why architectural choices are what they are, see `DECISIONS.md`.
 
@@ -8,27 +8,42 @@ For history of what's already shipped, see `CHANGELOG.md`. For why architectural
 
 ## Critical path — real data plane
 
-The product currently runs on a realistic seed anchored to Janav's real Clubspark USTA ID. Nothing else hits the live Clubspark surface because every Claude Code tool egress is Cloudflare-blocked at the IP/ASN layer (see RECON.md, ADR-001). Until one of the items below lands, the dashboard is faithful in shape but synthetic in substance.
+**As of 2026-05-11 the project runs on real USTA Play Tennis data.** The anonymous AWS API Gateway at `prod-api-playtennis.usta.com` is the primary data plane (ADR-006), CoreTennis + UTR fill the per-player gap (ADR-007), and TennisLink stays as the historical archive (ADR-005). The items struck below are solved by ADR-006; the items remaining are the integration follow-ups.
 
-- [ ] **Data-plane unblock — pick one.** The user has waived residential recon; alternative paths to consider, in increasing order of effort:
-  - [ ] **Egress relay.** A tiny always-on process on the user's home network (Raspberry Pi, NAS, spare laptop) that the Railway / sandbox calls through over Tailscale or a signed token. Smallest possible surface — receives a GraphQL query, executes it against Clubspark from a residential IP, returns the JSON. ~150 LOC.
-  - [ ] **Browser-driver-as-a-service.** Browserless.io / Browserbase / similar — pay-per-minute residential-IP Chrome. Wire into `src/fetch/clubspark_client.py` via a managed client. Cost ~$5-20/month for a daily sync cadence.
-  - [ ] **Tailscale + headless browser on user's machine.** User installs a small daemon that joins a tailnet; the sandbox/Railway dyno can `tailscale ping <home>` and use it as an outbound proxy. Free, but requires the user to keep something running.
-  - [ ] **Investigate Cloudflare bypass via a known-clean ASN.** Some VPS providers (low-cost EU hosts) are not on the Clubspark blocklist. One-off test: spin up a $5/month VPS, run the recon script, see if egress is allowed. If yes, that VPS becomes the relay. Cheapest route if it works.
+- [x] ~~**Data-plane unblock — pick one.**~~ **Solved by ADR-006 (2026-05-11).** The anonymous USTA-API surface is reachable from this sandbox's egress without any Cloudflare evasion. None of the relay / browser-as-a-service / Tailscale options below were needed.
+  - [x] ~~Egress relay (Tailscale on home network).~~
+  - [x] ~~Browser-driver-as-a-service (Browserless / Browserbase).~~
+  - [x] ~~Tailscale + headless browser on user's machine.~~
+  - [x] ~~Investigate Cloudflare bypass via a known-clean ASN.~~
+- [x] ~~**Resolve Q-011 sub-question — is Railway's egress Cloudflare-blocked too?**~~ **Moot** — the primary data plane is not behind Cloudflare. Verify USTA-API reachability on first Railway deploy.
+- [ ] **Wire CoreTennis + UTR into the sync orchestrator.** The clients exist (`src/fetch/coretennis_client.py`, `src/fetch/utr_client.py`) but `usta sync` only exercises the USTA-API discovery walk today. Thread the per-player enrichment calls through `FetchRouter` and the repositories.
+- [ ] **Refresh the seeder.** Replace `scripts/seed_dev_data.py`'s synthetic Florida opponents with a real-data hydrator that calls the USTA-API + CoreTennis + UTR clients and writes through the same repositories sync uses.
+- [ ] **Resolve Q-017 — Janav's USTA player GUID in the new commingled-ES tournament index.** Reverse-engineer from a draw response (gated on auth or on cross-walking via CoreTennis event names).
 - [ ] **Resolve Q-010 — notifications mechanism.** Currently leaning Resend (free tier, no card). Picking unblocks the alerting work below.
-- [ ] **Resolve Q-011 sub-question — is Railway's egress Cloudflare-blocked too?** One-off test on a $5/month Railway service. Determines whether Railway is viable for the production deploy or whether the relay (above) is also load-bearing in production.
 
-## Clubspark integration (lights up automatically once egress is solved)
+## Recently shipped 2026-05-11
 
-The `FetchRouter` already dispatches to `clubspark_client.py`; methods raise `NotImplementedError` today. The TennisLink track works as a parallel demonstration of the parser → repo → sync orchestrator flow. Once the unblock lands:
+The data-plane breakthrough wave landed these modules (full details in CHANGELOG):
 
-- [ ] Capture real GraphQL request/response shapes for `EventList`, `TournamentData`, `Player`, `PlayerRankings`, `PlayerMatches`, and the WTN payload. Save anonymized fixtures.
-- [ ] Implement `src/parse/clubspark_*.py` against captured fixtures. Mirror the TennisLink parser shape (one file per entity, fixture-driven tests).
-- [ ] Implement Playwright-driven auth in `src/auth/session.py`. Today it's a skeleton that raises on `login()` — fill it in with the Auth0 Universal Login flow, storage-state save/load, and freshness check.
-- [ ] Fill out `src/fetch/clubspark_client.py` to use `context.request.fetch` / `page.request.post` per ADR-001 Strategy C. Wire rate limit + cache.
-- [ ] Wire Clubspark into the sync orchestrator alongside TennisLink. The router's source-preference order becomes `["clubspark", "tennislink"]` (Clubspark wins for current data; TennisLink remains the historical archive).
-- [ ] Schema-drift canary test (`tests/integration/test_schema_drift.py`) — run nightly against one known endpoint and fail loudly when the response shape diverges.
-- [ ] First green end-to-end run that overwrites the seeded opponents/draws/matches with real Clubspark data, keyed on Janav's real USTA ID.
+- `src/fetch/usta_api_client.py` — anonymous client for `prod-api-playtennis.usta.com`.
+- `src/parse/usta_api.py` — ES-envelope → Tournament / Draw parser.
+- `src/fetch/coretennis_client.py` — HTML client for CoreTennis (profile + ranking + results).
+- `src/parse/coretennis.py` — HTML → Player / Match parser.
+- `src/fetch/utr_client.py` + `src/parse/utr.py` + `src/models/utr.py` — UTR search client + parser + Pydantic model.
+- `src/fetch/router.py` — `DEFAULT_SOURCE_PREFERENCE` now `("usta_api", "tennislink", "clubspark")`; GUID-aware sources lead for GUID-shaped ids; `usta_api` source built lazily.
+- `src/cli/main.py` — `usta sync` runs a USTA-API discovery walk anchored on `USTA_ANCHOR_LAT/LON/DISTANCE_MILES/PLAYER_TYPE` (gated by `USTA_DISCOVER_ENABLED`).
+- `src/models/sync_run.py` — `SyncRunSource` taxonomy gains `"usta_api"`.
+- 51+ new tests; 357+ tests passing total.
+
+## Clubspark integration (deferred — fallback for per-id detail only)
+
+ADR-001's Strategy C is now a fallback for the auth-walled detail endpoints, not the primary path. Most of the work below is deferred indefinitely; resume only if a use case lands that the anonymous USTA-API + CoreTennis + UTR surfaces cannot cover.
+
+- [ ] Capture real GraphQL request/response shapes for the auth-walled `Player`, `PlayerRankings`, `PlayerMatches`, and WTN payloads. Save anonymized fixtures. (Deferred — gated on auth.)
+- [ ] Implement `src/parse/clubspark_*.py` against captured fixtures. (Deferred.)
+- [ ] Implement Playwright-driven auth in `src/auth/session.py`. (Deferred — only needed if Q-017 forces it.)
+- [ ] Fill out `src/fetch/clubspark_client.py` per ADR-001 Strategy C. (Deferred.)
+- [ ] Schema-drift canary test for the anonymous USTA-API endpoints and the CoreTennis + UTR feeds. **Not deferred — this is the highest-priority quality item now that real data flows through.**
 
 ## UI — bracket visualization and charts
 
@@ -170,4 +185,4 @@ The current enrichments (h2h, form, strength_of_draw, expected_outcome) are comp
 - UI: dashboard, tournaments list/detail, draw detail with bracket-path + expected-outcome bars, player card, h2h, sync. Mobile-first CSS. htmx-powered sync button.
 - Seeder anchored to Janav's real Clubspark USTA ID (`971BA48D-A2EA-4FB7-8305-F42EA466F6DF`) so the row aligns with real data once egress is solved.
 - Anonymizer for fixtures, CLI commands, raw cache writer with header redaction.
-- 283 tests passing, 1 skipped (Playwright manual).
+- 357+ tests passing, 1 skipped (Playwright manual). 51+ new tests landed in the 2026-05-11 wave.

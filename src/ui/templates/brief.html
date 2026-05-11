@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Scouting brief &middot; {{ brief.opponent.full_name }}</title>
+    <style>
+      /* Screen-friendly defaults; @media print overrides for the printable
+         single-page layout. The brief is designed to fit a single
+         US-Letter portrait page when printed (or saved as PDF). */
+      :root {
+        --ink: #0f172a;
+        --muted: #64748b;
+        --border: #cbd5e1;
+        --accent: #1d4ed8;
+        --bg-soft: #f8fafc;
+      }
+      * { box-sizing: border-box; }
+      body {
+        font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+        color: var(--ink);
+        background: #ffffff;
+        margin: 0;
+        padding: 24px;
+        line-height: 1.4;
+      }
+      .brief {
+        max-width: 7.5in;
+        margin: 0 auto;
+      }
+      .brief-header {
+        border-bottom: 2px solid var(--ink);
+        padding-bottom: 8px;
+        margin-bottom: 12px;
+      }
+      .brief-header .eyebrow {
+        font-size: 11pt;
+        color: var(--muted);
+        margin: 0 0 2px;
+      }
+      .brief-header h1 {
+        margin: 0;
+        font-size: 22pt;
+        line-height: 1.1;
+      }
+      .brief-header .round {
+        margin-top: 4px;
+        font-size: 11pt;
+        color: var(--muted);
+      }
+      .section {
+        margin: 12px 0;
+        padding: 8px 12px;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        background: var(--bg-soft);
+        page-break-inside: avoid;
+      }
+      .section h2 {
+        margin: 0 0 6px;
+        font-size: 12pt;
+        color: var(--accent);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+      }
+      .stat {
+        padding: 6px 8px;
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        background: #ffffff;
+      }
+      .stat .label {
+        font-size: 9pt;
+        text-transform: uppercase;
+        color: var(--muted);
+        letter-spacing: 0.04em;
+      }
+      .stat .value {
+        font-size: 14pt;
+        font-weight: 600;
+      }
+      table.h2h {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 10pt;
+      }
+      table.h2h th,
+      table.h2h td {
+        text-align: left;
+        padding: 4px 6px;
+        border-bottom: 1px solid var(--border);
+      }
+      table.h2h th {
+        font-size: 9pt;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .h2h-summary {
+        font-weight: 600;
+        font-size: 11pt;
+        margin-bottom: 6px;
+      }
+      ul.common {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        font-size: 10pt;
+      }
+      ul.common li {
+        display: flex;
+        justify-content: space-between;
+        padding: 3px 0;
+        border-bottom: 1px dotted var(--border);
+      }
+      ul.common li:last-child { border-bottom: none; }
+      .notes {
+        white-space: pre-wrap;
+        font-size: 10pt;
+        min-height: 60px;
+      }
+      .muted { color: var(--muted); }
+
+      /* Print rules: one Letter-portrait page, 12pt body, 0.5in margins. */
+      @page {
+        size: Letter portrait;
+        margin: 0.5in;
+      }
+      @media print {
+        body {
+          padding: 0;
+          font-size: 12pt;
+        }
+        .brief { max-width: none; }
+        .section {
+          background: #ffffff;
+          page-break-inside: avoid;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <article class="brief">
+      <header class="brief-header">
+        {% if brief.tournament %}
+          <p class="eyebrow">
+            {{ brief.tournament.name }}
+            {% if brief.tournament.start_date %}
+              &middot; {{ brief.tournament.start_date.isoformat() }}
+            {% endif %}
+            {% if brief.tournament.location_city or brief.tournament.location_state %}
+              &middot;
+              {{ brief.tournament.location_city or "" }}{% if brief.tournament.location_city and brief.tournament.location_state %}, {% endif %}{{ brief.tournament.location_state or "" }}
+            {% endif %}
+          </p>
+        {% else %}
+          <p class="eyebrow">Scouting brief</p>
+        {% endif %}
+        <h1>vs. {{ brief.opponent.full_name }}</h1>
+        {% if round_label %}
+          <p class="round">Round: {{ round_label }}</p>
+        {% elif brief.draw %}
+          <p class="round">Draw: {{ brief.draw.name }}</p>
+        {% endif %}
+      </header>
+
+      <section class="section">
+        <h2>Opponent at a glance</h2>
+        <div class="stats-grid">
+          <div class="stat">
+            <div class="label">Singles WTN</div>
+            <div class="value">
+              {% if brief.opponent_wtn %}
+                {{ "%.1f"|format(brief.opponent_wtn.value) }}
+              {% else %}
+                <span class="muted">--</span>
+              {% endif %}
+            </div>
+          </div>
+          <div class="stat">
+            <div class="label">Last 5 record</div>
+            <div class="value">{{ recent_record or "--" }}</div>
+          </div>
+          <div class="stat">
+            <div class="label">Strongest surface</div>
+            <div class="value">{{ strongest_surface or "--" }}</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Head-to-head</h2>
+        <p class="h2h-summary">{{ brief.h2h_summary }}</p>
+        {% if brief.h2h_matches %}
+          <table class="h2h">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Tournament</th>
+                <th>Score</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for m in brief.h2h_matches %}
+                <tr>
+                  <td>{% if m.scheduled_at %}{{ m.scheduled_at.date().isoformat() }}{% else %}<span class="muted">--</span>{% endif %}</td>
+                  <td>{{ h2h_tournament_names.get(m.draw_id, "--") if h2h_tournament_names else "--" }}</td>
+                  <td>{{ m.score_raw or "--" }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        {% else %}
+          <p class="muted">No prior meetings on record.</p>
+        {% endif %}
+      </section>
+
+      <section class="section">
+        <h2>Common opponents</h2>
+        {% if brief.common_opponents %}
+          <ul class="common">
+            {% for player, your_record, their_record in brief.common_opponents %}
+              <li>
+                <span>{{ player.full_name }}</span>
+                <span><strong>You</strong>&nbsp;{{ your_record }}&nbsp;&middot;&nbsp;<strong>Them</strong>&nbsp;{{ their_record }}</span>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p class="muted">No common opponents found in current data.</p>
+        {% endif %}
+      </section>
+
+      <section class="section">
+        <h2>Pre-match notes</h2>
+        <div class="notes">{% if brief.pre_match_notes %}{{ brief.pre_match_notes }}{% else %}<span class="muted">No notes yet.</span>{% endif %}</div>
+      </section>
+    </article>
+  </body>
+</html>

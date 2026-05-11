@@ -392,7 +392,13 @@ async def _run_sync(*, tournament: str | None, force: bool) -> SyncSummary:
                 await _discover_from_usta_api(conn, summary)
             else:
                 typer.echo("  usta_api: discovery disabled by config.")
-            # 2) Player profile / history (best-effort against TennisLink).
+            # 2) CoreTennis: pull primary user's profile + result history.
+            #    Per ADR-007. Anonymous, no Cloudflare. Skipped when the
+            #    CORETENNIS_PLAYER_ID env is unset.
+            if settings.coretennis_player_id:
+                await _sync_from_coretennis(conn, summary)
+            # 3) Player profile / history (best-effort against TennisLink;
+            #    typically a no-op for a Clubspark-shaped USTA_USER_PLAYER_ID).
             await _sync_for_primary_user(router, conn, summary)
     finally:
         with _IgnoreErrors():
@@ -483,6 +489,171 @@ async def _discover_from_usta_api(
     summary["persisted"] += persisted
     typer.echo(
         f"  usta_api: parsed={parsed} persisted={persisted} rows."
+    )
+
+
+async def _sync_from_coretennis(
+    conn: sqlite3.Connection,
+    summary: SyncSummary,
+) -> None:
+    """Pull the primary user's CoreTennis profile + results.
+
+    CoreTennis is a third-party HTML aggregator (ADR-007) that exposes
+    per-player match history including opponent name, score, round and
+    surface. Anonymous; works from any egress; complements the USTA API
+    discovery walk above (which is tournament-shape, not match-shape).
+    """
+    try:
+        from src.fetch.coretennis_client import CoreTennisClient
+        from src.models.player import Player
+        from src.parse.coretennis import parse_coretennis_player
+        from src.store.repositories import MatchRepository, PlayerRepository
+    except ImportError as exc:  # pragma: no cover - defensive
+        typer.echo(f"  coretennis: imports unavailable ({exc}); skipping.")
+        return
+
+    ct_id = settings.coretennis_player_id
+    typer.echo(f"  coretennis: fetching player {ct_id}...")
+    async with CoreTennisClient() as client:
+        try:
+            profile_html = await client.get_profile(ct_id)
+        except Exception as exc:
+            typer.echo(f"  coretennis: profile fetch failed ({exc!r}); skipping.")
+            summary["errored"] += 1
+            return
+        try:
+            results_html = await client.get_results(ct_id)
+        except Exception as exc:
+            typer.echo(f"  coretennis: results fetch failed ({exc!r}); skipping.")
+            summary["errored"] += 1
+            return
+
+    summary["fetched"] += 2
+
+    try:
+        player_obj, matches = parse_coretennis_player(
+            profile_html, results_html, player_id=ct_id
+        )
+    except Exception as exc:
+        typer.echo(f"  coretennis: parse failed ({exc!r}); skipping.")
+        summary["errored"] += 1
+        return
+
+    summary["parsed"] += 1 + len(matches)
+
+    # Rebase player + matches onto the canonical user id when configured.
+    # The seeded Player row uses Janav's real Clubspark GUID; CoreTennis
+    # gives us a numeric id. We want both records to point at the same
+    # primary key so the dashboard / scouting cards align.
+    primary_id = settings.usta_user_player_id or ct_id
+    if primary_id != ct_id:
+        player_obj = player_obj.model_copy(update={"usta_id": primary_id})
+        matches = [
+            m.model_copy(
+                update={
+                    "player_a_id": primary_id if m.player_a_id == ct_id else m.player_a_id,
+                    "player_b_id": primary_id if m.player_b_id == ct_id else m.player_b_id,
+                    "winner_id": (
+                        primary_id if m.winner_id == ct_id else m.winner_id
+                    ),
+                }
+            )
+            for m in matches
+        ]
+
+    try:
+        from src.models.draw import Draw
+        from src.models.tournament import Tournament
+        from src.store.repositories import DrawRepository, TournamentRepository
+
+        player_repo = PlayerRepository(conn)
+        existing = player_repo.get(primary_id)
+        if existing is not None:
+            # Preserve any user-edited fields (section, district, profile_url)
+            # — fill in only what CoreTennis adds.
+            merged = existing.model_copy(
+                update={
+                    "full_name": player_obj.full_name or existing.full_name,
+                    "first_name": player_obj.first_name or existing.first_name,
+                    "last_name": player_obj.last_name or existing.last_name,
+                    "gender": player_obj.gender or existing.gender,
+                    "age_category": player_obj.age_category or existing.age_category,
+                    "last_fetched_at": player_obj.last_fetched_at,
+                }
+            )
+            player_repo.upsert(merged)
+        else:
+            player_repo.upsert(player_obj)
+        summary["persisted"] += 1
+
+        # Synthesize parent Tournament + Draw rows for each CoreTennis
+        # match so the FK constraint on matches.draw_id is satisfied.
+        tournament_repo = TournamentRepository(conn)
+        draw_repo = DrawRepository(conn)
+        seen_draws: set[str] = set()
+        for m in matches:
+            if not m.draw_id or m.draw_id in seen_draws:
+                continue
+            seen_draws.add(m.draw_id)
+            # CoreTennis draw_id shape is "coretennis:YYYY-MM-DD:slug".
+            # Use the slug for the tournament name and the date for dates.
+            parts = m.draw_id.split(":")
+            slug = parts[-1] if len(parts) > 1 else m.draw_id
+            iso_date = parts[1] if len(parts) >= 3 else None
+            scheduled = m.scheduled_at
+            try:
+                from datetime import date as _date
+                start = _date.fromisoformat(iso_date) if iso_date else (
+                    scheduled.date() if scheduled else None
+                )
+            except ValueError:
+                start = None
+            t_id = m.draw_id  # use the draw id itself as the tournament fk
+            if tournament_repo.get(t_id) is None:
+                tournament_repo.upsert(
+                    Tournament(
+                        usta_id=t_id,
+                        name=slug.replace("-", " ").title(),
+                        level=None,
+                        sanction_body="USTA",
+                        start_date=start,
+                        end_date=start,
+                        surface="hard",
+                        status="completed",
+                        last_fetched_at=player_obj.last_fetched_at,
+                    )
+                )
+            if draw_repo.get(m.draw_id) is None:
+                draw_repo.upsert(
+                    Draw(
+                        usta_id=m.draw_id,
+                        tournament_id=t_id,
+                        name="Boys 12 Singles",
+                        format="single_elimination",
+                        gender="Boys",
+                        age_group="U12",
+                        division="Boys U12 Singles",
+                        status="completed",
+                        last_fetched_at=player_obj.last_fetched_at,
+                    )
+                )
+
+        match_repo = MatchRepository(conn)
+        persisted = 0
+        for m in matches:
+            usta_id = m.usta_id or f"ct:{m.draw_id}:{m.round or 'r0'}"
+            persisted_match = m.model_copy(update={"usta_id": usta_id})
+            match_repo.upsert(persisted_match)
+            persisted += 1
+        summary["persisted"] += persisted + len(seen_draws) * 2
+        conn.commit()
+    except Exception as exc:
+        typer.echo(f"  coretennis: persist failed ({exc!r}).")
+        summary["errored"] += 1
+        return
+
+    typer.echo(
+        f"  coretennis: parsed player + {len(matches)} matches, persisted {persisted + 1}."
     )
 
 

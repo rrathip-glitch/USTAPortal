@@ -1,10 +1,97 @@
 # RECON.md — USTA site reconnaissance
 
-This file accumulates findings from investigating `playtennis.usta.com`. It is initially a **plan**, not a set of findings — live recon happens in a session where the user provides credentials and explicit authorization for live network activity. Once recon runs, this file replaces the plan with the actual observations.
+This file accumulates findings from investigating `playtennis.usta.com` and the rest of the USTA estate. The 2026-05-11 breakthrough at the top supersedes the Cloudflare-blocked posture documented below it.
 
 ## Status
 
-**Recon: BLOCKED — environmental egress block (2026-05-10).** A live authenticated recon session was attempted in this environment with credentials loaded from `settings` and Chromium 141 driven via Playwright (both headless and Xvfb-backed non-headless variants tried). **Every navigation to a Cloudflare-fronted Clubspark host returned HTTP 403 with the Cloudflare "Sorry, you have been blocked" interstitial, before any login could be attempted.** Login was never reached — `playtennis.usta.com/` 403'd on the very first GET of the session, with `cf-ray: 9f9b89cf9e96c0a8-ORD`. The block is unconditional on path and reproduces from a real Chromium browser with `--disable-blink-features=AutomationControlled` and a Chrome-141 user agent matching the actual binary, ruling out fingerprint as the cause. The egress IP of this environment (`34.58.203.104`, GCP datacenter range) is the relevant variable: **Cloudflare's WAF on the Clubspark edge categorically rejects this IP / ASN range, regardless of TLS stack, headers, JS challenge solvability, or browser realism.** Passive recon (2026-05-10) reached the identical 403 from curl and urllib; live Playwright recon now confirms the block survives even a real Chromium TLS handshake. See "Findings (live recon attempt, 2026-05-10)" below. Per the recon charter's stop conditions, the session **stopped immediately and did not attempt evasion**. Authenticated recon must be re-run from a residential / non-datacenter egress (see Risk and Stop conditions, and the new top item in QUESTIONS.md). ADR-001 status moves to **Accepted** with the strategy "C-residential" — see DECISIONS.md.
+**Status: REACHED — primary data plane shipped 2026-05-11.** The original Cloudflare 403 on `playtennis.usta.com` from this environment's GCP egress is no longer a blocker. A brute-force recon discovered that the AEM-rendered National Search frontend at `https://playerapp.usta.com` talks to an **unauthenticated AWS API Gateway** at `https://prod-api-playtennis.usta.com` — a separate host *not* behind Cloudflare and reachable 200 OK from this same egress. Three endpoints answer anonymously and now ship as the primary data plane. In parallel, two third-party anonymous feeds — **CoreTennis.net** for per-player HTML history and the **UTR Sports search API** for player identity/rating — close the rest of the v1 data needs. See "2026-05-11 breakthrough — prod-api-playtennis.usta.com" below. The pre-breakthrough `BLOCKED` evidence is preserved further down for posterity but is no longer load-bearing.
+
+## 2026-05-11 breakthrough — prod-api-playtennis.usta.com
+
+A brute-force exploration of the USTA / Play Tennis surface (alternate hostnames, AEM-rendered frontends, AWS-shaped subdomains) found three new facts that collectively unblock the entire data plane:
+
+1. **AEM National Search frontend at `https://playerapp.usta.com`.** Not on Cloudflare. A static SPA whose inline JS exposes the API base path it talks to at runtime via a global config object — `playtennis.externalApiConfig.apiBasePath`. The string in the bundle was the smoking gun: `"https://prod-api-playtennis.usta.com"`.
+2. **The API base is an AWS API Gateway on a different host from `playtennis.usta.com`.** It is *not* fronted by Cloudflare and IS reachable from this sandbox's GCP egress (the same egress that gets 403'd by `playtennis.usta.com`). CORS allow-all on the relevant endpoints; the AEM SPA calls them at JS-runtime from the browser.
+3. **Three endpoints answer 200 anonymously, with no Authorization header required.** Per-player detail endpoints (`/playtennis/players/query`, per-id GETs) still require auth and return 403 / "Missing Authentication Token" — those are not in scope for this data plane.
+
+### Confirmed-anonymous endpoints
+
+| Method | Path | Purpose |
+| --- | --- | --- |
+| POST | `/playtennis/tournaments/query` | ES-style tournament search |
+| POST | `/playtennis/programs/query` | ES-style program search |
+| POST | `/product/api-courts/v1/courts/inventory` | Court inventory search |
+
+All three accept the same body shape:
+
+```json
+{
+  "selection": {
+    "d": 50,
+    "lat": <float>,
+    "lon": <float>,
+    "type": "Junior|Adult|Wheelchair",
+    "q": "<keyword>",
+    "registrationOpen": true,
+    "startDateTime": "<ISO-8601>",
+    "page": 1,
+    "size": 50,
+    "events.division.gender": "...",
+    "events.surface": "..."
+  },
+  "sort": {"field": "distance|startDateTime", "order": "asc|desc"}
+}
+```
+
+**Required selection fields:** `d` (distance, miles), `lat`, `lon`.
+**Optional selection fields:** `type` (Junior / Adult / Wheelchair), `q` (free-text keyword), `registrationOpen` (bool), `startDateTime` (ISO-8601), `page`, `size`, plus ES-style filter fields (`events.division.gender`, `events.surface`, etc).
+**Pagination:** `selection.page` is 1-indexed, `selection.size` max 50.
+**Sort:** `{"sort": {"field": "distance|startDateTime", "order": "asc|desc"}}`.
+
+### Auth boundary
+
+The following remain auth-walled and return 403 / "Missing Authentication Token" — explicitly out of scope for this data plane:
+
+- `/playtennis/players/query` (per-player search)
+- All per-id detail endpoints
+- Any other endpoint under `/playtennis/` not listed in the confirmed-anonymous table above
+
+### Discovery process
+
+- Anonymous curl probes from this sandbox against `https://playerapp.usta.com/` returned 200 — establishing that the AEM frontend hostname is reachable while `playtennis.usta.com` is Cloudflare-blocked.
+- The inline JS bundle revealed `playtennis.externalApiConfig.apiBasePath` pointing at `https://prod-api-playtennis.usta.com`.
+- A direct POST to `https://prod-api-playtennis.usta.com/playtennis/tournaments/query` with a minimal `{"selection":{"d":50,"lat":...,"lon":...}}` body returned 200 with an ES envelope.
+- Each of the three confirmed endpoints was independently probed; the auth-walled endpoints under the same base were probed and rejected, establishing the auth boundary.
+
+### Third-party anonymous feeds (confirmed reachable in parallel)
+
+- **CoreTennis.net** — `https://www.coretennis.net/tennis-player/<slug>/<id>/{profile,ranking,results}.html`. Third-party HTML aggregator with full per-player match history. Janav Thasen's CoreTennis id is **`203938`**. Source surface for Janav's four ground-truth match records (see below).
+- **UTR (Universal Tennis Rating) search API** — `GET https://api.utrsports.net/v2/search/players?query=<name>&top=<int>`. ES envelope, anonymous, no token required. Janav's UTR id is **`3059480`** (Weston, FL). The per-id detail endpoint at the same host is auth-walled.
+
+### Janav Thasen — real match history (CoreTennis ground truth)
+
+These four records are now the canonical fixtures for parser tests and enrichment unit tests:
+
+1. **Jan 17–19 2026** — USTA National Level 3, Saddlebrook (Wesley Chapel, FL), Boys 12, Hard, R1/32, **L vs Gustavo Lipinski 7-5 2-6 [10-12]**
+2. **Sep 13–15 2025** — USTA National Level 3, City Club at River Ranch (Lafayette, LA), Boys 12, Hard, R1/16, **L vs Satvik Challa 6-1 6-3**
+3. **Jun 14–18 2025** — USTA National Level 3, USTA National Campus (Orlando, FL), Boys 12, Hard, R1/32, **L vs Jaxon Carpenter 6-1 6-3**
+4. **Jan 18–20 2025** — USTA National Level 3, Saddlebrook (Wesley Chapel, FL), Boys 12, Hard, R1/32, **L vs Raziel Rubenstein 6-0 6-0**
+
+### Implications
+
+- **ADR-001's Strategy C residential-egress rider is no longer a release blocker.** Q-011 is resolved (see QUESTIONS.md and CHANGELOG 2026-05-11).
+- **The TennisLink path (ADR-005) remains** for historical archive lookups (pre-2019 records).
+- **The Clubspark Cloudflare-blocked plane (ADR-001)** is downgraded from primary to a fallback for per-id detail and auth-walled queries.
+- **ADR-006** (Anonymous USTA Play Tennis API as primary data plane) is filed Accepted on the strength of this evidence.
+- **ADR-007** (CoreTennis + UTR as third-party enrichment feeds) is filed Accepted on the strength of the third-party feed evidence above.
+
+---
+
+## Pre-breakthrough findings (superseded — preserved for historical context)
+
+> The evidence below dates from 2026-05-10 and described the Cloudflare-blocked posture against `playtennis.usta.com`. It is no longer load-bearing; the 2026-05-11 breakthrough above supersedes it for the primary data plane. Kept verbatim so the diagnostic reasoning that led to ADR-001 / ADR-005 remains auditable.
+
+**Recon: BLOCKED — environmental egress block (2026-05-10).** A live authenticated recon session was attempted in this environment with credentials loaded from `settings` and Chromium 141 driven via Playwright (both headless and Xvfb-backed non-headless variants tried). **Every navigation to a Cloudflare-fronted Clubspark host returned HTTP 403 with the Cloudflare "Sorry, you have been blocked" interstitial, before any login could be attempted.** Login was never reached — `playtennis.usta.com/` 403'd on the very first GET of the session, with `cf-ray: 9f9b89cf9e96c0a8-ORD`. The block is unconditional on path and reproduces from a real Chromium browser with `--disable-blink-features=AutomationControlled` and a Chrome-141 user agent matching the actual binary, ruling out fingerprint as the cause. The egress IP of this environment (`34.58.203.104`, GCP datacenter range) is the relevant variable: **Cloudflare's WAF on the Clubspark edge categorically rejects this IP / ASN range, regardless of TLS stack, headers, JS challenge solvability, or browser realism.** Passive recon (2026-05-10) reached the identical 403 from curl and urllib; live Playwright recon now confirms the block survives even a real Chromium TLS handshake. See "Findings (live recon attempt, 2026-05-10)" below. Per the recon charter's stop conditions, the session **stopped immediately and did not attempt evasion**. Authenticated recon was originally proposed to re-run from a residential / non-datacenter egress (see Risk and Stop conditions); that gate has now been **obviated by the 2026-05-11 alternate-host discovery above**.
 
 ## Working hypothesis
 

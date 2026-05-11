@@ -16,7 +16,7 @@ from pathlib import Path
 from src.config import settings
 
 
-SCHEMA_VERSION = 2
+SCHEMA_VERSION = 3
 
 SCHEMA_SQL = """
 CREATE TABLE IF NOT EXISTS schema_meta (
@@ -50,7 +50,8 @@ CREATE TABLE IF NOT EXISTS players (
     district TEXT,
     age_category TEXT,
     profile_url TEXT,
-    last_fetched_at TEXT
+    last_fetched_at TEXT,
+    coach_notes TEXT
 );
 
 CREATE TABLE IF NOT EXISTS tournaments (
@@ -129,6 +130,20 @@ CREATE TABLE IF NOT EXISTS wtn_snapshots (
 CREATE INDEX IF NOT EXISTS idx_matches_draw ON matches(draw_id);
 CREATE INDEX IF NOT EXISTS idx_matches_player_a ON matches(player_a_id);
 CREATE INDEX IF NOT EXISTS idx_matches_player_b ON matches(player_b_id);
+
+CREATE TABLE IF NOT EXISTS match_journal (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    match_id TEXT,
+    player_id TEXT NOT NULL REFERENCES players(usta_id),
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    body TEXT NOT NULL DEFAULT '',
+    self_rating INTEGER,
+    tags TEXT,
+    UNIQUE(player_id, match_id) ON CONFLICT REPLACE
+);
+
+CREATE INDEX IF NOT EXISTS idx_match_journal_player ON match_journal(player_id, created_at DESC);
 """
 
 
@@ -168,11 +183,28 @@ def _current_schema_version(conn: sqlite3.Connection) -> int | None:
         return None
 
 
+def _apply_v2_to_v3(conn: sqlite3.Connection) -> None:
+    """Add ``players.coach_notes`` if a v2 DB is missing it.
+
+    ``ALTER TABLE ... ADD COLUMN`` is not idempotent in SQLite — re-running
+    it raises ``OperationalError``. We inspect ``PRAGMA table_info`` first
+    and only issue the ALTER when the column is missing, so this helper is
+    safe to call on fresh DBs (no-op) and on v2 DBs (adds the column).
+
+    The ``match_journal`` table is created by the main ``SCHEMA_SQL``
+    script (``CREATE TABLE IF NOT EXISTS``), so no work for it is needed
+    here.
+    """
+    columns = {row[1] for row in conn.execute("PRAGMA table_info(players)").fetchall()}
+    if "coach_notes" not in columns:
+        conn.execute("ALTER TABLE players ADD COLUMN coach_notes TEXT")
+
+
 def init_schema(conn: sqlite3.Connection | None = None) -> None:
     """Apply the current schema, running idempotent migrations as needed.
 
     The schema is structured so that every ``CREATE`` is gated on
-    ``IF NOT EXISTS``; running this on a fresh DB or against a v1 DB
+    ``IF NOT EXISTS``; running this on a fresh DB or against an older DB
     converges on the same end state. The ``schema_meta.version`` row is
     bumped to :data:`SCHEMA_VERSION` after the script runs.
 
@@ -181,6 +213,11 @@ def init_schema(conn: sqlite3.Connection | None = None) -> None:
     - **v1 → v2:** add ``sync_runs`` table and its index. No data migration
       is required because the table is new and only operational metadata —
       no historical reconstruction needed.
+    - **v2 → v3:** add ``players.coach_notes`` (free-text coach notes) and
+      create the ``match_journal`` table (post-match Janav-perspective
+      entries). The column add goes through :func:`_apply_v2_to_v3` which
+      inspects ``PRAGMA table_info`` to stay idempotent; the table is added
+      by the main script's ``CREATE TABLE IF NOT EXISTS``.
     """
     own_conn = conn is None
     conn = conn or connect()
@@ -195,6 +232,11 @@ def init_schema(conn: sqlite3.Connection | None = None) -> None:
             # Reserved spot for future destructive migrations; v1→v2 is
             # idempotent so nothing runs here today.
             pass
+
+        # v2 → v3 needs an explicit ADD COLUMN (not idempotent in SQLite).
+        # Run it unconditionally — the helper is itself idempotent via
+        # PRAGMA inspection — so fresh DBs and v2 DBs converge equally.
+        _apply_v2_to_v3(conn)
 
         conn.execute(
             "INSERT OR REPLACE INTO schema_meta(key, value) VALUES ('version', ?)",

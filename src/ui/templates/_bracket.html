@@ -1,0 +1,76 @@
+{# Bracket partial.
+
+   Expects two context variables provided by the parent route handler:
+     * ``layout``     — a :class:`src.ui.bracket.BracketLayout` (or ``None``).
+     * ``layout_svg`` — the pre-rendered SVG string from
+                        :func:`src.ui.bracket.render_bracket_svg`.
+
+   The whole block is conditional on ``layout`` so a route that lacks bracket
+   data (no entries loaded yet, non-elimination format) can include the
+   partial unconditionally without crashing or emitting a stray empty
+   heading.
+
+   The inline ``<style>`` is intentional — keeping bracket styling local to
+   this partial avoids touching the global stylesheet (project constraint).
+   Selectors are scoped to ``.bracket-section`` so they never bleed into the
+   surrounding page. #}
+{% if layout %}
+<style>
+  .bracket-section {
+    margin-top: 1.25rem;
+  }
+  .bracket-section h3 {
+    margin: 0 0 0.6rem 0;
+    font-size: 1rem;
+  }
+  .bracket-section .bracket-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border: 1px solid var(--border, #e2e8f0);
+    border-radius: var(--radius-sm, 6px);
+    background: #fff;
+    padding: 0.4rem;
+  }
+  .bracket-section .bracket-scroll svg {
+    display: block;
+    min-width: 720px;
+    height: auto;
+  }
+  .bracket-section .bracket-legend {
+    margin: 0.5rem 0 0 0;
+    font-size: 0.85rem;
+    color: var(--muted, #64748b);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    align-items: center;
+  }
+  .bracket-section .bracket-legend-chip {
+    display: inline-block;
+    width: 0.9rem;
+    height: 0.9rem;
+    border-radius: 3px;
+    margin-right: 0.3rem;
+    vertical-align: -2px;
+    border: 2px solid transparent;
+  }
+  .bracket-section .bracket-legend-user {
+    border-color: #1d4ed8;
+  }
+  .bracket-section .bracket-legend-winner {
+    border-color: #16a34a;
+  }
+</style>
+<section class="bracket-section" aria-label="Bracket diagram">
+  <h3>Bracket</h3>
+  <div class="bracket-scroll">
+    {{ layout_svg | safe }}
+  </div>
+  {% if layout.user_path %}
+  <p class="bracket-legend">
+    <span class="bracket-legend-chip bracket-legend-user"></span> Your path
+    <span class="bracket-legend-chip bracket-legend-winner"></span> Winners
+  </p>
+  {% endif %}
+</section>
+{% endif %}

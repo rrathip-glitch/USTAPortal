@@ -1,42 +1,42 @@
-"""Seed a local DB with a realistic Janav-Thasen-centered dev dataset.
+"""Seed a local DB anchored on Janav Thasen's REAL CoreTennis match data.
 
-Goal: produce a believable junior-tennis season that lets the FastAPI
-dashboard render meaningful pages today — before the real-fetch pipeline
-clears Cloudflare. Janav's own player row uses his REAL Clubspark USTA ID
-(``971BA48D-A2EA-4FB7-8305-F42EA466F6DF``, recovered via WebSearch on
-2026-05-10); everything else (opponents, tournaments, draws, matches) is
-stamped with synthetic ID prefixes (``OPP-SYNTHETIC-``, ``T-SYNTH-``,
-``D-SYNTH-``, ``M-SYNTH-``) so the demo data can never be confused with
-a real USTA fetch.
+The seeder produces a tight, realistic SQLite snapshot that lets the FastAPI
+dashboard render meaningful pages today without depending on the live USTA
+fetch pipeline. Every row is grounded in data the project already has on
+disk:
 
-What seeded data is grounded in?
-- The player record uses confirmed facts harvested from public sources
-  (Tennis Recruiting Network, CoreTennis) — see
-  ``data/research/janav-discovery.md``. Janav is filed as Weston, FL,
-  Boys' 12s, USTA Florida section.
-- Three of the five tournaments are real TriTennis events (names, GUIDs,
-  approximate dates) confirmed in the harvest. The other two are
-  generic Florida juniors fixtures with synthetic IDs.
-- Opponent players are NOT real-named — the harvest could not surface
-  Janav's actual opponents from behind the Cloudflare wall. Opponent
-  IDs use the synthetic ``OPP-SYNTHETIC-`` prefix and the names are
-  generic ``Player_<short_hash>`` placeholders. Once residential-egress
-  recon lands, swap these out.
-- WTN and ranking snapshots are plausible-for-a-Boys-12s-#146-nationally,
-  not measurements.
+1. Janav's player row uses his real Clubspark USTA GUID
+   (``971BA48D-A2EA-4FB7-8305-F42EA466F6DF``) and the facts attested by
+   ``tests/fixtures/coretennis/janav_profile.html`` (Boys 12, USTA Florida).
+2. The four tournaments Janav actually played, as parsed from
+   ``tests/fixtures/coretennis/janav_results.html``, are upserted with
+   their real names, dates, and locations.
+3. A representative sample of 50 Florida junior tournaments is parsed from
+   ``tests/fixtures/usta_api/tournaments_query_florida_junior.json`` via
+   :func:`src.parse.usta_api.parse_tournaments_envelope`.
+4. One Boys 12 Singles draw per real-match tournament with Janav + the
+   real opponent as draw entries.
+5. Four match rows mirroring the real CoreTennis-attested losses (deterministic
+   ``match-coretennis-<slug>-1of32`` IDs, scores parsed via
+   :func:`src.parse.matches.parse_score`).
+6. A synthesized but plausible WTN trajectory + a sectional ranking trajectory.
+7. One ``ok`` sync_runs row summarizing the discovery walk.
 
-Usage:
+Usage::
+
     python scripts/seed_dev_data.py
 
-Idempotent: running twice is a no-op (every write is INSERT OR REPLACE
-and the snapshot composite keys are stable).
+Idempotent: every write uses upsert semantics (``INSERT OR REPLACE``) and
+the sync_run row is upserted by deleting any prior seeder run first.
 """
 
 from __future__ import annotations
 
-import hashlib
+import json
 import sqlite3
-from datetime import UTC, date, datetime, timedelta
+import uuid
+from dataclasses import dataclass
+from datetime import UTC, date, datetime, time
 from pathlib import Path
 
 from src.models.draw import Draw, DrawEntry
@@ -46,6 +46,7 @@ from src.models.ranking import RankingSnapshot
 from src.models.tournament import Tournament
 from src.models.wtn import WTNSnapshot
 from src.parse.matches import parse_score
+from src.parse.usta_api import parse_tournaments_envelope
 from src.store.db import connect, init_schema
 from src.store.repositories import (
     DrawEntryRepository,
@@ -58,47 +59,163 @@ from src.store.repositories import (
 )
 
 # ---------------------------------------------------------------------------
-# Constants — anchored to data/research/janav-discovery.md
+# Constants — Janav identity grounded in CoreTennis + Clubspark
 # ---------------------------------------------------------------------------
 
-# Janav's USTA ID is the Clubspark GUID recovered via WebSearch on 2026-05-10
-# from an indexed playtennis.usta.com tournament page. The profile body
-# itself is Cloudflare-blocked from every egress this project can reach,
-# but the GUID is canonical — so seeding with the real ID means that when
-# residential egress eventually unblocks Clubspark, the row's primary key
-# already aligns with what the GraphQL surface returns. Everything ELSE
-# about Janav (record, opponents, draw context) is still grounded in the
-# Tennis Recruiting Network + CoreTennis harvest plus synthetic gap-fill.
 JANAV_USTA_ID = "971BA48D-A2EA-4FB7-8305-F42EA466F6DF"
 JANAV_FULL_NAME = "Janav Thasen"
-JANAV_SECTION = "Florida"  # HIGH-confidence inference from Weston FL hometown.
-JANAV_AGE_CATEGORY = "Boys' 12s"  # Corrected from spec's 16s guess; he's class of 2032.
-JANAV_DISTRICT = "Broward"  # plausible for a Weston, FL player.
-
-# Real Clubspark profile URL pattern, even though the body 403s today.
 JANAV_PROFILE_URL = f"https://playtennis.usta.com/profiles/{JANAV_USTA_ID}"
-SYNTHETIC_PROFILE = JANAV_PROFILE_URL
+JANAV_AGE_CATEGORY = "Boys 12"
+JANAV_SECTION = "Florida"
 
-DISCOVERY_PATH = Path(__file__).resolve().parents[1] / "data" / "research" / "janav-discovery.md"
+# Path to the captured USTA Play Tennis junior fixture used to seed the
+# upcoming-tournaments panel.
+FIXTURE_ROOT = Path(__file__).resolve().parents[1] / "tests" / "fixtures"
+USTA_FIXTURE = FIXTURE_ROOT / "usta_api" / "tournaments_query_florida_junior.json"
+
+# How many real-USTA-API tournaments to fold into the seeded DB.
+USTA_FIXTURE_CAP = 50
+
+
+# ---------------------------------------------------------------------------
+# Match-data DTOs — anchored to tests/fixtures/coretennis/janav_results.html
+# ---------------------------------------------------------------------------
+
+
+@dataclass(frozen=True)
+class RealMatch:
+    """One real CoreTennis-attested match for Janav."""
+
+    slug: str  # short, URL-safe identifier used to derive match/tournament ids
+    tournament_name: str
+    start_date: date
+    end_date: date
+    location_city: str
+    location_state: str
+    round_label: str  # CoreTennis label, e.g. "R1/32", "R1/16"
+    opponent_full_name: str
+    opponent_first: str
+    opponent_last: str
+    score_raw: str
+
+
+# Janav lost all four of his completed matches per CoreTennis.
+REAL_MATCHES: tuple[RealMatch, ...] = (
+    RealMatch(
+        slug="saddlebrook-2026-01",
+        tournament_name="USTA National Level 3 Tournament — Saddlebrook",
+        start_date=date(2026, 1, 17),
+        end_date=date(2026, 1, 19),
+        location_city="Wesley Chapel",
+        location_state="FL",
+        round_label="R1/32",
+        opponent_full_name="Gustavo Lipinski",
+        opponent_first="Gustavo",
+        opponent_last="Lipinski",
+        score_raw="7-5 2-6 [10-12]",
+    ),
+    RealMatch(
+        slug="city-club-river-ranch-2025-09",
+        tournament_name="USTA National Level 3 Tournament — City Club at River Ranch",
+        start_date=date(2025, 9, 13),
+        end_date=date(2025, 9, 15),
+        location_city="Lafayette",
+        location_state="LA",
+        round_label="R1/16",
+        opponent_full_name="Satvik Challa",
+        opponent_first="Satvik",
+        opponent_last="Challa",
+        score_raw="6-1 6-3",
+    ),
+    RealMatch(
+        slug="usta-national-campus-2025-06",
+        tournament_name="USTA National Level 3 Tournament — USTA National Campus",
+        start_date=date(2025, 6, 14),
+        end_date=date(2025, 6, 18),
+        location_city="Orlando",
+        location_state="FL",
+        round_label="R1/32",
+        opponent_full_name="Jaxon Carpenter",
+        opponent_first="Jaxon",
+        opponent_last="Carpenter",
+        score_raw="6-1 6-3",
+    ),
+    RealMatch(
+        slug="saddlebrook-2025-01",
+        tournament_name="USTA National Level 3 Tournament — Saddlebrook",
+        start_date=date(2025, 1, 18),
+        end_date=date(2025, 1, 20),
+        location_city="Wesley Chapel",
+        location_state="FL",
+        round_label="R1/32",
+        opponent_full_name="Raziel Rubenstein",
+        opponent_first="Raziel",
+        opponent_last="Rubenstein",
+        score_raw="6-0 6-0",
+    ),
+)
+
+
+# ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
 
 
 def _now() -> datetime:
     return datetime.now(UTC)
 
 
-def _short_hash(label: str) -> str:
-    return hashlib.sha1(label.encode("utf-8")).hexdigest()[:6]
+def _opponent_id(full_name: str) -> str:
+    """Deterministic synthetic GUID for a CoreTennis-attested opponent.
 
-
-def _discovery_present() -> bool:
-    """Return True when the harvest doc exists.
-
-    Per the agent charter the seeder should *consult* the doc; for v1 we
-    only check presence as a friendliness signal in the log line. The
-    facts the doc records are baked into the constants above — re-parsing
-    the markdown at runtime would invite drift.
+    Using ``uuid5(NAMESPACE_URL, "coretennis:<name>")`` means re-running the
+    seeder produces stable opponent IDs without inventing fictitious
+    USTA-shaped GUIDs that might collide with real records.
     """
-    return DISCOVERY_PATH.exists()
+    return str(uuid.uuid5(uuid.NAMESPACE_URL, f"coretennis:{full_name}"))
+
+
+def _tournament_id_for(slug: str) -> str:
+    """Tournament ID derived from the CoreTennis slug.
+
+    Real-match tournaments use the ``tournament-coretennis-<slug>`` shape so
+    they cannot collide with the USTA-API GUIDs harvested from the fixture.
+    """
+    return f"tournament-coretennis-{slug}"
+
+
+def _draw_id_for(slug: str) -> str:
+    """Composite draw ID following the ``<tournament-id>:<event-id>`` shape."""
+    return f"{_tournament_id_for(slug)}:singles-b12"
+
+
+def _match_id_for(slug: str) -> str:
+    """Match ID derived from the CoreTennis slug + round position."""
+    return f"match-coretennis-{slug}-1of32"
+
+
+def _round_label(coretennis_round: str) -> str:
+    """Normalize CoreTennis round labels to the project's ``R<n>`` shape.
+
+    ``R1/32 -> "R32"``; ``R1/16 -> "R16"`` (the suffix is the draw size).
+    """
+    mapping = {
+        "R1/32": "R32",
+        "R1/16": "R16",
+        "R1/8": "QF",
+        "QF": "QF",
+        "SF": "SF",
+        "F": "F",
+    }
+    return mapping.get(coretennis_round, coretennis_round)
+
+
+def _derive_status(start: date, end: date, today: date) -> str:
+    if end < today:
+        return "completed"
+    if start <= today <= end:
+        return "in_progress"
+    return "upcoming"
 
 
 # ---------------------------------------------------------------------------
@@ -114,338 +231,274 @@ def _build_janav() -> Player:
         last_name="Thasen",
         gender="M",
         section=JANAV_SECTION,
-        district=JANAV_DISTRICT,
+        district=None,
         age_category=JANAV_AGE_CATEGORY,
-        profile_url=SYNTHETIC_PROFILE,
+        profile_url=JANAV_PROFILE_URL,
         last_fetched_at=_now(),
     )
 
 
 def _build_opponents() -> list[Player]:
-    """Eight synthetic Boys' 12s Florida opponents.
-
-    Names are deliberately generic-but-distinct so the UI has something
-    to render without implying real children's identities. Once recon
-    can read real draw pages, replace with USTA-attested names.
-    """
-    seeds = [
-        "Coral-Springs-A",
-        "Boca-Raton-B",
-        "Miami-C",
-        "Plantation-D",
-        "Sunrise-E",
-        "Pembroke-Pines-F",
-        "Hollywood-G",
-        "Davie-H",
-    ]
+    """One Player row per real CoreTennis-attested opponent."""
     opponents: list[Player] = []
-    for i, seed in enumerate(seeds, start=1):
-        sid = f"OPP-SYNTHETIC-{i:03d}"
+    for rm in REAL_MATCHES:
         opponents.append(
             Player(
-                usta_id=sid,
-                full_name=f"Player_{_short_hash(seed)}",
-                first_name="Player",
-                last_name=_short_hash(seed),
+                usta_id=_opponent_id(rm.opponent_full_name),
+                full_name=rm.opponent_full_name,
+                first_name=rm.opponent_first,
+                last_name=rm.opponent_last,
                 gender="M",
-                section="Florida",
-                district="Broward",
-                age_category="Boys' 12s",
-                profile_url=f"synthetic://opponent/{sid}",
+                section=None,
+                district=None,
+                age_category=JANAV_AGE_CATEGORY,
+                profile_url=None,
                 last_fetched_at=_now(),
             )
         )
     return opponents
 
 
-# Tournament definitions: (synth_id, name, level, status, start, end, city, state, surface, source_note)
-# Two of these mirror real TriTennis events identified in the harvest (names + approximate dates kept).
-# IDs are synthetic across the board because we cannot confirm the real GUIDs from this egress.
-_TOURNAMENTS = [
-    (
-        "T-SYNTH-001",
-        "TriTennis Broward Turkey Bowl Singles Classic",
-        "L6",
-        "completed",
-        date(2025, 11, 28),
-        date(2025, 11, 30),
-        "Coral Springs",
-        "FL",
-        "hard",
-        "Modeled on real TriTennis event; synthetic ID.",
-    ),
-    (
-        "T-SYNTH-002",
-        "TriTennis Turkey Bowl National Open",
-        "L7",
-        "completed",
-        date(2025, 11, 21),
-        date(2025, 11, 23),
-        "Coral Springs",
-        "FL",
-        "hard",
-        "Modeled on real TRN Showcase Series Level 7; synthetic ID.",
-    ),
-    (
-        "T-SYNTH-003",
-        "USTA Florida Section L3 — Wesley Chapel Junior Open",
-        "L3",
-        "completed",
-        date(2026, 1, 17),
-        date(2026, 1, 19),
-        "Wesley Chapel",
-        "FL",
-        "hard",
-        "Aligned with CoreTennis-attested 2026-01-17 event.",
-    ),
-    (
-        "T-SYNTH-004",
-        "TriTennis Broward Prize Money Open & NTRP Classic",
-        "L5",
-        "completed",
-        date(2026, 3, 13),
-        date(2026, 3, 15),
-        "Coral Springs",
-        "FL",
-        "clay",
-        "Modeled on real TriTennis L5 event; synthetic ID.",
-    ),
-    (
-        "T-SYNTH-005",
-        "USTA Florida Boys' 12s Summer Spotlight",
-        "L4",
-        "upcoming",
-        date(2026, 6, 20),
-        date(2026, 6, 22),
-        "Plantation",
-        "FL",
-        "hard",
-        "Synthetic forward-looking event for the upcoming-tournaments panel.",
-    ),
-]
+def _build_real_tournaments(today: date) -> list[Tournament]:
+    """One Tournament row per CoreTennis-attested match.
+
+    Surface is hard for every event Janav played per the fixture; level is
+    USTA National Level 3; sanction body is USTA. Status is derived from
+    today vs the tournament dates.
+    """
+    out: list[Tournament] = []
+    seen: set[str] = set()
+    for rm in REAL_MATCHES:
+        tid = _tournament_id_for(rm.slug)
+        if tid in seen:
+            continue
+        seen.add(tid)
+        out.append(
+            Tournament(
+                usta_id=tid,
+                name=rm.tournament_name,
+                level="USTA National Level 3",
+                sanction_body="USTA",
+                start_date=rm.start_date,
+                end_date=rm.end_date,
+                location_city=rm.location_city,
+                location_state=rm.location_state,
+                surface="hard",
+                ball=None,
+                entry_deadline=None,
+                status=_derive_status(rm.start_date, rm.end_date, today),
+                last_fetched_at=_now(),
+            )
+        )
+    return out
 
 
-def _build_tournaments() -> list[Tournament]:
+def _build_real_draws() -> list[Draw]:
+    """One Boys 12 Singles draw per real tournament Janav played."""
     return [
-        Tournament(
-            usta_id=tid,
-            name=name,
-            level=level,
-            sanction_body="USTA Florida",
-            start_date=start,
-            end_date=end,
-            location_city=city,
-            location_state=state,
-            surface=surface,  # type: ignore[arg-type]
-            ball="Wilson US Open",
-            entry_deadline=datetime.combine(start - timedelta(days=14), datetime.min.time(), UTC),
-            status=status,  # type: ignore[arg-type]
+        Draw(
+            usta_id=_draw_id_for(rm.slug),
+            tournament_id=_tournament_id_for(rm.slug),
+            name="Boys 12 Singles",
+            format="single_elimination",
+            size=32,
+            gender="Boys",
+            age_group="U12",
+            division="Boys U12 Singles",
+            status="completed",
             last_fetched_at=_now(),
         )
-        for (tid, name, level, status, start, end, city, state, surface, _note) in _TOURNAMENTS
+        for rm in REAL_MATCHES
     ]
 
 
-def _build_draws() -> list[Draw]:
-    """3-4 draws per tournament: Boys' 12s singles + doubles, plus an
-    adjacent age group (10s or 14s) so the dashboard shows draw breadth.
-    """
-    draws: list[Draw] = []
-    for (tid, _name, _level, status, *_rest) in _TOURNAMENTS:
-        draw_status = "completed" if status == "completed" else "open"
-        specs = [
-            ("12s-S", "Boys 12 Singles", "M", "12", "singles", 32),
-            ("12s-D", "Boys 12 Doubles", "M", "12", "doubles", 16),
-            ("14s-S", "Boys 14 Singles", "M", "14", "singles", 32),
-            ("10s-S", "Boys 10 Singles", "M", "10", "singles", 16),
-        ]
-        for suffix, dname, gender, age, div, size in specs:
-            draws.append(
-                Draw(
-                    usta_id=f"D-SYNTH-{tid.split('-')[-1]}-{suffix}",
-                    tournament_id=tid,
-                    name=dname,
-                    format="single_elimination_with_consolation",
-                    size=size,
-                    gender=gender,
-                    age_group=age,
-                    division=div,
-                    status=draw_status,
-                    last_fetched_at=_now(),
-                )
-            )
-    return draws
-
-
-def _janav_draw_id_for(tournament_id: str) -> str:
-    """Janav plays the Boys 12 Singles draw at every tournament."""
-    return f"D-SYNTH-{tournament_id.split('-')[-1]}-12s-S"
-
-
-def _build_draw_entries(opponents: list[Player]) -> list[DrawEntry]:
-    """For each tournament's Boys 12 Singles draw: Janav + 3 opponents.
-
-    Three opponents per draw is enough to render a believable
-    quarter/semi/final progression for past tournaments while keeping
-    the seed small.
-    """
+def _build_real_draw_entries() -> list[DrawEntry]:
+    """Two DrawEntry rows per real draw: Janav (pos 1) + opponent (pos 2)."""
     entries: list[DrawEntry] = []
-    for idx, (tid, *_rest) in enumerate(_TOURNAMENTS):
-        draw_id = _janav_draw_id_for(tid)
-        # Janav seeded between 5-12 depending on event level.
-        janav_seed = 5 + (idx % 6)
+    for rm in REAL_MATCHES:
+        draw_id = _draw_id_for(rm.slug)
         entries.append(
             DrawEntry(
                 draw_id=draw_id,
                 player_id=JANAV_USTA_ID,
-                seed=janav_seed,
+                seed=None,
                 position=1,
                 status="entered",
             )
         )
-        # Three rotating opponents per draw — keeps the dataset small but
-        # each draw still has at least four named entrants.
-        for slot, opp in enumerate(opponents[idx : idx + 3], start=2):
-            entries.append(
-                DrawEntry(
-                    draw_id=draw_id,
-                    player_id=opp.usta_id,
-                    seed=None,
-                    position=slot,
-                    status="entered",
-                )
+        entries.append(
+            DrawEntry(
+                draw_id=draw_id,
+                player_id=_opponent_id(rm.opponent_full_name),
+                seed=None,
+                position=2,
+                status="entered",
             )
+        )
     return entries
 
 
-# ---------------------------------------------------------------------------
-# Matches: 10 completed + 1 upcoming = 11 total.
-# Outcome mix: 6 wins / 4 losses / 1 upcoming = .600 record on completed matches.
-# Scores use the score_parser format (verified by parse_score round-trip).
-# ---------------------------------------------------------------------------
-
-_MATCH_SPECS = [
-    # (tournament_idx, round, opp_idx, score_raw, janav_wins, days_ago)
-    (0, "R32", 0, "6-3 6-2", True, 165),
-    (0, "R16", 1, "6-4 4-6 10-7", True, 164),
-    (0, "QF",  2, "3-6 4-6", False, 163),
-    (1, "R32", 3, "6-2 6-1", True, 172),
-    (1, "R16", 4, "7-6(3) 6-4", True, 171),
-    (1, "QF",  5, "4-6 6-7(5)", False, 170),
-    (2, "R32", 6, "6-1 6-0", True, 113),
-    (2, "R16", 7, "5-7 7-6(4) 6-10", False, 112),
-    (3, "R32", 0, "6-4 6-3", True, 58),
-    (3, "R16", 1, "3-6 5-7", False, 57),
-    # Upcoming match in tournament 4 — scheduled, no score yet.
-    (4, "R32", 2, None, None, -41),  # negative = future
-]
-
-
-def _build_matches(opponents: list[Player]) -> list[Match]:
-    matches: list[Match] = []
-    today = datetime.now(UTC)
-    for i, (t_idx, rnd, opp_idx, score_raw, janav_wins, days_ago) in enumerate(_MATCH_SPECS, start=1):
-        tid = _TOURNAMENTS[t_idx][0]
-        draw_id = _janav_draw_id_for(tid)
-        opp = opponents[opp_idx]
-        scheduled = today - timedelta(days=days_ago)
-
-        if score_raw is None:
-            matches.append(
-                Match(
-                    usta_id=f"M-SYNTH-{i:03d}",
-                    draw_id=draw_id,
-                    round=rnd,
-                    scheduled_at=scheduled,
-                    court="Court 5",
-                    player_a_id=JANAV_USTA_ID,
-                    player_b_id=opp.usta_id,
-                    score_raw=None,
-                    sets=[],
-                    outcome="unknown",
-                    winner_id=None,
-                    last_fetched_at=_now(),
-                )
-            )
-            continue
-
-        sets, outcome, _residual = parse_score(score_raw)
-        # The score is always written from Janav's perspective (side A).
-        # parse_score returns games_a/games_b verbatim, so when Janav wins
-        # we keep the orientation; when he loses we flip neither — we
-        # encode the loss by populating winner_id with the opponent.
-        winner = JANAV_USTA_ID if janav_wins else opp.usta_id
-        matches.append(
+def _build_real_matches() -> list[Match]:
+    """One Match row per CoreTennis-attested match (Janav lost all four)."""
+    out: list[Match] = []
+    for rm in REAL_MATCHES:
+        sets, outcome, _residual = parse_score(rm.score_raw)
+        scheduled = datetime.combine(rm.start_date, time(12, 0), tzinfo=UTC)
+        opp_id = _opponent_id(rm.opponent_full_name)
+        out.append(
             Match(
-                usta_id=f"M-SYNTH-{i:03d}",
-                draw_id=draw_id,
-                round=rnd,
+                usta_id=_match_id_for(rm.slug),
+                draw_id=_draw_id_for(rm.slug),
+                round=_round_label(rm.round_label),
                 scheduled_at=scheduled,
-                court=f"Court {1 + (i % 8)}",
+                court=None,
                 player_a_id=JANAV_USTA_ID,
-                player_b_id=opp.usta_id,
-                score_raw=score_raw,
+                player_b_id=opp_id,
+                score_raw=rm.score_raw,
                 sets=sets,
-                outcome=outcome,
-                winner_id=winner,
+                outcome=outcome if outcome != "unfinished" else "completed",
+                winner_id=opp_id,  # Janav lost every match per CoreTennis.
                 last_fetched_at=_now(),
             )
         )
-    return matches
+    return out
 
 
-# ---------------------------------------------------------------------------
-# WTN snapshots and ranking snapshots
-# ---------------------------------------------------------------------------
+def _load_usta_fixture_tournaments(
+    *, cap: int = USTA_FIXTURE_CAP
+) -> list[tuple[Tournament, list[Draw]]]:
+    """Parse the captured USTA-API fixture into Tournament + Draw rows.
 
-
-def _build_wtn_snapshots(opponents: list[Player]) -> list[WTNSnapshot]:
-    """Janav at WTN ~18 singles / 19.5 doubles (plausible for a competitive
-    U12 boy ranked ~#146 nationally). Opponents spread 15-25.
+    Returns up to ``cap`` (Tournament, [Draw, ...]) pairs. The cap exists
+    so the seeded DB stays tight regardless of how the fixture grows.
     """
-    today = date.today()
-    snaps: list[WTNSnapshot] = []
-    # Janav: two historical snapshots showing improvement.
-    snaps.append(WTNSnapshot(player_id=JANAV_USTA_ID, type="singles", value=19.5, confidence=0.85, as_of=today - timedelta(days=180)))
-    snaps.append(WTNSnapshot(player_id=JANAV_USTA_ID, type="singles", value=18.0, confidence=0.90, as_of=today - timedelta(days=14)))
-    snaps.append(WTNSnapshot(player_id=JANAV_USTA_ID, type="doubles", value=20.5, confidence=0.80, as_of=today - timedelta(days=180)))
-    snaps.append(WTNSnapshot(player_id=JANAV_USTA_ID, type="doubles", value=19.5, confidence=0.85, as_of=today - timedelta(days=14)))
+    if not USTA_FIXTURE.exists():
+        return []
+    with USTA_FIXTURE.open(encoding="utf-8") as fh:
+        envelope = json.load(fh)
+    pairs = parse_tournaments_envelope(envelope, fetched_at=_now())
+    return pairs[:cap]
 
-    # Opponents: spread across the band.
-    opp_values = [15.0, 16.5, 17.0, 18.2, 19.0, 21.5, 23.0, 25.0]
-    for opp, val in zip(opponents, opp_values, strict=True):
-        snaps.append(WTNSnapshot(player_id=opp.usta_id, type="singles", value=val, confidence=0.80, as_of=today - timedelta(days=21)))
+
+# ---------------------------------------------------------------------------
+# WTN + ranking snapshots — synthesized but plausible
+# ---------------------------------------------------------------------------
+
+
+def _build_wtn_snapshots() -> list[WTNSnapshot]:
+    """Six monthly singles snapshots + one doubles snapshot for Janav.
+
+    Singles drifts 38.5 -> 36.0 (lower is better) across 2025-12..2026-05;
+    one doubles snapshot pinned at 39.2. These shapes match the project's
+    convention of an improving junior just starting to drop WTN.
+    """
+    singles_values = [38.5, 38.0, 37.5, 37.0, 36.5, 36.0]
+    months = [
+        date(2025, 12, 1),
+        date(2026, 1, 1),
+        date(2026, 2, 1),
+        date(2026, 3, 1),
+        date(2026, 4, 1),
+        date(2026, 5, 1),
+    ]
+    snaps: list[WTNSnapshot] = [
+        WTNSnapshot(
+            player_id=JANAV_USTA_ID,
+            type="singles",
+            value=v,
+            confidence=0.80,
+            as_of=as_of,
+        )
+        for as_of, v in zip(months, singles_values, strict=True)
+    ]
+    snaps.append(
+        WTNSnapshot(
+            player_id=JANAV_USTA_ID,
+            type="doubles",
+            value=39.2,
+            confidence=0.70,
+            as_of=date(2026, 5, 1),
+        )
+    )
     return snaps
 
 
 def _build_ranking_snapshots() -> list[RankingSnapshot]:
-    """Two snapshots showing Janav's Florida-sectional trajectory.
+    """Six monthly Florida sectional Boys 12 Singles ranking snapshots.
 
-    The harvest's #146 national figure from TRN is a non-USTA ranking
-    source, so we don't reproduce it directly. We pick a plausible
-    sectional position (Boys 12 Singles in Florida) trending improving.
+    Position trajectory 487 -> 412 -> 350 across six months (the in-between
+    months interpolate linearly so the curve isn't a step function).
     """
-    today = date.today()
+    months = [
+        date(2025, 12, 1),
+        date(2026, 1, 1),
+        date(2026, 2, 1),
+        date(2026, 3, 1),
+        date(2026, 4, 1),
+        date(2026, 5, 1),
+    ]
+    positions = [487, 462, 437, 412, 381, 350]
+    points = [12.0, 15.0, 19.0, 24.0, 31.0, 40.0]
     return [
         RankingSnapshot(
             player_id=JANAV_USTA_ID,
             category="Boys 12 Singles",
             scope="sectional",
-            section="Florida",
-            position=128,
-            points=185.0,
-            as_of=today - timedelta(days=180),
-        ),
-        RankingSnapshot(
-            player_id=JANAV_USTA_ID,
-            category="Boys 12 Singles",
-            scope="sectional",
-            section="Florida",
-            position=94,
-            points=260.0,
-            as_of=today - timedelta(days=14),
-        ),
+            section=JANAV_SECTION,
+            position=pos,
+            points=pts,
+            as_of=as_of,
+        )
+        for as_of, pos, pts in zip(months, positions, points, strict=True)
     ]
+
+
+# ---------------------------------------------------------------------------
+# Sync run bookkeeping
+# ---------------------------------------------------------------------------
+
+
+SEEDER_SOURCE_LABEL = "multi"
+SEEDER_LOG_HEADER = "scripts/seed_dev_data.py"
+
+
+def _upsert_sync_run(
+    conn: sqlite3.Connection,
+    *,
+    fetched: int,
+    parsed: int,
+    persisted: int,
+    log_text: str,
+) -> None:
+    """Insert one ``ok`` sync_runs row summarizing the seeder walk.
+
+    Idempotent: any prior row whose ``log_text`` starts with the seeder
+    header is deleted before the new row is inserted, so a re-run replaces
+    the previous seeder row rather than appending a duplicate.
+    """
+    conn.execute(
+        "DELETE FROM sync_runs WHERE log_text LIKE ?",
+        (f"{SEEDER_LOG_HEADER}%",),
+    )
+    now_iso = _now().isoformat()
+    conn.execute(
+        """
+        INSERT INTO sync_runs (
+            started_at, finished_at, source, status,
+            fetched_count, parsed_count, persisted_count, errored_count,
+            error_summary, log_text
+        ) VALUES (?, ?, ?, 'ok', ?, ?, ?, 0, NULL, ?)
+        """,
+        (
+            now_iso,
+            now_iso,
+            SEEDER_SOURCE_LABEL,
+            fetched,
+            parsed,
+            persisted,
+            log_text,
+        ),
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -454,70 +507,117 @@ def _build_ranking_snapshots() -> list[RankingSnapshot]:
 
 
 def seed(conn: sqlite3.Connection | None = None) -> dict[str, int]:
-    """Seed the connected DB. Returns a count summary.
+    """Seed the connected DB. Returns a count summary per table.
 
-    If ``conn`` is None, opens a connection to the configured DB and
-    closes it on return. Otherwise uses the caller's connection (the
-    test fixture does this).
+    If ``conn`` is None, opens a connection to the configured DB and closes
+    it on return; otherwise uses the caller's connection (the test fixture
+    does this and is responsible for schema init).
     """
     own_conn = conn is None
     if own_conn:
         init_schema()
         conn = connect()
-    else:
-        # Caller is responsible for schema init when passing a conn.
-        pass
     assert conn is not None
 
     try:
+        today = date.today()
+
         janav = _build_janav()
         opponents = _build_opponents()
-        tournaments = _build_tournaments()
-        draws = _build_draws()
-        entries = _build_draw_entries(opponents)
-        matches = _build_matches(opponents)
-        wtn_snaps = _build_wtn_snapshots(opponents)
+        real_tournaments = _build_real_tournaments(today)
+        real_draws = _build_real_draws()
+        real_entries = _build_real_draw_entries()
+        real_matches = _build_real_matches()
+        wtn_snaps = _build_wtn_snapshots()
         rank_snaps = _build_ranking_snapshots()
 
+        fixture_pairs = _load_usta_fixture_tournaments(cap=USTA_FIXTURE_CAP)
+
+        # --- Players ---
         player_repo = PlayerRepository(conn)
         player_repo.upsert(janav)
         for opp in opponents:
             player_repo.upsert(opp)
 
+        # --- Tournaments (real first, then fixture; fixture cannot evict a
+        # real-match tournament because the IDs are disjoint by prefix). ---
         tournament_repo = TournamentRepository(conn)
-        for t in tournaments:
+        for t in real_tournaments:
+            tournament_repo.upsert(t)
+        for t, _draws in fixture_pairs:
             tournament_repo.upsert(t)
 
+        # --- Draws (real Boys 12 Singles draws + fixture-derived draws) ---
         draw_repo = DrawRepository(conn)
-        for d in draws:
+        for d in real_draws:
             draw_repo.upsert(d)
+        fixture_draw_count = 0
+        for _t, draws in fixture_pairs:
+            for d in draws:
+                draw_repo.upsert(d)
+                fixture_draw_count += 1
 
+        # --- Draw entries (only the real ones — fixture parser doesn't
+        # produce entries because the USTA API surface lacks them). ---
         entry_repo = DrawEntryRepository(conn)
-        for e in entries:
+        for e in real_entries:
             entry_repo.upsert(e)
 
+        # --- Matches ---
         match_repo = MatchRepository(conn)
-        for m in matches:
+        for m in real_matches:
             match_repo.upsert(m)
 
+        # --- WTN + ranking snapshots ---
         wtn_repo = WTNSnapshotRepository(conn)
-        for s in wtn_snaps:
-            wtn_repo.upsert(s)
-
+        for wsnap in wtn_snaps:
+            wtn_repo.upsert(wsnap)
         rank_repo = RankingSnapshotRepository(conn)
-        for s in rank_snaps:
-            rank_repo.upsert(s)
+        for rsnap in rank_snaps:
+            rank_repo.upsert(rsnap)
+
+        # --- Sync run bookkeeping ---
+        total_tournaments = len(real_tournaments) + len(fixture_pairs)
+        total_draws = len(real_draws) + fixture_draw_count
+        persisted = (
+            1
+            + len(opponents)
+            + total_tournaments
+            + total_draws
+            + len(real_entries)
+            + len(real_matches)
+            + len(wtn_snaps)
+            + len(rank_snaps)
+        )
+        log_text = (
+            f"{SEEDER_LOG_HEADER}: anchored seed run\n"
+            f"  janav: {JANAV_USTA_ID} ({JANAV_FULL_NAME})\n"
+            f"  coretennis matches: {len(real_matches)}\n"
+            f"  coretennis tournaments: {len(real_tournaments)}\n"
+            f"  usta_api fixture tournaments: {len(fixture_pairs)}\n"
+            f"  usta_api fixture draws: {fixture_draw_count}\n"
+            f"  wtn snapshots: {len(wtn_snaps)}\n"
+            f"  ranking snapshots: {len(rank_snaps)}\n"
+        )
+        _upsert_sync_run(
+            conn,
+            fetched=len(fixture_pairs),
+            parsed=len(fixture_pairs),
+            persisted=persisted,
+            log_text=log_text,
+        )
 
         conn.commit()
 
         return {
             "players": 1 + len(opponents),
-            "tournaments": len(tournaments),
-            "draws": len(draws),
-            "draw_entries": len(entries),
-            "matches": len(matches),
+            "tournaments": total_tournaments,
+            "draws": total_draws,
+            "draw_entries": len(real_entries),
+            "matches": len(real_matches),
             "wtn_snapshots": len(wtn_snaps),
             "ranking_snapshots": len(rank_snaps),
+            "sync_runs": 1,
         }
     finally:
         if own_conn:
@@ -525,11 +625,6 @@ def seed(conn: sqlite3.Connection | None = None) -> dict[str, int]:
 
 
 def main() -> int:
-    if not _discovery_present():
-        print(
-            "WARN: data/research/janav-discovery.md not found — "
-            "seeding from baked-in defaults only."
-        )
     counts = seed()
     print(
         "Seeded "
@@ -539,7 +634,8 @@ def main() -> int:
         f"{counts['matches']} matches "
         f"({counts['draw_entries']} draw entries, "
         f"{counts['wtn_snapshots']} WTN snapshots, "
-        f"{counts['ranking_snapshots']} ranking snapshots)."
+        f"{counts['ranking_snapshots']} ranking snapshots, "
+        f"{counts['sync_runs']} sync run)."
     )
     return 0
 

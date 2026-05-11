@@ -24,6 +24,7 @@ from datetime import UTC, date, datetime
 from typing import Any
 
 from src.models.draw import Draw, DrawEntry
+from src.models.journal import MatchJournalEntry
 from src.models.match import Match, SetScore
 from src.models.player import Player
 from src.models.ranking import RankingSnapshot
@@ -71,13 +72,20 @@ class PlayerRepository:
     def __init__(self, conn: sqlite3.Connection) -> None:
         self._conn = conn
 
+    # Explicit column list — never ``SELECT *`` — so that adding columns
+    # in a later migration doesn't quietly break ``_row_to_player``'s
+    # positional unpacking.
+    _PLAYER_COLUMNS = (
+        "usta_id, full_name, first_name, last_name, gender, "
+        "section, district, age_category, profile_url, last_fetched_at, coach_notes"
+    )
+
     def upsert(self, player: Player) -> None:
         self._conn.execute(
-            """
+            f"""
             INSERT OR REPLACE INTO players (
-                usta_id, full_name, first_name, last_name, gender,
-                section, district, age_category, profile_url, last_fetched_at
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                {self._PLAYER_COLUMNS}
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 player.usta_id,
@@ -90,33 +98,50 @@ class PlayerRepository:
                 _nfc(player.age_category),
                 player.profile_url,
                 _iso(player.last_fetched_at),
+                _nfc(player.coach_notes),
             ),
         )
 
     def get(self, usta_id: str) -> Player | None:
         row = self._conn.execute(
-            "SELECT * FROM players WHERE usta_id = ?", (usta_id,)
+            f"SELECT {self._PLAYER_COLUMNS} FROM players WHERE usta_id = ?",
+            (usta_id,),
         ).fetchone()
         if row is None:
             return None
         return self._row_to_player(row)
 
     def list_all(self) -> list[Player]:
-        rows = self._conn.execute("SELECT * FROM players ORDER BY full_name").fetchall()
+        rows = self._conn.execute(
+            f"SELECT {self._PLAYER_COLUMNS} FROM players ORDER BY full_name"
+        ).fetchall()
         return [self._row_to_player(r) for r in rows]
 
     def search_by_name(self, query: str) -> list[Player]:
         normalized = _nfc(query) or ""
         like = f"%{normalized.lower()}%"
         rows = self._conn.execute(
-            """
-            SELECT * FROM players
+            f"""
+            SELECT {self._PLAYER_COLUMNS} FROM players
             WHERE LOWER(full_name) LIKE ?
             ORDER BY full_name
             """,
             (like,),
         ).fetchall()
         return [self._row_to_player(r) for r in rows]
+
+    def set_coach_notes(self, player_id: str, notes: str | None) -> None:
+        """Set or clear the ``coach_notes`` field for a single player.
+
+        Targeted setter so UI write-paths don't need to read the row,
+        mutate the Pydantic model, and round-trip the whole thing back
+        through :meth:`upsert`. ``notes`` is NFC-normalized; ``None``
+        clears the column.
+        """
+        self._conn.execute(
+            "UPDATE players SET coach_notes = ? WHERE usta_id = ?",
+            (_nfc(notes), player_id),
+        )
 
     @staticmethod
     def _row_to_player(row: tuple[Any, ...]) -> Player:
@@ -131,6 +156,7 @@ class PlayerRepository:
             age_category,
             profile_url,
             last_fetched_at,
+            coach_notes,
         ) = row
         return Player(
             usta_id=usta_id,
@@ -143,6 +169,7 @@ class PlayerRepository:
             age_category=age_category,
             profile_url=profile_url,
             last_fetched_at=_parse_datetime(last_fetched_at),
+            coach_notes=coach_notes,
         )
 
 
@@ -804,3 +831,148 @@ def _safe_status(value: str) -> SyncRunStatus:
     if value in {"running", "ok", "partial", "failed"}:
         return value  # type: ignore[return-value]
     return "failed"
+
+
+# ---------------------------------------------------------------------------
+# MatchJournalRepository
+# ---------------------------------------------------------------------------
+
+
+class MatchJournalRepository:
+    """CRUD for post-match journal entries.
+
+    Identity in the DB is ``(player_id, match_id)`` enforced by a UNIQUE
+    constraint with ``ON CONFLICT REPLACE``, but we don't rely on the
+    REPLACE behavior for upserts because it would lose ``created_at`` (the
+    REPLACE deletes the old row and inserts a new one with a new
+    ``id``/``created_at``). Instead :meth:`upsert` does an explicit lookup
+    + UPDATE/INSERT so ``created_at`` is preserved across edits and the
+    autoincrement id is stable across the entry's lifetime.
+    """
+
+    _COLUMNS = (
+        "id, match_id, player_id, created_at, updated_at, "
+        "body, self_rating, tags"
+    )
+
+    def __init__(self, conn: sqlite3.Connection) -> None:
+        self._conn = conn
+
+    def upsert(self, entry: MatchJournalEntry) -> int:
+        """Insert or update by ``(player_id, match_id)``. Returns row id.
+
+        ``updated_at`` is bumped on every upsert; ``created_at`` is set on
+        first insert and preserved on update.
+        """
+        body = _nfc(entry.body) or ""
+        tags_json = json.dumps(list(entry.tags))
+        now_iso = _utcnow_iso()
+        # Look up the existing row (player_id, match_id) — using IS for
+        # NULL-safe equality so untethered notes (match_id=NULL) match.
+        existing = self._conn.execute(
+            """
+            SELECT id, created_at FROM match_journal
+            WHERE player_id = ? AND match_id IS ?
+            """,
+            (entry.player_id, entry.match_id),
+        ).fetchone()
+        if existing is not None:
+            existing_id, existing_created_at = existing
+            self._conn.execute(
+                """
+                UPDATE match_journal
+                   SET updated_at = ?,
+                       body = ?,
+                       self_rating = ?,
+                       tags = ?
+                 WHERE id = ?
+                """,
+                (now_iso, body, entry.self_rating, tags_json, existing_id),
+            )
+            return int(existing_id)
+
+        created_at_iso = _iso(entry.created_at) or now_iso
+        cursor = self._conn.execute(
+            """
+            INSERT INTO match_journal (
+                match_id, player_id, created_at, updated_at,
+                body, self_rating, tags
+            ) VALUES (?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                entry.match_id,
+                entry.player_id,
+                created_at_iso,
+                now_iso,
+                body,
+                entry.self_rating,
+                tags_json,
+            ),
+        )
+        new_id = cursor.lastrowid
+        if new_id is None:  # pragma: no cover - sqlite always returns one
+            raise RuntimeError("MatchJournalRepository.upsert: lastrowid was None")
+        return int(new_id)
+
+    def get(self, entry_id: int) -> MatchJournalEntry | None:
+        row = self._conn.execute(
+            f"SELECT {self._COLUMNS} FROM match_journal WHERE id = ?",
+            (entry_id,),
+        ).fetchone()
+        if row is None:
+            return None
+        return self._row_to_entry(row)
+
+    def list_for_player(self, player_id: str) -> list[MatchJournalEntry]:
+        rows = self._conn.execute(
+            f"""
+            SELECT {self._COLUMNS} FROM match_journal
+            WHERE player_id = ?
+            ORDER BY created_at DESC, id DESC
+            """,
+            (player_id,),
+        ).fetchall()
+        return [self._row_to_entry(r) for r in rows]
+
+    def for_match(self, player_id: str, match_id: str) -> MatchJournalEntry | None:
+        row = self._conn.execute(
+            f"""
+            SELECT {self._COLUMNS} FROM match_journal
+            WHERE player_id = ? AND match_id = ?
+            """,
+            (player_id, match_id),
+        ).fetchone()
+        if row is None:
+            return None
+        return self._row_to_entry(row)
+
+    def delete(self, entry_id: int) -> bool:
+        """Delete by id. Returns True on hit, False on miss."""
+        cursor = self._conn.execute(
+            "DELETE FROM match_journal WHERE id = ?", (entry_id,)
+        )
+        return cursor.rowcount > 0
+
+    @staticmethod
+    def _row_to_entry(row: tuple[Any, ...]) -> MatchJournalEntry:
+        (
+            id_,
+            match_id,
+            player_id,
+            created_at,
+            updated_at,
+            body,
+            self_rating,
+            tags,
+        ) = row
+        parsed_tags: list[str] = json.loads(tags) if tags else []
+        return MatchJournalEntry(
+            id=id_,
+            match_id=match_id,
+            player_id=player_id,
+            created_at=_parse_datetime(created_at) or datetime.min,
+            updated_at=_parse_datetime(updated_at) or datetime.min,
+            body=body or "",
+            self_rating=self_rating,
+            tags=parsed_tags,
+        )

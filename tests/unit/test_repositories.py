@@ -138,6 +138,36 @@ def test_player_search_by_name_partial_match(in_memory_db: sqlite3.Connection) -
     assert {p.usta_id for p in results} == {"p-1", "p-2"}
 
 
+def test_player_coach_notes_round_trip(in_memory_db: sqlite3.Connection) -> None:
+    """Test 12: set_coach_notes followed by get returns the same value."""
+    repo = PlayerRepository(in_memory_db)
+    repo.upsert(_player("janav", "Janav Test"))
+    repo.set_coach_notes("janav", "test note")
+    loaded = repo.get("janav")
+    assert loaded is not None
+    assert loaded.coach_notes == "test note"
+
+
+def test_player_set_coach_notes_clear_with_none(in_memory_db: sqlite3.Connection) -> None:
+    repo = PlayerRepository(in_memory_db)
+    repo.upsert(_player("janav", "Janav Test"))
+    repo.set_coach_notes("janav", "first")
+    repo.set_coach_notes("janav", None)
+    loaded = repo.get("janav")
+    assert loaded is not None
+    assert loaded.coach_notes is None
+
+
+def test_player_upsert_preserves_coach_notes_field(in_memory_db: sqlite3.Connection) -> None:
+    repo = PlayerRepository(in_memory_db)
+    p = _player("janav", "Janav Test")
+    p.coach_notes = "from model"
+    repo.upsert(p)
+    loaded = repo.get("janav")
+    assert loaded is not None
+    assert loaded.coach_notes == "from model"
+
+
 def test_player_nfc_normalization_on_write(in_memory_db: sqlite3.Connection) -> None:
     repo = PlayerRepository(in_memory_db)
     # NFD-encoded "é" (e + combining acute)

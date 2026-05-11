@@ -4,9 +4,102 @@ A live table of the endpoints we depend on. Populated by recon and refreshed eve
 
 ## Status
 
-**Passive recon complete (2026-05-10); live authenticated recon attempted same day and BLOCKED at the Cloudflare edge by an IP/ASN-level rule against this environment's egress (`34.58.203.104`, GCP).** No authenticated GraphQL traffic was captured; the rows below are unchanged from the passive snapshot, and authenticated capture must be re-attempted from a residential egress before any data-plane row moves from "Host confirmed exists" to "Confirmed". The auth-plane rows remain anchored on the anonymously-fetchable OIDC discovery document. Cell-by-cell evidence is in RECON.md "Findings (passive recon, 2026-05-10)" and "Findings (live recon attempt, 2026-05-10)" plus artifacts under `data/recon/2026-05-10-passive/` and `data/recon/2026-05-10-live/`.
+**Primary data plane shipped 2026-05-11** against the anonymous AWS API Gateway at `https://prod-api-playtennis.usta.com`. See "USTA-API endpoints (anonymous)" below for the three confirmed endpoints. The Cloudflare-blocked Clubspark surface (`playtennis.usta.com`, `prod-us-kube.clubspark.io`, etc.) is **Deferred** — it remains a fallback for per-id detail and auth-walled queries but is no longer load-bearing. The TennisLink surface is **Secondary** — frozen historical archive, useful for pre-2019 records. Two anonymous third-party feeds (CoreTennis, UTR search) are documented under "Third-party feeds" below. Cell-by-cell evidence is in RECON.md "2026-05-11 breakthrough — prod-api-playtennis.usta.com" and the pre-breakthrough sections kept underneath it for posterity.
 
-## Endpoint inventory
+## USTA-API endpoints (anonymous)
+
+Status: **Confirmed live (2026-05-11).** Base: `https://prod-api-playtennis.usta.com`. CORS allow-all. No Authorization header required for the three endpoints below. Per-player detail endpoints (`/playtennis/players/query`, per-id GETs) are auth-walled and return 403 / "Missing Authentication Token" — out of scope. Backing client: `src/fetch/usta_api_client.py`. Parser: `src/parse/usta_api.py` (ES envelope → Tournament / Draw).
+
+| Method | Path | Purpose | Status |
+| --- | --- | --- | --- |
+| POST | `/playtennis/tournaments/query` | ES-style tournament search | ✅ Confirmed live |
+| POST | `/playtennis/programs/query` | ES-style program search | ✅ Confirmed live |
+| POST | `/product/api-courts/v1/courts/inventory` | Court inventory search | ✅ Confirmed live |
+
+### Request shape (all three endpoints)
+
+```json
+{
+  "selection": {
+    "d": 50,
+    "lat": <float>,
+    "lon": <float>,
+    "type": "Junior|Adult|Wheelchair",
+    "q": "<keyword>",
+    "registrationOpen": true,
+    "startDateTime": "<ISO-8601>",
+    "page": 1,
+    "size": 50,
+    "events.division.gender": "...",
+    "events.surface": "..."
+  },
+  "sort": {"field": "distance|startDateTime", "order": "asc|desc"}
+}
+```
+
+- **Required selection fields:** `d` (distance, miles), `lat`, `lon`.
+- **Optional selection fields:** `type` (`Junior` / `Adult` / `Wheelchair`), `q` (free-text keyword), `registrationOpen` (bool), `startDateTime` (ISO-8601), `page` (1-indexed), `size` (max 50), plus any ES-style filter field (`events.division.gender`, `events.surface`, etc).
+- **Pagination:** `selection.page` is 1-indexed; `selection.size` capped at 50. Walk pages by incrementing `selection.page` until `hits.total.value` is reached.
+- **Sort:** `{"sort": {"field": "distance|startDateTime", "order": "asc|desc"}}`.
+
+### Response shape (ES envelope)
+
+```json
+{
+  "hits": {
+    "total": {"value": <int>},
+    "hits": [
+      {"_id": "<id>", "_source": { ...entity fields... }},
+      ...
+    ]
+  }
+}
+```
+
+`hits.total.value` is the total result count; `hits.hits[]` carries one entry per result with `_id` and `_source`. The parser in `src/parse/usta_api.py` walks `hits.hits` and maps each `_source` to a `Tournament` (and any embedded Draws / events) Pydantic model.
+
+### Anchor configuration
+
+`usta sync` runs a USTA-API discovery walk for nearby tournaments anchored on the environment variables:
+
+- `USTA_ANCHOR_LAT` / `USTA_ANCHOR_LON` — required floats; the search anchor (typically the user's home).
+- `USTA_DISCOVER_DISTANCE_MILES` — `d` value (default per `src/config.py`).
+- `USTA_DISCOVER_PLAYER_TYPE` — `type` value (default `Junior`).
+- `USTA_DISCOVER_ENABLED` — gates the discovery walk on/off.
+
+## Third-party feeds
+
+Anonymous, non-USTA. Documented here because they are now in the v1 data plane.
+
+### CoreTennis (per-player HTML history)
+
+| Path | Method | Auth | Purpose |
+| --- | --- | --- | --- |
+| `https://www.coretennis.net/tennis-player/<slug>/<id>/profile.html` | GET | none | Per-player profile (identity, rating, country, age category) |
+| `https://www.coretennis.net/tennis-player/<slug>/<id>/ranking.html` | GET | none | Per-player ranking history |
+| `https://www.coretennis.net/tennis-player/<slug>/<id>/results.html` | GET | none | Per-player full match history |
+
+- **`<id>`** is the CoreTennis player id (integer). Janav Thasen's id is `203938`.
+- **`<slug>`** is the URL-friendly name slug; both work in practice when the id is correct.
+- Response is HTML; parser is `src/parse/coretennis.py` (HTML → `Player` + `Match[]`).
+- Client: `src/fetch/coretennis_client.py`.
+- Schema-drift risk: HTML structure can change without notice — fixture-driven parser tests cover the current shape; a schema-drift canary is planned (TODO.md).
+
+### UTR (Universal Tennis Rating) search
+
+| Path | Method | Auth | Purpose |
+| --- | --- | --- | --- |
+| `https://api.utrsports.net/v2/search/players?query=<name>&top=<int>` | GET | none | Player search by name (anonymous) |
+| `https://api.utrsports.net/v2/...<per-id detail>` | GET | **auth required** | Per-player detail — out of scope |
+
+- Response: ES-style envelope (`hits.total.value`, `hits.hits[].{_id, _source}`).
+- Janav Thasen's UTR id is `3059480` (Weston, FL).
+- Client: `src/fetch/utr_client.py`. Parser: `src/parse/utr.py`. Model: `src/models/utr.py`.
+- Schema-drift risk: UTR could close the search endpoint without notice — same canary plan applies.
+
+## Endpoint inventory (Auth0 + Clubspark — Deferred fallback)
+
+Status: **Deferred (2026-05-11).** No longer the primary data plane. Kept on record because the Auth0 plane is reachable from this environment (anonymously) and the Clubspark hosts remain the only source for per-id detail and auth-walled queries. The Cloudflare IP/ASN block on the Clubspark hosts is unchanged from the 2026-05-10 findings.
 
 | Surface | URL | Method | Auth | Purpose | Status (2026-05-10) |
 | --- | --- | --- | --- | --- | --- |
@@ -58,9 +151,9 @@ Each row in the table below lands its actual query body (variables, response sha
 | PlayerRankings | TBD | TBD | TBD | ❌ Blocked from Claude Code egress |
 | PlayerMatches | TBD | TBD | TBD | ❌ Blocked from Claude Code egress |
 
-## TennisLink endpoints (primary, ASP.NET)
+## TennisLink endpoints (Secondary — historical archive, frozen post-2018)
 
-Per ADR-001's residential-egress rider and the Clubspark block, TennisLink (`tennislink.usta.com`) is the **primary reachable data source** from this environment. It is the legacy ASP.NET WebForms surface; responses are HTML, server-rendered. All endpoints below were probed anonymously on 2026-05-10 with stock `curl` from this GCP egress — no Cloudflare in front, no JA3 sensitivity, no auth required for read access. Fixtures live in `tests/fixtures/tennislink/`.
+Status: **Secondary (2026-05-11).** TennisLink (`tennislink.usta.com`) is no longer the primary live data source — that role moved to the anonymous USTA-API endpoints at the top of this document as of the 2026-05-11 breakthrough. TennisLink remains in the fetch layer as the **historical archive source** (pre-2019 tournament / draw / ranking records that the new API does not expose). It is the legacy ASP.NET WebForms surface; responses are HTML, server-rendered. All endpoints below were probed anonymously on 2026-05-10 with stock `curl` from this GCP egress — no Cloudflare in front, no JA3 sensitivity, no auth required for read access. Fixtures live in `tests/fixtures/tennislink/`.
 
 | Endpoint | Method | Parameters | Auth | Key DOM selectors / response shape | Confirmed |
 | --- | --- | --- | --- | --- | --- |
