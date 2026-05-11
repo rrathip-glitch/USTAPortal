@@ -21,10 +21,11 @@ RUN pip install --upgrade pip && pip install -e .
 # Now copy the rest of the repo (templates, scripts, fixtures, docs).
 COPY . .
 
-# Persistent volume layout. Railway-attached volume will mount over /data;
-# the directories must exist inside the image for first-boot init-db.
+# Persistent volume layout. Railway attaches its own volume at /data
+# via the dashboard (Docker's VOLUME directive is not allowed on
+# Railway's Metal builder). The directories must exist inside the
+# image for first-boot init-db.
 RUN mkdir -p /data/raw /data/db /data/exports
-VOLUME ["/data"]
 
 EXPOSE 8000
 
