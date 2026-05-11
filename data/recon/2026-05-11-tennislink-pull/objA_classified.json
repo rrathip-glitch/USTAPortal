@@ -1,0 +1,5131 @@
+[
+  {
+    "list_id": 2072457,
+    "title": "*Boys 18 (Combined)",
+    "n_rows": 3024,
+    "top5": [
+      "Woldeab, Siem",
+      "Brooksby, Jenson",
+      "Nakashima, Brandon",
+      "Allen, Leighton",
+      "Martin, Andres"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Woldeab, Siem",
+      "STALE:Nakashima, Brandon",
+      "CURRENT:Martin, Andres"
+    ]
+  },
+  {
+    "list_id": 2072454,
+    "title": "*Boys 16 (Combined)",
+    "n_rows": 2881,
+    "top5": [
+      "Fishback, Ryan",
+      "Chaudhary, Aryan",
+      "Lim, Zachery",
+      "McKennon, Maxwell",
+      "Anthrop, Jack"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Fishback, Ryan"
+    ]
+  },
+  {
+    "list_id": 2072435,
+    "title": "Boys 18 Singles Seeding",
+    "n_rows": 2677,
+    "top5": [
+      "Woldeab, Siem",
+      "Brooksby, Jenson",
+      "Nakashima, Brandon",
+      "Forman, Steven",
+      "Allen, Leighton"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Woldeab, Siem",
+      "STALE:Nakashima, Brandon"
+    ]
+  },
+  {
+    "list_id": 2072458,
+    "title": "*Boys 18 (Combined)",
+    "n_rows": 2677,
+    "top5": [
+      "Woldeab, Siem",
+      "Brooksby, Jenson",
+      "Nakashima, Brandon",
+      "Forman, Steven",
+      "Allen, Leighton"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Woldeab, Siem",
+      "STALE:Nakashima, Brandon"
+    ]
+  },
+  {
+    "list_id": 2072455,
+    "title": "*Boys 16 (Combined)",
+    "n_rows": 2531,
+    "top5": [
+      "Fishback, Ryan",
+      "Chaudhary, Aryan",
+      "Lim, Zachery",
+      "McKennon, Maxwell",
+      "Anthrop, Jack"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Fishback, Ryan"
+    ]
+  },
+  {
+    "list_id": 2072434,
+    "title": "Boys 16 Singles Seeding",
+    "n_rows": 2494,
+    "top5": [
+      "Fishback, Ryan",
+      "Chaudhary, Aryan",
+      "Lim, Zachery",
+      "McKennon, Maxwell",
+      "Anthrop, Jack"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Fishback, Ryan"
+    ]
+  },
+  {
+    "list_id": 2072451,
+    "title": "*Boys 14 (Combined)",
+    "n_rows": 2396,
+    "top5": [
+      "Kim, John",
+      "Wen, Evan",
+      "Brown, Lucas",
+      "Kim, Aidan",
+      "Lasanajak, John"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Kim, John",
+      "CURRENT:Kim, Aidan"
+    ]
+  },
+  {
+    "list_id": 2072427,
+    "title": "Boys 18 Doubles Seeding",
+    "n_rows": 2242,
+    "top5": [
+      "Martin, Andres",
+      "Nanda, Govind",
+      "Jordan, Phillip",
+      "Nava, Emilio",
+      "Hilderbrand, Trey"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Martin, Andres"
+    ]
+  },
+  {
+    "list_id": 2072459,
+    "title": "*Boys 18 (Combined)",
+    "n_rows": 2242,
+    "top5": [
+      "Martin, Andres",
+      "Nanda, Govind",
+      "Jordan, Phillip",
+      "Nava, Emilio",
+      "Hilderbrand, Trey"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Martin, Andres"
+    ]
+  },
+  {
+    "list_id": 2072456,
+    "title": "*Boys 16 (Combined)",
+    "n_rows": 2230,
+    "top5": [
+      "Heck, Hunter",
+      "McKennon, Maxwell",
+      "Mao, Nathan",
+      "Finkelstein, Alex",
+      "Shelton, Ben"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Heck, Hunter"
+    ]
+  },
+  {
+    "list_id": 2072439,
+    "title": "*Girls 14 (Combined)",
+    "n_rows": 2226,
+    "top5": [
+      "Yu, Eleana",
+      "Nelson, Priya",
+      "Ngounoue, Clervie",
+      "Williams, Sophie",
+      "Yakoff, Stephanie"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Yu, Eleana",
+      "CURRENT:Ngounoue, Clervie"
+    ]
+  },
+  {
+    "list_id": 2072426,
+    "title": "Boys 16 Doubles Seeding",
+    "n_rows": 2194,
+    "top5": [
+      "Heck, Hunter",
+      "McKennon, Maxwell",
+      "Mao, Nathan",
+      "Finkelstein, Alex",
+      "Shelton, Ben"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Heck, Hunter"
+    ]
+  },
+  {
+    "list_id": 2072452,
+    "title": "*Boys 14 (Combined)",
+    "n_rows": 2106,
+    "top5": [
+      "Kim, John",
+      "Wen, Evan",
+      "Brown, Lucas",
+      "Gorzny, Sebastian",
+      "Armistead, Jackson"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Kim, John"
+    ]
+  },
+  {
+    "list_id": 2072433,
+    "title": "Boys 14 Singles Seeding",
+    "n_rows": 2100,
+    "top5": [
+      "Kim, John",
+      "Wen, Evan",
+      "Brown, Lucas",
+      "Gorzny, Sebastian",
+      "Armistead, Jackson"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Kim, John"
+    ]
+  },
+  {
+    "list_id": 2072444,
+    "title": "*Girls 16 (Combined)",
+    "n_rows": 2046,
+    "top5": [
+      "Zamarripa, Maribella",
+      "Zamarripa, Allura",
+      "Catanzarite, Ava",
+      "Wagle, Elise",
+      "Collins, Kylie"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Zamarripa, Maribella"
+    ]
+  },
+  {
+    "list_id": 2072440,
+    "title": "*Girls 14 (Combined)",
+    "n_rows": 2031,
+    "top5": [
+      "Yu, Eleana",
+      "Nelson, Priya",
+      "Ngounoue, Clervie",
+      "Williams, Sophie",
+      "Yakoff, Stephanie"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Yu, Eleana",
+      "CURRENT:Ngounoue, Clervie"
+    ]
+  },
+  {
+    "list_id": 2072429,
+    "title": "Girls 14 Singles Seeding",
+    "n_rows": 2002,
+    "top5": [
+      "Yu, Eleana",
+      "Nelson, Priya",
+      "Ngounoue, Clervie",
+      "Williams, Sophie",
+      "Yakoff, Stephanie"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Yu, Eleana",
+      "CURRENT:Ngounoue, Clervie"
+    ]
+  },
+  {
+    "list_id": 2072422,
+    "title": "Girls 16 Doubles Seeding",
+    "n_rows": 1968,
+    "top5": [
+      "Zamarripa, Maribella",
+      "Zamarripa, Allura",
+      "Catanzarite, Ava",
+      "Wagle, Elise",
+      "Collins, Kylie"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Zamarripa, Maribella"
+    ]
+  },
+  {
+    "list_id": 2072423,
+    "title": "Girls 18 Doubles  Seeding",
+    "n_rows": 1961,
+    "top5": [
+      "Subhash, Natasha",
+      "Mcnally, Caty",
+      "Beck, Chloe",
+      "Hand, Christina",
+      "Navarro, Emma"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Subhash, Natasha"
+    ]
+  },
+  {
+    "list_id": 2072447,
+    "title": "*Girls 18 (Combined)",
+    "n_rows": 1961,
+    "top5": [
+      "Subhash, Natasha",
+      "Mcnally, Caty",
+      "Beck, Chloe",
+      "Hand, Christina",
+      "Navarro, Emma"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Subhash, Natasha"
+    ]
+  },
+  {
+    "list_id": 2072453,
+    "title": "*Boys 14 (Combined)",
+    "n_rows": 1831,
+    "top5": [
+      "Kim, Aidan",
+      "Lasanajak, John",
+      "Brown, Lucas",
+      "Williams, Cooper",
+      "Godsick, Nicholas"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Kim, Aidan"
+    ]
+  },
+  {
+    "list_id": 2072425,
+    "title": "Boys 14 Doubles Seeding",
+    "n_rows": 1823,
+    "top5": [
+      "Kim, Aidan",
+      "Lasanajak, John",
+      "Brown, Lucas",
+      "Williams, Cooper",
+      "Godsick, Nicholas"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Kim, Aidan"
+    ]
+  },
+  {
+    "list_id": 1752987,
+    "title": "*STA Boys 16 Standings (Combined)",
+    "n_rows": 1655,
+    "top5": [
+      "Chopra, Keshav",
+      "Stice, Tyler",
+      "Jordan, Phillip",
+      "Croyder, Blake",
+      "Martin, Andres"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Chopra, Keshav",
+      "CURRENT:Martin, Andres"
+    ]
+  },
+  {
+    "list_id": 2072441,
+    "title": "*Girls 14 (Combined)",
+    "n_rows": 1649,
+    "top5": [
+      "Block, Natalie",
+      "Smith, Madison",
+      "Williams, Sophie",
+      "Nisbet, Aubrey",
+      "Guerry, Ann"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Block, Natalie"
+    ]
+  },
+  {
+    "list_id": 2072421,
+    "title": "Girls 14 Doubles Seeding",
+    "n_rows": 1621,
+    "top5": [
+      "Block, Natalie",
+      "Smith, Madison",
+      "Williams, Sophie",
+      "Nisbet, Aubrey",
+      "Guerry, Ann"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Block, Natalie"
+    ]
+  },
+  {
+    "list_id": 1752988,
+    "title": null,
+    "n_rows": 1544,
+    "top5": [
+      "Chopra, Keshav",
+      "Stice, Tyler",
+      "Jordan, Phillip",
+      "Martin, Andres",
+      "Croyder, Blake"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Chopra, Keshav",
+      "CURRENT:Martin, Andres"
+    ]
+  },
+  {
+    "list_id": 1753018,
+    "title": null,
+    "n_rows": 1544,
+    "top5": [
+      "Chopra, Keshav",
+      "Stice, Tyler",
+      "Jordan, Phillip",
+      "Martin, Andres",
+      "Croyder, Blake"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Chopra, Keshav",
+      "CURRENT:Martin, Andres"
+    ]
+  },
+  {
+    "list_id": 1684708,
+    "title": "Girls 16 Singles Seeding",
+    "n_rows": 1302,
+    "top5": [
+      "Choy, Sara",
+      "Subhash, Natasha",
+      "Lairmore, Hannah",
+      "Mossmer, Nicole",
+      "Zhao, Hannah"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Subhash, Natasha"
+    ]
+  },
+  {
+    "list_id": 1684711,
+    "title": "Boys 14 Singles Seeding",
+    "n_rows": 1156,
+    "top5": [
+      "Dale, Andrew",
+      "Chopra, Keshav",
+      "Whitaker, Spencer",
+      "Brachman, Spencer",
+      "Nakashima, Brandon"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Dale, Andrew",
+      "CURRENT:Chopra, Keshav",
+      "STALE:Nakashima, Brandon"
+    ]
+  },
+  {
+    "list_id": 1684700,
+    "title": "Girls 16 Doubles Seeding",
+    "n_rows": 1070,
+    "top5": [
+      "Li, Ann",
+      "Subhash, Natasha",
+      "Kourkina, Dasha",
+      "Sorokko, Michelle",
+      "Brylin, Anna"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Subhash, Natasha"
+    ]
+  },
+  {
+    "list_id": 2072448,
+    "title": "*Boys 12 (Combined)",
+    "n_rows": 1014,
+    "top5": [
+      "Quan, Rudy",
+      "Razeghi, Alexander",
+      "Woestendick, Cooper",
+      "Exsted, Maxwell",
+      "Belday, Rohan"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Quan, Rudy",
+      "CURRENT:Razeghi, Alexander",
+      "CURRENT:Woestendick, Cooper",
+      "CURRENT:Exsted, Maxwell",
+      "CURRENT:Belday, Rohan"
+    ]
+  },
+  {
+    "list_id": 1684706,
+    "title": "Girls 12 Singles Seeding",
+    "n_rows": 906,
+    "top5": [
+      "Scott, Katrina",
+      "Yanez, Nikki",
+      "Canete, Christine Inah",
+      "Gauff, Cori",
+      "Yu, Eleana"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Yu, Eleana"
+    ]
+  },
+  {
+    "list_id": 2072436,
+    "title": "*Girls 12 (Combined)",
+    "n_rows": 881,
+    "top5": [
+      "Ngounoue, Clervie",
+      "Olson, Brooklyn",
+      "Perez, Natalia",
+      "Yin, Amber",
+      "Latak, Thea"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Ngounoue, Clervie",
+      "CURRENT:Perez, Natalia"
+    ]
+  },
+  {
+    "list_id": 2072449,
+    "title": "*Boys 12 (Combined)",
+    "n_rows": 876,
+    "top5": [
+      "Quan, Rudy",
+      "Razeghi, Alexander",
+      "Belday, Rohan",
+      "Woestendick, Cooper",
+      "Muhala, Santiago"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Quan, Rudy",
+      "CURRENT:Razeghi, Alexander",
+      "CURRENT:Belday, Rohan",
+      "CURRENT:Woestendick, Cooper",
+      "CURRENT:Muhala, Santiago"
+    ]
+  },
+  {
+    "list_id": 2072432,
+    "title": "Boys 12 Singles Seeding",
+    "n_rows": 874,
+    "top5": [
+      "Quan, Rudy",
+      "Razeghi, Alexander",
+      "Belday, Rohan",
+      "Woestendick, Cooper",
+      "Muhala, Santiago"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Quan, Rudy",
+      "CURRENT:Razeghi, Alexander",
+      "CURRENT:Belday, Rohan",
+      "CURRENT:Woestendick, Cooper",
+      "CURRENT:Muhala, Santiago"
+    ]
+  },
+  {
+    "list_id": 1752989,
+    "title": null,
+    "n_rows": 847,
+    "top5": [
+      "Croyder, Blake",
+      "Mascagni, Jonathan",
+      "Stice, Tyler",
+      "Martin, Andres",
+      "Jordan, Phillip"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Martin, Andres"
+    ]
+  },
+  {
+    "list_id": 1753019,
+    "title": null,
+    "n_rows": 847,
+    "top5": [
+      "Croyder, Blake",
+      "Mascagni, Jonathan",
+      "Stice, Tyler",
+      "Martin, Andres",
+      "Jordan, Phillip"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Martin, Andres"
+    ]
+  },
+  {
+    "list_id": 1241782,
+    "title": "*Girls 12 (Combined)",
+    "n_rows": 827,
+    "top5": [
+      "Subhash, Natasha",
+      "Kourkina, Dasha",
+      "Sorokko, Michelle",
+      "Despain, Ali",
+      "Mukherjee, Tia"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Subhash, Natasha"
+    ]
+  },
+  {
+    "list_id": 2072437,
+    "title": "*Girls 12 (Combined)",
+    "n_rows": 796,
+    "top5": [
+      "Ngounoue, Clervie",
+      "Olson, Brooklyn",
+      "Perez, Natalia",
+      "Yin, Amber",
+      "Latak, Thea"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Ngounoue, Clervie",
+      "CURRENT:Perez, Natalia"
+    ]
+  },
+  {
+    "list_id": 2072428,
+    "title": "Girls 12 Singles Seeding",
+    "n_rows": 789,
+    "top5": [
+      "Ngounoue, Clervie",
+      "Olson, Brooklyn",
+      "Perez, Natalia",
+      "Yin, Amber",
+      "Latak, Thea"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Ngounoue, Clervie",
+      "CURRENT:Perez, Natalia"
+    ]
+  },
+  {
+    "list_id": 2072450,
+    "title": "*Boys 12 (Combined)",
+    "n_rows": 764,
+    "top5": [
+      "Woestendick, Cooper",
+      "Razeghi, Alexander",
+      "Exsted, Maxwell",
+      "Quan, Rudy",
+      "Yang, Vincent"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Woestendick, Cooper",
+      "CURRENT:Razeghi, Alexander",
+      "CURRENT:Exsted, Maxwell",
+      "CURRENT:Quan, Rudy"
+    ]
+  },
+  {
+    "list_id": 2072424,
+    "title": "Boys 12 Doubles Seeding",
+    "n_rows": 761,
+    "top5": [
+      "Woestendick, Cooper",
+      "Razeghi, Alexander",
+      "Exsted, Maxwell",
+      "Quan, Rudy",
+      "Yang, Vincent"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Woestendick, Cooper",
+      "CURRENT:Razeghi, Alexander",
+      "CURRENT:Exsted, Maxwell",
+      "CURRENT:Quan, Rudy"
+    ]
+  },
+  {
+    "list_id": 2072500,
+    "title": null,
+    "n_rows": 735,
+    "top5": [
+      "Ngounoue, Clervie",
+      "Olson, Brooklyn",
+      "Slama, Mia",
+      "Perez, Natalia",
+      "Llewellyn, Sophie"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Ngounoue, Clervie",
+      "CURRENT:Perez, Natalia"
+    ]
+  },
+  {
+    "list_id": 2075500,
+    "title": "Girls' 12 Singles",
+    "n_rows": 662,
+    "top5": [
+      "Briggs, Mischa",
+      "Gowda, Kavitha",
+      "Trinkle, Riley",
+      "Matz, Ashley",
+      "Latak, Thea"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Briggs, Mischa"
+    ]
+  },
+  {
+    "list_id": 2072438,
+    "title": "*Girls 12 (Combined)",
+    "n_rows": 644,
+    "top5": [
+      "Perez, Natalia",
+      "Olson, Brooklyn",
+      "Yin, Amber",
+      "GRIGORAS, PATRICIA",
+      "Murthy, Anya"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Perez, Natalia"
+    ]
+  },
+  {
+    "list_id": 2072420,
+    "title": "Girls 12 Doubles Seeding",
+    "n_rows": 639,
+    "top5": [
+      "Perez, Natalia",
+      "Olson, Brooklyn",
+      "Yin, Amber",
+      "GRIGORAS, PATRICIA",
+      "Murthy, Anya"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Perez, Natalia"
+    ]
+  },
+  {
+    "list_id": 1744500,
+    "title": null,
+    "n_rows": 559,
+    "top5": [
+      "Spizzirri, Eliot",
+      "Fishback, Ryan",
+      "Banerjee, Samir",
+      "Suarez, Billy",
+      "Brachman, Spencer"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Fishback, Ryan"
+    ]
+  },
+  {
+    "list_id": 1241775,
+    "title": "*Boys' 16 Singles Combined (Combined)",
+    "n_rows": 212,
+    "top5": [
+      "Brown, Nathan",
+      "Parikh, Yash",
+      "Cooper, George",
+      "Carstens, Luke",
+      "Niemiec, Nathan"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Brown, Nathan",
+      "CURRENT:Cooper, George"
+    ]
+  },
+  {
+    "list_id": 2082000,
+    "title": "Girls 12 Top 200 Doubles",
+    "n_rows": 205,
+    "top5": [
+      "Perez, Natalia",
+      "Olson, Brooklyn",
+      "Yin, Amber",
+      "Renganathan, Annika",
+      "GRIGORAS, PATRICIA"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Perez, Natalia"
+    ]
+  },
+  {
+    "list_id": 2076000,
+    "title": "Girls' 16 Singles",
+    "n_rows": 180,
+    "top5": [
+      "MacAvei, Sonya",
+      "Ratliff, Sydni",
+      "Kim, Jamie",
+      "Yu, Eleana",
+      "Nugent, Abby"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Yu, Eleana"
+    ]
+  },
+  {
+    "list_id": 2072417,
+    "title": null,
+    "n_rows": 155,
+    "top5": [
+      "Woldeab, Siem",
+      "Nakashima, Brandon",
+      "Brooksby, Jenson",
+      "Nanda, Govind",
+      "Allen, Leighton"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Woldeab, Siem",
+      "STALE:Nakashima, Brandon"
+    ]
+  },
+  {
+    "list_id": 2072418,
+    "title": null,
+    "n_rows": 155,
+    "top5": [
+      "Woldeab, Siem",
+      "Nakashima, Brandon",
+      "Brooksby, Jenson",
+      "Forman, Steven",
+      "Allen, Leighton"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Woldeab, Siem",
+      "STALE:Nakashima, Brandon"
+    ]
+  },
+  {
+    "list_id": 2072419,
+    "title": null,
+    "n_rows": 154,
+    "top5": [
+      "Martin, Andres",
+      "Nava, Emilio",
+      "Nanda, Govind",
+      "Jordan, Phillip",
+      "Hilderbrand, Trey"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Martin, Andres"
+    ]
+  },
+  {
+    "list_id": 2072408,
+    "title": null,
+    "n_rows": 150,
+    "top5": [
+      "Quan, Rudy",
+      "Razeghi, Alexander",
+      "Woestendick, Cooper",
+      "Exsted, Maxwell",
+      "Belday, Rohan"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Quan, Rudy",
+      "CURRENT:Razeghi, Alexander",
+      "CURRENT:Woestendick, Cooper",
+      "CURRENT:Exsted, Maxwell",
+      "CURRENT:Belday, Rohan"
+    ]
+  },
+  {
+    "list_id": 2072409,
+    "title": null,
+    "n_rows": 150,
+    "top5": [
+      "Quan, Rudy",
+      "Razeghi, Alexander",
+      "Belday, Rohan",
+      "Woestendick, Cooper",
+      "Exsted, Maxwell"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Quan, Rudy",
+      "CURRENT:Razeghi, Alexander",
+      "CURRENT:Belday, Rohan",
+      "CURRENT:Woestendick, Cooper",
+      "CURRENT:Exsted, Maxwell"
+    ]
+  },
+  {
+    "list_id": 2072410,
+    "title": null,
+    "n_rows": 150,
+    "top5": [
+      "Woestendick, Cooper",
+      "Razeghi, Alexander",
+      "Exsted, Maxwell",
+      "Quan, Rudy",
+      "Yang, Vincent"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Woestendick, Cooper",
+      "CURRENT:Razeghi, Alexander",
+      "CURRENT:Exsted, Maxwell",
+      "CURRENT:Quan, Rudy"
+    ]
+  },
+  {
+    "list_id": 2072411,
+    "title": null,
+    "n_rows": 150,
+    "top5": [
+      "Kim, John",
+      "Wen, Evan",
+      "Brown, Lucas",
+      "Kim, Aidan",
+      "Lasanajak, John"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Kim, John",
+      "CURRENT:Kim, Aidan"
+    ]
+  },
+  {
+    "list_id": 2072412,
+    "title": null,
+    "n_rows": 150,
+    "top5": [
+      "Kim, John",
+      "Wen, Evan",
+      "Brown, Lucas",
+      "Armistead, Jackson",
+      "Gorzny, Sebastian"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Kim, John"
+    ]
+  },
+  {
+    "list_id": 2072413,
+    "title": null,
+    "n_rows": 150,
+    "top5": [
+      "Kim, Aidan",
+      "Lasanajak, John",
+      "Brown, Lucas",
+      "Williams, Cooper",
+      "Godsick, Nicholas"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Kim, Aidan"
+    ]
+  },
+  {
+    "list_id": 2072416,
+    "title": null,
+    "n_rows": 150,
+    "top5": [
+      "Heck, Hunter",
+      "McKennon, Maxwell",
+      "Mao, Nathan",
+      "Finkelstein, Alex",
+      "Shelton, Ben"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Heck, Hunter"
+    ]
+  },
+  {
+    "list_id": 2072414,
+    "title": null,
+    "n_rows": 149,
+    "top5": [
+      "Fishback, Ryan",
+      "Chaudhary, Aryan",
+      "Lim, Zachery",
+      "McKennon, Maxwell",
+      "Anthrop, Jack"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Fishback, Ryan"
+    ]
+  },
+  {
+    "list_id": 2072415,
+    "title": null,
+    "n_rows": 149,
+    "top5": [
+      "Fishback, Ryan",
+      "Chaudhary, Aryan",
+      "Lim, Zachery",
+      "McKennon, Maxwell",
+      "Anthrop, Jack"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Fishback, Ryan"
+    ]
+  },
+  {
+    "list_id": 1241776,
+    "title": "*Boys' 16 Singles Combined (Combined)",
+    "n_rows": 77,
+    "top5": [
+      "Cooper, George",
+      "Parks, Shawn",
+      "Niemiec, Nathan",
+      "Anderson, Gregory",
+      "Carstens, Luke"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Cooper, George"
+    ]
+  },
+  {
+    "list_id": 1752977,
+    "title": "Boys' 10 Singles",
+    "n_rows": 77,
+    "top5": [
+      "Nambiar, Pranav",
+      "Sparks, Benjamin",
+      "Chunduru, Abhinav",
+      "Hagen, Blake",
+      "Yang, Robert"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Chunduru, Abhinav"
+    ]
+  },
+  {
+    "list_id": 1752975,
+    "title": "Boys' 10 Singles",
+    "n_rows": 49,
+    "top5": [
+      "Hagen, Blake",
+      "Muhala, Santiago",
+      "Riggs, Cal",
+      "Wasserman, Elliot",
+      "Herrera, Diego"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Muhala, Santiago"
+    ]
+  },
+  {
+    "list_id": 1752971,
+    "title": "Boys' 10 Singles",
+    "n_rows": 12,
+    "top5": [
+      "Hagen, Blake",
+      "Muhala, Santiago",
+      "Riggs, Cal",
+      "Wasserman, Elliot",
+      "Herrera, Diego"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Muhala, Santiago"
+    ]
+  },
+  {
+    "list_id": 1752973,
+    "title": "Boys' 10 Singles",
+    "n_rows": 8,
+    "top5": [
+      "Nambiar, Pranav",
+      "Sparks, Benjamin",
+      "Chunduru, Abhinav",
+      "Hagen, Blake",
+      "Yang, Robert"
+    ],
+    "class": "current",
+    "signals": [
+      "CURRENT:Chunduru, Abhinav"
+    ]
+  },
+  {
+    "list_id": 2072442,
+    "title": "*Girls 16 (Combined)",
+    "n_rows": 2704,
+    "top5": [
+      "Zamarripa, Allura",
+      "Xu, Valencia",
+      "Sieg, Madison",
+      "Crawley, Fiona",
+      "Houghton, India"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 2072443,
+    "title": "*Girls 16 (Combined)",
+    "n_rows": 2438,
+    "top5": [
+      "Xu, Valencia",
+      "Zamarripa, Allura",
+      "Crawley, Fiona",
+      "Sieg, Madison",
+      "Lee, Anessa"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 2072430,
+    "title": "Girls 16 Singles Seeding",
+    "n_rows": 2356,
+    "top5": [
+      "Xu, Valencia",
+      "Zamarripa, Allura",
+      "Crawley, Fiona",
+      "Sieg, Madison",
+      "Lee, Anessa"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1752993,
+    "title": "*STA Boys 14 Standings (Combined)",
+    "n_rows": 1761,
+    "top5": [
+      "Tracy, JJ",
+      "Sai, Baylor",
+      "Durham, Grant",
+      "Delgado, James",
+      "Mitchell, Jacob"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1752981,
+    "title": "*STA Boys 18 Standings (Combined)",
+    "n_rows": 1707,
+    "top5": [
+      "Huryn, Aleks",
+      "Terry, Matthew",
+      "Pelletier, Beau",
+      "Pratt, Jared",
+      "Croyder, Blake"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1752994,
+    "title": null,
+    "n_rows": 1637,
+    "top5": [
+      "Tracy, JJ",
+      "Sai, Baylor",
+      "Delgado, James",
+      "Durham, Grant",
+      "Moreno, Alejandro"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1695000,
+    "title": null,
+    "n_rows": 1572,
+    "top5": [
+      "Hayes, Carri",
+      "Yun-Thayer, Kayleigh",
+      "Mathivanan, Vennmukiil",
+      "Jacobs, Angelina",
+      "Navarro, Margaret"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1752990,
+    "title": "*STA Girls 14 Standings (Combined)",
+    "n_rows": 1483,
+    "top5": [
+      "Collins, Kylie",
+      "Hrastar, Ava",
+      "Hiser, AnneMarie",
+      "Gretkowski, Allie",
+      "Lopez, Jackeline"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1752996,
+    "title": "*STA Boys 12 Standings (Combined)",
+    "n_rows": 1477,
+    "top5": [
+      "Lilov, Victor",
+      "Mayew, Will",
+      "Qadir, Waleed",
+      "Lasanajak, John",
+      "Rico, James"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684713,
+    "title": "Boys 18 Singles Seeding",
+    "n_rows": 1472,
+    "top5": [
+      "Riffice, Sam",
+      "McNally, John",
+      "Clark, Zeke",
+      "Huang, Austen",
+      "Kirkov, Vasil"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1752984,
+    "title": "*STA Girls 16 Standings (Combined)",
+    "n_rows": 1469,
+    "top5": [
+      "Beck, Chloe",
+      "Hrastar, Ava",
+      "Navarro, Emma",
+      "Briggs, Carly",
+      "Cubitt, Maggie"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1752997,
+    "title": null,
+    "n_rows": 1420,
+    "top5": [
+      "Lilov, Victor",
+      "Mayew, Will",
+      "Qadir, Waleed",
+      "Armistead, Jackson",
+      "Lasanajak, John"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1752982,
+    "title": "*Boys 18 Combined (Combined)",
+    "n_rows": 1410,
+    "top5": [
+      "Huryn, Aleks",
+      "Terry, Matthew",
+      "Pelletier, Beau",
+      "Easterling, Chambers",
+      "Croyder, Blake"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1753024,
+    "title": null,
+    "n_rows": 1410,
+    "top5": [
+      "Huryn, Aleks",
+      "Terry, Matthew",
+      "Pelletier, Beau",
+      "Easterling, Chambers",
+      "Croyder, Blake"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1752991,
+    "title": null,
+    "n_rows": 1387,
+    "top5": [
+      "Collins, Kylie",
+      "Hrastar, Ava",
+      "Hiser, AnneMarie",
+      "Armistead, Mary Grace",
+      "Duncan, Paige"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1752978,
+    "title": "*STA Girls 18 Standings (Combined)",
+    "n_rows": 1354,
+    "top5": [
+      "Kurtz, Emma",
+      "Bojczuk, Ally",
+      "Kessler, McCartney",
+      "Pesavento, Peyton",
+      "Rice, Tatum"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1752985,
+    "title": null,
+    "n_rows": 1348,
+    "top5": [
+      "Hrastar, Ava",
+      "Beck, Chloe",
+      "Briggs, Carly",
+      "Lyman, Katherine",
+      "Navarro, Emma"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1753015,
+    "title": null,
+    "n_rows": 1348,
+    "top5": [
+      "Hrastar, Ava",
+      "Beck, Chloe",
+      "Briggs, Carly",
+      "Lyman, Katherine",
+      "Navarro, Emma"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684712,
+    "title": "Boys 16 Singles Seeding",
+    "n_rows": 1320,
+    "top5": [
+      "Haskins, Carson",
+      "Huang, Austen",
+      "Rotsaert, Alexandre",
+      "Alshon, Christian",
+      "Zhu, Kevin"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1752999,
+    "title": "*STA Girls 12 Standings (Combined)",
+    "n_rows": 1308,
+    "top5": [
+      "Thornton, Maeve",
+      "Navarro, Margaret",
+      "Chan, Jo-Yee",
+      "Guerry, Ann",
+      "Thornhill, Isabela"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684705,
+    "title": "Boys 18 Doubles Seeding",
+    "n_rows": 1268,
+    "top5": [
+      "Kirkov, Vasil",
+      "Holt, Brandon",
+      "Crawford, Oliver",
+      "Rowe, Billy",
+      "Ponwith, Nathan"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1711500,
+    "title": "*Boys 18 (Combined)",
+    "n_rows": 1257,
+    "top5": [
+      "Smith, Keegan",
+      "Crawford, Oliver",
+      "Kirkov, Vasil",
+      "Ponwith, Nathan",
+      "Holt, Brandon"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1753000,
+    "title": null,
+    "n_rows": 1257,
+    "top5": [
+      "Thornton, Maeve",
+      "Navarro, Margaret",
+      "Gauff, Cori",
+      "Guerry, Ann",
+      "Chan, Jo-Yee"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1693000,
+    "title": "*Boys 18 (Combined)",
+    "n_rows": 1245,
+    "top5": [
+      "Holt, Brandon",
+      "Ponwith, Nathan",
+      "Crawford, Oliver",
+      "Smith, Keegan",
+      "Kirkov, Vasil"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684701,
+    "title": "Girls 18 Doubles  Seeding",
+    "n_rows": 1207,
+    "top5": [
+      "Shibahara, Ena",
+      "Rogers, Anna",
+      "Milunovich, Lexi",
+      "Li, Ann",
+      "Bolton, Elysia"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684707,
+    "title": "Girls 14 Singles Seeding",
+    "n_rows": 1188,
+    "top5": [
+      "Volynets, Katie",
+      "Canete, Mae Fmar",
+      "Baptiste, Hailey",
+      "Cheong, Naomi",
+      "Gallagher, Sedona"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1753005,
+    "title": "*STA Boys 11 Green Ball Standings (Combined)",
+    "n_rows": 1188,
+    "top5": [
+      "Sachdev, Rahul",
+      "Mangiapane, Nicholas",
+      "Rundle, Andrew",
+      "Delgado, Andrew",
+      "Kennedy, Jake"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1732500,
+    "title": "*Girls 18 (Combined)",
+    "n_rows": 1184,
+    "top5": [
+      "Shibahara, Ena",
+      "Bolton, Elysia",
+      "Chiu, Abigail",
+      "Rogers, Anna",
+      "Milunovich, Lexi"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1753006,
+    "title": null,
+    "n_rows": 1150,
+    "top5": [
+      "Sachdev, Rahul",
+      "Mangiapane, Nicholas",
+      "Rundle, Andrew",
+      "Delgado, Andrew",
+      "Smith, Jacob"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1720500,
+    "title": null,
+    "n_rows": 1101,
+    "top5": [
+      "Greif, Lukas",
+      "Alshon, Christian",
+      "Brooksby, Jenson",
+      "MacIag, Robert",
+      "Hilderbrand, Trey"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684500,
+    "title": "*Boys 16 (Combined)",
+    "n_rows": 1091,
+    "top5": [
+      "Hilderbrand, Trey",
+      "Sands, Jake",
+      "Thomas, Danny",
+      "Ton, Andrew",
+      "Wild, Maximilian"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684704,
+    "title": "Boys 16 Doubles Seeding",
+    "n_rows": 1091,
+    "top5": [
+      "Hilderbrand, Trey",
+      "Sands, Jake",
+      "Thomas, Danny",
+      "Ton, Andrew",
+      "Wild, Maximilian"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1752979,
+    "title": null,
+    "n_rows": 1084,
+    "top5": [
+      "Kurtz, Emma",
+      "Bojczuk, Ally",
+      "Otsuka, Nami",
+      "Rice, Tatum",
+      "Pesavento, Peyton"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1753021,
+    "title": null,
+    "n_rows": 1084,
+    "top5": [
+      "Kurtz, Emma",
+      "Bojczuk, Ally",
+      "Otsuka, Nami",
+      "Rice, Tatum",
+      "Pesavento, Peyton"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1752983,
+    "title": "*Boys 18 Combined (Combined)",
+    "n_rows": 1057,
+    "top5": [
+      "Pratt, Jared",
+      "Johnston, Britton",
+      "Sculley, Sean",
+      "Croyder, Blake",
+      "Rogers, Andrew"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1753025,
+    "title": null,
+    "n_rows": 1057,
+    "top5": [
+      "Pratt, Jared",
+      "Johnston, Britton",
+      "Sculley, Sean",
+      "Croyder, Blake",
+      "Rogers, Andrew"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1241785,
+    "title": "*Girls 14 (Combined)",
+    "n_rows": 1050,
+    "top5": [
+      "Goulak, Annette",
+      "Chen, Kelly",
+      "Joyce, Grace",
+      "Nothaft, Delaney",
+      "Angyalosy, Alexandra"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684699,
+    "title": "Girls 14 Doubles Seeding",
+    "n_rows": 966,
+    "top5": [
+      "Beck, Chloe",
+      "Hrastar, Ava",
+      "Baptiste, Hailey",
+      "Tran, Reilly",
+      "Chan, Amanda"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684710,
+    "title": "Boys 12 Singles Seeding",
+    "n_rows": 964,
+    "top5": [
+      "Landau, Sam",
+      "Basavareddy, Nishesh",
+      "Wen, Evan",
+      "Ampong, Noelle Andrey",
+      "Banerjee, Samir"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1753002,
+    "title": "*STA Girls 11 Green Ball Standings (Combined)",
+    "n_rows": 959,
+    "top5": [
+      "Severance, Saige",
+      "Hartung, Isabella",
+      "Mulberry, Hayden",
+      "Raidt, Conley",
+      "Tanjuatco, Isabelle"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1752995,
+    "title": null,
+    "n_rows": 933,
+    "top5": [
+      "Tracy, JJ",
+      "Mitchell, Jacob",
+      "Sharma, Daiven",
+      "Billman, Mathis",
+      "Durham, Grant"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1753003,
+    "title": null,
+    "n_rows": 920,
+    "top5": [
+      "Severance, Saige",
+      "Hartung, Isabella",
+      "Mulberry, Hayden",
+      "Lee, Abby",
+      "Wrigley, Brooke"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1699500,
+    "title": "*Girls 12 (Combined)",
+    "n_rows": 890,
+    "top5": [
+      "Canete, Christine Inah",
+      "Scott, Katrina",
+      "Wiersholm, Katja",
+      "Montgomery, Robin",
+      "Yanez, Nikki"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1753011,
+    "title": "*STA Boys 10 Standings (Combined)",
+    "n_rows": 845,
+    "top5": [
+      "Robin, Charlie",
+      "Farnham, Benjamin",
+      "Ballantine, Augie",
+      "Kennedy, Jake",
+      "Moore, Lytle"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1758000,
+    "title": null,
+    "n_rows": 815,
+    "top5": [
+      "Kurtz, Emma",
+      "Kessler, McCartney",
+      "Bojczuk, Ally",
+      "Meredith, Madeline",
+      "Rice, Tatum"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1752980,
+    "title": null,
+    "n_rows": 814,
+    "top5": [
+      "Kurtz, Emma",
+      "Kessler, McCartney",
+      "Bojczuk, Ally",
+      "Meredith, Madeline",
+      "Navarro, Emma"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1753022,
+    "title": null,
+    "n_rows": 814,
+    "top5": [
+      "Kurtz, Emma",
+      "Kessler, McCartney",
+      "Bojczuk, Ally",
+      "Meredith, Madeline",
+      "Navarro, Emma"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1708000,
+    "title": null,
+    "n_rows": 807,
+    "top5": [
+      "Collins, Kylie",
+      "Hiser, AnneMarie",
+      "Hrastar, Ava",
+      "Briggs, Carly",
+      "Andreini, Katie"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1753012,
+    "title": null,
+    "n_rows": 805,
+    "top5": [
+      "Robin, Charlie",
+      "Farnham, Benjamin",
+      "Ballantine, Augie",
+      "Moore, Lytle",
+      "Nedkov, Leo"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1752986,
+    "title": null,
+    "n_rows": 767,
+    "top5": [
+      "Beck, Chloe",
+      "Navarro, Emma",
+      "Cubitt, Maggie",
+      "Mills, Elise",
+      "Hrastar, Ava"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1752992,
+    "title": null,
+    "n_rows": 767,
+    "top5": [
+      "Collins, Kylie",
+      "Hiser, AnneMarie",
+      "Hrastar, Ava",
+      "Gretkowski, Allie",
+      "Strugnell, Sophia"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1753016,
+    "title": null,
+    "n_rows": 767,
+    "top5": [
+      "Beck, Chloe",
+      "Navarro, Emma",
+      "Cubitt, Maggie",
+      "Mills, Elise",
+      "Hrastar, Ava"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684702,
+    "title": "Boys 12 Doubles Seeding",
+    "n_rows": 719,
+    "top5": [
+      "Kittay, Benjamin",
+      "Landau, Sam",
+      "Deaton, Phillip",
+      "Basavareddy, Nishesh",
+      "Lilov, Victor"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684698,
+    "title": "Girls 12 Doubles Seeding",
+    "n_rows": 695,
+    "top5": [
+      "Canete, Christine Inah",
+      "Byrd, Mya",
+      "Scott, Katrina",
+      "Montgomery, Robin",
+      "Wiersholm, Katja"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1752998,
+    "title": null,
+    "n_rows": 682,
+    "top5": [
+      "Lilov, Victor",
+      "Rico, James",
+      "Lasanajak, John",
+      "Mayew, Will",
+      "Qadir, Waleed"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1753007,
+    "title": null,
+    "n_rows": 619,
+    "top5": [
+      "Sachdev, Rahul",
+      "Kennedy, Jake",
+      "Suk, Eric",
+      "Delgado, Andrew",
+      "Mangiapane, Nicholas"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1753001,
+    "title": null,
+    "n_rows": 618,
+    "top5": [
+      "Chan, Jo-Yee",
+      "Thornhill, Isabela",
+      "Danford, Christina",
+      "Thornton, Maeve",
+      "Guerry, Ann"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1753008,
+    "title": "*STA Girls 10 Standings (Combined)",
+    "n_rows": 615,
+    "top5": [
+      "Sciara, Adriana",
+      "Longmire, Mary Ellen",
+      "Kranec, Lisa",
+      "Murphy, Lillie",
+      "Presser, Addison"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 2081500,
+    "title": "*Girls 16's Combined Standings List (Combined)",
+    "n_rows": 614,
+    "top5": [
+      "Jesudason, Meera",
+      "Honer, Amelia",
+      "Roshkoff, Saige",
+      "Nisbet, Aubrey",
+      "Yauch, Bethany"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1719500,
+    "title": null,
+    "n_rows": 609,
+    "top5": [
+      "Corse, Cameron",
+      "Lu, Irene",
+      "Gulihur, Catherine",
+      "Hammond, Nicole",
+      "Sorkin, Nina"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1753009,
+    "title": null,
+    "n_rows": 585,
+    "top5": [
+      "Sciara, Adriana",
+      "Longmire, Mary Ellen",
+      "Kranec, Lisa",
+      "Sinitsin, Lizzie",
+      "Presser, Addison"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1753004,
+    "title": null,
+    "n_rows": 534,
+    "top5": [
+      "Severance, Saige",
+      "Raidt, Conley",
+      "Tanjuatco, Isabelle",
+      "Charney, Piper",
+      "Hartung, Isabella"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 2063500,
+    "title": "*Girls' 18 Ranking 2018 (Combined)",
+    "n_rows": 520,
+    "top5": [
+      "Ma, Connie",
+      "Gordon, Jennamarie",
+      "Campana, Anna",
+      "Kosan, Klara",
+      "Yeah, Ashley"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1723000,
+    "title": "Boys' 18 Ranking 2016 (Doubles Only)",
+    "n_rows": 503,
+    "top5": [
+      "Cory, Randy",
+      "Batta, Amit",
+      "Jayaraman, Arjith",
+      "Huang, Austen",
+      "Saiga, Wilhelm"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1697000,
+    "title": null,
+    "n_rows": 471,
+    "top5": [
+      "Huang, Austen",
+      "Brooksby, Jenson",
+      "Mayo, Keenan",
+      "Ton, Andrew",
+      "Xiao, Andre"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 2073500,
+    "title": null,
+    "n_rows": 406,
+    "top5": [
+      "Foster, Zachery",
+      "Cloud, Louis",
+      "Zavala, Avery",
+      "Crookston, Carter",
+      "Chang, Andrew"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684697,
+    "title": null,
+    "n_rows": 394,
+    "top5": [
+      "Pereira, Michael",
+      "Everett, Erik",
+      "Bussert, Shaun",
+      "Whiteside, Luke",
+      "Walker, Jonathan"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1714000,
+    "title": null,
+    "n_rows": 378,
+    "top5": [
+      "Campana, Carolyn",
+      "Yeah, Ashley",
+      "Tabachnik, Katya",
+      "Abdelouahid, Hind",
+      "Gupta, Neha"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1713500,
+    "title": null,
+    "n_rows": 374,
+    "top5": [
+      "Ong, Vanessa",
+      "Kuckelman, Ellie",
+      "Alons, Anna",
+      "Kuckelman, Chloe",
+      "Mannix, Samantha"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1748000,
+    "title": null,
+    "n_rows": 360,
+    "top5": [
+      "Byrd, Mya",
+      "Montgomery, Robin",
+      "Karamyshev, Aleksandra",
+      "Dong, Annie",
+      "You, Angel"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1680000,
+    "title": null,
+    "n_rows": 359,
+    "top5": [
+      "Lair, Graydon",
+      "Cassone, Murphy",
+      "Brewer, Eli",
+      "Rollins, Pierce",
+      "Tharakan, Matthan"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1751000,
+    "title": "12Month Rolling Standing Nat. Men's 65 Indiv. Dbls",
+    "n_rows": 344,
+    "top5": [
+      "Wofford, Leonard",
+      "Wulf, Paul",
+      "Landauer, Philip",
+      "Dawson, Tony",
+      "Pearce, Roger"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1753013,
+    "title": null,
+    "n_rows": 339,
+    "top5": [
+      "Kennedy, Jake",
+      "Matuszak, Benjamin",
+      "Byrnes, Palmer",
+      "Robin, Charlie",
+      "Johnson, Cooper"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 2073000,
+    "title": "Boys' 18 Doubles",
+    "n_rows": 328,
+    "top5": [
+      "Stinchcomb, Trey",
+      "Chrysostom, Jordan",
+      "Garner, Finn",
+      "Segraves, Gavin",
+      "Carpenter, Mikeal"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 2060500,
+    "title": null,
+    "n_rows": 323,
+    "top5": [
+      "Serra, Bruno",
+      "Jarvis, Reid",
+      "Richards, Alexander",
+      "Atherton, Jackson",
+      "Pham, Nam"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 2083500,
+    "title": null,
+    "n_rows": 320,
+    "top5": [
+      "Kerrigan, Kristin",
+      "Cusano, Gabriella",
+      "LaMette, Melissa",
+      "Campos, MariaFernanda",
+      "Rapolu, Malaika"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 2078500,
+    "title": null,
+    "n_rows": 294,
+    "top5": [
+      "Colombo, Kayden",
+      "Sama, Suchir",
+      "Frierson, Robert",
+      "Buerkle, Tobias",
+      "Khan, Avid"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 2064000,
+    "title": null,
+    "n_rows": 277,
+    "top5": [
+      "Cairo, Alex",
+      "Brown, Lucas",
+      "Lothringer, Grant",
+      "Patil, Ritesh",
+      "Lian, Qidao"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1753010,
+    "title": null,
+    "n_rows": 268,
+    "top5": [
+      "Longmire, Mary Ellen",
+      "Corcoran, Olivia",
+      "Murphy, Lillie",
+      "Lamptey, Madison",
+      "Bowman, Addison"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 2074500,
+    "title": "*Girls' 18 12 Month Endorsement (Combined)",
+    "n_rows": 263,
+    "top5": [
+      "Frazier, Josie",
+      "Broerman, Catherine",
+      "Koenig, McKenna",
+      "Pielet, Gianna",
+      "Corley, Carmen"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1756000,
+    "title": null,
+    "n_rows": 248,
+    "top5": [
+      "Armistead, Jackson",
+      "Rundle, Andrew",
+      "Nawabi, David",
+      "Smith, Jacob",
+      "Pitts, Nathan"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1721000,
+    "title": null,
+    "n_rows": 241,
+    "top5": [
+      "Hiser, AnneMarie",
+      "Hrastar, Ava",
+      "Collins, Kylie",
+      "Briggs, Carly",
+      "Lopez, Jackeline"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1752965,
+    "title": null,
+    "n_rows": 226,
+    "top5": [
+      "Lake, T /Lake, A",
+      "Morse-Karzen, J /Morse-Karzen, B",
+      "Settles, C /Settles, P",
+      "Hoffmann, B /Hoffmann, C",
+      "Smith, C /Smith, P"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1752969,
+    "title": null,
+    "n_rows": 226,
+    "top5": [
+      "Lake, T /Lake, A",
+      "Morse-Karzen, J /Morse-Karzen, B",
+      "Settles, C /Settles, P",
+      "Hoffmann, B /Hoffmann, C",
+      "Smith, C /Smith, P"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684696,
+    "title": null,
+    "n_rows": 195,
+    "top5": [
+      "Antoine, J /Bauer, A",
+      "Carl, C /Hughes, J",
+      "Rowell, E /Vaughn, B",
+      "Watts, P /Nunn, S",
+      "Wadlington, J /Lovvorn, R"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1685000,
+    "title": null,
+    "n_rows": 190,
+    "top5": [
+      "Shin, Janice",
+      "Kung, Chelsea",
+      "Niezgoda, Priya",
+      "Chiu, Abigail",
+      "Guan, Chuyang"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1739500,
+    "title": "*Boys' 16 Endorsement + (Combined)",
+    "n_rows": 187,
+    "top5": [
+      "Sridhar, Sangeet",
+      "Xu, Joshua",
+      "Parikh, Harsh",
+      "Oscislawski, Adam",
+      "Dillon, Tripp"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1682000,
+    "title": null,
+    "n_rows": 181,
+    "top5": [
+      "Lilov, Victor",
+      "Mayew, Will",
+      "Qadir, Waleed",
+      "Delgado, James",
+      "Wall, Tejas"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1241778,
+    "title": "*Boys' 18 Singles (Combined)",
+    "n_rows": 178,
+    "top5": [
+      "Ge, Augustus",
+      "Cunningham, Bryan",
+      "Seby, Robert",
+      "Tran, Michael",
+      "Bal, Arjun"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1700000,
+    "title": "*Girls 14 (Combined)",
+    "n_rows": 160,
+    "top5": [
+      "Young, Karin",
+      "Heinitz, Nore Ann",
+      "Schurhamer, Delaney",
+      "Hietala, Aili",
+      "Snezhko, Nicole"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1698500,
+    "title": null,
+    "n_rows": 159,
+    "top5": [
+      "Gretkowski, Allie",
+      "Durham, Avery",
+      "McClure, Sara",
+      "Alston, Robin",
+      "Hernandez, Sayda"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1690000,
+    "title": null,
+    "n_rows": 157,
+    "top5": [
+      "Lamb, Jaxon",
+      "Garcia, Jose",
+      "Stone, Jackson",
+      "Bonovich, Oliver",
+      "Lee, Andrew"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1752960,
+    "title": "12Month Rolling Standing Nat Women's 65 Indiv.Dbls",
+    "n_rows": 154,
+    "top5": [
+      "Hahn, Molly",
+      "Babb, Cynthia",
+      "Hubbard, Barbara",
+      "Barnes, Kathy",
+      "Bennett, Kathleen"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1695500,
+    "title": "*Girls' 14 12 Month Endorsement (Combined)",
+    "n_rows": 148,
+    "top5": [
+      "Pielet, Gianna",
+      "Stein, Lauren",
+      "Neyestani, Ava",
+      "Malkin, Misa",
+      "Wang, Matilyn"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1680500,
+    "title": null,
+    "n_rows": 143,
+    "top5": [
+      "Banerjee, Samir",
+      "Williams, Cooper",
+      "Wen, Evan",
+      "Bilski, John-Tomas",
+      "Lian, James"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1743500,
+    "title": "*KY Boys 18 (Combined)",
+    "n_rows": 142,
+    "top5": [
+      "Singerman, Drew",
+      "Wesbrooks, Alex",
+      "Blandford, Spencer",
+      "Moslemi, Dariush",
+      "Mount, Cameron"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1724000,
+    "title": null,
+    "n_rows": 136,
+    "top5": [
+      "Stevens, Elizabeth",
+      "Chu, Chloe",
+      "Lin, Yolanda",
+      "Jin, Serim",
+      "Fleischman, Katherine"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1739000,
+    "title": "Girls' 12 Singles",
+    "n_rows": 129,
+    "top5": [
+      "Miller, Vivian",
+      "Matta, Sonal",
+      "Kolli, Alaina",
+      "Maltby, Susanna",
+      "Matsuno, Akari"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1737500,
+    "title": "NTRP Men's 4.0 Doubles",
+    "n_rows": 124,
+    "top5": [
+      "Howard, Danny",
+      "Bobbitt, Dave",
+      "Wiseman, Shaun",
+      "Oyos, Ryan",
+      "Landis, Lanny"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1746000,
+    "title": null,
+    "n_rows": 124,
+    "top5": [
+      "Petty, Katherine",
+      "Evans, Kailey",
+      "Vedula, Saumya",
+      "Pinto, Hannah",
+      "Broadus, Savannah"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1735500,
+    "title": null,
+    "n_rows": 123,
+    "top5": [
+      "Chu, Chloe",
+      "Stevens, Elizabeth",
+      "Lin, Yolanda",
+      "Jin, Serim",
+      "Glozman, Vivian"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1241779,
+    "title": "*Boys' 18 Singles (Combined)",
+    "n_rows": 116,
+    "top5": [
+      "Ge, Augustus",
+      "Seby, Robert",
+      "Ponwith, James",
+      "Cunningham, Bryan",
+      "Wightman, Max"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1726000,
+    "title": null,
+    "n_rows": 114,
+    "top5": [
+      "Novotny, Trevor",
+      "Goodroe, Gibson",
+      "Tomovski, Logan",
+      "Mikkelson, Walker",
+      "Bohan, Nolan"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1728500,
+    "title": "Women's 4.0 Doubles",
+    "n_rows": 108,
+    "top5": [
+      "Culclasure, K /Windham, C",
+      "Mainwaring, T /Saxon, T",
+      "Juhasz, S /Johnson, K",
+      "Sturgeon, C /Strimple, C",
+      "Amick, P /Thatcher, S"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1699000,
+    "title": null,
+    "n_rows": 103,
+    "top5": [
+      "Spicer, Jack",
+      "Boutahli, Adil",
+      "Aguilar, Enrique",
+      "Mak, Chhay",
+      "Vazquez, Abel"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 2084000,
+    "title": "Boys' 12 Singles",
+    "n_rows": 103,
+    "top5": [
+      "Balthazor, Nolan",
+      "Shaub, Nolan",
+      "Bo, Ethan",
+      "Corwin, Oscar",
+      "Schneider, Ty"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684683,
+    "title": "Men's 55 Singles",
+    "n_rows": 98,
+    "top5": [
+      "Wilkison, Andy",
+      "Bulso, Gino",
+      "White, Lonnie",
+      "Browne, Geoffrey",
+      "Mahorner, John"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1752959,
+    "title": "12Month Rolling Standing Nat Women's 65 Team Dbls",
+    "n_rows": 95,
+    "top5": [
+      "Hubbard, B /Babb, C",
+      "Bennett, K /Downing, M",
+      "Vallejo, L /Barnes, K",
+      "Simons, P /Babb, C",
+      "Eaton, A /Starnes, B"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1734500,
+    "title": "NTRP Men's 4.0 Singles",
+    "n_rows": 93,
+    "top5": [
+      "Blackwell, Crendal",
+      "Ruben, Eric",
+      "Graves, Griffin",
+      "Cook, Larue",
+      "Horowitz, Matt"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1737000,
+    "title": "12 Month Rolling Standing List National Women's 60",
+    "n_rows": 93,
+    "top5": [
+      "Karwasky, Tina",
+      "Nichols, Carolyn",
+      "Airola-Murveit, Leslie",
+      "Bronson, Sherri",
+      "Foulk, Katherine"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1697500,
+    "title": "Boys 14 Challenger Standings",
+    "n_rows": 91,
+    "top5": [
+      "Epperson, Luke",
+      "Park, Roman",
+      "Winslow, Luke",
+      "Remy, Maxwell",
+      "Knutsen, Cooper"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1718000,
+    "title": null,
+    "n_rows": 89,
+    "top5": [
+      "Nedkov, Leo",
+      "Raidt, Bodie",
+      "Thomas, Barnes",
+      "Drouillard, Joey",
+      "Mandla, Devak"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1752961,
+    "title": "12 Month Rolling Standing List National Women's 65",
+    "n_rows": 86,
+    "top5": [
+      "Barnes, Kathy",
+      "Hahn, Molly",
+      "Novack, Toni",
+      "Babb, Cynthia",
+      "Gay, Carol"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1682500,
+    "title": null,
+    "n_rows": 84,
+    "top5": [
+      "Kimball, S /Kimball, M",
+      "Stanley, A /Stanley, A",
+      "Barker, J /Barker, D",
+      "Sprague, T /Sprague, S",
+      "Stillman-Scott, S /Scott, B"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684679,
+    "title": "Men's 65 Singles",
+    "n_rows": 82,
+    "top5": [
+      "Dunlavy, Dean",
+      "Bolton, Padg",
+      "Yearwood, Al",
+      "Maland, Chuck",
+      "Perkins, Sonny"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1704500,
+    "title": "12Month Rolling Standing Nat Women's 45 Team Dbls",
+    "n_rows": 81,
+    "top5": [
+      "Silveira, J /Ichikawa-Abel, M",
+      "Finerman, A /Cass, J",
+      "Cass, J /Bowes, B",
+      "Spence-Nasim, D /Currie, T",
+      "Alpert, J /Ogborne, J"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 2083000,
+    "title": "*Boys' 12 Endorsement + (Combined)",
+    "n_rows": 78,
+    "top5": [
+      "Cohen, Austin",
+      "Valenta, Mathis",
+      "Saez, Dean",
+      "Berbeco, Reed",
+      "Zerbib, Ryan"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1716500,
+    "title": null,
+    "n_rows": 73,
+    "top5": [
+      "Mitchell, Sidney",
+      "Kingsley, Taylor",
+      "Harrelson, Lauren",
+      "Case, Laurel",
+      "Bull, Olivia"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 2061500,
+    "title": "NTRP Men's 3.0 Singles",
+    "n_rows": 72,
+    "top5": [
+      "Lamoureux, Robert",
+      "Nehring, Jon",
+      "Motakatla, Sudheer Raj",
+      "Cantarelli, Marcos",
+      "Mai, Hung"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1745500,
+    "title": "*Girls' 14 Summer Endorsement (Combined)",
+    "n_rows": 71,
+    "top5": [
+      "Pielet, Gianna",
+      "Ruja, MiaAngelina",
+      "Neyestani, Ava",
+      "Malkin, Misa",
+      "Rouf, Rimona"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1703000,
+    "title": "Mens 55 Singles Ranking",
+    "n_rows": 70,
+    "top5": [
+      "Benbadis, Selim",
+      "Saiki, Stuart",
+      "Kramer, George",
+      "Vines, Mark",
+      "Winsor, Steve"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1755500,
+    "title": "12Month Rolling Standing Nat Women's 75 Indiv.Dbls",
+    "n_rows": 66,
+    "top5": [
+      "Steel, Suella",
+      "Tubbs, Jeanette",
+      "Meyering, Kathie",
+      "Miller, Dorcas",
+      "Wood, Carol"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1752958,
+    "title": null,
+    "n_rows": 65,
+    "top5": [
+      "Puehse, Natasha",
+      "Houk, Meghan",
+      "Sauerman, Amy",
+      "Miranda, Cameron",
+      "Harlas, Lindsay"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1707500,
+    "title": null,
+    "n_rows": 64,
+    "top5": [
+      "Anthrop, Jack",
+      "Salu, Andrew",
+      "Braswell, Jonah",
+      "Vakili, Kian",
+      "Kuzuhara, Bruno"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1720000,
+    "title": null,
+    "n_rows": 64,
+    "top5": [
+      "Richardson, Ethan",
+      "Hart, Evan",
+      "McClure, Wesley",
+      "Cobb, Brandon",
+      "Wells, Alexander"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 2069500,
+    "title": null,
+    "n_rows": 64,
+    "top5": [
+      "Houston, Mary",
+      "Humbert, Yasmine",
+      "Payne, Jenna",
+      "Jones, Jelani",
+      "Darnell, Ashleigh"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1745000,
+    "title": "Girls' 12 Singles",
+    "n_rows": 63,
+    "top5": [
+      "Myers, Ellie",
+      "Long, Lauren",
+      "Boyer, Chase",
+      "Nelson, Elyse",
+      "Trinkle, Riley"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1691500,
+    "title": "*Boys 10 (Combined)",
+    "n_rows": 62,
+    "top5": [
+      "Lewis, William",
+      "Kroll, Carson",
+      "Colson, Luke",
+      "Gurevich, Sam",
+      "Vilo, Aiden"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1729000,
+    "title": null,
+    "n_rows": 61,
+    "top5": [
+      "Lopes, Trystin",
+      "Ralar, Kaitlyn",
+      "Loui, Sabrina",
+      "O'Neill, Jacqueline",
+      "Brilhante, Maile"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1681000,
+    "title": null,
+    "n_rows": 60,
+    "top5": [
+      "Pozo, Caroline",
+      "Lee, Dohee",
+      "duplicateCao, duplicateKatherine",
+      "DUPLICATECalkins, DUPLICATECaitlin",
+      "Spicer, Dilara"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1706500,
+    "title": "NTRP Combined Mixed 5.0 Doubles",
+    "n_rows": 60,
+    "top5": [
+      "Rowan, Lucas",
+      "Buck, Shelley",
+      "Buck, Adam",
+      "Greenhagen, Chance",
+      "Greenhagen, Samone"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1734000,
+    "title": "Boys' 18 Singles",
+    "n_rows": 60,
+    "top5": [
+      "Duo, Bill",
+      "Oosterbaan, TJ",
+      "Henry, Daniel",
+      "Dennen, Jacob",
+      "Gilman, Joseph"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1752976,
+    "title": "Girls' 10 Singles",
+    "n_rows": 59,
+    "top5": [
+      "Herrera, Regina",
+      "Bowe, Mya",
+      "Blakey, MacKenzie",
+      "RANGAN, TIANNA",
+      "Jessel, Erica"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1692500,
+    "title": null,
+    "n_rows": 58,
+    "top5": [
+      "Bandy, Maddox",
+      "Adams, Julia",
+      "Huth, Winslow",
+      "Yoon, Lauren",
+      "Fischer, Georgia"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1729500,
+    "title": "*Girls 14 (Combined)",
+    "n_rows": 58,
+    "top5": [
+      "Gallagher, Olivia",
+      "Beckman, Carrie",
+      "Beavin, Katie",
+      "Shiben, Sophia",
+      "Beavin, Emma"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684678,
+    "title": "Men's 65 Doubles",
+    "n_rows": 53,
+    "top5": [
+      "Pearson, M /Pearce, R",
+      "McEwen, J /Thomson, H",
+      "Maland, C /Strickler, D",
+      "Yearwood, A /Chryst, J",
+      "Lineberger, J /Crolley, M"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684681,
+    "title": "Men's 60 Singles",
+    "n_rows": 51,
+    "top5": [
+      "Robinson, Fred",
+      "Hart, Jonathan",
+      "Meigs, Tom",
+      "Fanelli, Glen",
+      "Ashley, Bill"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684677,
+    "title": "Men's 70 Singles",
+    "n_rows": 50,
+    "top5": [
+      "Thomson, Hugh",
+      "Stock, Robert",
+      "Buck, Les",
+      "Hendrix, James",
+      "Grieco, Ralph"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1689500,
+    "title": "Men's 45 Doubles",
+    "n_rows": 50,
+    "top5": [
+      "Asbell, Kevin",
+      "Menzie, Craig",
+      "Bulow, Matthew",
+      "Clark, Craig",
+      "Dunkle, Robert"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1711000,
+    "title": null,
+    "n_rows": 50,
+    "top5": [
+      "Prinyarux, Alisa",
+      "Flanagan, Callie",
+      "Hammond, Zoe",
+      "Rademacher, Bianca",
+      "Farid, Corinne"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1746500,
+    "title": null,
+    "n_rows": 50,
+    "top5": [
+      "Kintiroglou, Mia",
+      "Wagle, Elise",
+      "Malik, Tara",
+      "Shaikh, Hibah",
+      "Rems, Erika"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684744,
+    "title": null,
+    "n_rows": 48,
+    "top5": [
+      "Sollenberger, A /Knarr, R",
+      "Roshan, N /Cohen, J",
+      "Bazaz, R /Costa, D",
+      "Kannan, K /Tsokilauri, E",
+      "Comerford, D /Shrivastava, S"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684687,
+    "title": "Men's 45 Singles",
+    "n_rows": 47,
+    "top5": [
+      "Potts, Kevin",
+      "Menzie, Craig",
+      "Kasper, Chase",
+      "Hamrin, David",
+      "Ward, Benjamin"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1742500,
+    "title": "*Boys 16 Standings (Combined)",
+    "n_rows": 47,
+    "top5": [
+      "Fritts, James",
+      "Lair, Graydon",
+      "McLaughlin, Brogan",
+      "Vaughn, Zachary",
+      "Brewer, Eli"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1681500,
+    "title": "NTRP Women's 3.5 Singles Seedings",
+    "n_rows": 46,
+    "top5": [
+      "Manfredi, Timea",
+      "Saltman, Denise",
+      "Leppert, Leticia",
+      "Carter, Jennifer",
+      "Murphy, Kathleen"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 2070500,
+    "title": null,
+    "n_rows": 46,
+    "top5": [
+      "Rabinowitz, M /Joshi, A",
+      "Brylin, A /Hoffman, T",
+      "Kukharchuk, N /Devashetty, J",
+      "Berta, G /Mani, R",
+      "Joshi, A /Asatrian, R"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1738500,
+    "title": null,
+    "n_rows": 45,
+    "top5": [
+      "Nayak, Dev",
+      "Rajan, AKASH",
+      "Vallurupalli, Jai",
+      "Kim, Brian",
+      "Sutter, Rory"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684735,
+    "title": "PPR NTRP Men's 4.0 Singles",
+    "n_rows": 42,
+    "top5": [
+      "Pierce, Ryan",
+      "Gandotra, Gaurav",
+      "Lopes, Victor",
+      "Herchko, Martin",
+      "Edwards, Paul"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1686500,
+    "title": "Girls' 18 Singles",
+    "n_rows": 42,
+    "top5": [
+      "Daavettila, Sara",
+      "Hanover, Olivia",
+      "Ketels, Kate",
+      "Kyle, Ahmeir",
+      "Bauss, Elizabeth"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684682,
+    "title": "Men's 55 Doubles",
+    "n_rows": 41,
+    "top5": [
+      "Crofford, S /Davis, B",
+      "Gifford, K /White, L",
+      "Brown, V /Buchi, R",
+      "Covington, J /Riley, S",
+      "Koelling, K /Barrett, R"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1752000,
+    "title": "Women's 55 Doubles",
+    "n_rows": 41,
+    "top5": [
+      "Vander Berg, C /Hubbart, D",
+      "Wilson, P /Lang, A",
+      "Pettit, M /Johnson, D",
+      "Lowder, D /Greene, K",
+      "McMahan, R /Flynn, S"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1752963,
+    "title": null,
+    "n_rows": 41,
+    "top5": [
+      "Parker, C /Parker, J",
+      "Gaillard, R /Gaillard, T",
+      "Hoeveler, C /Hoeveler, C",
+      "Noel, M /Noel, R",
+      "Elmore, S /Elmore, D"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1752967,
+    "title": null,
+    "n_rows": 41,
+    "top5": [
+      "Parker, C /Parker, J",
+      "Gaillard, R /Gaillard, T",
+      "Hoeveler, C /Hoeveler, C",
+      "Noel, M /Noel, R",
+      "Elmore, S /Elmore, D"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 2076500,
+    "title": null,
+    "n_rows": 37,
+    "top5": [
+      "Board, Camden",
+      "Anand, Ashwin",
+      "Kaydalin, David",
+      "Wood, Patrick",
+      "Morrison, Rowan"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684691,
+    "title": "Men's 35 Singles",
+    "n_rows": 36,
+    "top5": [
+      "Vogt, Christoph",
+      "Wassell, William",
+      "Emerson, Phillip",
+      "Grelle, Jeremy",
+      "Lang, Michael"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1752964,
+    "title": null,
+    "n_rows": 36,
+    "top5": [
+      "Morse-Karzen, J /Morse-Karzen, B",
+      "Carlson, D /Carlson, C",
+      "Dickens, N /Dickens, M",
+      "Landauer, J /Landauer, P",
+      "Bussert, S /Bussert, C"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1752968,
+    "title": null,
+    "n_rows": 36,
+    "top5": [
+      "Morse-Karzen, J /Morse-Karzen, B",
+      "Carlson, D /Carlson, C",
+      "Dickens, N /Dickens, M",
+      "Landauer, J /Landauer, P",
+      "Bussert, S /Bussert, C"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 2077500,
+    "title": null,
+    "n_rows": 36,
+    "top5": [
+      "Dunavant, G /Murdock, A",
+      "Sullivan, C /Klazmer, K",
+      "Carter, H /Speaks, A",
+      "Holland, C /Holland, E",
+      "Taty, J /Taty, C"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 2079500,
+    "title": null,
+    "n_rows": 36,
+    "top5": [
+      "Johnston, Anna Kay",
+      "Jones, Caroline",
+      "Marino, Mercedes",
+      "Menendez, Olivia",
+      "Cox, Caelie"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1727500,
+    "title": null,
+    "n_rows": 35,
+    "top5": [
+      "Ashley, L /Ashley, E",
+      "Davydova, A /Stennes, B",
+      "Eisenberg, S /Eisenberg, M",
+      "Wroten, D /Day, M",
+      "Hollander, T /Axelrod, J"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1707000,
+    "title": "Men's 4.5 Doubles",
+    "n_rows": 34,
+    "top5": [
+      "Williams, C /Ko, J",
+      "Welling, A /Steingold, A",
+      "Crosby, G /Dalton, W",
+      "Sundaram, R /Hunter, G",
+      "Sullivan, C /Schoch, B"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1712000,
+    "title": "Girls' 12 Singles",
+    "n_rows": 33,
+    "top5": [
+      "Jacobson, Karolina",
+      "Jordaan, Anna",
+      "Geiss, Beilynn",
+      "Lynn, Rebecca",
+      "Chitambar, Lilianna"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1751500,
+    "title": "*Boys 10's TR (Combined)",
+    "n_rows": 33,
+    "top5": [
+      "Garrett, Everett",
+      "Fruge, Charles",
+      "Bowman, Bradyn",
+      "Wrigley, Lucas",
+      "Burks, Hayes"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684747,
+    "title": "PPR Women's 70 Doubles",
+    "n_rows": 31,
+    "top5": [
+      "Cheesman, B /Anderson, L",
+      "Duncan, A /Lancet, K",
+      "Maroney, E /Lambert, D",
+      "Smith, D /Paine, B",
+      "Harrell, M /Grim, S"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684675,
+    "title": "Men's 75 Singles",
+    "n_rows": 30,
+    "top5": [
+      "Butchee, Thay",
+      "Barbic, Ivo",
+      "May, Pete",
+      "Price, Milburn",
+      "Keiger, Ronald"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684680,
+    "title": "Men's 60 Doubles",
+    "n_rows": 30,
+    "top5": [
+      "Stephens, R /Callen, J",
+      "Lineberger, J /Crolley, M",
+      "Shepherd, S /Bussert, C",
+      "Schnall, L /Reid, H",
+      "Castorri, R /Smith, T"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1750000,
+    "title": "Boys' 14 Singles",
+    "n_rows": 30,
+    "top5": [
+      "Lu, Andrew",
+      "Howard, Keon",
+      "Shioi, Ayson",
+      "Little, Andrew",
+      "Abbott, Aidan"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1752974,
+    "title": "Girls' 10 Singles",
+    "n_rows": 26,
+    "top5": [
+      "RANGAN, TIANNA",
+      "ARCHER, ELEANOR",
+      "Creel, Juliana",
+      "Jessel, Erica",
+      "Sarode, Sanwi"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1683500,
+    "title": null,
+    "n_rows": 24,
+    "top5": [
+      "Possokhova, Darya",
+      "Long, Katherine",
+      "Saltzen, Seriana",
+      "Gupta, Neha",
+      "Yeah, Ashley"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684686,
+    "title": "Men's 45 Doubles",
+    "n_rows": 24,
+    "top5": [
+      "Bulow, M /Menzie, C",
+      "Bailey, J /Dunkle, R",
+      "Hamrin, D /Clark, C",
+      "Chambers, R /Shackleford, J",
+      "Persson, A /Reiney, C"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 2066500,
+    "title": "Standing List National Women's 65 Team Doubles",
+    "n_rows": 24,
+    "top5": [
+      "Karwasky, T /Kirkland, M",
+      "Oelschlager, J /MacHoian, M",
+      "Leprevost, C /Peltz-Petow, L",
+      "McColskey, W /McColskey, D",
+      "Rush, L /Starnes, B"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 2068500,
+    "title": "Girls' 14 Singles",
+    "n_rows": 23,
+    "top5": [
+      "Fuduric, Marina",
+      "Chaffee, Brynn",
+      "Patino, Marissa",
+      "Assenmacher, Ellie",
+      "Deal, Sydney"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684689,
+    "title": "Men's 40 Singles",
+    "n_rows": 22,
+    "top5": [
+      "Bolton, Bruce",
+      "Persson, Claes",
+      "Bernal, Ramon",
+      "Fritts, John",
+      "Green, Alan"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1736000,
+    "title": "Men's 50 Doubles",
+    "n_rows": 22,
+    "top5": [
+      "Leahy, Brian",
+      "Griffin, Jack",
+      "Stonas, Al",
+      "Jefferies, Brad",
+      "Dalkin, Bruce"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 2068000,
+    "title": null,
+    "n_rows": 22,
+    "top5": [
+      "Wilkinson, Owen",
+      "Hogue, Ellie",
+      "Lee, Lucy",
+      "Rhoden, Briley",
+      "Rounsaville, Ramsee"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684685,
+    "title": "Men's 50 Singles",
+    "n_rows": 21,
+    "top5": [
+      "Nusenow, Theodore",
+      "Bobbitt, Jeffrey",
+      "Ward, Benjamin",
+      "Koelling, Ken",
+      "Wagner, Ed"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684737,
+    "title": "PPR NTRP Men's 3.5 Singles",
+    "n_rows": 21,
+    "top5": [
+      "Koiloth, Maruthi",
+      "Takahashi, Hiro",
+      "Schneider, Max",
+      "Kanitra, Paul",
+      "Juers, John"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1691000,
+    "title": "*Girls' 16 Standings (Combined)",
+    "n_rows": 21,
+    "top5": [
+      "Boggs, Lora",
+      "McCorkle, Rachel",
+      "Holcomb, Melody",
+      "Miley, Reagan",
+      "Powers, Alexa"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1715500,
+    "title": "Women 3.5 Singles",
+    "n_rows": 21,
+    "top5": [
+      "Steinberg, Danna",
+      "Westerback, Lois",
+      "Bracken, Linda",
+      "Tingley, Katie",
+      "Everett, Lisa"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1698000,
+    "title": null,
+    "n_rows": 20,
+    "top5": [
+      "Ovrootsky, Vivian",
+      "Ashar, Anushka",
+      "Main, Tomi",
+      "Weekley, Madison",
+      "Nelson, Priya"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1700500,
+    "title": "12Month Rolling Standing Nat Women's 30 Team Dbls",
+    "n_rows": 20,
+    "top5": [
+      "Dockter, E /Takeuchi, E",
+      "Thu, J /Smashey, K",
+      "McGaffigan, L /Norton, I",
+      "Radzikowska, E /Cioroch, A",
+      "Lucas, C /Vuckovic, N"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1749000,
+    "title": "Senior 50 NTRP Women's 3.5 Doubles",
+    "n_rows": 20,
+    "top5": [
+      "Kovaleski, Vicki",
+      "Martin, Denise",
+      "Thomason, Barbara",
+      "Seay-Webb, Cindy",
+      "Baird, Kelly"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1752962,
+    "title": null,
+    "n_rows": 20,
+    "top5": [
+      "Tonidandel, J /Tonidandel, R",
+      "Vail, C /Vail, C",
+      "Barham, J /Barham, M",
+      "Duesler, R /Duesler, R",
+      "Quade, S /Quade, E"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1752966,
+    "title": null,
+    "n_rows": 20,
+    "top5": [
+      "Tonidandel, J /Tonidandel, R",
+      "Vail, C /Vail, C",
+      "Barham, J /Barham, M",
+      "Duesler, R /Duesler, R",
+      "Quade, S /Quade, E"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 2062500,
+    "title": "*Girls 18 (Combined)",
+    "n_rows": 20,
+    "top5": [
+      "Copeland, Nicole",
+      "Suk, Madeline",
+      "Jansson, Andrea",
+      "Mulvey, Kathryn",
+      "Puzak, Ellen"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684676,
+    "title": "Men's 70 Doubles",
+    "n_rows": 19,
+    "top5": [
+      "Grieco, R /Simon, W",
+      "Edwards, D /Kroelinger, M",
+      "Barbic, I /Thomson, H",
+      "Soden, K /Shipman, R",
+      "Spraggs, C /Hahn, R"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1759500,
+    "title": "YTD S Sr Womens 55 S",
+    "n_rows": 17,
+    "top5": [
+      "Vick, Kathy",
+      "Lang, Teal",
+      "Panter, Sherrie",
+      "Cajas, Athena",
+      "Pernell, Sarah"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684733,
+    "title": "PPR NTRP Men's 4.5 Singles",
+    "n_rows": 16,
+    "top5": [
+      "Jones, Christopher",
+      "Muthu, Kasi",
+      "Behrens, Bryan",
+      "Leno, Dave",
+      "Hankin, Michael"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1722000,
+    "title": "Girls' 16 Doubles",
+    "n_rows": 16,
+    "top5": [
+      "Wong, Jennifer",
+      "Harrison, Elizabeth",
+      "Boylan, Lina",
+      "Binder, Cassidy",
+      "Walser, Greta"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 2060000,
+    "title": "Women's 3.5 Singles",
+    "n_rows": 16,
+    "top5": [
+      "Veprek, Kim",
+      "Hughes, Kathy",
+      "McAbee, Christi",
+      "Buley, Courtney",
+      "Mower, Sara"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684673,
+    "title": "Men's 80 Singles",
+    "n_rows": 15,
+    "top5": [
+      "Sack, Lester",
+      "Nelson, C Kenneth",
+      "Kuechenmeister, George",
+      "Fuentes, Roland",
+      "Heise, William"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684674,
+    "title": "Men's 75 Doubles",
+    "n_rows": 15,
+    "top5": [
+      "Hooker, L /Baughman, H",
+      "Fuentes, R /Kuechenmeister, G",
+      "Keiger, R /Anderson, W",
+      "Lyle, A /Palmer, V",
+      "Sykes, J /Nixon, J"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684690,
+    "title": "Men's 35 Doubles",
+    "n_rows": 15,
+    "top5": [
+      "Safarian, A /Miller, B",
+      "Goldman, L /Parker, M",
+      "Rutsche, M /Cole, M",
+      "Carlson, M /Hitt, R",
+      "Hartsock, D /Vandegrift, J"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1696000,
+    "title": "Sr 50s NTRP Women's 2.5 Singles",
+    "n_rows": 15,
+    "top5": [
+      "Gayler, Michael",
+      "Peredo, Paulrick",
+      "Guerrero, Nathan",
+      "Benson, Tyler",
+      "Moran, Scott"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684693,
+    "title": "Men's 30 Singles",
+    "n_rows": 14,
+    "top5": [
+      "Wassell, William",
+      "Vogt, Christoph",
+      "Yessoufou, Hamed",
+      "Shoptaugh, Matt",
+      "Plasa, Daniel"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1747000,
+    "title": "Mens 80 Doubles Seeding",
+    "n_rows": 14,
+    "top5": [
+      "Winegar, M /Thoms, A",
+      "Yates, A /Fitz, N",
+      "Prusinowski, H /Poindexter, R",
+      "Fields, T /Abramson, A",
+      "Winters, O /McCabe, G"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1241767,
+    "title": "*Boys' 10 Singles (Combined)",
+    "n_rows": 13,
+    "top5": [
+      "Perry, Jared",
+      "Richards, Ntal",
+      "Isayev, Maxim",
+      "Corley, Ethan",
+      "Urlaub, Lance"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1690500,
+    "title": "PPR EPD Boys 14's Singles Standings",
+    "n_rows": 13,
+    "top5": [
+      "Lynn, David",
+      "Gruber, Louis",
+      "Jaeger, Sean",
+      "Musto, Adam",
+      "Woolley, William"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 2062000,
+    "title": "*Boys' 12 Standings (Combined)",
+    "n_rows": 13,
+    "top5": [
+      "Huston, JohnPaul",
+      "Bhadriraju, Krishna",
+      "Fellrath, Owen",
+      "Prather, Dutch",
+      "Simms, Connor"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684720,
+    "title": "PPR NTRP Combined Mixed 8.0 Doubles",
+    "n_rows": 12,
+    "top5": [
+      "Clemmer, T /Salkowski, A",
+      "Jacobs, J /Foster, G",
+      "Gershanok, G /Narayanan, P",
+      "Adkins, J /Adkins, W",
+      "Jones, C /Moore, C"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684726,
+    "title": "PPR NTRP Women's 4.0 Singles",
+    "n_rows": 12,
+    "top5": [
+      "Soderhielm, Aino",
+      "Hamlett, Toni",
+      "Rickard, Beth",
+      "Plum, Nancy",
+      "Crosten, Krista"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1693500,
+    "title": "Senior 50 NTRP Women's 3.0 Doubles",
+    "n_rows": 12,
+    "top5": [
+      "Duncan, Carolyn",
+      "Federick, Jamie",
+      "Privitello, Joann",
+      "Verucchi, Rena",
+      "Crymes, Alysanne"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1717000,
+    "title": "Men's 3.5 Singles",
+    "n_rows": 12,
+    "top5": [
+      "Keyhea, Vinson",
+      "McDonald, Brad",
+      "Castano, Juan",
+      "Fosnacht, Glenn",
+      "Freeman, Logan"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684729,
+    "title": "PPR NTRP Women's 3.5 Doubles",
+    "n_rows": 10,
+    "top5": [
+      "Lamar, L /Galatic, C",
+      "Watson, S /Ward, M",
+      "DUPLICATEbelsky, D /Borek, K",
+      "Hric, H /Cort, S",
+      "Carney, L /Zimmermann, K"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1694000,
+    "title": "Women's 60 Doubles",
+    "n_rows": 10,
+    "top5": [
+      "Barnes, Andrea",
+      "Airola-Murveit, Leslie",
+      "Karwasky, Tina",
+      "David, Julie",
+      "Christin, Eileen"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1752500,
+    "title": "Men's 65 Team Doubles",
+    "n_rows": 10,
+    "top5": [
+      "Abbott, A /Walton, J",
+      "Witten, E /Hunter, D",
+      "Soden, K /Shipman, R",
+      "Thompson, B /McQueen, T",
+      "Edwards, D /Brock, C"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 2065500,
+    "title": "Men's 35 Doubles",
+    "n_rows": 10,
+    "top5": [
+      "Barcklow, Chris",
+      "Smith, Perry",
+      "Johnson, Duane",
+      "Shaw, Ashley",
+      "Artzt, Gregory"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1709000,
+    "title": "Girls' 14 Singles",
+    "n_rows": 9,
+    "top5": [
+      "Manjon, Samantha",
+      "Anyanwu, Victoria",
+      "Larsen, Annika",
+      "Meara, Sophia",
+      "Berl, Allaire"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684688,
+    "title": "Men's 40 Doubles",
+    "n_rows": 8,
+    "top5": [
+      "Fritts, J /Groer, C",
+      "Rincon, E /Bernal, R",
+      "Barone, B /Buffa, S",
+      "Persson, C /Shaw, A",
+      "Zackey, B /Lindsey, S"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684721,
+    "title": "PPR NTRP Combined Mixed 7.0 Doubles",
+    "n_rows": 8,
+    "top5": [
+      "Bridges, R /Scott, F",
+      "McCafferty, K /McCafferty, S",
+      "Christopher, R /Avitello, B",
+      "Amato, Z /Murray, P",
+      "Williams, K /Harris, B"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1694500,
+    "title": "NTRP Women's 5.0 Doubles",
+    "n_rows": 8,
+    "top5": [
+      "Lee Molotky, Trina",
+      "Mills, Keri",
+      "Bailey, Kristen",
+      "Robello, Kathi",
+      "Griggs, Stacey"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1708500,
+    "title": null,
+    "n_rows": 8,
+    "top5": [
+      "St Amant, Parker",
+      "Roth, Ella",
+      "Smelley, Madalyn",
+      "Patino, Isabella",
+      "Lee, Lucy"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1710500,
+    "title": null,
+    "n_rows": 8,
+    "top5": [
+      "Lutz, Eric",
+      "Ingram, Eric",
+      "Stringer, Brian",
+      "Mak, Jennifer",
+      "Mak, Chhay"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1713000,
+    "title": null,
+    "n_rows": 8,
+    "top5": [
+      "Williams, Elizabeth",
+      "de Groot, Diede",
+      "Zhu, Zhen Zhen",
+      "Zhu, Zhenzhen",
+      "Lingyte, Karolina"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1748500,
+    "title": "12 Month Rolling Standing List National Women's 90",
+    "n_rows": 8,
+    "top5": [
+      "Price, Rita",
+      "Hall, Catherine",
+      "Vanderpol, Joyce",
+      "Noel, Joyce",
+      "Smith, Madeline"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1752954,
+    "title": "Women's 45 Singles",
+    "n_rows": 8,
+    "top5": [
+      "Weikel, Sandra",
+      "Alvarez, Patricia",
+      "WILLIAMS, NANCY",
+      "Dalbin, Patricia",
+      "Reynolds, Lorena"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1752970,
+    "title": "Girls' 10 Singles",
+    "n_rows": 8,
+    "top5": [
+      "RANGAN, TIANNA",
+      "ARCHER, ELEANOR",
+      "Creel, Juliana",
+      "Jessel, Erica",
+      "Sarode, Sanwi"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684684,
+    "title": "Men's 50 Doubles",
+    "n_rows": 7,
+    "top5": [
+      "Meyers, D /Buise, J",
+      "Perdue, J /Lauer, P",
+      "Busbey, C /Crawford, C",
+      "Hansen, M /Seat, G",
+      "Gautreau, R /Rayborn, M"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1692000,
+    "title": "Boys' 10 Singles",
+    "n_rows": 7,
+    "top5": [
+      "Vens, Isaac",
+      "Vens, Landon",
+      "Miller, Nick",
+      "Black, Will",
+      "Oswald, Jack"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1733500,
+    "title": "Men's 40 Team Doubles",
+    "n_rows": 7,
+    "top5": [
+      "Polsky, G /Calhoun, W",
+      "Andersen, M /Weidl, M",
+      "Hunter, K /Erikson, C",
+      "Weidl, M /Bolick, D",
+      "Weidl, M /Chapman, J"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1757500,
+    "title": "Men's 70 Doubles",
+    "n_rows": 7,
+    "top5": [
+      "Lapane, Leo",
+      "Ehrbright, Dale",
+      "Figueroa, Frank",
+      "Berg, David",
+      "Davis, John"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684672,
+    "title": "Men's 80 Doubles",
+    "n_rows": 6,
+    "top5": [
+      "Fuentes, R /Kuechenmeister, G",
+      "Heise, W /Nelson, C",
+      "Sykes, J /Nixon, J",
+      "Fenasci, R /Caldwell, J",
+      "Child, J /Palmer, D"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684725,
+    "title": "PPR NTRP Women's 4.0 Doubles",
+    "n_rows": 6,
+    "top5": [
+      "Crosten, K /Russell, A",
+      "Salkowski, A /Jacobs, J",
+      "Paisley, L /Connelly, G",
+      "Fetchko, Z /McCafferty, S",
+      "Hamlett, T /Hartnett, L"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1715000,
+    "title": "Men's 40 Doubles",
+    "n_rows": 6,
+    "top5": [
+      "Bragonier, J /Viani, M",
+      "Lamonica, M /Hiddleson, D",
+      "Flynn, T /Brandt, D",
+      "Garber, R /Noel, S",
+      "Bax, L /Bartlett, P"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1738000,
+    "title": null,
+    "n_rows": 6,
+    "top5": [
+      "Speer, Jennifer",
+      "Burnett, Amy",
+      "Chapman, Donna",
+      "Suppa, Janet",
+      "Adams, Twila"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1740500,
+    "title": "Women's 4.5 Singles",
+    "n_rows": 6,
+    "top5": [
+      "Butler, Tabatha",
+      "Hines, Andrea",
+      "Stanford, Allison",
+      "Montanez, Michelle",
+      "Foster, Julianne"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 2061000,
+    "title": "Future Boys 14 doubles standings",
+    "n_rows": 6,
+    "top5": [
+      "Frank, Elliott",
+      "Smith, Brayden",
+      "Crosby, Ryan",
+      "Politi, Joey",
+      "Pair, Luke"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 2067500,
+    "title": "Men 80 Singles",
+    "n_rows": 6,
+    "top5": [
+      "Ourusoff, Nicholas",
+      "Anderson, Roy",
+      "Rauch, James",
+      "Swanson, Malcolm",
+      "True, Ernest"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684692,
+    "title": "Men's 30 Doubles",
+    "n_rows": 5,
+    "top5": [
+      "Hurtig, M /Ross, B",
+      "Sruk, J /Shoptaugh, M",
+      "Lang, M /Lopoo, J",
+      "Gallagher, C /Olagbegi, T",
+      "Ferlianto, J /Sobczyk, A"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684742,
+    "title": "PPR Mixed 45 Doubles",
+    "n_rows": 5,
+    "top5": [
+      "Zhu, M /Milstein, H",
+      "Allen, J /Bell, M",
+      "Tassone, E /Ray, M",
+      "Cameron, R /Bailey, R",
+      "Bryant, T /Bunch, D"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1688000,
+    "title": "Boys' 14 Doubles",
+    "n_rows": 5,
+    "top5": [
+      "Ostler, Jayden",
+      "Scott, Nicholas",
+      "Smith, Rory",
+      "White, Nolan",
+      "Frampton, Luke"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1722500,
+    "title": "Girls' 14 Singles",
+    "n_rows": 5,
+    "top5": [
+      "Jackson, Sophie",
+      "Davies, Paige",
+      "Krey, Gwynevere Marie",
+      "Oconnor, Regan",
+      "Trout, Ella"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1752972,
+    "title": "Girls' 10 Singles",
+    "n_rows": 5,
+    "top5": [
+      "Herrera, Regina",
+      "Bowe, Mya",
+      "Blakey, MacKenzie",
+      "RANGAN, TIANNA",
+      "Jessel, Erica"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 2067000,
+    "title": "Men's 55 Doubles",
+    "n_rows": 5,
+    "top5": [
+      "Kahn, A /Freischlag, W",
+      "Schultz, S /Zodin, A",
+      "Todd, J /Walters, P",
+      "Corrigan, C /Walters, P",
+      "Hill, R /Todd, J"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684727,
+    "title": "PPR NTRP Women's 3.5 Singles",
+    "n_rows": 4,
+    "top5": [
+      "Swearingen, Ekaterina",
+      "Marascio, Jess",
+      "Cinaglia, Anne",
+      "Dianna, Taya"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684734,
+    "title": "PPR NTRP Men's 4.0 Doubles",
+    "n_rows": 4,
+    "top5": [
+      "Stewart, P /Smith, C",
+      "Aguillard, T /Napson, J",
+      "Workman, J /Edvardsson, B",
+      "Sparks, C /Procino, D"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684741,
+    "title": "PPR Mixed 55 Doubles",
+    "n_rows": 4,
+    "top5": [
+      "Bell, M /Meehan, L",
+      "Smith, D /Neurell, B",
+      "Wilson, R /Azizi, M",
+      "Wilson, R /Avery, M"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1718500,
+    "title": "PPR NTRP Men's 3.0 Singles",
+    "n_rows": 4,
+    "top5": [
+      "Freeman, George",
+      "Minner, Steven",
+      "Peddi, Veera",
+      "Harris, Adam"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1731500,
+    "title": "Girls' 10 Singles",
+    "n_rows": 4,
+    "top5": [
+      "Fuduric, Lucia",
+      "Rhegness, Catherine",
+      "Washington, Kennedi",
+      "Janowski, Claire"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1736500,
+    "title": "Women's 2.5 Singles Grand Prix 2",
+    "n_rows": 4,
+    "top5": [
+      "de Souza, Donzi",
+      "Dong, Nguyet",
+      "Cocciardo, Christina",
+      "Sun, Jiawei"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1752952,
+    "title": "Women's 55 Singles",
+    "n_rows": 4,
+    "top5": [
+      "Peebles, SuLan",
+      "Jackson, Fatima",
+      "Baker, Katherine",
+      "Meyer, Andrea"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684671,
+    "title": "Men's 85 Singles",
+    "n_rows": 3,
+    "top5": [
+      "Stennett, Richard",
+      "Palmer, Denny",
+      "Child, James"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684743,
+    "title": "PPR Mixed 35 Doubles",
+    "n_rows": 3,
+    "top5": [
+      "Wise, S /Layman, J",
+      "Babe, C /Dearth, K",
+      "Peterson, L /Gallagher, H"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684728,
+    "title": "PPR NTRP Women's 3.0 Doubles",
+    "n_rows": 2,
+    "top5": [
+      "Byrne, S /Jenkins, A",
+      "Meyer, M /Bartlett, M"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684730,
+    "title": "PPR NTRP Women's 3.0 Singles",
+    "n_rows": 2,
+    "top5": [
+      "Stout, Suzanne",
+      "Lemma, Danielle"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684736,
+    "title": "PPR NTRP Men's 3.5 Doubles",
+    "n_rows": 2,
+    "top5": [
+      "Larkin, M /Levin, L",
+      "Pastoriza, L /Noll, C"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684751,
+    "title": "PPR Women's 60 Doubles",
+    "n_rows": 2,
+    "top5": [
+      "Foreman, C /Albright, A",
+      "Azizi, M /Hodge, C"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1685500,
+    "title": "NTRP Combined Women's 7.5 Doubles",
+    "n_rows": 2,
+    "top5": [
+      "Fannon, M /Norris, S",
+      "McMillin, K /Vineyard, M"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1752950,
+    "title": "Women's 65 Singles",
+    "n_rows": 2,
+    "top5": [
+      "Abbott, Kathleen",
+      "Liley, Suz"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1752955,
+    "title": "Women's 40 Singles",
+    "n_rows": 2,
+    "top5": [
+      "Joseph, Lisa",
+      "Bradley, Laura"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 2077000,
+    "title": "PPR NTRP Women's 3.0 Doubles",
+    "n_rows": 2,
+    "top5": [
+      "Johnson, N /Seck, D",
+      "Kessler, H /McDermott, K"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684717,
+    "title": null,
+    "n_rows": 1,
+    "top5": [
+      "Devoue, B /Devoue, D"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684718,
+    "title": null,
+    "n_rows": 1,
+    "top5": [
+      "Cohen, J /Cohen, R"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684732,
+    "title": "PPR NTRP Men's 4.5 Doubles",
+    "n_rows": 1,
+    "top5": [
+      "Arsenault, T /Paetow, A"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684739,
+    "title": "PPR NTRP Men's 3.0 Singles",
+    "n_rows": 1,
+    "top5": [
+      "Harris, Adam"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684740,
+    "title": "PPR Mixed 60 Doubles",
+    "n_rows": 1,
+    "top5": [
+      "Wilson, R /Azizi, M"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1684750,
+    "title": "PPR Women's 65 Singles",
+    "n_rows": 1,
+    "top5": [
+      "Perrin, Katherine"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1686000,
+    "title": "Girls' 12 Singles",
+    "n_rows": 1,
+    "top5": [
+      "Widiaman, Naomi"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1703500,
+    "title": "CIN Men 55 Singles Standing List",
+    "n_rows": 1,
+    "top5": [
+      "Haltom, Mark"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1705500,
+    "title": "Mixed 55 Doubles",
+    "n_rows": 1,
+    "top5": [
+      "Moore, C /Warden, G"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1730000,
+    "title": "Women 4.0 Doubles",
+    "n_rows": 1,
+    "top5": [
+      "Pierce, L /Sullivan, A"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1740000,
+    "title": null,
+    "n_rows": 1,
+    "top5": [
+      "Stroud, Conner"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1741000,
+    "title": "Mixed 70 Doubles",
+    "n_rows": 1,
+    "top5": [
+      "Schlueter, R /Simonton, K"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 1754500,
+    "title": "Men's 35 Doubles",
+    "n_rows": 1,
+    "top5": [
+      "Johnston, A /Grace, J"
+    ],
+    "class": "unknown",
+    "signals": []
+  },
+  {
+    "list_id": 2072445,
+    "title": "*Girls 18 (Combined)",
+    "n_rows": 2677,
+    "top5": [
+      "Navarro, Emma",
+      "Black, Hurricane Tyra",
+      "Volynets, Katie",
+      "Crawley, Fiona",
+      "Xu, Valencia"
+    ],
+    "class": "stale",
+    "signals": [
+      "STALE:Black, Hurricane Tyra"
+    ]
+  },
+  {
+    "list_id": 2072431,
+    "title": "Girls 18 Singles Seeding",
+    "n_rows": 2433,
+    "top5": [
+      "Navarro, Emma",
+      "Black, Hurricane Tyra",
+      "Xu, Valencia",
+      "Crawley, Fiona",
+      "Volynets, Katie"
+    ],
+    "class": "stale",
+    "signals": [
+      "STALE:Black, Hurricane Tyra"
+    ]
+  },
+  {
+    "list_id": 2072446,
+    "title": "*Girls 18 (Combined)",
+    "n_rows": 2433,
+    "top5": [
+      "Navarro, Emma",
+      "Black, Hurricane Tyra",
+      "Xu, Valencia",
+      "Crawley, Fiona",
+      "Volynets, Katie"
+    ],
+    "class": "stale",
+    "signals": [
+      "STALE:Black, Hurricane Tyra"
+    ]
+  },
+  {
+    "list_id": 1241789,
+    "title": "*Girls 18 (Combined)",
+    "n_rows": 1796,
+    "top5": [
+      "Loeb, Jamie",
+      "McCarthy, Kaitlyn",
+      "Ouellet-Pizer, Chloe",
+      "Porter, Peggy",
+      "Pierson, Rachel"
+    ],
+    "class": "stale",
+    "signals": [
+      "STALE:Loeb, Jamie",
+      "STALE:Ouellet-Pizer, Chloe"
+    ]
+  },
+  {
+    "list_id": 1241786,
+    "title": "*Girls 16 (Combined)",
+    "n_rows": 1722,
+    "top5": [
+      "Bellis, Catherine",
+      "Ouellet-Pizer, Chloe",
+      "Shibahara, Ena",
+      "Dolehide, Caroline",
+      "Lord, Melissa"
+    ],
+    "class": "stale",
+    "signals": [
+      "STALE:Bellis, Catherine",
+      "STALE:Ouellet-Pizer, Chloe",
+      "STALE:Dolehide, Caroline"
+    ]
+  },
+  {
+    "list_id": 1241787,
+    "title": "*Girls 16 (Combined)",
+    "n_rows": 1573,
+    "top5": [
+      "Bellis, Catherine",
+      "Ouellet-Pizer, Chloe",
+      "Shibahara, Ena",
+      "Dolehide, Caroline",
+      "Lord, Melissa"
+    ],
+    "class": "stale",
+    "signals": [
+      "STALE:Bellis, Catherine",
+      "STALE:Ouellet-Pizer, Chloe",
+      "STALE:Dolehide, Caroline"
+    ]
+  },
+  {
+    "list_id": 1241790,
+    "title": "*Girls 18 (Combined)",
+    "n_rows": 1565,
+    "top5": [
+      "Ouellet-Pizer, Chloe",
+      "McCarthy, Kaitlyn",
+      "Loeb, Jamie",
+      "Hibi, Mayo",
+      "Pierson, Rachel"
+    ],
+    "class": "stale",
+    "signals": [
+      "STALE:Ouellet-Pizer, Chloe",
+      "STALE:Loeb, Jamie"
+    ]
+  },
+  {
+    "list_id": 1241783,
+    "title": "*Girls 14 (Combined)",
+    "n_rows": 1509,
+    "top5": [
+      "Liu, Claire",
+      "Bellis, Catherine",
+      "Dolehide, Caroline",
+      "Chen, Kelly",
+      "Douglas, Ellie"
+    ],
+    "class": "stale",
+    "signals": [
+      "STALE:Liu, Claire",
+      "STALE:Bellis, Catherine",
+      "STALE:Dolehide, Caroline"
+    ]
+  },
+  {
+    "list_id": 1241784,
+    "title": "*Girls 14 (Combined)",
+    "n_rows": 1396,
+    "top5": [
+      "Liu, Claire",
+      "Bellis, Catherine",
+      "Dolehide, Caroline",
+      "Douglas, Ellie",
+      "Chen, Kelly"
+    ],
+    "class": "stale",
+    "signals": [
+      "STALE:Liu, Claire",
+      "STALE:Bellis, Catherine",
+      "STALE:Dolehide, Caroline"
+    ]
+  },
+  {
+    "list_id": 1684709,
+    "title": "Girls 18 Singles Seeding",
+    "n_rows": 1315,
+    "top5": [
+      "Day, Kayla",
+      "Liu, Claire",
+      "Sanford, Alexandra",
+      "Shin, Janice",
+      "Kenin, Sofia"
+    ],
+    "class": "stale",
+    "signals": [
+      "STALE:Liu, Claire"
+    ]
+  },
+  {
+    "list_id": 1241792,
+    "title": "*Boys 12 (Combined)",
+    "n_rows": 1299,
+    "top5": [
+      "Nakashima, Brandon",
+      "Sun, Steven",
+      "Neff, Adam",
+      "Brooksby, Jenson",
+      "Nanda, Govind"
+    ],
+    "class": "stale",
+    "signals": [
+      "STALE:Nakashima, Brandon"
+    ]
+  },
+  {
+    "list_id": 1241791,
+    "title": "*Girls 18 (Combined)",
+    "n_rows": 1259,
+    "top5": [
+      "Andrews, Gabrielle",
+      "Manasse, Maegan",
+      "Loeb, Jamie",
+      "Katz, Zoe",
+      "Townsend, Taylor"
+    ],
+    "class": "stale",
+    "signals": [
+      "STALE:Andrews, Gabrielle",
+      "STALE:Loeb, Jamie"
+    ]
+  },
+  {
+    "list_id": 1241780,
+    "title": "*Girls 12 (Combined)",
+    "n_rows": 1198,
+    "top5": [
+      "Black, Hurricane Tyra",
+      "Branstine, Carson",
+      "Osuigwe, Whitney",
+      "Mcnally, Caty",
+      "Edwards, Sophia"
+    ],
+    "class": "stale",
+    "signals": [
+      "STALE:Black, Hurricane Tyra"
+    ]
+  },
+  {
+    "list_id": 1241788,
+    "title": "*Girls 16 (Combined)",
+    "n_rows": 1182,
+    "top5": [
+      "Dolehide, Caroline",
+      "Minor, Brienne",
+      "Shibahara, Ena",
+      "Nelson, Alexis",
+      "Hart, Jada"
+    ],
+    "class": "stale",
+    "signals": [
+      "STALE:Dolehide, Caroline"
+    ]
+  },
+  {
+    "list_id": 1241781,
+    "title": "*Girls 12 (Combined)",
+    "n_rows": 1145,
+    "top5": [
+      "Black, Hurricane Tyra",
+      "Branstine, Carson",
+      "Desiatnikov, Abigail",
+      "Osuigwe, Whitney",
+      "Edwards, Sophia"
+    ],
+    "class": "stale",
+    "signals": [
+      "STALE:Black, Hurricane Tyra"
+    ]
+  },
+  {
+    "list_id": 1684703,
+    "title": "Boys 14 Doubles Seeding",
+    "n_rows": 955,
+    "top5": [
+      "GARCIA, NICHOLAS",
+      "Jachuck, Ronan",
+      "Nakashima, Brandon",
+      "Raab, Joshua",
+      "Lim, Zachery"
+    ],
+    "class": "stale",
+    "signals": [
+      "STALE:Nakashima, Brandon"
+    ]
+  },
+  {
+    "list_id": 1750500,
+    "title": "*Boys' 18 Singles + (Combined)",
+    "n_rows": 205,
+    "top5": [
+      "Prost, Ethan",
+      "Ponwith, Nathan",
+      "Stringfellow, Brandon",
+      "Parikh, Yash",
+      "Hing, Jarod"
+    ],
+    "class": "stale",
+    "signals": [
+      "STALE:Stringfellow, Brandon"
+    ]
+  },
+  {
+    "list_id": 1241772,
+    "title": "*Boys' 14 Singles (Combined)",
+    "n_rows": 184,
+    "top5": [
+      "Stofflet, Cole",
+      "Stringfellow, Brandon",
+      "Hassey, Carlos",
+      "Vallabhaneni, Niroop",
+      "Sauer, Griffin"
+    ],
+    "class": "stale",
+    "signals": [
+      "STALE:Stofflet, Cole",
+      "STALE:Stringfellow, Brandon",
+      "STALE:Vallabhaneni, Niroop"
+    ]
+  },
+  {
+    "list_id": 1241769,
+    "title": "*Boys' 12 Singles (Combined)",
+    "n_rows": 159,
+    "top5": [
+      "Vallabhaneni, Niroop",
+      "Rata, Cezar",
+      "Parikh, Harsh",
+      "Yohannes, Abraham",
+      "Costa, Filipe"
+    ],
+    "class": "stale",
+    "signals": [
+      "STALE:Vallabhaneni, Niroop"
+    ]
+  },
+  {
+    "list_id": 1241763,
+    "title": "*Girls' 18 Singles (Combined)",
+    "n_rows": 151,
+    "top5": [
+      "Letzt, Alexandra",
+      "Satterfield, Michelle",
+      "Sanford, Allie",
+      "Clarke, Madison",
+      "Wojcik, Kyra"
+    ],
+    "class": "stale",
+    "signals": [
+      "STALE:Letzt, Alexandra"
+    ]
+  },
+  {
+    "list_id": 1241773,
+    "title": "*Boys' 14 Singles (Combined)",
+    "n_rows": 84,
+    "top5": [
+      "Stringfellow, Brandon",
+      "Stofflet, Cole",
+      "Montoya, Yvan",
+      "Xu, Joshua",
+      "Elalami, Hussein"
+    ],
+    "class": "stale",
+    "signals": [
+      "STALE:Stringfellow, Brandon",
+      "STALE:Stofflet, Cole"
+    ]
+  },
+  {
+    "list_id": 1241766,
+    "title": "*Boys' 10 Singles (Combined)",
+    "n_rows": 82,
+    "top5": [
+      "Spurbeck, Daniel",
+      "Chong, Andrew",
+      "Perry, Jared",
+      "Samaha, Georgio",
+      "Stelse, Cole"
+    ],
+    "class": "stale",
+    "signals": [
+      "STALE:Spurbeck, Daniel"
+    ]
+  },
+  {
+    "list_id": 1241764,
+    "title": "*Girls' 18 Singles (Combined)",
+    "n_rows": 75,
+    "top5": [
+      "Letzt, Alexandra",
+      "Lee, Chloe",
+      "Satterfield, Michelle",
+      "Clarke, Madison",
+      "Brown, Sara"
+    ],
+    "class": "stale",
+    "signals": [
+      "STALE:Letzt, Alexandra"
+    ]
+  },
+  {
+    "list_id": 1241770,
+    "title": "*Boys' 12 Singles (Combined)",
+    "n_rows": 52,
+    "top5": [
+      "Parikh, Harsh",
+      "Vallabhaneni, Niroop",
+      "Yohannes, Abraham",
+      "Rata, Cezar",
+      "Hootman, Coleton"
+    ],
+    "class": "stale",
+    "signals": [
+      "STALE:Vallabhaneni, Niroop"
+    ]
+  }
+]

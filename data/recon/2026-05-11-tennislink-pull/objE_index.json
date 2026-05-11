@@ -1,0 +1,869 @@
+{
+  "queries": [
+    {
+      "section": "1531",
+      "region_name": "Florida - Region 1",
+      "year": 2019,
+      "division": "D1007",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1531",
+      "region_name": "Florida - Region 1",
+      "year": 2019,
+      "division": "D1009",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1531",
+      "region_name": "Florida - Region 1",
+      "year": 2020,
+      "division": "D1007",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1531",
+      "region_name": "Florida - Region 1",
+      "year": 2020,
+      "division": "D1009",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1531",
+      "region_name": "Florida - Region 1",
+      "year": 2021,
+      "division": "D1007",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1531",
+      "region_name": "Florida - Region 1",
+      "year": 2021,
+      "division": "D1009",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1531",
+      "region_name": "Florida - Region 1",
+      "year": 2022,
+      "division": "D1007",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1531",
+      "region_name": "Florida - Region 1",
+      "year": 2022,
+      "division": "D1009",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1531",
+      "region_name": "Florida - Region 1",
+      "year": 2023,
+      "division": "D1007",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1531",
+      "region_name": "Florida - Region 1",
+      "year": 2023,
+      "division": "D1009",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1531",
+      "region_name": "Florida - Region 1",
+      "year": 2024,
+      "division": "D1007",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1531",
+      "region_name": "Florida - Region 1",
+      "year": 2024,
+      "division": "D1009",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1532",
+      "region_name": "Florida - Region 2",
+      "year": 2019,
+      "division": "D1007",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1532",
+      "region_name": "Florida - Region 2",
+      "year": 2019,
+      "division": "D1009",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1532",
+      "region_name": "Florida - Region 2",
+      "year": 2020,
+      "division": "D1007",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1532",
+      "region_name": "Florida - Region 2",
+      "year": 2020,
+      "division": "D1009",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1532",
+      "region_name": "Florida - Region 2",
+      "year": 2021,
+      "division": "D1007",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1532",
+      "region_name": "Florida - Region 2",
+      "year": 2021,
+      "division": "D1009",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1532",
+      "region_name": "Florida - Region 2",
+      "year": 2022,
+      "division": "D1007",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1532",
+      "region_name": "Florida - Region 2",
+      "year": 2022,
+      "division": "D1009",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1532",
+      "region_name": "Florida - Region 2",
+      "year": 2023,
+      "division": "D1007",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1532",
+      "region_name": "Florida - Region 2",
+      "year": 2023,
+      "division": "D1009",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1532",
+      "region_name": "Florida - Region 2",
+      "year": 2024,
+      "division": "D1007",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1532",
+      "region_name": "Florida - Region 2",
+      "year": 2024,
+      "division": "D1009",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1533",
+      "region_name": "Florida - Region 3",
+      "year": 2019,
+      "division": "D1007",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1533",
+      "region_name": "Florida - Region 3",
+      "year": 2019,
+      "division": "D1009",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1533",
+      "region_name": "Florida - Region 3",
+      "year": 2020,
+      "division": "D1007",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1533",
+      "region_name": "Florida - Region 3",
+      "year": 2020,
+      "division": "D1009",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1533",
+      "region_name": "Florida - Region 3",
+      "year": 2021,
+      "division": "D1007",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1533",
+      "region_name": "Florida - Region 3",
+      "year": 2021,
+      "division": "D1009",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1533",
+      "region_name": "Florida - Region 3",
+      "year": 2022,
+      "division": "D1007",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1533",
+      "region_name": "Florida - Region 3",
+      "year": 2022,
+      "division": "D1009",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1533",
+      "region_name": "Florida - Region 3",
+      "year": 2023,
+      "division": "D1007",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1533",
+      "region_name": "Florida - Region 3",
+      "year": 2023,
+      "division": "D1009",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1533",
+      "region_name": "Florida - Region 3",
+      "year": 2024,
+      "division": "D1007",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1533",
+      "region_name": "Florida - Region 3",
+      "year": 2024,
+      "division": "D1009",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1534",
+      "region_name": "Florida - Region 4",
+      "year": 2019,
+      "division": "D1007",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1534",
+      "region_name": "Florida - Region 4",
+      "year": 2019,
+      "division": "D1009",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1534",
+      "region_name": "Florida - Region 4",
+      "year": 2020,
+      "division": "D1007",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1534",
+      "region_name": "Florida - Region 4",
+      "year": 2020,
+      "division": "D1009",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1534",
+      "region_name": "Florida - Region 4",
+      "year": 2021,
+      "division": "D1007",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1534",
+      "region_name": "Florida - Region 4",
+      "year": 2021,
+      "division": "D1009",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1534",
+      "region_name": "Florida - Region 4",
+      "year": 2022,
+      "division": "D1007",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1534",
+      "region_name": "Florida - Region 4",
+      "year": 2022,
+      "division": "D1009",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1534",
+      "region_name": "Florida - Region 4",
+      "year": 2023,
+      "division": "D1007",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1534",
+      "region_name": "Florida - Region 4",
+      "year": 2023,
+      "division": "D1009",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1534",
+      "region_name": "Florida - Region 4",
+      "year": 2024,
+      "division": "D1007",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1534",
+      "region_name": "Florida - Region 4",
+      "year": 2024,
+      "division": "D1009",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1535",
+      "region_name": "Florida - Region 5",
+      "year": 2019,
+      "division": "D1007",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1535",
+      "region_name": "Florida - Region 5",
+      "year": 2019,
+      "division": "D1009",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1535",
+      "region_name": "Florida - Region 5",
+      "year": 2020,
+      "division": "D1007",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1535",
+      "region_name": "Florida - Region 5",
+      "year": 2020,
+      "division": "D1009",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1535",
+      "region_name": "Florida - Region 5",
+      "year": 2021,
+      "division": "D1007",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1535",
+      "region_name": "Florida - Region 5",
+      "year": 2021,
+      "division": "D1009",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1535",
+      "region_name": "Florida - Region 5",
+      "year": 2022,
+      "division": "D1007",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1535",
+      "region_name": "Florida - Region 5",
+      "year": 2022,
+      "division": "D1009",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1535",
+      "region_name": "Florida - Region 5",
+      "year": 2023,
+      "division": "D1007",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1535",
+      "region_name": "Florida - Region 5",
+      "year": 2023,
+      "division": "D1009",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1535",
+      "region_name": "Florida - Region 5",
+      "year": 2024,
+      "division": "D1007",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1535",
+      "region_name": "Florida - Region 5",
+      "year": 2024,
+      "division": "D1009",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1536",
+      "region_name": "Florida - Region 6",
+      "year": 2019,
+      "division": "D1007",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1536",
+      "region_name": "Florida - Region 6",
+      "year": 2019,
+      "division": "D1009",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1536",
+      "region_name": "Florida - Region 6",
+      "year": 2020,
+      "division": "D1007",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1536",
+      "region_name": "Florida - Region 6",
+      "year": 2020,
+      "division": "D1009",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1536",
+      "region_name": "Florida - Region 6",
+      "year": 2021,
+      "division": "D1007",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1536",
+      "region_name": "Florida - Region 6",
+      "year": 2021,
+      "division": "D1009",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1536",
+      "region_name": "Florida - Region 6",
+      "year": 2022,
+      "division": "D1007",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1536",
+      "region_name": "Florida - Region 6",
+      "year": 2022,
+      "division": "D1009",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1536",
+      "region_name": "Florida - Region 6",
+      "year": 2023,
+      "division": "D1007",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1536",
+      "region_name": "Florida - Region 6",
+      "year": 2023,
+      "division": "D1009",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1536",
+      "region_name": "Florida - Region 6",
+      "year": 2024,
+      "division": "D1007",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1536",
+      "region_name": "Florida - Region 6",
+      "year": 2024,
+      "division": "D1009",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1537",
+      "region_name": "Florida - Region 7",
+      "year": 2019,
+      "division": "D1007",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1537",
+      "region_name": "Florida - Region 7",
+      "year": 2019,
+      "division": "D1009",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1537",
+      "region_name": "Florida - Region 7",
+      "year": 2020,
+      "division": "D1007",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1537",
+      "region_name": "Florida - Region 7",
+      "year": 2020,
+      "division": "D1009",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1537",
+      "region_name": "Florida - Region 7",
+      "year": 2021,
+      "division": "D1007",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1537",
+      "region_name": "Florida - Region 7",
+      "year": 2021,
+      "division": "D1009",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1537",
+      "region_name": "Florida - Region 7",
+      "year": 2022,
+      "division": "D1007",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1537",
+      "region_name": "Florida - Region 7",
+      "year": 2022,
+      "division": "D1009",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1537",
+      "region_name": "Florida - Region 7",
+      "year": 2023,
+      "division": "D1007",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1537",
+      "region_name": "Florida - Region 7",
+      "year": 2023,
+      "division": "D1009",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1537",
+      "region_name": "Florida - Region 7",
+      "year": 2024,
+      "division": "D1007",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1537",
+      "region_name": "Florida - Region 7",
+      "year": 2024,
+      "division": "D1009",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1538",
+      "region_name": "Florida - Region 8",
+      "year": 2019,
+      "division": "D1007",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1538",
+      "region_name": "Florida - Region 8",
+      "year": 2019,
+      "division": "D1009",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1538",
+      "region_name": "Florida - Region 8",
+      "year": 2020,
+      "division": "D1007",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1538",
+      "region_name": "Florida - Region 8",
+      "year": 2020,
+      "division": "D1009",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1538",
+      "region_name": "Florida - Region 8",
+      "year": 2021,
+      "division": "D1007",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1538",
+      "region_name": "Florida - Region 8",
+      "year": 2021,
+      "division": "D1009",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1538",
+      "region_name": "Florida - Region 8",
+      "year": 2022,
+      "division": "D1007",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1538",
+      "region_name": "Florida - Region 8",
+      "year": 2022,
+      "division": "D1009",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1538",
+      "region_name": "Florida - Region 8",
+      "year": 2023,
+      "division": "D1007",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1538",
+      "region_name": "Florida - Region 8",
+      "year": 2023,
+      "division": "D1009",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1538",
+      "region_name": "Florida - Region 8",
+      "year": 2024,
+      "division": "D1007",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    },
+    {
+      "section": "1538",
+      "region_name": "Florida - Region 8",
+      "year": 2024,
+      "division": "D1009",
+      "n_ids": 0,
+      "no_info": true,
+      "first5": []
+    }
+  ],
+  "all_list_ids": []
+}

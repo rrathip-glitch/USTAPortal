@@ -1,0 +1,1686 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="https://www.w3.org/1999/xhtml"  xmlns:fb="https://ogp.me/ns/fb#">
+<head id="ctl00_Head1"><meta name="robots" content="NOODP" /><meta name="Title" content="Tournaments" /><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><link rel="image_src" href="/Dashboard/Common/images/SocialMedia/USTA_Logo.jpg" /><title>
+	USTA Tournaments Home
+</title><link href="../Common/css/screen.css" type="text/css" rel="stylesheet" /><link href="../Common/css/print.css" type="text/css" rel="stylesheet" media="print" /><link href="../Common/css/redmond/jquery-ui-1.8.7.custom.css" type="text/css" rel="stylesheet" />
+<!--[if IE]>
+    <link rel="stylesheet" href="../Common/css/ie.css" type="text/css" media="screen, projection" />
+  <![endif]-->
+<link href="../Common/css/usta-master.css" type="text/css" rel="stylesheet" />
+<style>
+    #usntA42Toggle {
+        bottom: 70px !important;
+        left: 1% !important;
+        opacity: 1;
+    }
+</style>
+<script id='usntA42start' src='https://a42cdn.usablenet.com/a42/usta/default/prod/cs-start' async data-rapid='true'></script>
+<script type="text/javascript" src="../Common/js/jquery.tools.min.js" language="javascript"></script> 
+
+<!-- OneTrust Cookies Consent Notice start for usta.com -->
+<script type="text/javascript" src="https://cdn.cookielaw.org/consent/43383d2d-67e6-4d4a-99cb-3ff760b82737/OtAutoBlock.js" ></script>
+<script src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js"  type="text/javascript" charset="UTF-8" data-domain-script="43383d2d-67e6-4d4a-99cb-3ff760b82737" ></script>
+<script type="text/javascript">
+    function OptanonWrapper() { }
+</script>
+<!-- OneTrust Cookies Consent Notice end for usta.com -->
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        try {
+            updateCookies();
+            if (OneTrust != null) {
+                OneTrust.OnConsentChanged(function () { updateCookies(); });
+            }
+        }
+        catch { }
+        finally {}
+        
+        function updateCookies() {
+            if (!OnetrustActiveGroups.includes('C0003')) {
+                document.cookie = "OtherPage=;max-age=0;path=/;";
+            }
+            if (!OnetrustActiveGroups.includes('C0002')) {
+                document.cookie = "_utmv#########=;max-age=0;path=/;";
+            }
+        }
+
+        setTimeout(function () {
+            if (!window.location.hostname.toLowerCase().startWith("m.") && $('meta[name="viewport"]').length > 0) {
+                $('meta[name="viewport"]').attr("content", "");
+            }
+        }, 500);
+    });
+</script>
+
+<!--USTA-20221-->
+<script type="text/javascript" src="/Dashboard/Common/js/TLWidgetTracking.js"></script>
+<!--USTA-16721 by Aaron Jee-->
+<script type="text/javascript" src="/Dashboard/Common/js/tl.jscommon.js?v=8379"></script>
+<!-- Navigation part --> 
+<link type="text/css" rel="stylesheet" href="/Dashboard/Common/css/navigation.css?v=8379" />
+<script src="/Dashboard/common/js/json2.js" type="text/javascript"></script>
+<script src="/Dashboard/common/js/jstorage.js" type="text/javascript"></script>
+<script src="/Dashboard/common/js/navigation.js?v=8379" type="text/javascript"></script>
+
+
+<!--
+<link href="../Common/css/redmond/jquery-ui-1.8.7.custom.css" type="text/css" rel="stylesheet" />
+
+	<script src="../Common/js/jquery-1.7.2.min.js"></script>
+
+	<script src="../Common/js/jquery-ui-1.8.23.custom.min.js"></script>
+
+<script type="text/javascript" src="../Common/jquery-1.6.1.min.js" language="javascript"></script>
+<script type="text/javascript" src="../Common/js/jquery-ui-1.8.23.custom.min.js" language="javascript"></script>
+-->
+
+<script type="text/javascript" language="javascript">
+    function pageLoad() {
+        
+        // pageLoad from social media
+        if (typeof contentPageLoad == 'function') {
+            contentPageLoad();
+        }
+
+        // pageLoad for content pages
+        if (typeof contentPageLoad2 == 'function') {
+            contentPageLoad2();
+        }
+    }
+</script>
+    
+    <meta name="description" content="Look up TennisLink tournament rankings and see where you stand." />
+    <style type="text/css">
+        .pg-normal
+        {
+            color: #003871;
+            font-weight: normal;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .pg-selected
+        {
+            color: black;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .paginationBackground
+        {
+            background-color: #F2F2F2;
+            border-bottom: 2px solid #E5E5E5;
+            border-top: 2px solid #E5E5E5;
+            width: 807px;
+            padding: 3px 0px;
+            vertical-align: top;
+        }
+        .search-player-name-year-btn {
+            height:25px;width:40px;border:#cccccc solid 1px;display:inline-block;line-height:25px;text-align:center;cursor:pointer;margin-right:5px;
+        }
+        .search-player-name-year-btn.selected{
+            background-color:#accae6;font-weight:bold;border:#0b8ac2 solid 1px;
+        }
+        .search-player-name-result-count {
+            font-family: Calibri, Helvetica,sans-serif;
+            font-size: 20px;
+            font-weight:bold;
+            color: #A36209;
+        }
+        #Loading_window {
+            top: 200px !important;
+        }
+    </style>
+    
+    <script type="text/javascript" src="../Common/js/jquery-ui-1.8.23.custom.min.js" language="javascript"></script>
+
+    <script language="javascript" type="text/javascript">
+
+        function openSimpleSearchHelp() {
+            window.open("/Tournaments/Common/Player_Search_Help.htm", "SimpleSearchHelpWin", "toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=650, height=450");
+        }
+        
+        $(document).ready(function datepicker() {
+            $(".datepicker").datepicker({ changeYear: true, changeMonth: true, showButtonPanel: true, showOn: "both", buttonImage: "/tournaments/common/images/calendar-blue.png", buttonImageOnly: true });
+        });
+
+
+        function Search(URL, Name) {
+            oPopup = window.open(URL, Name, 'toolbar=0,menubar=0,location=0,directories=0,width=600,height=600,top=100,left=100');
+        }
+
+        function showError(message) {
+            $("#divErrorMessage").css("visibility", "visible");
+            $("#divErrorMessage").text(message);
+        }
+
+        function hideError() {
+            $("#divErrorMessage").css("visibility", "hidden");
+        }
+
+        function Search1(pAction) {
+            // First of all, hide error message and clear state
+            hideError();
+            $("#sectionDistrict select").removeClass('inputErrorHighlight');
+
+            if ($("#sectionDistrict select").val() == '') {
+                showError('Please select Section/District.');
+                // Add error highlight
+                $("#sectionDistrict select").addClass('inputErrorHighlight');
+                return false;
+            }
+            return true;
+
+        }
+
+        function Trim(StringToTrim) {
+            if (StringToTrim.charAt(0) == ' ') {
+                for (var i = 0; i < StringToTrim.length; i++) {
+                    if (StringToTrim.charAt(i) != ' ') {
+                        break;
+                    }
+                }
+                StringToTrim = StringToTrim.substring(i, StringToTrim.length);
+            }
+            if (StringToTrim.charAt(StringToTrim.length - 1) == ' ') {
+                for (i = StringToTrim.length - 1; i > 0; i--) {
+                    if (StringToTrim.charAt(i) != ' ') {
+                        break;
+                    }
+                }
+                StringToTrim = StringToTrim.substring(0, i + 1);
+            }
+            return StringToTrim;
+        }
+
+        function SearchPlayerRecord() {
+            var errMessage = $("#errorSection_FindPlayerRecord");
+            errMessage.hide();
+            var $ustaNum = $("#player_usta_number input");
+            var $playerName = $("#record_player_name input");
+
+            var strUstaNum = Trim($ustaNum.val());
+            var strPlayerName = Trim($playerName.val());
+
+            $playerName.removeClass('inputErrorHighlight');
+            $ustaNum.removeClass('inputErrorHighlight');
+           
+
+            if (strUstaNum == '' || isNaN(strUstaNum) || parseInt(strUstaNum) < 0 || parseInt(strUstaNum) > 4294967296) {            
+                if (strPlayerName == '') {
+                    errMessage.text('Please enter a valid USTA number or Name.').show();
+                    // Add error highlight
+                    $ustaNum.addClass('inputErrorHighlight').focus();
+                    return false;
+                }
+                else {
+                    var result = validateSearchMemberName(strPlayerName);
+                    if (!result.success) {
+                        errMessage.text(result.error).show();
+                        $playerName.addClass('inputErrorHighlight').focus();
+                        return false;
+                    }
+                }
+            }            
+            $("#end_date input").removeClass('inputErrorHighlight');
+            if (($("#start_date input").val() != '' && !IsDate($("#start_date input"))) ||
+                 ($("#end_date input").val() != '' && !IsDate($("#end_date input"))))
+            {
+                errMessage.text('Please enter a valid date').show();
+                return false;
+            }
+            if (IsDate($("#start_date input")) && IsDate($("#end_date input")) && 
+                (CDate($("#end_date input").val()) < CDate($("#start_date input").val())) ) {
+                errMessage.text('End date cannot be before start date').show();
+                $("#end_date input").focus().select();
+                $("#end_date input").addClass('inputErrorHighlight');
+                return false;
+            }
+            return true;
+        }
+
+        function SearchPlayerRanking() {
+            var errMessage = $("#errorSection_FindRanking");
+            // First of all, hide error message and clear all states
+            errMessage.hide();
+            var $playerName = $("#ranking_player_name input");
+            var $ustaNum = $("#ranking_usta_number input");
+
+            $playerName.removeClass('inputErrorHighlight');
+            $ustaNum.removeClass('inputErrorHighlight');
+            var strUstaNum = Trim($ustaNum.val());
+            var strRankingPlayerName = Trim($playerName.val());
+
+            if (strUstaNum == '' || isNaN(strUstaNum) || parseInt(strUstaNum) < 0 || parseInt(strUstaNum) > 4294967296) {
+                if (strRankingPlayerName == '') {
+                    errMessage.text('Please enter a valid USTA number or Name.').show();
+                    // Add error highlight
+                    $ustaNum.addClass('inputErrorHighlight').focus();
+                    return false;
+                }
+                else {
+                    var result = validateSearchMemberName(strRankingPlayerName);
+                    if (!result.success) {
+                        errMessage.text(result.error).show();
+                        $playerName.addClass('inputErrorHighlight').focus();
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        function IsDate(element) {
+            var aDate = element.val().match(/\d+/g);
+            var bDateOK = true;
+
+            if (aDate != null) {
+                var aMonthDays = new Array(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
+                var iMonth = '';
+                var iDay = '';
+                var iYear = '';
+
+                if (aDate.length == 1 && (aDate[0].length == 6 || aDate[0].length == 8)) {
+                    iMonth = aDate[0].substr(0, 2);
+                    iDay = aDate[0].substr(2, 2);
+                    iYear = (aDate[0].length == 6) ? aDate[0].substr(4, 2) : aDate[0].substr(4, 4);
+                } else if (aDate.length > 2) {
+                    iMonth = aDate[0];
+                    iDay = aDate[1];
+                    iYear = aDate[2];
+                } else {
+                    bDateOK = false;
+                }
+
+                //Check Year
+                if (bDateOK) {
+                    if (iYear.length == 2 || iYear.length == 4) {
+                        if (iYear.length == 2) { iYear = (iYear >= 20) ? iYear = "19" + iYear : "20" + iYear; }
+
+                        // Check For Leap Year
+                        if ((iYear % 4 == 0 && iYear % 100 != 0) || (iYear % 400 == 0)) {
+                            aMonthDays[1] = 29;
+                        }
+                    } else {
+                        bDateOK = false;
+                    }
+                }
+
+                //Check Month
+                if (bDateOK && (iMonth < 1 || iMonth > 12)) {
+                    bDateOK = false;
+                }
+
+                //Check Day
+                if (bDateOK && (iDay < 0 || iDay > aMonthDays[iMonth - 1])) {
+                    bDateOK = false;
+                }
+
+                if (bDateOK) {
+                    iMonth = (iMonth.length == 1) ? '0' + iMonth : iMonth;
+                    iDay = (iDay.length == 1) ? '0' + iDay : iDay;
+                    //oForm.elements[sField].value = iMonth + '/' + iDay + '/' + iYear;
+                }
+            } else {
+                bDateOK = false;
+            }
+            return bDateOK;
+        }
+
+        function CDate(sDate) {
+            return new Date(sDate);
+        }
+
+        function Pager(tableName, itemsPerPage) {
+            this.tableName = tableName;
+            this.itemsPerPage = itemsPerPage;
+            this.currentPage = 1;
+            this.pages = 0;
+            this.inited = false;
+
+            this.showRecords = function(from, to) {
+                var rows = document.getElementById(tableName).rows;
+
+                // i starts from 2 to skip table header & sub-header rows
+                for (var i = 2; i < rows.length; i++) {
+                    if (i < from || i > to)
+                        rows[i].style.display = 'none';
+                    else
+                        rows[i].style.display = '';
+                }
+            }
+
+            this.showPage = function(pageNumber) {
+                if (!this.inited) {
+                    alert("not inited");
+                    return;
+                }
+
+                var oldPageAnchor = document.getElementById('pg' + this.currentPage + tableName);
+                oldPageAnchor.className = 'pg-normal';
+
+                this.currentPage = pageNumber;
+                var newPageAnchor = document.getElementById('pg' + this.currentPage + tableName);
+                newPageAnchor.className = 'pg-selected';
+
+                var from = (pageNumber - 1) * itemsPerPage + 2;
+                var to = from + itemsPerPage - 1;
+                this.showRecords(from, to);
+            }
+
+            this.prev = function() {
+                if (this.currentPage > 1)
+                    this.showPage(this.currentPage - 1);
+            }
+
+            this.next = function() {
+                if (this.currentPage < this.pages) {
+                    this.showPage(this.currentPage + 1);
+                }
+            }
+
+            this.init = function() {
+                var rows = document.getElementById(tableName).rows;
+                var records = (rows.length - 2);
+                this.pages = Math.ceil(records / itemsPerPage);
+                this.inited = true;
+            }
+
+            this.showPageNav = function(pagerName, positionId) {
+                if (!this.inited) {
+                    alert("not inited");
+                    return;
+                }
+                var element = document.getElementById(positionId);
+
+                var pagerHtml = '<span onclick="' + pagerName + '.prev();" class="pg-normal"> &#171 Prev </span> ';
+                for (var page = 1; page <= this.pages; page++)
+                    pagerHtml += '<span id="pg' + page + tableName + '" class="pg-normal" onclick="' + pagerName + '.showPage(' + page + ');">' + page + '</span> ';
+                pagerHtml += '<span onclick="' + pagerName + '.next();" class="pg-normal"> Next &#187;</span>';
+
+                element.innerHTML = pagerHtml;
+            }
+        }
+
+        function ViewDraw(iTournamentID, iEventID) {
+            window.open('/Tournaments/TournamentHome/Tournament.aspx?T=' + iTournamentID + '&tab=Draws&E=' + iEventID, 'Draws', 'scrollbars=1,toolbar=1,menubar=1,location=1,directories=1,resizable=1,width=800,height=600,top=45,left=45');
+        }
+
+        //TL-156 Link for Team Events. Added by AngelaS, 20071120.
+        function ViewScorecard(iTournamentID, iEventID) {
+            // window.open('/Tournaments/TournamentHome/Tournament.aspx?T=' + iTournamentID + '&E=' + iEventID, 'Scorecard', 'scrollbars=1,toolbar=1,menubar=1,location=1,directories=1,resizable=1,width=800,height=600,top=45,left=45');
+            window.open('/Tournaments/TournamentHome/TeamEventScorecardResultsByDivision.aspx?T=' + iTournamentID + '&E=' + iEventID, 'Scorecard', 'scrollbars=1,toolbar=1,menubar=1,location=1,directories=1,resizable=1,width=800,height=600,top=45,left=45'); 
+        }
+
+        function PrintRecord() {
+            var sListID = document.getElementById('ctl00_mainContent_hdnListID').value;
+            var sPlayerID = document.getElementById('ctl00_mainContent_hdnPlayerID').value;
+            oPopup = window.open('/Tournaments/Rankings/PlayerRecordsPrint.aspx?listid=' + sListID + '&playerid=' + sPlayerID, 'PrintPlayerRecord', 'toolbar=1,menubar=1,scrollbars=1,location=0,directories=0,width=768,height=512,top=200,left=145');
+        }
+
+        function ShowHistory(iDBID, iID) {
+            __doPostBack('ctl00_mainContent_UpdatePanel_RankingHome', 'Sender=PlayerRecords&id=' + iDBID + '&p=' + iID
+	            + "&PlayerID=" + $("#playerranking-playerID input").val()
+	            + '&Year=' + $("#playerranking-year select").val()
+	            + '&type=PlayerRanking');
+            //            window.open(
+            //	            'PlayerRecords.aspx?id=' + iDBID + '&p=' + iID
+            //	            + "&PlayerID=" + $("#playerranking-playerID input").val()
+            //	            + '&Year=' + $("#playerranking-year select").val()
+            //	            + '&type=PlayerRanking', "_self", 'MatchHistory', 'scrollbars=1,toolbar=0,menubar=1,location=0,directories=0,resizable=1,width=750,height=400,top=200,left=10');
+        }
+
+        function DisplayNotes() {
+            var sListID = $('#rankinglist-listID input').val();
+            oPopup = window.open('/Tournaments/Rankings/RankingListNote.aspx?id=' + sListID, 'Notes', 'toolbar=0,menubar=0,scrollbars=1,location=0,directories=0,width=640,height=448,top=200,left=225');
+        }
+        function PrintList() {
+            var strListID = $('#rankinglist-listID input').val();
+            var intEligible = $('#rankinglist-eligible input').val();
+            var strOptionOrder
+            if ($('#ctl00_mainContent_optDistrictOrder').attr('checked') == true) {
+                strOptionOrder = 'district';
+            }
+            else if ($('#ctl00_mainContent_optNameOrder').attr('checked') == true) {
+                strOptionOrder = 'fullname';
+            }
+            else if ($('#ctl00_mainContent_optSectionOrder').attr('checked') == true) {
+                strOptionOrder = 'section';
+            }
+            else {
+                strOptionOrder = 'rank';
+            }
+            oPopup = window.open('/Tournaments/Rankings/RankingListsPrint.aspx?id=' + strListID + '&e=' + intEligible + '&sortby=' + strOptionOrder, 'PrintList', 'toolbar=1,menubar=1,scrollbars=1,location=0,directories=0,width=768,height=512,top=200,left=145');
+        }
+
+        function DoSort(SortBy) {
+            //document.Form.elements("hdnSort").value = SortBy;
+            //TL-940: modified for support with firefox.  Modified by AngelaS on 2008-02-12.
+            $("#rankinglist-sort input").value = SortBy;
+            __doPostBack('ctl00_mainContent_UpdatePanel_RankingList', SortBy);
+        } 
+    </script>
+
+     <script type="text/javascript">
+         (function () {
+             function addSelectOptions(arr, id, selVal, keyField, valueField, dataField) {
+                 var $sel = $("#" + id);
+                 if (!arr || arr.length == 0 || $sel.length == 0) return;
+                 for (var i = 0; i < arr.length; i++) {
+                     var item = arr[i], str;
+                     var val = valueField ? item[valueField] : item;
+                     var key = keyField ? item[keyField] : item;
+
+                     if (selVal && selVal == val) {
+                         if (dataField) {
+                             str = String.format("<option value='{0}' data-{2}='{3}' selected='selected'>{1}</option>", key, val, dataField, item[dataField]);
+                         } else {
+                             str = String.format("<option value='{0}' selected='selected'>{1}</option>", key, val);
+                         }
+                     } else {
+                         if (dataField) {
+                             str = String.format("<option value='{0}' data-{2}='{3}'>{1}</option>", key, val, dataField, item[dataField]);
+                         } else {
+                             str = String.format("<option value='{0}'>{1}</option>", key, val);
+                         }
+                     }
+                     $sel.append(str);
+                 }
+             }
+             function selectSearchPlayerCriteriaYear() {
+                 var $span = $(this), sYear = $span.text(),
+                     $yearAll = $(".search-player-name-year-btn.all");
+                 if (sYear != 'All') {
+                     if ($span.hasClass("selected")) {
+                         $span.removeClass("selected");
+                     } else {
+                         $span.addClass("selected");
+                         $yearAll.removeClass("selected");
+                     }
+                 } else {
+                     $(".search-player-name-year-btn").not(".all").removeClass("selected");
+                     $yearAll.addClass("selected");
+                     //Once the 'All' button is clicked, we will keep this hidden field's value as 'true', 
+                     //until user re-start a totally new search.
+                     $('#ctl00_mainContent_filter_bar_all_year_clicked').val('True');
+                 }
+                 updateCriteriaYearValue();
+             }
+
+             function updateCriteriaYearValue() {
+                 var val = "", $criteriaYearHiddenField = $("#search_player_name_criteria_year");
+                 $(".search-player-name-year-btn").not(".all").each(function () {
+                     if (!$(this).hasClass("selected")) return;
+                     if (val.length > 0) {
+                         val += "," + $(this).text();
+                     } else {
+                         val += $(this).text();
+                     }
+                 });
+                 $criteriaYearHiddenField.val(val);
+                 if (val.length == 0) $(".search-player-name-year-btn.all").addClass("selected");
+             }
+
+             function isArrayContain(item, arr) {
+                 if (arr && arr.length > 0) {
+                     for (var i = 0; i < arr.length; i++) {
+                         if (item == arr[i]) return true;
+                     }
+                 }
+                 return false;
+             }
+             var loadSearchPlayerCriteria = window.loadSearchPlayerCriteria = function () {
+                 var arrFirstLoadYears = null;
+                 var $jsonSearchPlayerFirstLoadYear = $('#ctl00_mainContent_json_searchPlayerFirstLoadYear');
+                 if ($jsonSearchPlayerFirstLoadYear.length > 0) {
+                     var val = $jsonSearchPlayerFirstLoadYear.val();
+                     if (val) {
+                         arrFirstLoadYears = val.split(",");
+                    }
+                 }
+
+              //ex:{ "City": ["San Antonio", "Miami", "Corpus Christi", "Midland"], "State": ["TX", "GA"], "Year": [2015, 2014, 2013, 2012, 2011] };
+              var jsonSearchPlayerResultCriteria = null;
+              var $jsonSearchPlayerResultCriteria = $('#ctl00_mainContent_json_searchPlayerResultCriteria');
+              if ($jsonSearchPlayerResultCriteria.length > 0) {
+                  var val = $jsonSearchPlayerResultCriteria.val();
+                  if (val) jsonSearchPlayerResultCriteria = JSON.parse(val);
+              }
+
+              if (jsonSearchPlayerResultCriteria == null && jsonSearchPlayerResultCriteria == null) return;
+
+              var jsonSearchPlayerFilterCriteria = jsonSearchPlayerResultCriteria.SelectedCriteria;
+
+              var $divDateRange = $("#div_search_player_name_date_range");
+              var $divYears = $("#div_search_player_name_criteria_year");
+
+              var blnIsSearchedByDateRange = $('#ctl00_mainContent_hdnIsSearchedByDateRange').val();
+              var blnFilterBarAllYearClicked = $('#ctl00_mainContent_filter_bar_all_year_clicked').val();
+
+              if (blnIsSearchedByDateRange == "true" && blnFilterBarAllYearClicked == "False") {
+                  $divDateRange.show();
+                  $divYears.hide();
+              } else {
+                  $divDateRange.hide();
+                  $divYears.show();
+                  if ($divYears.length > 0) {
+                      var yearAllBtn = $('<span class="search-player-name-year-btn all">All</span>').click(selectSearchPlayerCriteriaYear);
+                      if (jsonSearchPlayerFilterCriteria != null && (!jsonSearchPlayerFilterCriteria.Year || jsonSearchPlayerFilterCriteria.Year.length == 0) && blnFilterBarAllYearClicked == "True") {
+                          yearAllBtn.addClass("selected");
+                      }
+                      $divYears.append(yearAllBtn);
+                      for (var i = 0; i < jsonSearchPlayerResultCriteria.Year.length; i++) {
+                          var iYear = jsonSearchPlayerResultCriteria.Year[i];
+                          var $span = $('<span class="search-player-name-year-btn">' + iYear + '</span>').click(selectSearchPlayerCriteriaYear);
+
+                          if (jsonSearchPlayerFilterCriteria == null) {
+                              if (isArrayContain(iYear, arrFirstLoadYears)) {
+                                  $span.addClass("selected");
+                              }
+                          } else {
+                              if (jsonSearchPlayerFilterCriteria.Year && jsonSearchPlayerFilterCriteria.Year.length > 0) {
+                                  if (isArrayContain(iYear, jsonSearchPlayerFilterCriteria.Year)) {
+                                      $span.addClass("selected");
+                                  }
+                              } else if (blnFilterBarAllYearClicked == "False") {
+                                  if (isArrayContain(iYear, arrFirstLoadYears)) {
+                                      $span.addClass("selected");
+                                  }
+                              }
+                          }
+                          $divYears.append($span);
+                      }
+                      updateCriteriaYearValue();
+                  }
+              }
+              
+              var defCity = jsonSearchPlayerFilterCriteria ? jsonSearchPlayerFilterCriteria.City : null;
+              var defState = jsonSearchPlayerFilterCriteria ? jsonSearchPlayerFilterCriteria.State : null;
+              addSelectOptions(jsonSearchPlayerResultCriteria.City, "search_player_name_criteria_city", defCity);
+              addSelectOptions(jsonSearchPlayerResultCriteria.State, "search_player_name_criteria_state", defState);
+
+              if (jsonSearchPlayerFilterCriteria && jsonSearchPlayerFilterCriteria.Gender && jsonSearchPlayerFilterCriteria.Gender.length > 0) {
+                  $("#search_player_name_criteria_gender").val(jsonSearchPlayerFilterCriteria.Gender);
+              }
+             }
+
+             function showError(error) {
+                 var errMessage = $("#search_player_name_error");
+                 errMessage.html(error);
+                 errMessage.show();
+             }
+             function isInt(value) {
+                 var reg = /\D/;
+                 return value.match(reg) == null;
+             }
+
+             window.validateSearchPlayerFromResultPage = function () {
+                 var searchTerm = $("#search_player_name").val().trim();
+                 if (searchTerm.length == 0) {
+                     showError("Enter USTA Membership player name.");
+                     return false;
+                 }
+                 if (isInt(searchTerm) != true) {
+                     var result = validateSearchMemberName(searchTerm);
+                     if (!result.success) {
+                         showError(result.error);
+                         return false;
+                     }
+                 }
+                 return true;
+             }
+             $(loadSearchPlayerCriteria);
+             $(function () {
+                 Sys.WebForms.PageRequestManager.getInstance().add_endRequest(loadSearchPlayerCriteria);
+             });
+         })();
+    </script>
+
+<script type='text/javascript'>  var _gaq = _gaq || [];  _gaq.push(['_setAccount', 'UA-2530891-13']);  _gaq.push(['_trackPageview']);(function() {var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);})(); </script>
+</head>
+
+<body>
+    
+<form method="post" action="./RankingHome.aspx" id="aspnetForm">
+<div class="aspNetHidden">
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="ctl00_ScriptManager1_HiddenField" id="ctl00_ScriptManager1_HiddenField" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwULLTE3MTkxMzA2MDgPFg4eCUZpcnN0TmFtZWUeCk1pZGRsZU5hbWVlHghMYXN0TmFtZQUHVGhhc2VuLB4Jc3RhcnRkYXRlBgBAVyBTBVEIHgdlbmRkYXRlBgBAVyBTBVEIHgRZZWFyAuwOHgRUeXBlZRYCZg9kFgRmD2QWCAIQDxUBBDgzNzlkAhEPFgIeBGhyZWYFKy9EYXNoYm9hcmQvQ29tbW9uL2Nzcy9uYXZpZ2F0aW9uLmNzcz92PTgzNzlkAhIPFQEEODM3OWQCFw9kFgJmDxYCHgRUZXh0Bb8DPHNjcmlwdCB0eXBlPSd0ZXh0L2phdmFzY3JpcHQnPiAgdmFyIF9nYXEgPSBfZ2FxIHx8IFtdOyAgX2dhcS5wdXNoKFsnX3NldEFjY291bnQnLCAnVUEtMjUzMDg5MS0xMyddKTsgIF9nYXEucHVzaChbJ190cmFja1BhZ2V2aWV3J10pOyhmdW5jdGlvbigpIHt2YXIgZ2EgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KCdzY3JpcHQnKTsgZ2EudHlwZSA9ICd0ZXh0L2phdmFzY3JpcHQnOyBnYS5hc3luYyA9IHRydWU7Z2Euc3JjID0gKCdodHRwczonID09IGRvY3VtZW50LmxvY2F0aW9uLnByb3RvY29sID8gJ2h0dHBzOi8vc3NsJyA6ICdodHRwOi8vd3d3JykgKyAnLmdvb2dsZS1hbmFseXRpY3MuY29tL2dhLmpzJzt2YXIgcyA9IGRvY3VtZW50LmdldEVsZW1lbnRzQnlUYWdOYW1lKCdzY3JpcHQnKVswXTsgcy5wYXJlbnROb2RlLmluc2VydEJlZm9yZShnYSwgcyk7fSkoKTsgPC9zY3JpcHQ+ZAIBD2QWGAIBDxYCHwgFjAE8ZGl2IGlkPSd1c3RhSGVhZGVyV3JhcHBlcic+PC9kaXY+PHNjcmlwdCB0eXBlPSd0ZXh0L2phdmFzY3JpcHQnPiQoJyN1c3RhSGVhZGVyV3JhcHBlcicpLmxvYWQoJy9EYXNoYm9hcmQvVVNUQUhlYWRlcldyYXBwZXIuYXNweCcpOzwvc2NyaXB0PmQCAw8PFgIeB1Zpc2libGVnZGQCCA9kFgYCAQ8PFgIeC05hdmlnYXRlVXJsBQsvRGFzaGJvYXJkL2RkAgMPDxYCHwoFDS9Ub3VybmFtZW50cy9kZAIFD2QWAgIBD2QWAmYPZBYEAgEPDxYCHwlnZGQCAw8WAh8IBREgPiBTZWFyY2ggUmVzdWx0c2QCCg9kFgICAQ9kFgJmD2QWAgIDDw8WAh8JaGRkAgsPZBYCAgEPZBYCZg9kFggCBQ8PFgIfCWhkFgwCAQ8WAh8IZWQCAw9kFgJmD2QWCAIBDxAPFgYeDkRhdGFWYWx1ZUZpZWxkBQJpZB4NRGF0YVRleHRGaWVsZAUEbmFtZR4LXyFEYXRhQm91bmRnZBAViQEgUGxlYXNlIHNlbGVjdCBhIFNlY3Rpb24vRGlzdHJpY3QeLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCUNhcmliYmVhbhhDYXJpYmJlYW4gLSAgUHVlcnRvIFJpY28bQ2FyaWJiZWFuIC0gIFZpcmdpbiBJc2xhbmRzHi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQdFYXN0ZXJuGUVhc3Rlcm4gLSAgV2VzdGVybiBSZWdpb24eRWFzdGVybiAtICBNZXRyb3BvbGl0YW4gUmVnaW9uHUVhc3Rlcm4gLSAgTG9uZyBJc2xhbmQgUmVnaW9uGkVhc3Rlcm4gLSAgTm9ydGhlcm4gUmVnaW9uGkVhc3Rlcm4gLSAgU291dGhlcm4gUmVnaW9uHEVhc3Rlcm4gLSAgTmV3IEplcnNleSBSZWdpb24eLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tB0Zsb3JpZGETRmxvcmlkYSAtICBSZWdpb24gMRNGbG9yaWRhIC0gIFJlZ2lvbiAyE0Zsb3JpZGEgLSAgUmVnaW9uIDMTRmxvcmlkYSAtICBSZWdpb24gNBNGbG9yaWRhIC0gIFJlZ2lvbiA1E0Zsb3JpZGEgLSAgUmVnaW9uIDYTRmxvcmlkYSAtICBSZWdpb24gNxNGbG9yaWRhIC0gIFJlZ2lvbiA4Hi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQdGb3JlaWduEkZvcmVpZ24gLSAgRm9yZWlnbh4tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0OSGF3YWlpIFBhY2lmaWMdSGF3YWlpIFBhY2lmaWMgLSAgRWFzdCBIYXdhaWkXSGF3YWlpIFBhY2lmaWMgLSAgS2F1YWkWSGF3YWlpIFBhY2lmaWMgLSAgTWF1aRZIYXdhaWkgUGFjaWZpYyAtICBPYWh1IEhhd2FpaSBQYWNpZmljIC0gIEFtZXIuU2Ftby1HdWFtHUhhd2FpaSBQYWNpZmljIC0gIFdlc3QgSGF3YWlpHi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ1JbnRlcm1vdW50YWluF0ludGVybW91bnRhaW4gLSAgTmV2YWRhGUludGVybW91bnRhaW4gLSAgQ29sb3JhZG8WSW50ZXJtb3VudGFpbiAtICBJZGFobxhJbnRlcm1vdW50YWluIC0gIE1vbnRhbmEVSW50ZXJtb3VudGFpbiAtICBVdGFoGEludGVybW91bnRhaW4gLSAgV3lvbWluZx4tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0MTWlkLUF0bGFudGljH01pZC1BdGxhbnRpYyAtICBXYXNoaW5ndG9uIEQuQy4YTWlkLUF0bGFudGljIC0gIE1hcnlsYW5kHU1pZC1BdGxhbnRpYyAtICBXZXN0IFZpcmdpbmlhGE1pZC1BdGxhbnRpYyAtICBWaXJnaW5pYR4tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NTWlkZGxlIFN0YXRlcxlNaWRkbGUgU3RhdGVzIC0gIERlbGF3YXJlJU1pZGRsZSBTdGF0ZXMgLSAgQ2VudHJhbCBQZW5uc3lsdmFuaWElTWlkZGxlIFN0YXRlcyAtICBFYXN0ZXJuIFBlbm5zeWx2YW5pYR1NaWRkbGUgU3RhdGVzIC0gIFBoaWxhZGVscGhpYSBNaWRkbGUgU3RhdGVzIC0gIEFsbGVnaGVueSBNbnRuLhtNaWRkbGUgU3RhdGVzIC0gIE5ldyBKZXJzZXkeLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tB01pZHdlc3QaTWlkd2VzdCAtICBDZW50cmFsIEluZGlhbmESTWlkd2VzdCAtICBDaGljYWdvGE1pZHdlc3QgLSAgTi5FLiBNaWNoaWdhbhhNaWR3ZXN0IC0gIFMuRS4gTWljaGlnYW4bTWlkd2VzdCAtICBXZXN0ZXJuIE1pY2hpZ2FuG01pZHdlc3QgLSAgTm9ydGhlcm4gSW5kaWFuYRxNaWR3ZXN0IC0gIE5vcnRoZXJuIElsbGlub2lzFk1pZHdlc3QgLSAgT2hpbyBWYWxsZXkcTWlkd2VzdCAtICBOb3J0aGVhc3Rlcm4gT2hpbxxNaWR3ZXN0IC0gIE5vcnRod2VzdGVybiBPaGlvFE1pZHdlc3QgLSAgV2lzY29uc2luHE1pZHdlc3QgLSAgTm9ydGhlcm4gTWljaGlnYW4dTWlkd2VzdCAtICBNaWQtU291dGggSWxsaW5vaXMeLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tD01pc3NvdXJpIFZhbGxleSNNaXNzb3VyaSBWYWxsZXkgLSAgSGVhcnQgb2YgQW1lcmljYRdNaXNzb3VyaSBWYWxsZXkgLSAgSW93YRlNaXNzb3VyaSBWYWxsZXkgLSAgS2Fuc2FzG01pc3NvdXJpIFZhbGxleSAtICBOZWJyYXNrYRtNaXNzb3VyaSBWYWxsZXkgLSAgT2tsYWhvbWEcTWlzc291cmkgVmFsbGV5IC0gIFN0LiBMb3VpcxtNaXNzb3VyaSBWYWxsZXkgLSAgTWlzc291cmkeLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCE5hdGlvbmFsHi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQtOZXcgRW5nbGFuZBxOZXcgRW5nbGFuZCAtICBOZXcgSGFtcHNoaXJlFk5ldyBFbmdsYW5kIC0gIFZlcm1vbnQcTmV3IEVuZ2xhbmQgLSAgRWFzdGVybiBNYXNzLhxOZXcgRW5nbGFuZCAtICBXZXN0ZXJuIE1hc3MuG05ldyBFbmdsYW5kIC0gIFJob2RlIElzbGFuZBpOZXcgRW5nbGFuZCAtICBDb25uZWN0aWN1dBROZXcgRW5nbGFuZCAtICBNYWluZR4tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0OTm8uIENhbGlmb3JuaWElTm8uIENhbGlmb3JuaWEgLSAgTm9ydGhlcm4gQ2FsaWZvcm5pYR4tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0ITm9ydGhlcm4UTm9ydGhlcm4gLSAgTm9ydGhlcm4eLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tEVBhY2lmaWMgTm9ydGh3ZXN0JFBhY2lmaWMgTm9ydGh3ZXN0IC0gIFNvdXRoZXJuIE9yZWdvbidQYWNpZmljIE5vcnRod2VzdCAtICBFYXN0ZXJuIFdhc2hpbmd0b24bUGFjaWZpYyBOb3J0aHdlc3QgLSAgQWxhc2thGlBhY2lmaWMgTm9ydGh3ZXN0IC0gIElkYWhvJFBhY2lmaWMgTm9ydGh3ZXN0IC0gIE5vcnRoZXJuIE9yZWdvbiVQYWNpZmljIE5vcnRod2VzdCAtICBCcml0aXNoIENvbHVtYmlhKVBhY2lmaWMgTm9ydGh3ZXN0IC0gIFNvdXRod2VzdCBXYXNoaW5ndG9uKVBhY2lmaWMgTm9ydGh3ZXN0IC0gIE5vcnRod2VzdCBXYXNoaW5ndG9uHi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ5Tby4gQ2FsaWZvcm5pYSVTby4gQ2FsaWZvcm5pYSAtICBTb3V0aGVybiBDYWxpZm9ybmlhG1NvLiBDYWxpZm9ybmlhIC0gIFNhbiBEaWVnbx4tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0IU291dGhlcm4TU291dGhlcm4gLSAgQWxhYmFtYRRTb3V0aGVybiAtICBBcmthbnNhcxNTb3V0aGVybiAtICBHZW9yZ2lhFFNvdXRoZXJuIC0gIEtlbnR1Y2t5FVNvdXRoZXJuIC0gIExvdWlzaWFuYRdTb3V0aGVybiAtICBNaXNzaXNzaXBwaRpTb3V0aGVybiAtICBOb3J0aCBDYXJvbGluYRpTb3V0aGVybiAtICBTb3V0aCBDYXJvbGluYRVTb3V0aGVybiAtICBUZW5uZXNzZWUeLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCVNvdXRod2VzdB1Tb3V0aHdlc3QgLSAgTm9ydGhlcm4gQXJpem9uYSBTb3V0aHdlc3QgLSAgTm9ydGhlcm4gTmV3IE1leGljbx1Tb3V0aHdlc3QgLSAgU291dGhlcm4gQXJpem9uYRxTb3V0aHdlc3QgLSAgQ2VudHJhbCBBcml6b25hHFNvdXRod2VzdCAtICBHcmVhdGVyIEVsIFBhc28gU291dGh3ZXN0IC0gIFNvdXRoZXJuIE5ldyBNZXhpY28hU291dGh3ZXN0IC0gIFNvdXRoZWFzdCBOZXcgTWV4aWNvGlNvdXRod2VzdCAtICBBcml6b25hIFN0YXRlHVNvdXRod2VzdCAtICBOZXcgTWV4aWNvIFN0YXRlHi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQVUZXhhcw5UZXhhcyAtICBUZXhhcx4tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0ViQEAAAIwNQQwNTk3BDA1OTgAAjEwBDEwMDEEMTAwMgQxMDAzBDEwMDQEMTAwNQQxMDA2AAIxNQQxNTMxBDE1MzIEMTUzMwQxNTM0BDE1MzUEMTUzNgQxNTM3BDE1MzgAAjk2BDk2OTkAAjIwBDIwMDEEMjAwMgQyMDAzBDIwMDQEMjAwNQQyMDA2AAIyNQQyNTcxBDI1NzIEMjU3NAQyNTc2BDI1NzcEMjU4MQACMzAEMzAyNgQzMDI3BDMwMjgEMzAyOQACMzUEMzUwNgQzNTA3BDM1MDgEMzUwOQQzNTExBDM1MTIAAjg1BDg1NTMEODU1NAQ4NTU2BDg1NTcEODU1OAQ4NTU5BDg1NjIEODU2MwQ4NTY0BDg1NjYEODU2OAQ4NTY5BDg1NzAAAjQwBDQwNDMENDA0NAQ0MDQ2BDQwNDcENDA0OAQ0MDQ5BDQwNTAAAjAwAAI0NQQ0NTAyBDQ1MDMENDUwNAQ0NTA1BDQ1MDYENDUwNwQ0NTEwAAI1MAQ1MDgzAAI1NQQ1NTUxAAI2MAQ2MDAxBDYwMDIENjAwMwQ2MDA0BDYwMDUENjAwNgQ2MDA3BDYwMDgAAjY1BDY1MTcENjUxOAACNzAENzAzMgQ3MDMzBDcwMzQENzAzNgQ3MDM3BDcwMzgENzAzOQQ3MDQxBDcwNDIAAjc1BDc1ODkENzU5MQQ3NTkyBDc1OTMENzU5NAQ3NTk1BDc1OTYENzU5QQQ3NTlCAAI4MAQ4MDk2ABQrA4kBZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2cWAWZkAgMPEGQQFRsDQWxsBDIwMjYEMjAyNQQyMDI0BDIwMjMEMjAyMgQyMDIxBDIwMjAEMjAxOQQyMDE4BDIwMTcEMjAxNgQyMDE1BDIwMTQEMjAxMwQyMDEyBDIwMTEEMjAxMAQyMDA5BDIwMDgEMjAwNwQyMDA2BDIwMDUEMjAwNAQyMDAzBDIwMDIEMjAwMRUbAAQyMDI2BDIwMjUEMjAyNAQyMDIzBDIwMjIEMjAyMQQyMDIwBDIwMTkEMjAxOAQyMDE3BDIwMTYEMjAxNQQyMDE0BDIwMTMEMjAxMgQyMDExBDIwMTAEMjAwOQQyMDA4BDIwMDcEMjAwNgQyMDA1BDIwMDQEMjAwMwQyMDAyBDIwMDEUKwMbZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnFgFmZAIFDxAPFgYfCwUCaWQfDAUEbmFtZR8NZ2QQFd8EDipBbGwgRGl2aXNpb25zB1NpbmdsZXMHRG91YmxlcxQtLS0tLS0tLS0tLS0tLS0tLS0tLQ9Cb3kncyBEaXZpc2lvbnMQR2lybCdzIERpdmlzaW9ucw9NZW4ncyBEaXZpc2lvbnMRV29tZW4ncyBEaXZpc2lvbnMPTWl4ZWQgRGl2aXNpb25zDk9wZW4gRGl2aXNpb25zNlVTIE9wZW4gTmF0aW9uYWwgUGxheW9mZnMvTWVu4oCZcyBTZWN0aW9uYWwgUXVhbGlmeWluZzhVUyBPcGVuIE5hdGlvbmFsIFBsYXlvZmZzL1dvbWVu4oCZcyBTZWN0aW9uYWwgUXVhbGlmeWluZzxVUyBPcGVuIE5hdGlvbmFsIFBsYXlvZmZzL01peGVkIERvdWJsZXMgU2VjdGlvbmFsIFF1YWxpZnlpbmcULS0tLS0tLS0tLS0tLS0tLS0tLS0QSnVuaW9yIERpdmlzaW9ucw9BZHVsdCBEaXZpc2lvbnMOTlRSUCBEaXZpc2lvbnMQRmFtaWx5IERpdmlzaW9ucxRXaGVlbGNoYWlyIERpdmlzaW9ucxQtLS0tLS0tLS0tLS0tLS0tLS0tLQ5KdW5pb3IgU2luZ2xlcxBCb3lzJyAxOCBTaW5nbGVzEEJveXMnIDE2IFNpbmdsZXMQQm95cycgMTQgU2luZ2xlcxBCb3lzJyAxMiBTaW5nbGVzEEJveXMnIDEwIFNpbmdsZXMPQm95cycgOCBTaW5nbGVzEUdpcmxzJyAxOCBTaW5nbGVzEUdpcmxzJyAxNiBTaW5nbGVzEUdpcmxzJyAxNCBTaW5nbGVzEUdpcmxzJyAxMiBTaW5nbGVzEUdpcmxzJyAxMCBTaW5nbGVzEEdpcmxzJyA4IFNpbmdsZXMPQ28tZWQgOCBTaW5nbGVzEENvLWVkIDEwIFNpbmdsZXMULS0tLS0tLS0tLS0tLS0tLS0tLS0OSnVuaW9yIERvdWJsZXMQQm95cycgMTggRG91YmxlcxBCb3lzJyAxNiBEb3VibGVzEEJveXMnIDE0IERvdWJsZXMQQm95cycgMTIgRG91YmxlcxBCb3lzJyAxMCBEb3VibGVzD0JveXMnIDggRG91YmxlcxFHaXJscycgMTggRG91YmxlcxFHaXJscycgMTYgRG91YmxlcxFHaXJscycgMTQgRG91YmxlcxFHaXJscycgMTIgRG91YmxlcxFHaXJscycgMTAgRG91YmxlcxBHaXJscycgOCBEb3VibGVzEE1peGVkIDE4IERvdWJsZXMQTWl4ZWQgMTYgRG91YmxlcxBNaXhlZCAxNCBEb3VibGVzEE1peGVkIDEyIERvdWJsZXMQTWl4ZWQgMTAgRG91Ymxlcw9NaXhlZCA4IERvdWJsZXMPQ28tZWQgOCBEb3VibGVzEENvLWVkIDEwIERvdWJsZXMULS0tLS0tLS0tLS0tLS0tLS0tLS0NQWR1bHQgU2luZ2xlcxJNZW4ncyBPcGVuIFNpbmdsZXMUV29tZW4ncyBPcGVuIFNpbmdsZXMQTWVuJ3MgMjAgU2luZ2xlcxBNZW4ncyAyNSBTaW5nbGVzEE1lbidzIDMwIFNpbmdsZXMQTWVuJ3MgMzUgU2luZ2xlcxBNZW4ncyA0MCBTaW5nbGVzEE1lbidzIDQ1IFNpbmdsZXMQTWVuJ3MgNTAgU2luZ2xlcxBNZW4ncyA1NSBTaW5nbGVzEE1lbidzIDYwIFNpbmdsZXMQTWVuJ3MgNjUgU2luZ2xlcxBNZW4ncyA3MCBTaW5nbGVzEE1lbidzIDc1IFNpbmdsZXMQTWVuJ3MgODAgU2luZ2xlcxBNZW4ncyA4NSBTaW5nbGVzEE1lbidzIDkwIFNpbmdsZXMQTWVuJ3MgOTUgU2luZ2xlcxJXb21lbidzIDIwIFNpbmdsZXMSV29tZW4ncyAyNSBTaW5nbGVzEldvbWVuJ3MgMzAgU2luZ2xlcxJXb21lbidzIDM1IFNpbmdsZXMSV29tZW4ncyA0MCBTaW5nbGVzEldvbWVuJ3MgNDUgU2luZ2xlcxJXb21lbidzIDUwIFNpbmdsZXMSV29tZW4ncyA1NSBTaW5nbGVzEldvbWVuJ3MgNjAgU2luZ2xlcxJXb21lbidzIDY1IFNpbmdsZXMSV29tZW4ncyA3MCBTaW5nbGVzEldvbWVuJ3MgNzUgU2luZ2xlcxJXb21lbidzIDgwIFNpbmdsZXMSV29tZW4ncyA4NSBTaW5nbGVzEldvbWVuJ3MgOTAgU2luZ2xlcxJXb21lbidzIDk1IFNpbmdsZXM0VVMgT3BlbiBOYXRpb25hbCBQbGF5b2Zmcy9NZW4ncyBTZWN0aW9uYWwgUXVhbGlmeWluZzZVUyBPcGVuIE5hdGlvbmFsIFBsYXlvZmZzL1dvbWVuJ3MgU2VjdGlvbmFsIFF1YWxpZnlpbmcsVVMgT3BlbiBOYXRpb25hbCBQbGF5b2Zmcy9NZW4ncyBDaGFtcGlvbnNoaXAuVVMgT3BlbiBOYXRpb25hbCBQbGF5b2Zmcy9Xb21lbidzIENoYW1waW9uc2hpcBQtLS0tLS0tLS0tLS0tLS0tLS0tLQ1BZHVsdCBEb3VibGVzEk1lbidzIE9wZW4gRG91YmxlcxRXb21lbidzIE9wZW4gRG91YmxlcxJNaXhlZCBPcGVuIERvdWJsZXMQTWVuJ3MgMjAgRG91YmxlcxBNZW4ncyAyNSBEb3VibGVzEE1lbidzIDMwIERvdWJsZXMQTWVuJ3MgMzUgRG91YmxlcxBNZW4ncyA0MCBEb3VibGVzEE1lbidzIDQ1IERvdWJsZXMQTWVuJ3MgNTAgRG91YmxlcxBNZW4ncyA1NSBEb3VibGVzEE1lbidzIDYwIERvdWJsZXMQTWVuJ3MgNjUgRG91YmxlcxBNZW4ncyA3MCBEb3VibGVzEE1lbidzIDc1IERvdWJsZXMQTWVuJ3MgODAgRG91YmxlcxBNZW4ncyA4NSBEb3VibGVzEE1lbidzIDkwIERvdWJsZXMQTWVuJ3MgOTUgRG91YmxlcxJXb21lbidzIDIwIERvdWJsZXMSV29tZW4ncyAyNSBEb3VibGVzEldvbWVuJ3MgMzAgRG91YmxlcxJXb21lbidzIDM1IERvdWJsZXMSV29tZW4ncyA0MCBEb3VibGVzEldvbWVuJ3MgNDUgRG91YmxlcxJXb21lbidzIDUwIERvdWJsZXMSV29tZW4ncyA1NSBEb3VibGVzEldvbWVuJ3MgNjAgRG91YmxlcxJXb21lbidzIDY1IERvdWJsZXMSV29tZW4ncyA3MCBEb3VibGVzEldvbWVuJ3MgNzUgRG91YmxlcxJXb21lbidzIDgwIERvdWJsZXMSV29tZW4ncyA4NSBEb3VibGVzEldvbWVuJ3MgOTAgRG91YmxlcxJXb21lbidzIDk1IERvdWJsZXM8VVMgT3BlbiBOYXRpb25hbCBQbGF5b2Zmcy9NaXhlZCBEb3VibGVzIFNlY3Rpb25hbCBRdWFsaWZ5aW5nNFVTIE9wZW4gTmF0aW9uYWwgUGxheW9mZnMvTWl4ZWQgRG91YmxlcyBDaGFtcGlvbnNoaXA8VVMgT3BlbiBOYXRpb25hbCBQbGF5b2Zmcy9NZW4ncyBEb3VibGVzIFNlY3Rpb25hbCBRdWFsaWZ5aW5nPlVTIE9wZW4gTmF0aW9uYWwgUGxheW9mZnMvV29tZW4ncyBEb3VibGVzIFNlY3Rpb25hbCBRdWFsaWZ5aW5nNFVTIE9wZW4gTmF0aW9uYWwgUGxheW9mZnMvTWVuJ3MgRG91YmxlcyBDaGFtcGlvbnNoaXA2VVMgT3BlbiBOYXRpb25hbCBQbGF5b2Zmcy9Xb21lbidzIERvdWJsZXMgQ2hhbXBpb25zaGlwEE1peGVkIDIwIERvdWJsZXMQTWl4ZWQgMjUgRG91YmxlcxBNaXhlZCAzMCBEb3VibGVzEE1peGVkIDM1IERvdWJsZXMQTWl4ZWQgNDAgRG91YmxlcxBNaXhlZCA0NSBEb3VibGVzEE1peGVkIDUwIERvdWJsZXMQTWl4ZWQgNTUgRG91YmxlcxBNaXhlZCA2MCBEb3VibGVzEE1peGVkIDY1IERvdWJsZXMQTWl4ZWQgNzAgRG91YmxlcxBNaXhlZCA3NSBEb3VibGVzEE1peGVkIDgwIERvdWJsZXMQTWl4ZWQgODUgRG91YmxlcxBNaXhlZCA5MCBEb3VibGVzEE1peGVkIDk1IERvdWJsZXMULS0tLS0tLS0tLS0tLS0tLS0tLS0MTlRSUCBTaW5nbGVzF05UUlAgTWVuJ3MgT3BlbiBTaW5nbGVzFk5UUlAgTWVuJ3MgMi4wIFNpbmdsZXMWTlRSUCBNZW4ncyAyLjUgU2luZ2xlcxZOVFJQIE1lbidzIDMuMCBTaW5nbGVzFk5UUlAgTWVuJ3MgMy41IFNpbmdsZXMWTlRSUCBNZW4ncyA0LjAgU2luZ2xlcxZOVFJQIE1lbidzIDQuNSBTaW5nbGVzFk5UUlAgTWVuJ3MgNS4wIFNpbmdsZXMWTlRSUCBNZW4ncyA1LjUgU2luZ2xlcxZOVFJQIE1lbidzIDYuMCBTaW5nbGVzGU5UUlAgV29tZW4ncyBPcGVuIFNpbmdsZXMYTlRSUCBXb21lbidzIDIuMCBTaW5nbGVzGE5UUlAgV29tZW4ncyAyLjUgU2luZ2xlcxhOVFJQIFdvbWVuJ3MgMy4wIFNpbmdsZXMYTlRSUCBXb21lbidzIDMuNSBTaW5nbGVzGE5UUlAgV29tZW4ncyA0LjAgU2luZ2xlcxhOVFJQIFdvbWVuJ3MgNC41IFNpbmdsZXMYTlRSUCBXb21lbidzIDUuMCBTaW5nbGVzGE5UUlAgV29tZW4ncyA1LjUgU2luZ2xlcxhOVFJQIFdvbWVuJ3MgNi4wIFNpbmdsZXMgU2VuaW9yIDUwIE5UUlAgTWVuJ3MgMi4wIFNpbmdsZXMgU2VuaW9yIDUwIE5UUlAgTWVuJ3MgMi41IFNpbmdsZXMgU2VuaW9yIDUwIE5UUlAgTWVuJ3MgMy4wIFNpbmdsZXMgU2VuaW9yIDUwIE5UUlAgTWVuJ3MgMy41IFNpbmdsZXMgU2VuaW9yIDUwIE5UUlAgTWVuJ3MgNC4wIFNpbmdsZXMgU2VuaW9yIDUwIE5UUlAgTWVuJ3MgNC41IFNpbmdsZXMgU2VuaW9yIDUwIE5UUlAgTWVuJ3MgNS4wIFNpbmdsZXMgU2VuaW9yIDUwIE5UUlAgTWVuJ3MgNS41IFNpbmdsZXMgU2VuaW9yIDUwIE5UUlAgTWVuJ3MgNi4wIFNpbmdsZXMiU2VuaW9yIDUwIE5UUlAgV29tZW4ncyAyLjAgU2luZ2xlcyJTZW5pb3IgNTAgTlRSUCBXb21lbidzIDIuNSBTaW5nbGVzIlNlbmlvciA1MCBOVFJQIFdvbWVuJ3MgMy4wIFNpbmdsZXMiU2VuaW9yIDUwIE5UUlAgV29tZW4ncyAzLjUgU2luZ2xlcyJTZW5pb3IgNTAgTlRSUCBXb21lbidzIDQuMCBTaW5nbGVzIlNlbmlvciA1MCBOVFJQIFdvbWVuJ3MgNC41IFNpbmdsZXMiU2VuaW9yIDUwIE5UUlAgV29tZW4ncyA1LjAgU2luZ2xlcyJTZW5pb3IgNTAgTlRSUCBXb21lbidzIDUuNSBTaW5nbGVzIlNlbmlvciA1MCBOVFJQIFdvbWVuJ3MgNi4wIFNpbmdsZXMhU2VuaW9yIDYwIE5UUlAgIE1lbidzIDIuMCBTaW5nbGVzIVNlbmlvciA2MCBOVFJQICBNZW4ncyAyLjUgU2luZ2xlcyFTZW5pb3IgNjAgTlRSUCAgTWVuJ3MgMy4wIFNpbmdsZXMhU2VuaW9yIDYwIE5UUlAgIE1lbidzIDMuNSBTaW5nbGVzIVNlbmlvciA2MCBOVFJQICBNZW4ncyA0LjAgU2luZ2xlcyFTZW5pb3IgNjAgTlRSUCAgTWVuJ3MgNC41IFNpbmdsZXMhU2VuaW9yIDYwIE5UUlAgIE1lbidzIDUuMCBTaW5nbGVzIVNlbmlvciA2MCBOVFJQICBNZW4ncyA1LjUgU2luZ2xlcyFTZW5pb3IgNjAgTlRSUCAgTWVuJ3MgNi4wIFNpbmdsZXMjU2VuaW9yIDYwIE5UUlAgIFdvbWVuJ3MgMi4wIFNpbmdsZXMjU2VuaW9yIDYwIE5UUlAgIFdvbWVuJ3MgMi41IFNpbmdsZXMjU2VuaW9yIDYwIE5UUlAgIFdvbWVuJ3MgMy4wIFNpbmdsZXMjU2VuaW9yIDYwIE5UUlAgIFdvbWVuJ3MgMy41IFNpbmdsZXMjU2VuaW9yIDYwIE5UUlAgIFdvbWVuJ3MgNC4wIFNpbmdsZXMjU2VuaW9yIDYwIE5UUlAgIFdvbWVuJ3MgNC41IFNpbmdsZXMjU2VuaW9yIDYwIE5UUlAgIFdvbWVuJ3MgNS4wIFNpbmdsZXMjU2VuaW9yIDYwIE5UUlAgIFdvbWVuJ3MgNS41IFNpbmdsZXMjU2VuaW9yIDYwIE5UUlAgIFdvbWVuJ3MgNi4wIFNpbmdsZXMgU2VuaW9yIDcwIE5UUlAgTWVuJ3MgMi4wIFNpbmdsZXMgU2VuaW9yIDcwIE5UUlAgTWVuJ3MgMi41IFNpbmdsZXMgU2VuaW9yIDcwIE5UUlAgTWVuJ3MgMy4wIFNpbmdsZXMgU2VuaW9yIDcwIE5UUlAgTWVuJ3MgMy41IFNpbmdsZXMgU2VuaW9yIDcwIE5UUlAgTWVuJ3MgNC4wIFNpbmdsZXMgU2VuaW9yIDcwIE5UUlAgTWVuJ3MgNC41IFNpbmdsZXMgU2VuaW9yIDcwIE5UUlAgTWVuJ3MgNS4wIFNpbmdsZXMgU2VuaW9yIDcwIE5UUlAgTWVuJ3MgNS41IFNpbmdsZXMgU2VuaW9yIDcwIE5UUlAgTWVuJ3MgNi4wIFNpbmdsZXMiU2VuaW9yIDcwIE5UUlAgV29tZW4ncyAyLjAgU2luZ2xlcyJTZW5pb3IgNzAgTlRSUCBXb21lbidzIDIuNSBTaW5nbGVzIlNlbmlvciA3MCBOVFJQIFdvbWVuJ3MgMy4wIFNpbmdsZXMiU2VuaW9yIDcwIE5UUlAgV29tZW4ncyAzLjUgU2luZ2xlcyJTZW5pb3IgNzAgTlRSUCBXb21lbidzIDQuMCBTaW5nbGVzIlNlbmlvciA3MCBOVFJQIFdvbWVuJ3MgNC41IFNpbmdsZXMiU2VuaW9yIDcwIE5UUlAgV29tZW4ncyA1LjAgU2luZ2xlcyJTZW5pb3IgNzAgTlRSUCBXb21lbidzIDUuNSBTaW5nbGVzIlNlbmlvciA3MCBOVFJQIFdvbWVuJ3MgNi4wIFNpbmdsZXMULS0tLS0tLS0tLS0tLS0tLS0tLS0MTlRSUCBEb3VibGVzF05UUlAgTWVuJ3MgT3BlbiBEb3VibGVzFk5UUlAgTWVuJ3MgMi4wIERvdWJsZXMWTlRSUCBNZW4ncyAyLjUgRG91YmxlcxZOVFJQIE1lbidzIDMuMCBEb3VibGVzFk5UUlAgTWVuJ3MgMy41IERvdWJsZXMWTlRSUCBNZW4ncyA0LjAgRG91YmxlcxZOVFJQIE1lbidzIDQuNSBEb3VibGVzFk5UUlAgTWVuJ3MgNS4wIERvdWJsZXMWTlRSUCBNZW4ncyA1LjUgRG91YmxlcxZOVFJQIE1lbidzIDYuMCBEb3VibGVzGU5UUlAgV29tZW4ncyBPcGVuIERvdWJsZXMYTlRSUCBXb21lbidzIDIuMCBEb3VibGVzGE5UUlAgV29tZW4ncyAyLjUgRG91YmxlcxhOVFJQIFdvbWVuJ3MgMy4wIERvdWJsZXMYTlRSUCBXb21lbidzIDMuNSBEb3VibGVzGE5UUlAgV29tZW4ncyA0LjAgRG91YmxlcxhOVFJQIFdvbWVuJ3MgNC41IERvdWJsZXMYTlRSUCBXb21lbidzIDUuMCBEb3VibGVzGE5UUlAgV29tZW4ncyA1LjUgRG91YmxlcxhOVFJQIFdvbWVuJ3MgNi4wIERvdWJsZXMXTlRSUCBNaXhlZCBPcGVuIERvdWJsZXMWTlRSUCBNaXhlZCAyLjAgRG91YmxlcxZOVFJQIE1peGVkIDIuNSBEb3VibGVzFk5UUlAgTWl4ZWQgMy4wIERvdWJsZXMWTlRSUCBNaXhlZCAzLjUgRG91YmxlcxZOVFJQIE1peGVkIDQuMCBEb3VibGVzFk5UUlAgTWl4ZWQgNC41IERvdWJsZXMWTlRSUCBNaXhlZCA1LjAgRG91YmxlcxZOVFJQIE1peGVkIDUuNSBEb3VibGVzFk5UUlAgTWl4ZWQgNi4wIERvdWJsZXMgTlRSUCBDb21iaW5lZCBNaXhlZCBPcGVuIERvdWJsZXMfTlRSUCBDb21iaW5lZCBNaXhlZCA1LjAgRG91Ymxlcx9OVFJQIENvbWJpbmVkIE1peGVkIDUuNSBEb3VibGVzH05UUlAgQ29tYmluZWQgTWl4ZWQgNi4wIERvdWJsZXMfTlRSUCBDb21iaW5lZCBNaXhlZCA2LjUgRG91Ymxlcx9OVFJQIENvbWJpbmVkIE1peGVkIDcuMCBEb3VibGVzH05UUlAgQ29tYmluZWQgTWl4ZWQgNy41IERvdWJsZXMfTlRSUCBDb21iaW5lZCBNaXhlZCA4LjAgRG91Ymxlcx9OVFJQIENvbWJpbmVkIE1peGVkIDguNSBEb3VibGVzH05UUlAgQ29tYmluZWQgTWl4ZWQgOS4wIERvdWJsZXMfTlRSUCBDb21iaW5lZCBNaXhlZCA5LjUgRG91YmxlcyBOVFJQIENvbWJpbmVkIE1peGVkIDEwLjAgRG91YmxlcyBOVFJQIENvbWJpbmVkIE1peGVkIDEwLjUgRG91YmxlcyBOVFJQIENvbWJpbmVkIE1peGVkIDExLjAgRG91YmxlcyBTZW5pb3IgNTAgTlRSUCBNZW4ncyAyLjAgRG91YmxlcyBTZW5pb3IgNTAgTlRSUCBNZW4ncyAyLjUgRG91YmxlcyBTZW5pb3IgNTAgTlRSUCBNZW4ncyAzLjAgRG91YmxlcyBTZW5pb3IgNTAgTlRSUCBNZW4ncyAzLjUgRG91YmxlcyBTZW5pb3IgNTAgTlRSUCBNZW4ncyA0LjAgRG91YmxlcyBTZW5pb3IgNTAgTlRSUCBNZW4ncyA0LjUgRG91YmxlcyBTZW5pb3IgNTAgTlRSUCBNZW4ncyA1LjAgRG91YmxlcyBTZW5pb3IgNTAgTlRSUCBNZW4ncyA1LjUgRG91YmxlcyBTZW5pb3IgNTAgTlRSUCBNZW4ncyA2LjAgRG91YmxlcyJTZW5pb3IgNTAgTlRSUCBXb21lbidzIDIuMCBEb3VibGVzIlNlbmlvciA1MCBOVFJQIFdvbWVuJ3MgMi41IERvdWJsZXMiU2VuaW9yIDUwIE5UUlAgV29tZW4ncyAzLjAgRG91YmxlcyJTZW5pb3IgNTAgTlRSUCBXb21lbidzIDMuNSBEb3VibGVzIlNlbmlvciA1MCBOVFJQIFdvbWVuJ3MgNC4wIERvdWJsZXMiU2VuaW9yIDUwIE5UUlAgV29tZW4ncyA0LjUgRG91YmxlcyJTZW5pb3IgNTAgTlRSUCBXb21lbidzIDUuMCBEb3VibGVzIlNlbmlvciA1MCBOVFJQIFdvbWVuJ3MgNS41IERvdWJsZXMiU2VuaW9yIDUwIE5UUlAgV29tZW4ncyA2LjAgRG91YmxlcyBTZW5pb3IgNTAgTlRSUCBNaXhlZCAyLjAgRG91YmxlcyBTZW5pb3IgNTAgTlRSUCBNaXhlZCAyLjUgRG91YmxlcyBTZW5pb3IgNTAgTlRSUCBNaXhlZCAzLjAgRG91YmxlcyBTZW5pb3IgNTAgTlRSUCBNaXhlZCAzLjUgRG91YmxlcyBTZW5pb3IgNTAgTlRSUCBNaXhlZCA0LjAgRG91YmxlcyBTZW5pb3IgNTAgTlRSUCBNaXhlZCA0LjUgRG91YmxlcyBTZW5pb3IgNTAgTlRSUCBNaXhlZCA1LjAgRG91YmxlcyBTZW5pb3IgNTAgTlRSUCBNaXhlZCA1LjUgRG91YmxlcyBTZW5pb3IgNTAgTlRSUCBNaXhlZCA2LjAgRG91YmxlcylTZW5pb3IgNTAgTlRSUCBDb21iaW5lZCBNZW4ncyA1LjAgRG91YmxlcylTZW5pb3IgNTAgTlRSUCBDb21iaW5lZCBNZW4ncyA1LjUgRG91YmxlcylTZW5pb3IgNTAgTlRSUCBDb21iaW5lZCBNZW4ncyA2LjAgRG91YmxlcypTZW5pb3IgNTAgTlRSUCAgQ29tYmluZWQgTWVuJ3MgNi41IERvdWJsZXMqU2VuaW9yIDUwIE5UUlAgIENvbWJpbmVkIE1lbidzIDcuMCBEb3VibGVzKlNlbmlvciA1MCBOVFJQICBDb21iaW5lZCBNZW4ncyA3LjUgRG91YmxlcylTZW5pb3IgNTAgTlRSUCBDb21iaW5lZCBNZW4ncyA4LjAgRG91YmxlcylTZW5pb3IgNTAgTlRSUCBDb21iaW5lZCBNZW4ncyA4LjUgRG91YmxlcylTZW5pb3IgNTAgTlRSUCBDb21iaW5lZCBNZW4ncyA5LjAgRG91YmxlcylTZW5pb3IgNTAgTlRSUCBDb21iaW5lZCBNZW4ncyA5LjUgRG91YmxlcypTZW5pb3IgNTAgTlRSUCBDb21iaW5lZCBNZW4ncyAxMC4wIERvdWJsZXMqU2VuaW9yIDUwIE5UUlAgQ29tYmluZWQgTWVuJ3MgMTAuNSBEb3VibGVzKlNlbmlvciA1MCBOVFJQIENvbWJpbmVkIE1lbidzIDExLjAgRG91YmxlcytTZW5pb3IgNTAgTlRSUCBDb21iaW5lZCBXb21lbidzIDUuMCBEb3VibGVzK1NlbmlvciA1MCBOVFJQIENvbWJpbmVkIFdvbWVuJ3MgNS41IERvdWJsZXMrU2VuaW9yIDUwIE5UUlAgQ29tYmluZWQgV29tZW4ncyA2LjAgRG91YmxlcytTZW5pb3IgNTAgTlRSUCBDb21iaW5lZCBXb21lbidzIDYuNSBEb3VibGVzK1NlbmlvciA1MCBOVFJQIENvbWJpbmVkIFdvbWVuJ3MgNy4wIERvdWJsZXMrU2VuaW9yIDUwIE5UUlAgQ29tYmluZWQgV29tZW4ncyA3LjUgRG91YmxlcytTZW5pb3IgNTAgTlRSUCBDb21iaW5lZCBXb21lbidzIDguMCBEb3VibGVzK1NlbmlvciA1MCBOVFJQIENvbWJpbmVkIFdvbWVuJ3MgOC41IERvdWJsZXMrU2VuaW9yIDUwIE5UUlAgQ29tYmluZWQgV29tZW4ncyA5LjAgRG91YmxlcytTZW5pb3IgNTAgTlRSUCBDb21iaW5lZCBXb21lbidzIDkuNSBEb3VibGVzLFNlbmlvciA1MCBOVFJQIENvbWJpbmVkIFdvbWVuJ3MgMTAuMCBEb3VibGVzLFNlbmlvciA1MCBOVFJQIENvbWJpbmVkIFdvbWVuJ3MgMTAuNSBEb3VibGVzLFNlbmlvciA1MCBOVFJQIENvbWJpbmVkIFdvbWVuJ3MgMTEuMCBEb3VibGVzKVNlbmlvciA1MCBOVFJQIENvbWJpbmVkIE1peGVkIDUuMCBEb3VibGVzKVNlbmlvciA1MCBOVFJQIENvbWJpbmVkIE1peGVkIDUuNSBEb3VibGVzKVNlbmlvciA1MCBOVFJQIENvbWJpbmVkIE1peGVkIDYuMCBEb3VibGVzKVNlbmlvciA1MCBOVFJQIENvbWJpbmVkIE1peGVkIDYuNSBEb3VibGVzKVNlbmlvciA1MCBOVFJQIENvbWJpbmVkIE1peGVkIDcuMCBEb3VibGVzKVNlbmlvciA1MCBOVFJQIENvbWJpbmVkIE1peGVkIDcuNSBEb3VibGVzKVNlbmlvciA1MCBOVFJQIENvbWJpbmVkIE1peGVkIDguMCBEb3VibGVzKVNlbmlvciA1MCBOVFJQIENvbWJpbmVkIE1peGVkIDguNSBEb3VibGVzKVNlbmlvciA1MCBOVFJQIENvbWJpbmVkIE1peGVkIDkuMCBEb3VibGVzKVNlbmlvciA1MCBOVFJQIENvbWJpbmVkIE1peGVkIDkuNSBEb3VibGVzKlNlbmlvciA1MCBOVFJQIENvbWJpbmVkIE1peGVkIDEwLjAgRG91YmxlcypTZW5pb3IgNTAgTlRSUCBDb21iaW5lZCBNaXhlZCAxMC41IERvdWJsZXMqU2VuaW9yIDUwIE5UUlAgQ29tYmluZWQgTWl4ZWQgMTEuMCBEb3VibGVzIVNlbmlvciA2MCBOVFJQICBNZW4ncyAyLjAgRG91YmxlcyFTZW5pb3IgNjAgTlRSUCAgTWVuJ3MgMi41IERvdWJsZXMhU2VuaW9yIDYwIE5UUlAgIE1lbidzIDMuMCBEb3VibGVzIVNlbmlvciA2MCBOVFJQICBNZW4ncyAzLjUgRG91YmxlcyFTZW5pb3IgNjAgTlRSUCAgTWVuJ3MgNC4wIERvdWJsZXMhU2VuaW9yIDYwIE5UUlAgIE1lbidzIDQuNSBEb3VibGVzIVNlbmlvciA2MCBOVFJQICBNZW4ncyA1LjAgRG91YmxlcyFTZW5pb3IgNjAgTlRSUCAgTWVuJ3MgNS41IERvdWJsZXMhU2VuaW9yIDYwIE5UUlAgIE1lbidzIDYuMCBEb3VibGVzI1NlbmlvciA2MCBOVFJQICBXb21lbidzIDIuMCBEb3VibGVzI1NlbmlvciA2MCBOVFJQICBXb21lbidzIDIuNSBEb3VibGVzI1NlbmlvciA2MCBOVFJQICBXb21lbidzIDMuMCBEb3VibGVzI1NlbmlvciA2MCBOVFJQICBXb21lbidzIDMuNSBEb3VibGVzI1NlbmlvciA2MCBOVFJQICBXb21lbidzIDQuMCBEb3VibGVzI1NlbmlvciA2MCBOVFJQICBXb21lbidzIDQuNSBEb3VibGVzI1NlbmlvciA2MCBOVFJQICBXb21lbidzIDUuMCBEb3VibGVzI1NlbmlvciA2MCBOVFJQICBXb21lbidzIDUuNSBEb3VibGVzI1NlbmlvciA2MCBOVFJQICBXb21lbidzIDYuMCBEb3VibGVzIVNlbmlvciA2MCBOVFJQICBNaXhlZCAyLjAgRG91YmxlcyFTZW5pb3IgNjAgTlRSUCAgTWl4ZWQgMi41IERvdWJsZXMhU2VuaW9yIDYwIE5UUlAgIE1peGVkIDMuMCBEb3VibGVzIVNlbmlvciA2MCBOVFJQICBNaXhlZCAzLjUgRG91YmxlcyFTZW5pb3IgNjAgTlRSUCAgTWl4ZWQgNC4wIERvdWJsZXMhU2VuaW9yIDYwIE5UUlAgIE1peGVkIDQuNSBEb3VibGVzIVNlbmlvciA2MCBOVFJQICBNaXhlZCA1LjAgRG91YmxlcyFTZW5pb3IgNjAgTlRSUCAgTWl4ZWQgNS41IERvdWJsZXMhU2VuaW9yIDYwIE5UUlAgIE1peGVkIDYuMCBEb3VibGVzKlNlbmlvciA2MCBOVFJQICBDb21iaW5lZCBNZW4ncyA1LjAgRG91YmxlcypTZW5pb3IgNjAgTlRSUCAgQ29tYmluZWQgTWVuJ3MgNS41IERvdWJsZXMqU2VuaW9yIDYwIE5UUlAgIENvbWJpbmVkIE1lbidzIDYuMCBEb3VibGVzK1NlbmlvciA2MCBOVFJQICAgQ29tYmluZWQgTWVuJ3MgNi41IERvdWJsZXMrU2VuaW9yIDYwIE5UUlAgICBDb21iaW5lZCBNZW4ncyA3LjAgRG91YmxlcytTZW5pb3IgNjAgTlRSUCAgIENvbWJpbmVkIE1lbidzIDcuNSBEb3VibGVzKlNlbmlvciA2MCBOVFJQICBDb21iaW5lZCBNZW4ncyA4LjAgRG91YmxlcypTZW5pb3IgNjAgTlRSUCAgQ29tYmluZWQgTWVuJ3MgOC41IERvdWJsZXMqU2VuaW9yIDYwIE5UUlAgIENvbWJpbmVkIE1lbidzIDkuMCBEb3VibGVzKlNlbmlvciA2MCBOVFJQICBDb21iaW5lZCBNZW4ncyA5LjUgRG91YmxlcytTZW5pb3IgNjAgTlRSUCAgQ29tYmluZWQgTWVuJ3MgMTAuMCBEb3VibGVzK1NlbmlvciA2MCBOVFJQICBDb21iaW5lZCBNZW4ncyAxMC41IERvdWJsZXMrU2VuaW9yIDYwIE5UUlAgIENvbWJpbmVkIE1lbidzIDExLjAgRG91YmxlcyxTZW5pb3IgNjAgTlRSUCAgQ29tYmluZWQgV29tZW4ncyA1LjAgRG91YmxlcyxTZW5pb3IgNjAgTlRSUCAgQ29tYmluZWQgV29tZW4ncyA1LjUgRG91YmxlcyxTZW5pb3IgNjAgTlRSUCAgQ29tYmluZWQgV29tZW4ncyA2LjAgRG91YmxlcyxTZW5pb3IgNjAgTlRSUCAgQ29tYmluZWQgV29tZW4ncyA2LjUgRG91YmxlcyxTZW5pb3IgNjAgTlRSUCAgQ29tYmluZWQgV29tZW4ncyA3LjAgRG91YmxlcyxTZW5pb3IgNjAgTlRSUCAgQ29tYmluZWQgV29tZW4ncyA3LjUgRG91YmxlcyxTZW5pb3IgNjAgTlRSUCAgQ29tYmluZWQgV29tZW4ncyA4LjAgRG91YmxlcyxTZW5pb3IgNjAgTlRSUCAgQ29tYmluZWQgV29tZW4ncyA4LjUgRG91YmxlcyxTZW5pb3IgNjAgTlRSUCAgQ29tYmluZWQgV29tZW4ncyA5LjAgRG91YmxlcyxTZW5pb3IgNjAgTlRSUCAgQ29tYmluZWQgV29tZW4ncyA5LjUgRG91Ymxlcy1TZW5pb3IgNjAgTlRSUCAgQ29tYmluZWQgV29tZW4ncyAxMC4wIERvdWJsZXMtU2VuaW9yIDYwIE5UUlAgIENvbWJpbmVkIFdvbWVuJ3MgMTAuNSBEb3VibGVzLVNlbmlvciA2MCBOVFJQICBDb21iaW5lZCBXb21lbidzIDExLjAgRG91YmxlcypTZW5pb3IgNjAgTlRSUCAgQ29tYmluZWQgTWl4ZWQgNS4wIERvdWJsZXMqU2VuaW9yIDYwIE5UUlAgIENvbWJpbmVkIE1peGVkIDUuNSBEb3VibGVzKlNlbmlvciA2MCBOVFJQICBDb21iaW5lZCBNaXhlZCA2LjAgRG91YmxlcypTZW5pb3IgNjAgTlRSUCAgQ29tYmluZWQgTWl4ZWQgNi41IERvdWJsZXMqU2VuaW9yIDYwIE5UUlAgIENvbWJpbmVkIE1peGVkIDcuMCBEb3VibGVzKlNlbmlvciA2MCBOVFJQICBDb21iaW5lZCBNaXhlZCA3LjUgRG91YmxlcypTZW5pb3IgNjAgTlRSUCAgQ29tYmluZWQgTWl4ZWQgOC4wIERvdWJsZXMqU2VuaW9yIDYwIE5UUlAgIENvbWJpbmVkIE1peGVkIDguNSBEb3VibGVzKlNlbmlvciA2MCBOVFJQICBDb21iaW5lZCBNaXhlZCA5LjAgRG91YmxlcypTZW5pb3IgNjAgTlRSUCAgQ29tYmluZWQgTWl4ZWQgOS41IERvdWJsZXMrU2VuaW9yIDYwIE5UUlAgIENvbWJpbmVkIE1peGVkIDEwLjAgRG91YmxlcytTZW5pb3IgNjAgTlRSUCAgQ29tYmluZWQgTWl4ZWQgMTAuNSBEb3VibGVzK1NlbmlvciA2MCBOVFJQICBDb21iaW5lZCBNaXhlZCAxMS4wIERvdWJsZXMgU2VuaW9yIDcwIE5UUlAgTWVuJ3MgMi4wIERvdWJsZXMgU2VuaW9yIDcwIE5UUlAgTWVuJ3MgMi41IERvdWJsZXMgU2VuaW9yIDcwIE5UUlAgTWVuJ3MgMy4wIERvdWJsZXMgU2VuaW9yIDcwIE5UUlAgTWVuJ3MgMy41IERvdWJsZXMgU2VuaW9yIDcwIE5UUlAgTWVuJ3MgNC4wIERvdWJsZXMgU2VuaW9yIDcwIE5UUlAgTWVuJ3MgNC41IERvdWJsZXMgU2VuaW9yIDcwIE5UUlAgTWVuJ3MgNS4wIERvdWJsZXMgU2VuaW9yIDcwIE5UUlAgTWVuJ3MgNS41IERvdWJsZXMgU2VuaW9yIDcwIE5UUlAgTWVuJ3MgNi4wIERvdWJsZXMiU2VuaW9yIDcwIE5UUlAgV29tZW4ncyAyLjAgRG91YmxlcyJTZW5pb3IgNzAgTlRSUCBXb21lbidzIDIuNSBEb3VibGVzIlNlbmlvciA3MCBOVFJQIFdvbWVuJ3MgMy4wIERvdWJsZXMiU2VuaW9yIDcwIE5UUlAgV29tZW4ncyAzLjUgRG91YmxlcyJTZW5pb3IgNzAgTlRSUCBXb21lbidzIDQuMCBEb3VibGVzIlNlbmlvciA3MCBOVFJQIFdvbWVuJ3MgNC41IERvdWJsZXMiU2VuaW9yIDcwIE5UUlAgV29tZW4ncyA1LjAgRG91YmxlcyJTZW5pb3IgNzAgTlRSUCBXb21lbidzIDUuNSBEb3VibGVzIlNlbmlvciA3MCBOVFJQIFdvbWVuJ3MgNi4wIERvdWJsZXMgU2VuaW9yIDcwIE5UUlAgTWl4ZWQgMi4wIERvdWJsZXMgU2VuaW9yIDcwIE5UUlAgTWl4ZWQgMi41IERvdWJsZXMgU2VuaW9yIDcwIE5UUlAgTWl4ZWQgMy4wIERvdWJsZXMgU2VuaW9yIDcwIE5UUlAgTWl4ZWQgMy41IERvdWJsZXMgU2VuaW9yIDcwIE5UUlAgTWl4ZWQgNC4wIERvdWJsZXMgU2VuaW9yIDcwIE5UUlAgTWl4ZWQgNC41IERvdWJsZXMgU2VuaW9yIDcwIE5UUlAgTWl4ZWQgNS4wIERvdWJsZXMgU2VuaW9yIDcwIE5UUlAgTWl4ZWQgNS41IERvdWJsZXMgU2VuaW9yIDcwIE5UUlAgTWl4ZWQgNi4wIERvdWJsZXMpU2VuaW9yIDcwIE5UUlAgQ29tYmluZWQgTWVuJ3MgNS4wIERvdWJsZXMpU2VuaW9yIDcwIE5UUlAgQ29tYmluZWQgTWVuJ3MgNS41IERvdWJsZXMpU2VuaW9yIDcwIE5UUlAgQ29tYmluZWQgTWVuJ3MgNi4wIERvdWJsZXMpU2VuaW9yIDcwIE5UUlAgQ29tYmluZWQgTWVuJ3MgNi41IERvdWJsZXMpU2VuaW9yIDcwIE5UUlAgQ29tYmluZWQgTWVuJ3MgNy4wIERvdWJsZXMpU2VuaW9yIDcwIE5UUlAgQ29tYmluZWQgTWVuJ3MgNy41IERvdWJsZXMpU2VuaW9yIDcwIE5UUlAgQ29tYmluZWQgTWVuJ3MgOC4wIERvdWJsZXMpU2VuaW9yIDcwIE5UUlAgQ29tYmluZWQgTWVuJ3MgOC41IERvdWJsZXMpU2VuaW9yIDcwIE5UUlAgQ29tYmluZWQgTWVuJ3MgOS4wIERvdWJsZXMpU2VuaW9yIDcwIE5UUlAgQ29tYmluZWQgTWVuJ3MgOS41IERvdWJsZXMqU2VuaW9yIDcwIE5UUlAgQ29tYmluZWQgTWVuJ3MgMTAuMCBEb3VibGVzKlNlbmlvciA3MCBOVFJQIENvbWJpbmVkIE1lbidzIDEwLjUgRG91YmxlcypTZW5pb3IgNzAgTlRSUCBDb21iaW5lZCBNZW4ncyAxMS4wIERvdWJsZXMrU2VuaW9yIDcwIE5UUlAgQ29tYmluZWQgV29tZW4ncyA1LjAgRG91YmxlcytTZW5pb3IgNzAgTlRSUCBDb21iaW5lZCBXb21lbidzIDUuNSBEb3VibGVzK1NlbmlvciA3MCBOVFJQIENvbWJpbmVkIFdvbWVuJ3MgNi4wIERvdWJsZXMrU2VuaW9yIDcwIE5UUlAgQ29tYmluZWQgV29tZW4ncyA2LjUgRG91YmxlcytTZW5pb3IgNzAgTlRSUCBDb21iaW5lZCBXb21lbidzIDcuMCBEb3VibGVzK1NlbmlvciA3MCBOVFJQIENvbWJpbmVkIFdvbWVuJ3MgNy41IERvdWJsZXMrU2VuaW9yIDcwIE5UUlAgQ29tYmluZWQgV29tZW4ncyA4LjAgRG91YmxlcytTZW5pb3IgNzAgTlRSUCBDb21iaW5lZCBXb21lbidzIDguNSBEb3VibGVzK1NlbmlvciA3MCBOVFJQIENvbWJpbmVkIFdvbWVuJ3MgOS4wIERvdWJsZXMrU2VuaW9yIDcwIE5UUlAgQ29tYmluZWQgV29tZW4ncyA5LjUgRG91YmxlcyxTZW5pb3IgNzAgTlRSUCBDb21iaW5lZCBXb21lbidzIDEwLjAgRG91YmxlcyxTZW5pb3IgNzAgTlRSUCBDb21iaW5lZCBXb21lbidzIDEwLjUgRG91YmxlcyxTZW5pb3IgNzAgTlRSUCBDb21iaW5lZCBXb21lbidzIDExLjAgRG91YmxlcylTZW5pb3IgNzAgTlRSUCBDb21iaW5lZCBNaXhlZCA1LjAgRG91YmxlcylTZW5pb3IgNzAgTlRSUCBDb21iaW5lZCBNaXhlZCA1LjUgRG91YmxlcylTZW5pb3IgNzAgTlRSUCBDb21iaW5lZCBNaXhlZCA2LjAgRG91YmxlcylTZW5pb3IgNzAgTlRSUCBDb21iaW5lZCBNaXhlZCA2LjUgRG91YmxlcylTZW5pb3IgNzAgTlRSUCBDb21iaW5lZCBNaXhlZCA3LjAgRG91YmxlcylTZW5pb3IgNzAgTlRSUCBDb21iaW5lZCBNaXhlZCA3LjUgRG91YmxlcylTZW5pb3IgNzAgTlRSUCBDb21iaW5lZCBNaXhlZCA4LjAgRG91YmxlcylTZW5pb3IgNzAgTlRSUCBDb21iaW5lZCBNaXhlZCA4LjUgRG91YmxlcylTZW5pb3IgNzAgTlRSUCBDb21iaW5lZCBNaXhlZCA5LjAgRG91YmxlcylTZW5pb3IgNzAgTlRSUCBDb21iaW5lZCBNaXhlZCA5LjUgRG91YmxlcypTZW5pb3IgNzAgTlRSUCBDb21iaW5lZCBNaXhlZCAxMC4wIERvdWJsZXMqU2VuaW9yIDcwIE5UUlAgQ29tYmluZWQgTWl4ZWQgMTAuNSBEb3VibGVzKlNlbmlvciA3MCBOVFJQIENvbWJpbmVkIE1peGVkIDExLjAgRG91YmxlcxQtLS0tLS0tLS0tLS0tLS0tLS0tLRVOVFJQIENvbWJpbmVkIERvdWJsZXMgTlRSUCBDb21iaW5lZCBNZW4ncyBPcGVuIERvdWJsZXMfTlRSUCBDb21iaW5lZCBNZW4ncyA1LjAgRG91Ymxlcx9OVFJQIENvbWJpbmVkIE1lbidzIDUuNSBEb3VibGVzH05UUlAgQ29tYmluZWQgTWVuJ3MgNi4wIERvdWJsZXMfTlRSUCBDb21iaW5lZCBNZW4ncyA2LjUgRG91Ymxlcx9OVFJQIENvbWJpbmVkIE1lbidzIDcuMCBEb3VibGVzH05UUlAgQ29tYmluZWQgTWVuJ3MgNy41IERvdWJsZXMfTlRSUCBDb21iaW5lZCBNZW4ncyA4LjAgRG91Ymxlcx9OVFJQIENvbWJpbmVkIE1lbidzIDguNSBEb3VibGVzH05UUlAgQ29tYmluZWQgTWVuJ3MgOS4wIERvdWJsZXMfTlRSUCBDb21iaW5lZCBNZW4ncyA5LjUgRG91YmxlcyBOVFJQIENvbWJpbmVkIE1lbidzIDEwLjAgRG91YmxlcyBOVFJQIENvbWJpbmVkIE1lbidzIDEwLjUgRG91YmxlcyBOVFJQIENvbWJpbmVkIE1lbidzIDExLjAgRG91YmxlcyJOVFJQIENvbWJpbmVkIFdvbWVuJ3MgT3BlbiBEb3VibGVzIU5UUlAgQ29tYmluZWQgV29tZW4ncyA1LjAgRG91YmxlcyFOVFJQIENvbWJpbmVkIFdvbWVuJ3MgNS41IERvdWJsZXMhTlRSUCBDb21iaW5lZCBXb21lbidzIDYuMCBEb3VibGVzIU5UUlAgQ29tYmluZWQgV29tZW4ncyA2LjUgRG91YmxlcyFOVFJQIENvbWJpbmVkIFdvbWVuJ3MgNy4wIERvdWJsZXMhTlRSUCBDb21iaW5lZCBXb21lbidzIDcuNSBEb3VibGVzIU5UUlAgQ29tYmluZWQgV29tZW4ncyA4LjAgRG91YmxlcyFOVFJQIENvbWJpbmVkIFdvbWVuJ3MgOC41IERvdWJsZXMhTlRSUCBDb21iaW5lZCBXb21lbidzIDkuMCBEb3VibGVzIU5UUlAgQ29tYmluZWQgV29tZW4ncyA5LjUgRG91YmxlcyJOVFJQIENvbWJpbmVkIFdvbWVuJ3MgMTAuMCBEb3VibGVzIk5UUlAgQ29tYmluZWQgV29tZW4ncyAxMC41IERvdWJsZXMiTlRSUCBDb21iaW5lZCBXb21lbidzIDExLjAgRG91YmxlcxQtLS0tLS0tLS0tLS0tLS0tLS0tLQ5GYW1pbHkgRG91YmxlcxJGYXRoZXItU29uIERvdWJsZXMXRmF0aGVyLURhdWdodGVyIERvdWJsZXMSTW90aGVyLVNvbiBEb3VibGVzF01vdGhlci1EYXVnaHRlciBEb3VibGVzFFBhcmVudCBDaGlsZCBEb3VibGVzF0Jyb3RoZXItQnJvdGhlciBEb3VibGVzFkJyb3RoZXItU2lzdGVyIERvdWJsZXMVU2lzdGVyLVNpc3RlciBEb3VibGVzJUZhdGhlciA4MCBhbmQgT3ZlciAtIERhdWdodGVyIERvdWJsZXMgRmF0aGVyIDgwIGFuZCBPdmVyIC0gU29uIERvdWJsZXMUSHVzYmFuZC1XaWZlIERvdWJsZXMXSHVzYmFuZC1XaWZlIDI1IERvdWJsZXMXSHVzYmFuZC1XaWZlIDMwIERvdWJsZXMXSHVzYmFuZC1XaWZlIDM1IERvdWJsZXMXSHVzYmFuZC1XaWZlIDQwIERvdWJsZXMXSHVzYmFuZC1XaWZlIDQ1IERvdWJsZXMXSHVzYmFuZC1XaWZlIDUwIERvdWJsZXMeSHVzYmFuZC1XaWZlIENvbWJvIDEwMCBEb3VibGVzHkh1c2JhbmQtV2lmZSBDb21ibyAxMjAgRG91Ymxlcx5IdXNiYW5kLVdpZmUgQ29tYm8gMTQwIERvdWJsZXMWU3IuIEZhdGhlci1Tb24gRG91YmxlcxtTci4gRmF0aGVyLURhdWdodGVyIERvdWJsZXMWU3IuIE1vdGhlci1Tb24gRG91YmxlcxtTci4gTW90aGVyLURhdWdodGVyIERvdWJsZXMcR3JhbmRmYXRoZXItR3JhbmRzb24gRG91YmxlcyFHcmFuZGZhdGhlci1HcmFuZGRhdWdodGVyIERvdWJsZXMcR3JhbmRtb3RoZXItR3JhbmRzb24gRG91YmxlcyFHcmFuZG1vdGhlci1HcmFuZGRhdWdodGVyIERvdWJsZXMcU3VwZXIgU3IuIEZhdGhlci1Tb24gRG91YmxlcyFTdXBlciBTci4gRmF0aGVyLURhdWdodGVyIERvdWJsZXMcU3VwZXIgU3IuIE1vdGhlci1Tb24gRG91YmxlcyFTdXBlciBTci4gTW90aGVyLURhdWdodGVyIERvdWJsZXMgU2FtZSBHZW5kZXIgTWFsZSBDb3VwbGVzIERvdWJsZXM2U2FtZSBHZW5kZXIgTWFsZSBDb3VwbGVzIERvdWJsZXMgKENvbWJvIEFnZXMgODAgWWVhcnMpN1NhbWUgR2VuZGVyIE1hbGUgQ291cGxlcyBEb3VibGVzIChDb21ibyBBZ2VzIDEwMCBZZWFycyk3U2FtZSBHZW5kZXIgTWFsZSBDb3VwbGVzIERvdWJsZXMgKENvbWJvIEFnZXMgMTIwIFllYXJzKTdTYW1lIEdlbmRlciBNYWxlIENvdXBsZXMgRG91YmxlcyAoQ29tYm8gQWdlcyAxNDAgWWVhcnMpIlNhbWUgR2VuZGVyIEZlbWFsZSBDb3VwbGVzIERvdWJsZXM4U2FtZSBHZW5kZXIgRmVtYWxlIENvdXBsZXMgRG91YmxlcyAoQ29tYm8gQWdlcyA4MCBZZWFycyk5U2FtZSBHZW5kZXIgRmVtYWxlIENvdXBsZXMgRG91YmxlcyAoQ29tYm8gQWdlcyAxMDAgWWVhcnMpOVNhbWUgR2VuZGVyIEZlbWFsZSBDb3VwbGVzIERvdWJsZXMgKENvbWJvIEFnZXMgMTIwIFllYXJzKTlTYW1lIEdlbmRlciBGZW1hbGUgQ291cGxlcyBEb3VibGVzIChDb21ibyBBZ2VzIDE0MCBZZWFycykULS0tLS0tLS0tLS0tLS0tLS0tLS0SV2hlZWxjaGFpciBTaW5nbGVzHU1lbidzIFdoZWVsY2hhaXIgT3BlbiBTaW5nbGVzGk1lbidzIFdoZWVsY2hhaXIgQSBTaW5nbGVzGk1lbidzIFdoZWVsY2hhaXIgQiBTaW5nbGVzGk1lbidzIFdoZWVsY2hhaXIgQyBTaW5nbGVzGk1lbidzIFdoZWVsY2hhaXIgRCBTaW5nbGVzH1dvbWVuJ3MgV2hlZWxjaGFpciBPcGVuIFNpbmdsZXMcV29tZW4ncyBXaGVlbGNoYWlyIEEgU2luZ2xlcxxXb21lbidzIFdoZWVsY2hhaXIgQiBTaW5nbGVzHFdvbWVuJ3MgV2hlZWxjaGFpciBDIFNpbmdsZXMcV29tZW4ncyBXaGVlbGNoYWlyIEQgU2luZ2xlcxxRdWFkIFdoZWVsY2hhaXIgT3BlbiBTaW5nbGVzGVF1YWQgV2hlZWxjaGFpciBBIFNpbmdsZXMZUXVhZCBXaGVlbGNoYWlyIEIgU2luZ2xlcxlRdWFkIFdoZWVsY2hhaXIgQyBTaW5nbGVzGVF1YWQgV2hlZWxjaGFpciBEIFNpbmdsZXMgU2VuaW9yIFdoZWVsY2hhaXIgT3Blbi9BIFNpbmdsZXMdU2VuaW9yIFdoZWVsY2hhaXIgQi9DIFNpbmdsZXMgSnVuaW9yIFdoZWVsY2hhaXIgT3Blbi9BIFNpbmdsZXMbSnVuaW9yIFdoZWVsY2hhaXIgQSBTaW5nbGVzHUp1bmlvciBXaGVlbGNoYWlyIEIvQyBTaW5nbGVzG0p1bmlvciBXaGVlbGNoYWlyIEMgU2luZ2xlcxtKdW5pb3IgV2hlZWxjaGFpciBEIFNpbmdsZXMULS0tLS0tLS0tLS0tLS0tLS0tLS0SV2hlZWxjaGFpciBEb3VibGVzHU1lbidzIFdoZWVsY2hhaXIgT3BlbiBEb3VibGVzGk1lbidzIFdoZWVsY2hhaXIgQSBEb3VibGVzGk1lbidzIFdoZWVsY2hhaXIgQiBEb3VibGVzGk1lbidzIFdoZWVsY2hhaXIgQyBEb3VibGVzGk1lbidzIFdoZWVsY2hhaXIgRCBEb3VibGVzH1dvbWVuJ3MgV2hlZWxjaGFpciBPcGVuIERvdWJsZXMcV29tZW4ncyBXaGVlbGNoYWlyIEEgRG91YmxlcxxXb21lbidzIFdoZWVsY2hhaXIgQiBEb3VibGVzHFdvbWVuJ3MgV2hlZWxjaGFpciBDIERvdWJsZXMcV29tZW4ncyBXaGVlbGNoYWlyIEQgRG91YmxlcxxRdWFkIFdoZWVsY2hhaXIgT3BlbiBEb3VibGVzGVF1YWQgV2hlZWxjaGFpciBBIERvdWJsZXMZUXVhZCBXaGVlbGNoYWlyIEIgRG91YmxlcxlRdWFkIFdoZWVsY2hhaXIgQyBEb3VibGVzGVF1YWQgV2hlZWxjaGFpciBEIERvdWJsZXMfTWFzdGVycyBXaGVlbGNoYWlyIE9wZW4gRG91YmxlcxxNYXN0ZXJzIFdoZWVsY2hhaXIgQSBEb3VibGVzHE1hc3RlcnMgV2hlZWxjaGFpciBCIERvdWJsZXMcTWFzdGVycyBXaGVlbGNoYWlyIEMgRG91YmxlcxxNYXN0ZXJzIFdoZWVsY2hhaXIgRCBEb3VibGVzIFNlbmlvciBXaGVlbGNoYWlyIE9wZW4vQSBEb3VibGVzG1NlbmlvciBXaGVlbGNoYWlyIEEgRG91Ymxlcx1TZW5pb3IgV2hlZWxjaGFpciBCL0MgRG91YmxlcxtTZW5pb3IgV2hlZWxjaGFpciBDIERvdWJsZXMbU2VuaW9yIFdoZWVsY2hhaXIgRCBEb3VibGVzIEp1bmlvciBXaGVlbGNoYWlyIE9wZW4vQSBEb3VibGVzG0p1bmlvciBXaGVlbGNoYWlyIEEgRG91Ymxlcx1KdW5pb3IgV2hlZWxjaGFpciBCL0MgRG91YmxlcxtKdW5pb3IgV2hlZWxjaGFpciBDIERvdWJsZXMbSnVuaW9yIFdoZWVsY2hhaXIgRCBEb3VibGVzFC0tLS0tLS0tLS0tLS0tLS0tLS0tFd8EAAJHMQJHMgACRzMCRzQCRzUCRzYCRzcDRzMwA0czMQNHMzIDRzMzAAJHOAJHOQNHMTIDRzE0A0cxNQADRzE2BUQxMDAxBUQxMDAzBUQxMDA1BUQxMDA3BUQxMDA5BUQxMDExBUQxMDE1BUQxMDE3BUQxMDE5BUQxMDIxBUQxMDIzBUQxMDI1BUQyMDAxBUQyMDAzAANHMTcFRDExMDEFRDExMDMFRDExMDUFRDExMDcFRDExMDkFRDExMTEFRDExMTUFRDExMTcFRDExMTkFRDExMjEFRDExMjMFRDExMjUFRDExMzAFRDExMzEFRDExMzIFRDExMzMFRDExMzQFRDExMzUFRDIwMDIFRDIwMDQAA0cxOAVEMjAxMAVEMjAxMQVEMzAwMAVEMzAwMQVEMzAwMgVEMzAwMwVEMzAwNAVEMzAwNQVEMzAwNgVEMzAwNwVEMzAwOAVEMzAwOQVEMzAxMAVEMzAxMQVEMzAxMgVEMzAxMwVEMzAxNAVEMzAxNQVEMzAxNgVEMzAxNwVEMzAxOAVEMzAxOQVEMzAyMAVEMzAyMQVEMzAyMgVEMzAyMwVEMzAyNAVEMzAyNQVEMzAyNgVEMzAyNwVEMzAyOAVEMzAyOQVEMzAzMAVEMzAzMQVEMzUzMAVEMzUzMgVEMzUzNAVEMzUzNgADRzIxBUQyMDEyBUQyMDEzBUQyMDE0BUQzMTAwBUQzMTAxBUQzMTAyBUQzMTAzBUQzMTA0BUQzMTA1BUQzMTA2BUQzMTA3BUQzMTA4BUQzMTA5BUQzMTEwBUQzMTExBUQzMTEyBUQzMTEzBUQzMTE0BUQzMTE1BUQzMTE2BUQzMTE3BUQzMTE4BUQzMTE5BUQzMTIwBUQzMTIxBUQzMTIyBUQzMTIzBUQzMTI0BUQzMTI1BUQzMTI2BUQzMTI3BUQzMTI4BUQzMTI5BUQzMTMwBUQzMTMxBUQzNTM4BUQzNTQwBUQzNTQyBUQzNTQ0BUQzNTQ2BUQzNTQ4BUQ0MTAwBUQ0MTAxBUQ0MTAyBUQ0MTAzBUQ0MTA0BUQ0MTA1BUQ0MTA2BUQ0MTA3BUQ0MTA4BUQ0MTA5BUQ0MTEwBUQ0MTExBUQ0MTEyBUQ0MTEzBUQ0MTE0BUQ0MTE1AANHMjQFRDUwMDAFRDUwMDEFRDUwMDIFRDUwMDMFRDUwMDQFRDUwMDUFRDUwMDYFRDUwMDcFRDUwMDgFRDUwMDkFRDUwMTAFRDUwMTEFRDUwMTIFRDUwMTMFRDUwMTQFRDUwMTUFRDUwMTYFRDUwMTcFRDUwMTgFRDUwMTkFRDkwMDEFRDkwMDMFRDkwMDUFRDkwMDcFRDkwMDkFRDkwMTEFRDkwMTMFRDkwMTUFRDkwMTcFRDkwMTkFRDkwMjEFRDkwMjMFRDkwMjUFRDkwMjcFRDkwMjkFRDkwMzEFRDkwMzMFRDkwMzUFRDkxNjkFRDkxNzEFRDkxNzMFRDkxNzUFRDkxNzcFRDkxNzkFRDkxODEFRDkxODMFRDkxODUFRDkxODcFRDkxODkFRDkxOTEFRDkxOTMFRDkxOTUFRDkxOTcFRDkxOTkFRDkyMDEFRDkyMDMFRDkzMzcFRDkzMzkFRDkzNDEFRDkzNDMFRDkzNDUFRDkzNDcFRDkzNDkFRDkzNTEFRDkzNTMFRDkzNTUFRDkzNTcFRDkzNTkFRDkzNjEFRDkzNjMFRDkzNjUFRDkzNjcFRDkzNjkFRDkzNzEAA0cyNQVENTEwMAVENTEwMQVENTEwMgVENTEwMwVENTEwNAVENTEwNQVENTEwNgVENTEwNwVENTEwOAVENTEwOQVENTExMAVENTExMQVENTExMgVENTExMwVENTExNAVENTExNQVENTExNgVENTExNwVENTExOAVENTExOQVENTEyMAVENTEyMQVENTEyMgVENTEyMwVENTEyNAVENTEyNQVENTEyNgVENTEyNwVENTEyOAVENTEyOQVENjEzOAVENjEzOQVENjE0MAVENjE0MQVENjE0MgVENjE0MwVENjE0NAVENjE0NQVENjE0NgVENjE0NwVENjE0OAVENjE0OQVENjE1MAVENjE1MQVEOTAzNwVEOTAzOQVEOTA0MQVEOTA0MwVEOTA0NQVEOTA0NwVEOTA0OQVEOTA1MQVEOTA1MwVEOTA1NQVEOTA1NwVEOTA1OQVEOTA2MQVEOTA2MwVEOTA2NQVEOTA2NwVEOTA2OQVEOTA3MQVEOTA3MwVEOTA3NQVEOTA3NwVEOTA3OQVEOTA4MQVEOTA4MwVEOTA4NQVEOTA4NwVEOTA4OQVEOTA5MQVEOTA5MwVEOTA5NQVEOTA5NwVEOTA5OQVEOTEwMQVEOTEwMwVEOTEwNQVEOTEwNwVEOTEwOQVEOTExMQVEOTExMwVEOTExNQVEOTExNwVEOTExOQVEOTEyMQVEOTEyMwVEOTEyNQVEOTEyNwVEOTEyOQVEOTEzMQVEOTEzMwVEOTEzNQVEOTEzNwVEOTEzOQVEOTE0MQVEOTE0MwVEOTE0NQVEOTE0NwVEOTE0OQVEOTE1MQVEOTE1MwVEOTE1NQVEOTE1NwVEOTE1OQVEOTE2MQVEOTE2MwVEOTE2NQVEOTE2NwVEOTIwNQVEOTIwNwVEOTIwOQVEOTIxMQVEOTIxMwVEOTIxNQVEOTIxNwVEOTIxOQVEOTIyMQVEOTIyMwVEOTIyNQVEOTIyNwVEOTIyOQVEOTIzMQVEOTIzMwVEOTIzNQVEOTIzNwVEOTIzOQVEOTI0MQVEOTI0MwVEOTI0NQVEOTI0NwVEOTI0OQVEOTI1MQVEOTI1MwVEOTI1NQVEOTI1NwVEOTI1OQVEOTI2MQVEOTI2MwVEOTI2NQVEOTI2NwVEOTI2OQVEOTI3MQVEOTI3MwVEOTI3NQVEOTI3NwVEOTI3OQVEOTI4MQVEOTI4MwVEOTI4NQVEOTI4NwVEOTI4OQVEOTI5MQVEOTI5MwVEOTI5NQVEOTI5NwVEOTI5OQVEOTMwMQVEOTMwMwVEOTMwNQVEOTMwNwVEOTMwOQVEOTMxMQVEOTMxMwVEOTMxNQVEOTMxNwVEOTMxOQVEOTMyMQVEOTMyMwVEOTMyNQVEOTMyNwVEOTMyOQVEOTMzMQVEOTMzMwVEOTMzNQVEOTM3MwVEOTM3NQVEOTM3NwVEOTM3OQVEOTM4MQVEOTM4MwVEOTM4NQVEOTM4NwVEOTM4OQVEOTM5MQVEOTM5MwVEOTM5NQVEOTM5NwVEOTM5OQVEOTQwMQVEOTQwMwVEOTQwNQVEOTQwNwVEOTQwOQVEOTQxMQVEOTQxMwVEOTQxNQVEOTQxNwVEOTQxOQVEOTQyMQVEOTQyMwVEOTQyNQVEOTQyNwVEOTQyOQVEOTQzMQVEOTQzMwVEOTQzNQVEOTQzNwVEOTQzOQVEOTQ0MQVEOTQ0MwVEOTQ0NQVEOTQ0NwVEOTQ0OQVEOTQ1MQVEOTQ1MwVEOTQ1NQVEOTQ1NwVEOTQ1OQVEOTQ2MQVEOTQ2MwVEOTQ2NQVEOTQ2NwVEOTQ2OQVEOTQ3MQVEOTQ3MwVEOTQ3NQVEOTQ3NwVEOTQ3OQVEOTQ4MQVEOTQ4MwVEOTQ4NQVEOTQ4NwVEOTQ4OQVEOTQ5MQVEOTQ5MwVEOTQ5NQVEOTQ5NwVEOTQ5OQVEOTUwMQVEOTUwMwADRzI2BUQ2MDk4BUQ2MDk5BUQ2MTAwBUQ2MTAxBUQ2MTAyBUQ2MTAzBUQ2MTA0BUQ2MTA1BUQ2MTA2BUQ2MTA3BUQ2MTA4BUQ2MTA5BUQ2MTEwBUQ2MTExBUQ2MTE4BUQ2MTE5BUQ2MTIwBUQ2MTIxBUQ2MTIyBUQ2MTIzBUQ2MTI0BUQ2MTI1BUQ2MTI2BUQ2MTI3BUQ2MTI4BUQ2MTI5BUQ2MTMwBUQ2MTMxAANHMjcFRDcxMDAFRDcxMDEFRDcxMDIFRDcxMDMFRDcxMDQFRDcxMDUFRDcxMDYFRDcxMDcFRDcxMDgFRDcxMDkFRDcxMTAFRDcxMTEFRDcxMTIFRDcxMTMFRDcxMTQFRDcxMTUFRDcxMTYFRDcxMTcFRDcxMTgFRDcxMTkFRDcxMjEFRDcxMjIFRDcxMjMFRDcxMjQFRDcxMjUFRDcxMjYFRDcxMjcFRDcxMjgFRDcxMjkFRDcxMzAFRDcxMzEFRDcxMzIFRDk2MDEFRDk2MDMFRDk2MDUFRDk2MDcFRDk2MDkFRDk3MDEFRDk3MDMFRDk3MDUFRDk3MDcFRDk3MDkAA0cyOAVEODAxMQVEODAxMgVEODAxMwVEODAxNAVEODAxNQVEODAyMQVEODAyMgVEODAyMwVEODAyNAVEODAyNQVEODIzMQVEODIzMgVEODIzMwVEODIzNAVEODIzNQVEODU1MQVEODU1MgVEODgwMQVEODgwMgVEODgwMwVEODgwNAVEODgwNQADRzI5BUQ4MTExBUQ4MTEyBUQ4MTEzBUQ4MTE0BUQ4MTE1BUQ4MTIxBUQ4MTIyBUQ4MTIzBUQ4MTI0BUQ4MTI1BUQ4MzMxBUQ4MzMyBUQ4MzMzBUQ4MzM0BUQ4MzM1BUQ4NTQxBUQ4NTQyBUQ4NTQzBUQ4NTQ0BUQ4NTQ1BUQ4NTQ2BUQ4NTQ3BUQ4NTQ4BUQ4NTQ5BUQ4NTUwBUQ4OTAxBUQ4OTAyBUQ4OTAzBUQ4OTA0BUQ4OTA1ABQrA98EZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZxYBZmQCBw8QDxYGHwsFCXN0YXR1c19pZB8MBQtzdGF0dXNfbmFtZR8NZ2QQFR4PKkFsbCBMaXN0IFR5cGVzHzEyIE1vbnRoIFJvbGxpbmcgU3RhbmRpbmdzIExpc3QNQWdpbmcgVXAgTGlzdBFCb251cyBQb2ludHMgTGlzdBxDYWxlbmRhciBZZWFyIFN0YW5kaW5ncyBMaXN0GEN1cnJlbnQgWWVhciBQb2ludHMgUmFjZRZEaXJlY3QgQWNjZXB0YW5jZSBMaXN0EEVuZG9yc2VtZW50IExpc3QVRW5kb3JzZW1lbnQgU3RhbmRpbmdzDUZpbmFsIFJhbmtpbmcWRnV0dXJlcyBTdGFuZGluZ3MgTGlzdA9HcmFuZCBQcml4IExpc3QVR3JhbmQgUHJpeCBQb2ludCBSYWNlGE5hdGlvbmFsIE9wZW4gUXVhbGlmaWVycw1QbGF5ZXIgUmVjb3JkElBvaW50cyBSYWNlIFNwcmluZxJQb2ludHMgUmFjZSBTdW1tZXISUG9pbnRzIFJhY2UgV2ludGVyE1ByZWxpbWluYXJ5IFJhbmtpbmcOUXVhbGlmaWVyIExpc3QVU2VjdGlvbiBDaGFtcGlvbiBMaXN0DFNlZWRpbmcgTGlzdBZTZWVkaW5nL1NlbGVjdGlvbiBMaXN0DlNlbGVjdGlvbiBMaXN0DVN0YW5kaW5nIExpc3QYU3VwZXIgTmF0aW9uYWwgU2VsZWN0aW9uEVRlbnRhdGl2ZSBSYW5raW5nGVRvcCAxMDAgQm9udXMgUG9pbnRzIExpc3QNV2lsZGNhcmQgTGlzdB1ZZWFyIHRvIERhdGUgUG9pbnRzIFN0YW5kaW5ncxUeAi0xAjI3AjIzAjMyAjI2AjI4AjE4ATUCMjIBMgIzMQIyNAIzMAIxNgIyNQIyMAIxOQIyMQE0ATYCMzMBMwIxNAE3ATACMTUBMQIxNwE4AjI5FCsDHmdnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZxYBZmQCBw8PFgIfCAUIVGhhc2VuLCBkZAIJDw8WAh8IBQowMS8wMS8yMDE3ZGQCCw8PFgIfCAUKMTIvMzEvMjAyNmRkAhMPEGQQFRsDQWxsBDIwMjYEMjAyNQQyMDI0BDIwMjMEMjAyMgQyMDIxBDIwMjAEMjAxOQQyMDE4BDIwMTcEMjAxNgQyMDE1BDIwMTQEMjAxMwQyMDEyBDIwMTEEMjAxMAQyMDA5BDIwMDgEMjAwNwQyMDA2BDIwMDUEMjAwNAQyMDAzBDIwMDIEMjAwMRUbAAQyMDI2BDIwMjUEMjAyNAQyMDIzBDIwMjIEMjAyMQQyMDIwBDIwMTkEMjAxOAQyMDE3BDIwMTYEMjAxNQQyMDE0BDIwMTMEMjAxMgQyMDExBDIwMTAEMjAwOQQyMDA4BDIwMDcEMjAwNgQyMDA1BDIwMDQEMjAwMwQyMDAyBDIwMDEUKwMbZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnFgFmZAILDw8WAh8JZ2QWAgIBDxYCHwgFATBkAg8PZBYCAgEPZBYCZg9kFgYCDQ8QZA8WAmYCARYCEAUQRWxpZ2libGUgUGxheWVycwUIRUxJR0lCTEVnEAUSSW5lbGlnaWJsZSBQbGF5ZXJzBQpJTkVMSUdJQkxFZxYBZmQCDw8QDxYCHgdDaGVja2VkZ2RkZGQCFw8QZGQWAGQCEQ9kFgQCDw8QZGQWAGQCEw88KwALAGQCDQ9kFgQCAQ8UKwACZBAWABYAFgBkAgMPFgIfCAWxEA0KPHNjcmlwdCB0eXBlPSd0ZXh0L2phdmFzY3JpcHQnPg0KICAgIHZhciBnb29nbGV0YWcgPSBnb29nbGV0YWcgfHwge307DQogICAgZ29vZ2xldGFnLmNtZCA9IGdvb2dsZXRhZy5jbWQgfHwgW107DQogICAgKGZ1bmN0aW9uICgpIHsNCiAgICAgICAgdmFyIGdhZHMgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KCdzY3JpcHQnKTsNCiAgICAgICAgZ2Fkcy5hc3luYyA9IHRydWU7DQogICAgICAgIGdhZHMudHlwZSA9ICd0ZXh0L2phdmFzY3JpcHQnOw0KICAgICAgICB2YXIgdXNlU1NMID0gJ2h0dHBzOicgPT0gZG9jdW1lbnQubG9jYXRpb24ucHJvdG9jb2w7DQogICAgICAgIGdhZHMuc3JjID0gKHVzZVNTTCA/ICdodHRwczonIDogJ2h0dHA6JykgKw0KICAgICAgICAnLy93d3cuZ29vZ2xldGFnc2VydmljZXMuY29tL3RhZy9qcy9ncHQuanMnOw0KICAgICAgICB2YXIgbm9kZSA9IGRvY3VtZW50LmdldEVsZW1lbnRzQnlUYWdOYW1lKCdzY3JpcHQnKVswXTsNCiAgICAgICAgbm9kZS5wYXJlbnROb2RlLmluc2VydEJlZm9yZShnYWRzLCBub2RlKTsNCiAgICB9KSgpOw0KPC9zY3JpcHQ+DQo8c2NyaXB0IHR5cGU9J3RleHQvamF2YXNjcmlwdCc+DQogICAgZ29vZ2xldGFnLmNtZC5wdXNoKGZ1bmN0aW9uICgpIHsNCiAgICAgICAgZ29vZ2xldGFnLmRlZmluZVNsb3QoJy81NjgxL1VTVEEvVG91cm5hbWVudHMvMzAweDI1MF9MZWZ0JywgWzMwMCwgMjUwXSwgJ1RvdXJuYW1lbnRzXzMwMHgyNTBfTGVmdCcpLmFkZFNlcnZpY2UoZ29vZ2xldGFnLnB1YmFkcygpKTsNCiAgICAgICAgZ29vZ2xldGFnLmRlZmluZVNsb3QoJy81NjgxL1VTVEEvVG91cm5hbWVudHMvMzAweDI1MF9NaWRkbGUnLCBbMzAwLCAyNTBdLCAnVG91cm5hbWVudF8zMDB4MjUwX01pZGRsZScpLmFkZFNlcnZpY2UoZ29vZ2xldGFnLnB1YmFkcygpKTsNCiAgICAgICAgZ29vZ2xldGFnLmRlZmluZVNsb3QoJy81NjgxL1VTVEEvVG91cm5hbWVudHMvMzAweDI1MF9SaWdodCcsIFszMDAsIDI1MF0sICdUb3VybmFtZW50c18zMDB4MjUwX1JpZ2h0JykuYWRkU2VydmljZShnb29nbGV0YWcucHViYWRzKCkpOw0KICAgICAgICBnb29nbGV0YWcuZW5hYmxlU2VydmljZXMoKTsNCiAgICB9KTsNCjwvc2NyaXB0Pg0KDQo8c3R5bGU+DQojVG91cm5hbWVudHNfMzAweDI1MF9MZWZ0DQp7DQogICAgZmxvYXQ6bGVmdDsNCiAgICBwYWRkaW5nOiAxMHB4IDAgMCAwcHg7DQp9DQojVG91cm5hbWVudF8zMDB4MjUwX01pZGRsZSwgI1RvdXJuYW1lbnRzXzMwMHgyNTBfUmlnaHQNCnsNCiAgICBmbG9hdDpsZWZ0Ow0KICAgIHBhZGRpbmc6IDEwcHggMCAwIDUwcHg7DQp9DQo8L3N0eWxlPg0KDQo8IS0tIFVTVEEvVG91cm5hbWVudHMvMzAweDI1MF9MZWZ0IC0tPg0KPGRpdiBpZD0nVG91cm5hbWVudHNfMzAweDI1MF9MZWZ0JyBzdHlsZT0nd2lkdGg6MzAwcHg7IGhlaWdodDoyNTBweDsnPg0KPHNjcmlwdCB0eXBlPSd0ZXh0L2phdmFzY3JpcHQnPg0KICAgIGdvb2dsZXRhZy5jbWQucHVzaChmdW5jdGlvbiAoKSB7IGdvb2dsZXRhZy5kaXNwbGF5KCdUb3VybmFtZW50c18zMDB4MjUwX0xlZnQnKTsgfSk7DQo8L3NjcmlwdD4NCjwvZGl2Pg0KDQo8IS0tIFVTVEEvVG91cm5hbWVudHMvMzAweDI1MF9NaWRkbGUgLS0+DQo8ZGl2IGlkPSdUb3VybmFtZW50XzMwMHgyNTBfTWlkZGxlJyBzdHlsZT0nd2lkdGg6MzAwcHg7IGhlaWdodDoyNTBweDsnPg0KPHNjcmlwdCB0eXBlPSd0ZXh0L2phdmFzY3JpcHQnPg0KICAgIGdvb2dsZXRhZy5jbWQucHVzaChmdW5jdGlvbiAoKSB7IGdvb2dsZXRhZy5kaXNwbGF5KCdUb3VybmFtZW50XzMwMHgyNTBfTWlkZGxlJyk7IH0pOw0KPC9zY3JpcHQ+DQo8L2Rpdj4NCg0KPCEtLSBVU1RBL1RvdXJuYW1lbnRzLzMwMHgyNTBfUmlnaHQgLS0+DQo8ZGl2IGlkPSdUb3VybmFtZW50c18zMDB4MjUwX1JpZ2h0JyBzdHlsZT0nd2lkdGg6MzAwcHg7IGhlaWdodDoyNTBweDsnPg0KPHNjcmlwdCB0eXBlPSd0ZXh0L2phdmFzY3JpcHQnPg0KICAgIGdvb2dsZXRhZy5jbWQucHVzaChmdW5jdGlvbiAoKSB7IGdvb2dsZXRhZy5kaXNwbGF5KCdUb3VybmFtZW50c18zMDB4MjUwX1JpZ2h0Jyk7IH0pOw0KPC9zY3JpcHQ+DQo8L2Rpdj4NCmQCDw8WAh8IBVY8c2NyaXB0IHNyYz0naHR0cHM6Ly93d3cudXN0YS5jb20vdGhpcmRwYXJ0eS9pbmNsdWRlX3NpdGVmb290ZXIuanMuYXNweD9kPTEnPjwvc2NyaXB0PmQCEA8PFgQfCAUKUFJPRFVDVElPTh8JaGRkAhEPDxYCHwgFEkNvZGUgMS4yNi4wNDIuODM3OWRkAhIPDxYCHwgFDTEuMjYuMDQyLjgzNzlkZAITDw8WAh8IBQI4OWRkAhQPZBYCAgEPZBYCZg9kFgJmDxYCHwgF9QI8IS0tIFN0YXJ0IFF1YW50Y2FzdCB0YWcgLS0+IDxzY3JpcHQgdHlwZT0idGV4dC9qYXZhc2NyaXB0Ij4gX3FvcHRpb25zPXsgcWFjY3Q6InAtNzR1RC1rZ212cDgzdyIgfTsgPC9zY3JpcHQ+IDxzY3JpcHQgdHlwZT0idGV4dC9qYXZhc2NyaXB0IiBzcmM9Ii8vc2VjdXJlLnF1YW50c2VydmUuY29tL3F1YW50LmpzIj48L3NjcmlwdD4gPG5vc2NyaXB0PiA8aW1nIHNyYz0iLy9zZWN1cmUucXVhbnRzZXJ2ZS5jb20vcGl4ZWwvcC03NHVELWtnbXZwODN3LmdpZiIgc3R5bGU9ImRpc3BsYXk6IG5vbmU7IiBib3JkZXI9IjAiIGhlaWdodD0iMSIgd2lkdGg9IjEiIGFsdD0iUXVhbnRjYXN0Ii8+IDwvbm9zY3JpcHQ+IDwhLS0gRW5kIFF1YW50Y2FzdCB0YWcgLS0+ZGQtQNaYXym2e9fMFSAe9uDrYYYTMPnh1QO3tilFGTgspQ==" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['aspnetForm'];
+if (!theForm) {
+    theForm = document.aspnetForm;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="/Tournaments/WebResource.axd?d=pcB6JlNPW_IMQAKhbSW0ZLhG8DLeEIWpNylQ4iJL63X-66rapkndSN6GwbaF0265B25WlUcExyHbk9T1QyWBImf2jduuUO5RVM3684qQHuI1&amp;t=638901382200000000" type="text/javascript"></script>
+
+
+<script src="/Tournaments/ScriptResource.axd?d=oq_fb7goDT8ZR3XhA0MaDadWUA2f_tBDiYW94clk-bHR6NzqU8D3CBdbUr6o_Cz8DXZEn_kauHNxhQq36j-tcuTLF30cvLDJa2zwJZj6YKpT0mnNQumfspmaGDEa3zwg0&amp;t=245582f9" type="text/javascript"></script>
+<script src="/Tournaments/ScriptResource.axd?d=WG00j6DbkJO6WbebVRNy9WfpLBByPgywAihrvPl1CF0wO7cMAq0_eSWjMojTwUPFyy3WQUMjbQtVf3zbUJkWUMCqjBjFxIgael-rPNAJlnjPnkw7nPgKbWeuKFrvxjOzcsKQvjXSg8LOL-nvvz22QA2&amp;t=245582f9" type="text/javascript"></script>
+<div class="aspNetHidden">
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="82A4DF24" />
+</div>
+    
+<script type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('ctl00$ScriptManager1', 'aspnetForm', ['tctl00$breadcrumbs$UpdatePanel2','','tctl00$SocialMediaPanel$updatePnlSocialMedia','','tctl00$mainContent$UpdatePanel_RankingHome','','tctl00$mainContent$upHistoryPointParam',''], ['ctl00$ScriptManager1',''], [], 600, 'ctl00');
+//]]>
+</script>
+<input type="hidden" name="ctl00$ScriptManager1" id="ctl00_ScriptManager1" />
+<script type="text/javascript">
+//<![CDATA[
+Sys.Application.setServerId("ctl00_ScriptManager1", "ctl00$ScriptManager1");
+Sys.Application._enableHistoryInScriptManager();
+//]]>
+</script>
+
+<div class="container wrapper">
+
+<div id="divUstaHeader" class="usta_header">
+    <div id='ustaHeaderWrapper'></div><script type='text/javascript'>$('#ustaHeaderWrapper').load('/Dashboard/USTAHeaderWrapper.aspx');</script>
+</div>
+<div id="Div1">
+    
+    
+</div>
+<a id="ctl00_lnkbutLogIn" class="login" href="javascript:__doPostBack(&#39;ctl00$lnkbutLogIn&#39;,&#39;&#39;)"></a>       
+    
+    <script type="text/javascript">
+        setNavigationConfig({
+            isLogin: 'False',
+            currentProject: 'tournaments',
+            yearNow: '2026',
+            urls: {
+                linkJoinUstaUrl: 'https://www.usta.com/en/home/myaccount/choose-account-type.html',
+                TL_Leagues_AppealInfo: 'https://support.activenetwork.com/usta/articles/en_US/Article/Appeal-NTRP-Rating',
+                TL_MenuLink_USTA_LocalLeagueCoordinators: 'https://www.usta.com/en/home/play/play-as-a-member/national/usta-league--section-coordinators-.html',
+                TL_MenuLink_USTA_LeaguesNatlChampionships: 'https://www.usta.com/en/home/play/adult-tennis/programs/national/about-usta-league-national-championships.html',
+                TL_MenuLink_USTA_NTRPRatings: 'https://www.usta.com/en/home/play/play-as-a-member/national/usta-league-faqs.html',
+                TL_MenuLink_USTA_LeagueTennisRules: 'https://www.usta.com/en/home/play/adult-tennis/programs/national/usta-league-resources.html',
+                TL_MenuLink_USTA_LeaguesFAQ: 'https://assets.usta.com/assets/1/USTA_Import/dps/usta_master/sitecore_usta/USTA/Document%20Assets/Leagues_and_Tournaments/Leagues/NTRP_FAQ.pdf',
+                TL_MenuLink_USTA_About_Leagues: 'https://www.usta.com/en/home/play/adult-tennis/programs/national/usta-league.html'
+            },
+            rootUrl: {
+                dashboard: '/Dashboard/',
+                tournaments: '/Tournaments/',
+                teamTennis: '/TeamTennis/',
+                flexLeagues: '/FlexLeagues/',
+                leagues: '/Leagues/'
+            },
+            userInfo: {
+                ustaNumberEncrypt: 'YOQLaGylBXE=',
+                personIdEncrypt: 'YOQLaGylBXE=',
+                personIdKey: 'pid',
+                ustaNumberKey: 'unum',
+                ustaNumber: '0',
+                userIdKey: 'uid',
+                userIdEncrypt: 'YOQLaGylBXE=',
+                ustaNumberUrlParamEncrypt:'YOQLaGylBXE1'
+            }
+        });
+    </script>
+    <div id="favicon"></div>
+<script type="text/javascript">
+    $("#favicon").load('/Dashboard/Common/TennisLinkRootIcon.html');
+    $(function () {
+        isProgressionTurnedOff(function (ret) {
+            if (ret) {
+                $("#divProgressionTourn").remove();
+                $("#divProgressionTT").remove();
+            }
+        });
+    });
+</script>
+<div class="TennisLinkTopNewNav">
+    <div id="navheader">
+        <script type="text/html" id="navigation_tmpl">
+            <div id="navbar">
+                <div class="new-active-logo"></div>
+                <ul>
+                    <li data-href="<#=rootUrl.leagues#>" class="<#= currentProject === 'leagues' ? 'default': ''#>">
+                        <div>USTA LEAGUE</div>
+                    </li>
+                    <li data-href="<#=rootUrl.tournaments#>" class="<#= currentProject === 'tournaments' ? 'default': ''#>">
+                        <div>TOURNAMENTS</div>
+                    </li>
+                    <li data-href="<#=rootUrl.teamTennis#>" class="<#= currentProject === 'teamTennis' ? 'default': ''#>">
+                        <div>JUNIOR TEAM TENNIS</div>
+                    </li>
+                    <li data-href="<#=rootUrl.flexLeagues#>" class="<#= currentProject === 'flexLeagues' ? 'default': ''#>">
+                        <div>USTA FLEX LEAGUES</div>
+                    </li>
+                    <li data-href="<#=rootUrl.dashboard#>/Main/Home.aspx">
+                        <div>MY TENNIS</div>
+                    </li>
+                    <# if(!isLogin) { #>
+                    <li class="login">
+                        <div>
+                            <a href="javascript:logIn();">LOGIN</a>
+                        </div>
+                    </li>
+                    <#}else{#>
+                    <li>
+                        <div>
+                            <a href="javascript:void(0);" onclick="return logOut()">LOGOUT</a>
+                        </div>
+                    </li>
+                    <#}#>
+                </ul>
+            </div>
+        </script>
+    </div>
+    <div class="quickPanel_Error hidden" id="quickPanelErrorContainer"></div>
+    <div class="quickPanel hidden">
+        <div id="q1" class="hidden">
+            <script type="text/html" id="leagues_tmpl">
+                <ul>
+                    <li>
+                        <div class="block" id="divNewLeagueRegFlowEntry">
+                            <span class="subhead">START PLAYING</span>
+                            <br />
+                            <br />
+                            <span class="normalDesciption">Have a Team Number?</span>
+                            <br />
+                            <span class="normalDesciption">If you already have a team number, you can register with it.</span>
+                            <a class="btn" style="width:180px; margin-bottom:0" href="<#=rootUrl.leagues#>TLRegistration/Registration.aspx">Register with a Team #</a>
+                            <br />
+                            <span class="normalDesciption">Seeking a Team? </span>
+                            <br />
+                            <# if(!isLogin) { #>
+                                <span class="normalDesciption">We are so excited that you want to find a place to play with USTA! The next step is to create an account and self-rate (both easy and free), or login to allow us to provide perfect matches for you!</span>
+                                <#}else{#>
+                                    <span class="normalDesciption">Click below to find leagues that fit you.</span>
+                                    <#}#>
+                                        <a class="btn" style="width:180px;margin-bottom:0" href="javascript:TL.JSCommon.RegistrationUtil.goRegistration();">Find & Sign up for a League</a>
+                                        <br />
+                                        <p><a href="<#=urls.linkJoinUstaUrl#>">Join USTA Membership</a></p>
+</div>
+                    </li>
+                <li>
+                    <div class="block">
+                        <span class="subhead">STATS & STANDINGS</span>
+                        <br />
+                        <br />
+                        <img id="ss_icon_simple_search_help" src="/Dashboard/common/Images/help2.png" style="cursor:help;position:relative;left:2px; top:5px;" title="Click for more information" onclick="openSimpleSearchHelp();"></img> 
+                        <span class="normalDesciption">
+                            Enter player name, USTA Account, team # or match #
+                        </span>
+                        <br />
+                        <input type="text" id="q_stats-standings-input"/>
+                        <button id="btnSearchStatsStanding" type="button">Search</button>
+                        <br />
+                        <br />
+                        <a href="<#=rootUrl.leagues#>Main/StatsAndStandings.aspx?SearchType=3">League Advanced Search</a>
+                        <br />
+                        <a href="<#=rootUrl.leagues#>Main/StatsAndStandings.aspx?SearchType=0">Championship Advanced Search</a>
+                        <br />                      
+                        <span class="normalDesciption" style="display:inline-block;margin-top:5px;">Need to enter or confirm scores?</span>
+                        <br />
+                        <a class="btn" style="width:100px;height:25px;vertical-align:central;line-height:25px;" href="javascript:void(0);" id="btnLinkToRecordAScore">Enter Score</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="block">
+                        <span class="subhead">FIND NTRP RATING INFO</span>
+                        <br />
+                        <br />
+                        <span class="normalDesciption">Enter USTA Account, team # or player name</span>
+                        <br />
+                        <input type="text" id="q_ntrp_input"/>
+                        <button id="btnSearchNTRP" type="button">Search</button>
+                        <br />
+                        <br />
+                        <a href="<#=rootUrl.leagues#>reports/NTRP/AdvancedSearch.aspx">Advanced Search</a>
+                        <br />
+                        <a href="javascript:void(0);" id="q_self_rate">Self-Rate</a>
+                        <br />
+                        <a href="<#=rootUrl.leagues#>reports/NTRP/FacilitySearch.aspx">Facility Search</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="block last">
+                        <span class="subhead">USTA LEAGUE INFO</span>
+                        <br />
+                        <br />
+                        <a href="<#=urls.TL_MenuLink_USTA_About_Leagues#>">About USTA League</a>
+                        <br />
+                        <!--<a href="<#=rootUrl.leagues#>HelpTutorials/Mentor_Terminal.aspx?screen=ab050000.html" onclick="openPopUpSelfRate(this.href); return false;">About Self-Rate</a>
+                        <br />-->
+                        <!--<a href="<#=urls.TL_MenuLink_USTA_LeaguesFAQ#>">USTA League FAQ</a>
+                        <br />-->
+                        <a href="<#=urls.TL_MenuLink_USTA_LeagueTennisRules#>">USTA League Tennis Rules</a>
+                        <br />
+                        <a href="<#=urls.TL_MenuLink_USTA_NTRPRatings#>">About NTRP Ratings</a>
+                        <br />
+                        <a href="<#=urls.TL_MenuLink_USTA_LeaguesNatlChampionships#>">National Championships</a>
+                        <br />
+                        <a href="<#=urls.TL_MenuLink_USTA_LocalLeagueCoordinators#>">Local League Coordinators</a>
+                        <br />
+                        <a href="<#=urls.TL_Leagues_AppealInfo#>">About Auto-Appeals</a>
+                        <br />
+                        <a href="<#=rootUrl.leagues#>RegistrationNew/Registration.aspx">Browse Leagues</a>
+                    </div>
+                </li>
+            </ul>
+            </script>
+        </div>
+        <div id="q2" class="hidden">
+            <script type="text/html" id="tournament_tmpl">
+     
+            </script>
+        </div>
+        <div id="q3" class="hidden">
+            <script type="text/html" id="team_tennis_tmpl">
+            <ul>
+                <li>
+                    <div class="block" style="height:270px;">
+                        <span class="subhead">START PLAYING</span>
+                        <br />
+                        <br />
+                        <a style="width:150px;" href="<#=rootUrl.teamTennis#>Main/Registration.aspx" class="btn">Have a Team ID?</a>
+                        <span class="normalDesciption">Click Here to Get Playing!</span>
+                        <br />
+                        <br />
+                        <a style="width:150px;" href="<#=rootUrl.teamTennis#>Main/ProgramSearch.aspx" class="btn">Find a Program</a>
+                        <span class="normalDesciption">Win or Lose we play as one.</span>
+                        <br />
+                        <br />
+                        <a href="<#=rootUrl.teamTennis#>Main/LearnMore.aspx">Learn More</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="block">
+                        <span class="subhead">FIND RECORDS</span>
+                        <br />
+                        <br />
+                        <span class="normalDesciption">By Player Name:</span>
+                        <br />
+                        <input  id="q_tt_first_name" placeholder="First Name" type="text" />
+                        <br />
+                        <input id="q_tt_last_name" placeholder="Last Name" type="text"  />
+                        <button id="btnFindByPlayerName" type="button">Find</button>
+                        <div id="divProgressionTT" style="margin-top:10px;">
+                            <span class="subhead">Find a Youth Progression Level</span>
+                            <div class="margin-bottom5">
+                                <span class="normalDesciption">Enter a USTA Account #, TT ID or player name</span>
+                            </div>
+                            <div>
+                                <input id="RatingInputTT" type="text"/>
+                                <button id="btnFindRatingTT" type="button">Find</button>
+                            </div>
+                        </div>
+                        <span class="normalDesciption">By Team Name:</span>
+                        <br />
+                        <input id="q_tt_team_name" type="text" />
+                        <button id="btnFindByTeamName" type="button">Find</button>
+                        <br />
+                        <a href="javascript:tt_findbyTeamName_help(\'<#=rootUrl.teamTennis#>Main/hlp_TeamSearch.htm\')">Help</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="block" style="height:270px;">
+                        <span class="subhead">STATS & STANDINGS</span>
+                        <br />
+                        <br />
+                        <span class="normalDesciption">USTA/Team Tennis Number:</span>
+                        <br />
+                        <input type="text" id="q_tt_personId"/>
+                        <button id="btnPersonGO" type="button">GO</button>
+                        <br />
+                        <span class="normalDesciption">Team Number:</span>
+                        <br />
+                        <input type="text" id="q_tt_team_number"/>
+                        <button id="btnTeamNumberGO" type="button">GO</button>
+                        <br />
+                        <span class="normalDesciption">Match Number:</span>
+                        <br />
+                        <input type="text" id="q_tt_match_number"/>
+                        <button id="btnMatchGO" type="button">GO</button>
+                    </div>
+                </li>
+                <li>
+                    <div class="block last">
+                        <span class="subhead">OPTIONS</span>
+                        <br />
+                        <br />
+                        <a href="<#=rootUrl.teamTennis#>Main/Stats.aspx?Load=AdvSearch&Search=">League Advanced Search</a>
+                        <br />
+                        <a href="<#=rootUrl.teamTennis#>Main/Stats.aspx?Load=AdvSearch&Search=">Championship Advanced Search</a>
+                        <br />
+                        <a href="<#=rootUrl.teamTennis#>Main/Stats.aspx">View Team Tennis Stats & Standings</a>
+                        <br />
+                        <a href="<#=rootUrl.teamTennis#>Main/Stats.aspx">My Teams</a>
+                        <br />
+                        <a href="<#=rootUrl.teamTennis#>/Main/CreateOnlineAccount.aspx?Caller=Captain">Become a Coach/Manager</a>
+                        <br />
+                        <a href="<#=rootUrl.teamTennis#>/Main/CreateOnlineAccount.aspx?Caller=Coordinator">Become a Coordinator</a>
+                        <br />
+                        <a href="<#=rootUrl.teamTennis#>Main/ChampRegistration.aspx">Championship Registration</a>
+                    </div>
+                </li>
+            </ul>
+            </script>
+        </div>
+        <div id="q4" class="hidden">
+            <script type="text/html" id="flex_league_tmpl">
+            <ul>
+                <li>
+                    <div class="block">
+                        <span class="subhead">FIND A FLEX LEAGUE</span>
+                        <br />
+                        <br />
+                        <p>
+                            <label class="normalDesciption">Division:</label>
+                            <select id="q_sel_division">
+                                <option value="0">ALL</option>
+                            </select>
+                        </p>
+                        <p>
+                            <label class="normalDesciption">State:</label>
+                            <select id="q_sel_state1">
+                                <option value="0">ALL</option>
+                            </select>
+                        </p>
+                        <p>
+                            <label class="normalDesciption">Metro Area:</label>
+                            <select id="q_sel_metro_area1">
+                                    <option value="0">ALL</option>
+                            </select>
+                        </p>
+                        <p><button id="btnFindFlexLeague" type="button">Find</button></p>                                            
+                    </div>
+                </li>
+                <li>
+                    <div class="block">
+                        <span class="subhead">STATS & STANDINGS</span>
+                        <br />
+                        <br />
+                        <p>
+                            <label class="normalDesciption">Year:</label>
+                            <select id="q_fl_year">
+                                <option value="2008">2008</option>
+                                <option value="2009">2009</option>
+                                <option value="2010">2010</option>
+                                <option value="2011">2011</option>
+                                <option value="2012">2012</option>
+                                <option value="2013">2013</option>
+                                <option value="2014">2014</option>
+                                <option value="2015">2015</option>
+                                <option value="2016">2016</option>
+                                <option value="2017">2017</option>
+                                <option value="2018">2018</option>
+                                <option value="2019">2019</option>
+                                <option value="2020">2020</option>
+                            </select>
+                        </p>
+                        <p>
+                            <label class="normalDesciption">State:</label>
+                            <select id="q_sel_state2">
+                                <option value="0">ALL</option>
+                            </select>
+                        </p>
+                        <p>
+                            <label class="normalDesciption">Metro Area:</label>
+                            <select id="q_sel_metro_area2">
+                                <option value="0">ALL</option>
+                            </select>
+                        </p>
+                            <p>
+                            <label class="normalDesciption">Flex League:</label>
+                            <select id="q_sel_flex_league">
+                                <option value="0">-------------------</option>
+                            </select>
+                        </p>
+                            <p>
+                            <label class="normalDesciption">Flight:</label>
+                            <select id="q_sel_flight">
+                                <option value="0">-------------------</option>
+                            </select>
+                        </p>
+                        <p><button id="btnViewStatsAndStadings" type="button">View</button></p>      
+                    </div>
+                </li>
+                <li>
+                    <div class="block">
+                        <span class="subhead">FIND PLAYER RECORD</span>
+                        <br />
+                        <br />
+                        <p>
+                            <input type="text" id="q_fl_first_name" placeholder="First Name" style="width:200px"/>
+                        </p>
+                        <p>
+                            <input type="text" id="q_fl_last_name" placeholder="Last Name" style="width:200px"/>
+                        </p>
+                        <p>
+                            <input type="radio" name="q_player_record" checked="checked"/><span class="normalDesciption">Exact Match</span>
+                        </p>
+                        <p>
+                            <input type="radio" name="q_player_record" id="q_name_start_with"/><span class="normalDesciption">Name Starts With</span>
+                        </p>
+                        <p><button id="btnFindPlayerRecord" type="button">View</button></p>
+                    </div>
+                </li>
+                <li>
+                    <div class="block last">
+                        <span class="subhead">OPTIONS</span>
+                        <br />
+                        <br />
+                        <p class="fl-link" data-href="<#=rootUrl.flexLeagues#>PlayerRecord/Registrations.aspx">
+                            <a href="javascript:void(0);">My Registrations</a>
+                        </p>
+                        <p class="fl-link" data-href="<#=rootUrl.flexLeagues#>PlayerRecord/Matches.aspx">
+                            <a href="javascript:void(0);">My Matches</a>
+                        </p>
+                        <p class="fl-link" data-href="<#=rootUrl.dashboard#>Main/ManageAccount.aspx?App=2">
+                            <a href="javascript:void(0);">My Profile</a>
+                        </p>
+                        <p class="fl-link" data-href="<#=rootUrl.flexLeagues#>PlayerToPlayer/FLPlayerAvailability.aspx">
+                            <a href="javascript:void(0);">My Availability Calendar</a>
+                        </p>
+                    </div>
+                </li>
+            </ul>
+            </script> 
+        </div>
+        <div id="q5" style="display: none">
+            <script type="text/html" id="my_tennis_tmpl">
+            <ul>
+                <li style="width:280px;">
+                    <div class="block">
+                        <span class="subhead">WELCOME! <#=userName#></span>
+                        <br />
+                        <br />
+                        <img src="<#=imgUrl#>" style="width:60px; height:60px;float:left;margin-right:15px;border:1px solid white;">
+                        <span class="normalDesciption">
+                            <a href="<#=lnkSection.link#>"><#=lnkSection.text#></a> > <#=location#> 
+                            <br />
+                            Membership #: <#=ustaNumber#>
+                        </span>
+                        <br />
+                        <# if(!showWTNRatingLevel) { #>
+                        <span class="normalDesciption">NTRP Level:</span>
+                        <br />
+                        <div style="clear:both;margin-left:75px;">
+                            <div class="dyfirst">
+                                <#=ntrpLevel#>
+                            </div>
+                            <div style="clear:both;"></div>
+                            <# if(canUserAppeal) { #>
+                            <a href="#" onclick="window.open(\'<#=lnkAppealRatingLevel#>\', \'_blank\'); return false;">Appeal Rating Level</a>
+                            <#}#>
+                            <br />
+                            <a href="<#=lnkManageAccount#>">Manage Account</a>
+                            <br />
+                            <a href="javascript:void(0);"  onclick="logOut();">Logout</a>
+                        </div>
+                        <#} else {#>
+                        <span class="normalDesciption">WTN Rating Level:</span>
+                        <br />
+                        <div style="clear:both;margin-left:75px;">
+                            <div>
+                                <# if(juniorLevel.trim().length > 0) {#>
+                                <span class="wtnIntegerPart"><#=wtnLevelIntegerPart#></span>
+                                <span class="wtnDecimalPart">.<#=wtnLevelDecimalPart#></span>
+                                <#}#>
+                            </div>
+                            <div style="clear:both;"></div>
+                            <br />
+                            <a href="<#=lnkManageAccount#>">Manage Account</a>
+                            <br />
+                            <a href="javascript:void(0);"  onclick="logOut();">Logout</a>
+                        </div>
+                        <#}#>
+                    </div>
+                </li>
+                <li style="width:320px;">
+                    <div class="block">
+                        <span class="subhead">MY EVENTS</span>
+                            <br />
+                            <br />
+                        <#if(myEvent.canFindTournament){#>
+                        <span class="normalDesciption italic">TOURNAMENTS</span>
+                        <br />
+                        <#}#>                        
+                        <span class="normalDesciption">
+                            <# if(myEvent.tournament) { #>
+                            <a href="<#=myEvent.tournamentLink#>">
+                                <span class="truncate" style="width:150px;display:inline-block;" title="<#=myEvent.tournament#>"><#=myEvent.tournament#></span>
+                            </a>
+                            <span style="position:relative;top:-5px"><#=myEvent.tournamentDate#></span>
+                            <#}else if(myEvent.canFindTournament){#>
+                            <a href="<#=rootUrl.tournaments#>">Find a Tournament</a>
+                            <#}#>
+                        </span>
+                        <br />
+                        <#if(myEvent.canFindLeagues){#>
+                        <span class="normalDesciption italic">USTA LEAGUE</span>
+                        <br />
+                            <#}#>
+                            <# if(myEvent.leagues) { #>
+                            <a href="<#=myEvent.leaguesLink#>"><span class="truncate" style="width:250px;display:inline-block;" title="<#=myEvent.leagues#>"><#=myEvent.leagues#></span></a>
+                            <#}else if(myEvent.canFindLeagues){#>
+                            <span><a href="<#=rootUrl.leagues#>Common/Home.aspx">Find a League</a></span>
+                            <#}#>
+                        <br />
+                            <#if(myEvent.canFindTeamTennis){#>
+                        <span class="normalDesciption italic">JUNIOR TEAM TENNIS</span>
+                        <br />
+                            <#}#> 
+                            <# if(myEvent.teamTennis) { #>
+                            <a href="<#=myEvent.teamTennisLink#>"><span class="truncate" style="width:250px;display:inline-block;" title="<#=myEvent.teamTennis#>"><#=myEvent.teamTennis#></span></a>
+                            <#}else if(myEvent.canFindTeamTennis){#>
+                            <a href="<#=rootUrl.teamTennis#>Main/ProgramSearch.aspx">Find a Program</a>
+                            <#}#>
+                        <br />
+                        <#if(myEvent.canFindFlexLeagues){#>
+                        <span class="normalDesciption italic">USTA FLEX LEAGUES</span>
+                        <br />
+                        <#}#>
+                        <# if(myEvent.flexLeagues) { #>
+                        <a href="<#=myEvent.flexLeaguesLink#>"><span class="truncate" style="width:250px;display:inline-block;" title="<#=myEvent.flexLeagues#>"><#=myEvent.flexLeagues#></span></a>
+                        <#}else if(myEvent.canFindFlexLeagues){#>
+                        <a href="<#=rootUrl.flexLeagues#>FlightSettings/FLSearch.aspx">Find a Flex League</a>
+                        <#}#>                        
+                    </div>
+                </li>
+                <li style="width:320px;" style="display: none">
+                    <div class="block last">
+                            <span class="subhead hidden">RECENTLY VIEWED</span>
+                            <br />
+                            <br />
+                    </div>
+                </li>
+            </ul>
+            </script>
+        </div>  
+    </div>
+</div>
+
+<div id="divSSOAnnouncement" style="display:none;">
+    <script type="text/html" id="SSOAnnouncement_tmpl">
+        <div style="margin:10px;">
+            <div id="SSOAnnouncementContent">
+                <#=Content #>
+            </div><br />
+            <div>
+                <input data-id="Confirmed" name="chkConfirmed" type="checkbox" />
+                <label for="chkConfirmed"><#=ConfirmText #></label>
+                <input data-id="OK" type="button" class="button" value="<#=OkText #>" style="margin-left:50px;" />
+            </div>
+        </div>
+    </script>
+</div> 
+<div class="TennisLinkWrapper">
+<div id="tdm-container">
+    
+</div>
+
+
+<div class="TennisLinkBody">
+    <div id="ctl00_TournamentsBreadcrumbs" class="breadcrumb" style="float: left;">
+        <a href="https://www.USTA.com">Home</a> &gt;
+        <a id="ctl00_lnkTennisLink" href="/Dashboard/">TennisLink</a>
+        &gt;
+        <a id="ctl00_lnkUSTATournaments" href="/Tournaments/">Tournaments</a>
+        
+    <span id="ctl00_breadcrumbs_UpdatePanel2">
+            &gt;
+            <a id="ctl00_breadcrumbs_lbtFindARanking" href="javascript:__doPostBack(&#39;ctl00$breadcrumbs$lbtFindARanking&#39;,&#39;&#39;)">Find A Ranking</a>
+             > Search Results
+        </span>
+
+    </div>
+    <div id="rep" style="float:right;" class="breadcrumb">
+        
+    </div>
+    
+        <script type="text/javascript" src="/Dashboard/Common/js/ga_social_tracking.js" language="javascript"></script>
+<div id="ctl00_SocialMediaPanel_updatePnlSocialMedia">
+	
+        <input type="hidden" name="ctl00$SocialMediaPanel$isExistSocialMedia" id="ctl00_SocialMediaPanel_isExistSocialMedia" value="False" />
+        
+    
+</div>
+<script type="text/javascript">
+    function contentPageLoad() {
+        var hasIcon = document.getElementById("ctl00_SocialMediaPanel_isExistSocialMedia")
+        if (hasIcon && hasIcon.value == "True") {
+            loadSocialMediaAsyn();
+        }
+    }
+
+
+</script>
+
+    <div style="clear: both">
+    </div>
+                
+    
+    <div id="ctl00_mainContent_UpdatePanel_RankingHome">
+	
+            <div id="ctl00_mainContent_UpdateProgress" style="display:none;">
+		
+                    <iframe id='Loading_HideSelect'></iframe>
+                    <div id='Loading_window'>
+                        <br />
+                        <img alt="Loading" src="../Common/images/loading.gif" />
+                    </div>
+                
+	</div>
+            <input type="hidden" name="ctl00$mainContent$LoadCount" id="ctl00_mainContent_LoadCount" value="1" />
+            
+            
+            
+            <div id="ctl00_mainContent_pnlSearchResult_PlayerLists">
+		
+                <div style="height: auto;padding: 10px 0px 10px 20px;">
+                    <div>
+                        <h1>
+                            Search Results
+                            <font class="search-player-name-result-count">(0)</font>
+                        </h1>
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <input id="search_player_name_criteria_year" name="search_player_name_criteria_year" class="hidden"/>
+                        <input type="hidden" name="ctl00$mainContent$json_searchPlayerResultCriteria" id="ctl00_mainContent_json_searchPlayerResultCriteria" value="{&quot;City&quot;:[],&quot;SelectedCriteria&quot;:null,&quot;State&quot;:[],&quot;Year&quot;:[2026,2025,2024,2023,2022]}" />
+                        <input type="hidden" name="ctl00$mainContent$json_searchPlayerFirstLoadYear" id="ctl00_mainContent_json_searchPlayerFirstLoadYear" value="2026,2025,2024" />
+                        <input type="hidden" name="ctl00$mainContent$hdnIsSearchedByDateRange" id="ctl00_mainContent_hdnIsSearchedByDateRange" value="false" />
+                        <input type="hidden" name="ctl00$mainContent$filter_bar_all_year_clicked" id="ctl00_mainContent_filter_bar_all_year_clicked" value="False" />
+                        <input type="hidden" name="ctl00$mainContent$hdnstate" id="ctl00_mainContent_hdnstate" />
+                        <input type="hidden" name="ctl00$mainContent$hdncity" id="ctl00_mainContent_hdncity" />
+                        <input type="hidden" name="ctl00$mainContent$hdnyear" id="ctl00_mainContent_hdnyear" />
+                        <input type="hidden" name="ctl00$mainContent$hdngender" id="ctl00_mainContent_hdngender" />
+
+                        <div style="border-top:#accae6 solid;padding-top: 10px;margin-top:5px;" >
+                            <div class="error hidden" id="search_player_name_error" style="height:auto;"></div>
+                            <div>
+                                <span style="font-size: 12pt;margin-right:3px;">Player:</span>
+                                <input style="float:none;" name="search_player_name" id="search_player_name"/>
+                                <input type="submit" name="ctl00$mainContent$btn_search_player_name" value="Search Again" onclick="return validateSearchPlayerFromResultPage();" id="ctl00_mainContent_btn_search_player_name" class="button" style="float:right;width:100px;margin-right:30px;" />
+                            </div>
+                        </div>
+                        <div id="ctl00_mainContent_divSearchResultPlayerListFilter">
+                            <div style="border-top:#accae6 solid 1px;padding-top:10px;margin-top:10px;" id="div_search_player_name_date_range">
+                                <span style="font-size: 11pt;margin-right:19px;">Start Date:</span>
+                                <input name="ctl00$mainContent$txtStartDateOnFilterBar" type="text" id="ctl00_mainContent_txtStartDateOnFilterBar" class="datepicker" style="width:150px;" />
+                                &nbsp;&nbsp;&nbsp;
+                                <span style="font-size: 11pt;margin-right:19px;">End Date:</span>
+                                <input name="ctl00$mainContent$txtEndDateOnFilterBar" type="text" id="ctl00_mainContent_txtEndDateOnFilterBar" class="datepicker" style="width:150px;" />
+                            </div>
+                            <div style="border-top:#accae6 solid 1px;padding-top:10px;margin-top:10px;" id="div_search_player_name_criteria_year">
+                                <span style="font-size: 11pt;margin-right:19px;">Year:</span>                                
+                            </div>
+                            <div style="padding-top:5px;margin-top:10px;" >
+                                <span style="font-size: 11pt;margin-right:15px;">State:</span>
+                                <select style="float:none;margin-right:10px;" id="search_player_name_criteria_state" name="search_player_name_criteria_state">
+                                    <option value="" selected='selected'>All</option>
+                                </select>
+
+                                <span style="font-size: 11pt;margin-right:7px;">City:</span>
+                                 <select style="float:none;margin-right:10px;" id="search_player_name_criteria_city" name="search_player_name_criteria_city">
+                                    <option value="" selected='selected'>All</option>
+                                </select>
+
+                                <span style="font-size: 11pt;margin-right:7px;">Gender:</span>
+                                 <select style="float:none;margin-right:10px;" id="search_player_name_criteria_gender" name="search_player_name_criteria_gender">
+                                    <option value="" selected='selected'>All</option>
+                                    <option value="M">M</option>
+                                    <option value="F">F</option>
+                                </select>                                 
+                            </div>
+                            <div style="position:relative">
+                                <input type="submit" name="ctl00$mainContent$btn_filter_search_player_name" value="Filter Results" id="ctl00_mainContent_btn_filter_search_player_name" class="button" style="float:none; position:absolute; width:100px;top:-50px; right:30px;" />
+                                <a id="ctl00_mainContent_lbtPlayersSearchAgain1" class="return" href="javascript:__doPostBack(&#39;ctl00$mainContent$lbtPlayersSearchAgain1&#39;,&#39;&#39;)" style="float:right; margin-right:10px; margin-top: 15px;">rankings advanced search</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="CommonTable top-margin">
+                    <div class="CommonBox">
+                        No players found, please check the player name!
+                        
+                    </div>
+                </div>
+                <span class="Return_List">
+                    
+                </span>
+            
+	</div>
+            
+            
+            
+             <script>
+                
+
+    </script>
+        
+</div>
+
+     <div id="ctl00_mainContent_upHistoryPointParam">
+	
+            <input type="hidden" name="ctl00$mainContent$hfHistoryPointParam" id="ctl00_mainContent_hfHistoryPointParam" value="2%5cUsta_%5cFirstName_%5cMiddleName_%5cLastName_Thasen%2c%5cStart_%5cEnd_" />
+        
+</div>
+
+    <script>
+        Sys.WebForms.PageRequestManager.getInstance().add_endRequest(EndRequestHandler);
+        function EndRequestHandler(sender, args) {
+            //USTA-20221
+            if ($("#ctl00_breadcrumbs_UpdatePanel2").html().indexOf("Ranking List") >= 0) {
+                if ($("#ctl00_mainContent_hfHistoryPointParam").val().trim() == "") {
+                    RunTLWidgetTracking("Ranking List - " + GetHTMLString($("#ctl00_mainContent_UpdatePanel_RankingList h1")).trim(), window.location.href);
+                } else {
+                    RunTLWidgetTracking("Ranking List - " + GetHTMLString($("#ctl00_mainContent_UpdatePanel_RankingList h1")).trim(), window.location.href.split("RankingHome.aspx")[0] + 'RankingHome.aspx#&&s=' + $("#ctl00_mainContent_hfHistoryPointParam").val());
+                }
+            }
+            if ($("#ctl00_breadcrumbs_UpdatePanel2").html().indexOf("Player Record") >= 0) {
+                if ($("#ctl00_mainContent_hfHistoryPointParam").val().trim() == "") {
+                    RunTLWidgetTracking("Ranking List Player Record - " + GetHTMLString($(".player_specs table tr:nth-child(2) td")).trim(), window.location.href);
+                } else {
+                    RunTLWidgetTracking("Ranking List Player Record - " + GetHTMLString($(".player_specs table tr:nth-child(2) td")).trim(), window.location.href.split("RankingHome.aspx")[0] + 'RankingHome.aspx#&&s=' + $("#ctl00_mainContent_hfHistoryPointParam").val());
+                }
+            }
+            if ($("#ctl00_breadcrumbs_UpdatePanel2").html().indexOf("Search Results") >= 0) {
+                if ($("#ctl00_mainContent_hfHistoryPointParam").val().trim() == "") {
+                    RunTLWidgetTracking("Rankings Advanced Search Results", window.location.href);
+                } else {
+                    RunTLWidgetTracking("Rankings Advanced Search Results", window.location.href.split("RankingHome.aspx")[0] + 'RankingHome.aspx#&&s=' + $("#ctl00_mainContent_hfHistoryPointParam").val());
+                }
+            }
+        }
+
+        //USTA-21119 by Aaron Jee
+        function GetHTMLString($element) {
+            if ($element.html() == undefined || $element.html() == null) {
+                return '';
+            } else {
+                return $element.html();
+            }
+        }
+    </script>
+
+</div>
+</div>
+
+<div id="ctl00_pnlTennisLinkRightRail" class="TennisLinkRightRail">
+	
+    <div class="cmsTowerAd"> 
+         <div class='play-tennis-widget-32363'>
+    <div id="slider_32363">
+        <div id="learnMore_32363">
+            <a href="https://www.usta.com/en/home/play/play-tennis-near-me.html" target="_blank">Learn More</a> 
+        </div>
+        <div class="slide-32363 active-slide-32363">
+            <div class="bule-32363 des-32363">
+                Want to find more tennis?
+            </div>
+            <div class="bule-32363 line-32363">
+            </div>
+            <img src="/Dashboard/common/widgets/PlayTennisBanner/images/blue.png">
+        </div>
+        <div class="slide-32363">
+            <div class="green-32363 des-32363">
+                Want to find more tennis?
+            </div>
+            <div class="green-32363 line-32363">
+            </div>
+            <img src="/Dashboard/common/widgets/PlayTennisBanner/images/green.png">
+        </div>
+        <div class="slide-32363">
+            <div class="purple-32363 des-32363">
+                Want to find more tennis?
+            </div>
+            <div class="purple-32363 line-32363">
+            </div>
+            <img src="/Dashboard/common/widgets/PlayTennisBanner/images/purple.png">
+        </div>
+        <div class="slide-32363">
+            <div class="yellow-32363 des-32363">
+                Want to find more tennis?
+            </div>
+            <div class="yellow-32363 line-32363">
+            </div>
+            <img src="/Dashboard/common/widgets/PlayTennisBanner/images/yellow.png">
+        </div>
+    </div>
+</div>
+<style type="text/css">
+
+@font-face { font-family: 'Graphik-Regular-App'; src: url('/Dashboard/common/widgets/PlayTennisBanner/font/Graphik-Regular-App.woff2') format('woff2'); }
+@font-face { font-family: 'Graphik-Semibold-App'; src: url('/Dashboard/common/widgets/PlayTennisBanner/font/Graphik-Semibold-App.woff2') format('woff2'); }
+@font-face { font-family: 'GraphikXXCondensed-Bold-App'; src: url('/Dashboard/common/widgets/PlayTennisBanner/font/GraphikXXCondensed-Bold-App.woff2') format('woff2'); }
+    .play-tennis-widget-32363 {
+        background-color: #fff;
+        border: 1px solid #000;
+        margin: 3px;
+        width: 163px;
+        height: 853px;
+        overflow:hidden;
+    }
+        .play-tennis-widget-32363 .bule-32363 {
+            background-color: #09B5F7;
+            color: #000;
+        }
+        .play-tennis-widget-32363 .green-32363 {
+            background-color: #A4ED91;
+            color: #000;
+        }
+        .play-tennis-widget-32363 .purple-32363 {
+            background-color: #7B4E91;
+            color: #fff;
+        }
+        .play-tennis-widget-32363 .yellow-32363 {
+            background-color: #FFEFBE;
+            color: #000;
+        }
+        .play-tennis-widget-32363 #slider_32363 {
+            position: relative;
+        }
+        .play-tennis-widget-32363 .slide-32363 {
+            display: none;
+            width: 100%;
+        }
+            .play-tennis-widget-32363 .slide-32363 img {
+                width: 100%;
+            }
+            .play-tennis-widget-32363 .slide-32363.active-slide-32363 {
+                display: block;
+            }
+        .play-tennis-widget-32363 .des-32363 {
+            height: 360px;
+            font-family: GraphikXXCondensed-Bold-App;
+            font-size: 48pt;
+            line-height: 65px;
+            padding: 10px 0px 0px 10px;
+        }
+        .play-tennis-widget-32363 .line-32363 {
+            height: 3px;
+            margin-top: 3px;
+            margin-bottom: 6px;
+        }
+        .play-tennis-widget-32363 #learnMore_32363 {
+            position: absolute;
+            top: 290px;
+            text-align: center;
+            width: 100%
+        }
+            .play-tennis-widget-32363 #learnMore_32363 a {
+                width: 120px;
+                margin: auto;
+                background-color: #000;
+                color: #fff;
+                border-radius: 20px;
+                display: block;
+                height: 32px;
+                font-size: 14px;
+                line-height: 32px;
+                font-family: Graphik-Semibold-App;
+                text-decoration:none;
+            }
+            .play-tennis-widget-32363 #learnMore_32363 a:hover { 
+                text-decoration: none;
+            }
+</style>
+
+<script>
+    $(document).ready(function () {
+        var slides = $('.play-tennis-widget-32363 #slider_32363 .slide-32363');
+        var currentIndex = 0; 
+        setInterval(function () {            
+            $(slides[currentIndex]).removeClass('active-slide-32363');
+            currentIndex = (currentIndex + 1) % slides.length; 
+            $(slides[currentIndex]).addClass('active-slide-32363');
+        }, 10000); 
+    });
+</script>
+    </div>
+
+</div>
+
+<div style="background:#003871; clear:both">
+<div id="ctl00_divTennisLinkFooter" class="container TennisLinkFooter">
+    <!--Chris Redirect URL-->
+    
+    <!--Chris End-->
+    <!--Google Ads bottom Begins-->
+    
+<script type='text/javascript'>
+    var googletag = googletag || {};
+    googletag.cmd = googletag.cmd || [];
+    (function () {
+        var gads = document.createElement('script');
+        gads.async = true;
+        gads.type = 'text/javascript';
+        var useSSL = 'https:' == document.location.protocol;
+        gads.src = (useSSL ? 'https:' : 'http:') +
+        '//www.googletagservices.com/tag/js/gpt.js';
+        var node = document.getElementsByTagName('script')[0];
+        node.parentNode.insertBefore(gads, node);
+    })();
+</script>
+<script type='text/javascript'>
+    googletag.cmd.push(function () {
+        googletag.defineSlot('/5681/USTA/Tournaments/300x250_Left', [300, 250], 'Tournaments_300x250_Left').addService(googletag.pubads());
+        googletag.defineSlot('/5681/USTA/Tournaments/300x250_Middle', [300, 250], 'Tournament_300x250_Middle').addService(googletag.pubads());
+        googletag.defineSlot('/5681/USTA/Tournaments/300x250_Right', [300, 250], 'Tournaments_300x250_Right').addService(googletag.pubads());
+        googletag.enableServices();
+    });
+</script>
+
+<style>
+#Tournaments_300x250_Left
+{
+    float:left;
+    padding: 10px 0 0 0px;
+}
+#Tournament_300x250_Middle, #Tournaments_300x250_Right
+{
+    float:left;
+    padding: 10px 0 0 50px;
+}
+</style>
+
+<!-- USTA/Tournaments/300x250_Left -->
+<div id='Tournaments_300x250_Left' style='width:300px; height:250px;'>
+<script type='text/javascript'>
+    googletag.cmd.push(function () { googletag.display('Tournaments_300x250_Left'); });
+</script>
+</div>
+
+<!-- USTA/Tournaments/300x250_Middle -->
+<div id='Tournament_300x250_Middle' style='width:300px; height:250px;'>
+<script type='text/javascript'>
+    googletag.cmd.push(function () { googletag.display('Tournament_300x250_Middle'); });
+</script>
+</div>
+
+<!-- USTA/Tournaments/300x250_Right -->
+<div id='Tournaments_300x250_Right' style='width:300px; height:250px;'>
+<script type='text/javascript'>
+    googletag.cmd.push(function () { googletag.display('Tournaments_300x250_Right'); });
+</script>
+</div>
+
+    <!--Google Ads bottom Ends-->
+
+</div>
+<div class="container USTAFooter">
+    
+    <script src='https://www.usta.com/thirdparty/include_sitefooter.js.aspx?d=1'></script>
+    
+    <span id="ctl00_lblBuildNumber" style="color:#477DC6;">Code 1.26.042.8379</span>
+      
+    <span id="ctl00_lblIP" style="color:#477DC6;">89</span>
+</div>
+</div>
+</div>
+
+ 
+<script type="text/javascript" src="/Dashboard/Common/js/AdobeTracker.js"></script>  
+
+<div id="ctl00_ucHB_newSiteCatalyst">
+	
+    <!-- Note this gives a link to loads up the Google and Quandcast links -->
+    <!-- Start Quantcast tag --> <script type="text/javascript"> _qoptions={ qacct:"p-74uD-kgmvp83w" }; </script> <script type="text/javascript" src="//secure.quantserve.com/quant.js"></script> <noscript> <img src="//secure.quantserve.com/pixel/p-74uD-kgmvp83w.gif" style="display: none;" border="0" height="1" width="1" alt="Quantcast"/> </noscript> <!-- End Quantcast tag -->
+
+
+    <!--Adobe Launch Script-->
+    <script src="https://assets.adobedtm.com/15c795eb812c/4ff15bded0fc/launch-108cb2d65a52.min.js" async></script>
+    
+    <script type="text/javascript">
+        window.addEventListener("load", function () {
+            window.AdobeTrackerService.track_pageName('https://tennislink.usta.com/tournaments/Rankings/RankingHome.aspx');
+        });
+    </script>
+
+</div> 
+    
+ 
+ 
+ <script type="text/javascript">
+   
+     Sys.WebForms.PageRequestManager.getInstance().add_endRequest(EndRequestHandler);
+     function EndRequestHandler(sender, args) {   
+            
+         /*reset default button */
+         __defaultFired = false;
+
+         $(document).ready(function () {
+             $("a[rel]").each(function () {
+                 if ($($(this).attr("rel")).length > 0) {
+                     $(this).overlay({ mask: '#333', fixed: false });
+                 }
+             });
+         });
+     }
+</script>
+
+
+<script type="text/javascript">
+//<![CDATA[
+$(".datepicker").datepicker({changeYear: true,changeMonth: true,showButtonPanel: true,showOn: "both",buttonImage: "/tournaments/common/images/calendar-blue.png",buttonImageOnly: true});(function() {var fn = function() {$get("ctl00_ScriptManager1_HiddenField").value = '';Sys.Application.remove_init(fn);};Sys.Application.add_init(fn);})();Sys.Application.add_init(function() {
+    $create(Sys.UI._UpdateProgress, {"associatedUpdatePanelId":null,"displayAfter":500,"dynamicLayout":true}, null, null, $get("ctl00_mainContent_UpdateProgress"));
+});
+//]]>
+</script>
+</form>
+    
+    
+    <iframe id="ifrmSyncUSTASSO" src="https://tennislink.usta.com/Dashboard/Common/SyncUSTASSO.aspx" width="0" height="0"></iframe>
+</body>
+</html>

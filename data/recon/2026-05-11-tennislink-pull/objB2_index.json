@@ -1,0 +1,110 @@
+[
+  {
+    "section": "15",
+    "year": 2020,
+    "division": "D1007",
+    "list_type": -1,
+    "label": "Florida B12 Singles 2020 all",
+    "status": 200,
+    "has_thasen": false,
+    "no_info": false,
+    "ranklist_ids_seen": [],
+    "file": "florida-extended-D1007-15-2020-LT-1.html"
+  },
+  {
+    "section": "15",
+    "year": 2019,
+    "division": "D1007",
+    "list_type": -1,
+    "label": "Florida B12 Singles 2019 all",
+    "status": 200,
+    "has_thasen": false,
+    "no_info": false,
+    "ranklist_ids_seen": [],
+    "file": "florida-extended-D1007-15-2019-LT-1.html"
+  },
+  {
+    "section": "15",
+    "year": 2018,
+    "division": "D1007",
+    "list_type": -1,
+    "label": "Florida B12 Singles 2018 all",
+    "status": 200,
+    "has_thasen": false,
+    "no_info": false,
+    "ranklist_ids_seen": [],
+    "file": "florida-extended-D1007-15-2018-LT-1.html"
+  },
+  {
+    "section": "1538",
+    "year": 2018,
+    "division": "D1007",
+    "list_type": -1,
+    "label": "Florida Region8 B12 2018",
+    "status": 200,
+    "has_thasen": false,
+    "no_info": true,
+    "ranklist_ids_seen": [],
+    "file": "florida-extended-D1007-1538-2018-LT-1.html"
+  },
+  {
+    "section": "1537",
+    "year": 2018,
+    "division": "D1007",
+    "list_type": -1,
+    "label": "Florida Region7 B12 2018",
+    "status": 200,
+    "has_thasen": false,
+    "no_info": true,
+    "ranklist_ids_seen": [],
+    "file": "florida-extended-D1007-1537-2018-LT-1.html"
+  },
+  {
+    "section": "15",
+    "year": 2018,
+    "division": "D1107",
+    "list_type": -1,
+    "label": "Florida B12 Doubles 2018",
+    "status": 200,
+    "has_thasen": false,
+    "no_info": false,
+    "ranklist_ids_seen": [],
+    "file": "florida-extended-D1107-15-2018-LT-1.html"
+  },
+  {
+    "section": "15",
+    "year": 2026,
+    "division": "D3004",
+    "list_type": -1,
+    "label": "Florida M40 Singles 2026",
+    "status": 200,
+    "has_thasen": false,
+    "no_info": true,
+    "ranklist_ids_seen": [],
+    "file": "florida-extended-D3004-15-2026-LT-1.html"
+  },
+  {
+    "section": "15",
+    "year": 2018,
+    "division": "D1021",
+    "list_type": -1,
+    "label": "Florida G12 Singles 2018",
+    "status": 200,
+    "has_thasen": false,
+    "no_info": false,
+    "ranklist_ids_seen": [],
+    "file": "florida-extended-D1021-15-2018-LT-1.html"
+  },
+  {
+    "section": "15",
+    "year": 2025,
+    "division": "D1007",
+    "list_type": -1,
+    "label": "Florida B12 Singles 2025 (frozen)",
+    "status": 200,
+    "has_thasen": false,
+    "no_info": true,
+    "ranklist_ids_seen": [],
+    "file": "florida-extended-D1007-15-2025-LT-1.html"
+  }
+]

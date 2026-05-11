@@ -1,0 +1,112 @@
+Q1 (search Janav Thasen):
+{
+  "data": {
+    "publicPersons": {
+      "items": [
+        {
+          "id": "64a2a8a537ba49a277cc3fc2",
+          "tennisID": "JAN9450835",
+          "clubsparkId": null,
+          "nativeGivenName": "Thasen",
+          "nativeFamilyName": "Janav",
+          "birthYear": 0,
+          "sex": "M",
+          "worldTennisNumbers": null
+        },
+        {
+          "id": "633d9d15951169d512e9afdd",
+          "tennisID": "MYL6512328",
+          "clubsparkId": null,
+          "nativeGivenName": "Thasen",
+          "nativeFamilyName": "Mylvaganam",
+          "birthYear": 1974,
+          "sex": "M",
+          "worldTennisNumbers": null
+        },
+        {
+          "id": "61f3c140216d4d51f07c15c3",
+          "tennisID": "JAW3869593",
+          "clubsparkId": null,
+          "nativeGivenName": "Janav",
+          "nativeFamilyName": "jawahar",
+          "birthYear": 2009,
+          "sex": "M",
+          "worldTennisNumbers": null
+        },
+        {
+          "id": "60a4ed50bf0fe5a69878af35",
+          "tennisID": "SHA3801111",
+          "clubsparkId": null,
+          "nativeGivenName": "Janav",
+          "nativeFamilyName": "Shah",
+          "birthYear": 2004,
+          "sex": "M",
+          "worldTennisNumbers": [
+            {
+              "tennisNumber": 15.7,
+              "type": "DOUBLE",
+              "confidence": 10,
+              "isRanked": false,
+              "ratingDate": "2026-05-06T00:00:00.000Z"
+            },
+            {
+              "tennisNumber": 11.84,
+              "type": "SINGLE",
+              "confidence": 10,
+              "isRanked": false,
+              "ratingDate": "2026-03-27T00:00:00.000Z"
+            }
+          ]
+        },
+        {
+          "id": "6408d92f7e322c556beae4dc",
+          "tennisID": "RAM7731261",
+          "clubsparkId": null,
+          "nativeGivenName": "Janav",
+          "nativeFamilyName": "Ramprakash",
+          "birthYear": 2009,
+          "sex": "M",
+          "worldTennisNumbers": [
+            {
+              "tennisNumber": 33.88,
+              "type": "SINGLE",
+              "confidence": 30,
+              "isRanked": false,
+              "ratingDate": "2026-03-27T00:00:00.000Z"
+            },
+            {
+              "tennisNumber": 31.55,
+              "type": "DOUBLE",
+              "confidence": 10,
+              "isRanked": false,
+              "ratingDate": "2026-05-06T00:00:00.000Z"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
+
+Q2 (person JAN9450835):
+{
+  "data": {
+    "person": {
+      "id": "64a2a8a537ba49a277cc3fc2",
+      "tennisID": "JAN9450835",
+      "clubsparkId": null,
+      "nativeGivenName": "Thasen",
+      "nativeFamilyName": "Janav",
+      "birthYear": 0,
+      "sex": "M",
+      "worldTennisNumbers": null
+    }
+  }
+}
+
+Q3 (person ClubsparkID Janav):
+{
+  "data": {
+    "person": null
+  }
+}

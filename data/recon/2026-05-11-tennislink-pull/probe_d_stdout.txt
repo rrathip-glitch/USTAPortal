@@ -1,0 +1,30 @@
+
+== List 2072448 (Boys 12 Combined) ==
+  top-20 results: matched=20 with-WTN=19
+
+== List 2072432 (Boys 12 Singles Seeding) ==
+  top-20 results: matched=20 with-WTN=20
+
+== List 2072424 (Boys 12 Doubles Seeding) ==
+  top-20 results: matched=20 with-WTN=19
+
+== List 2072451 (Boys 14 Combined) ==
+  top-20 results: matched=20 with-WTN=18
+
+== List 2072433 (Boys 14 Singles Seeding) ==
+  top-20 results: matched=20 with-WTN=17
+
+== List 2072425 (Boys 14 Doubles Seeding) ==
+  top-20 results: matched=20 with-WTN=20
+
+== List 2072454 (Boys 16 Combined) ==
+  top-20 results: matched=20 with-WTN=19
+
+== List 2072434 (Boys 16 Singles Seeding) ==
+  top-20 results: matched=20 with-WTN=19
+
+== List 2072426 (Boys 16 Doubles Seeding) ==
+  top-20 results: matched=20 with-WTN=19
+BUDGET/TIME exhausted; stopping at 2072457
+
+DONE. total_calls=180, elapsed=411s

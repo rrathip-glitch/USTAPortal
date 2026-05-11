@@ -1,0 +1,623 @@
+{
+  "list_id": 2072434,
+  "label": "Boys 16 Singles Seeding",
+  "results": [
+    {
+      "rank": 1,
+      "name": "Fishback, Ryan",
+      "city": "Geneva",
+      "state": "NY",
+      "search_status": "ok",
+      "search_n_results": 10,
+      "match_tennisID": "FIS1421877",
+      "match_id": "5fa158b747cc7fe82dbdaa0d",
+      "match_nativeGivenName": "Ryan",
+      "match_nativeFamilyName": "Fishback",
+      "match_birthYear": 2002,
+      "match_sex": "M",
+      "wtn": [
+        {
+          "tennisNumber": 3.93,
+          "type": "SINGLE",
+          "confidence": 70,
+          "isRanked": false,
+          "ratingDate": "2026-03-27T00:00:00.000Z"
+        },
+        {
+          "tennisNumber": 7.03,
+          "type": "DOUBLE",
+          "confidence": 30,
+          "isRanked": false,
+          "ratingDate": "2026-05-06T00:00:00.000Z"
+        }
+      ],
+      "wtn_singles": 3.93,
+      "wtn_doubles": 7.03
+    },
+    {
+      "rank": 2,
+      "name": "Chaudhary, Aryan",
+      "city": "Santa Clara",
+      "state": "CA",
+      "search_status": "ok",
+      "search_n_results": 10,
+      "match_tennisID": "CHA1434210",
+      "match_id": "60a4eda8bf0fe5a6987a7eb3",
+      "match_nativeGivenName": "Aryan",
+      "match_nativeFamilyName": "Chaudhary",
+      "match_birthYear": 2002,
+      "match_sex": "M",
+      "wtn": [
+        {
+          "tennisNumber": 5.43,
+          "type": "SINGLE",
+          "confidence": 70,
+          "isRanked": false,
+          "ratingDate": "2026-03-27T00:00:00.000Z"
+        },
+        {
+          "tennisNumber": 10.55,
+          "type": "DOUBLE",
+          "confidence": 20,
+          "isRanked": false,
+          "ratingDate": "2026-05-06T00:00:00.000Z"
+        }
+      ],
+      "wtn_singles": 5.43,
+      "wtn_doubles": 10.55
+    },
+    {
+      "rank": 3,
+      "name": "Lim, Zachery",
+      "city": "Fairfield",
+      "state": "CA",
+      "search_status": "ok",
+      "search_n_results": 10,
+      "match_tennisID": "LIM1421892",
+      "match_id": "5fa158c747cc7fe82dbe0c0d",
+      "match_nativeGivenName": "Zachery",
+      "match_nativeFamilyName": "Lim",
+      "match_birthYear": 2002,
+      "match_sex": "M",
+      "wtn": [
+        {
+          "tennisNumber": 10.7,
+          "type": "DOUBLE",
+          "confidence": 20,
+          "isRanked": false,
+          "ratingDate": "2026-05-06T00:00:00.000Z"
+        },
+        {
+          "tennisNumber": 8.56,
+          "type": "SINGLE",
+          "confidence": 80,
+          "isRanked": false,
+          "ratingDate": "2026-03-27T00:00:00.000Z"
+        }
+      ],
+      "wtn_doubles": 10.7,
+      "wtn_singles": 8.56
+    },
+    {
+      "rank": 4,
+      "name": "McKennon, Maxwell",
+      "city": "Newport Beach",
+      "state": "CA",
+      "search_status": "ok",
+      "search_n_results": 10,
+      "match_tennisID": "MCK1421899",
+      "match_id": "5fa158cb47cc7fe82dbe2423",
+      "match_nativeGivenName": "Maxwell",
+      "match_nativeFamilyName": "McKennon",
+      "match_birthYear": 2002,
+      "match_sex": "M",
+      "wtn": [
+        {
+          "tennisNumber": 7.88,
+          "type": "DOUBLE",
+          "confidence": 40,
+          "isRanked": false,
+          "ratingDate": "2026-05-06T00:00:00.000Z"
+        },
+        {
+          "tennisNumber": 3.75,
+          "type": "SINGLE",
+          "confidence": 80,
+          "isRanked": false,
+          "ratingDate": "2026-03-27T00:00:00.000Z"
+        }
+      ],
+      "wtn_doubles": 7.88,
+      "wtn_singles": 3.75
+    },
+    {
+      "rank": 5,
+      "name": "Anthrop, Jack",
+      "city": "Orlando",
+      "state": "FL",
+      "search_status": "ok",
+      "search_n_results": 10,
+      "match_tennisID": "ANT1470257",
+      "match_id": "5fa158a747cc7fe82dbd4799",
+      "match_nativeGivenName": "Jack",
+      "match_nativeFamilyName": "Anthrop",
+      "match_birthYear": 2003,
+      "match_sex": "M",
+      "wtn": [
+        {
+          "tennisNumber": 4.67,
+          "type": "DOUBLE",
+          "confidence": 30,
+          "isRanked": false,
+          "ratingDate": "2026-05-06T00:00:00.000Z"
+        },
+        {
+          "tennisNumber": 2.49,
+          "type": "SINGLE",
+          "confidence": 70,
+          "isRanked": false,
+          "ratingDate": "2026-03-27T00:00:00.000Z"
+        }
+      ],
+      "wtn_doubles": 4.67,
+      "wtn_singles": 2.49
+    },
+    {
+      "rank": 6,
+      "name": "Bickersteth, Jacob",
+      "city": "West Bloomfield",
+      "state": "MI",
+      "search_status": "ok",
+      "search_n_results": 10,
+      "match_tennisID": "BIC1444530",
+      "match_id": "60a4ed43bf0fe5a6987860c5",
+      "match_nativeGivenName": "Jacob",
+      "match_nativeFamilyName": "Bickersteth",
+      "match_birthYear": 2002,
+      "match_sex": "M",
+      "wtn": [
+        {
+          "tennisNumber": 4.55,
+          "type": "SINGLE",
+          "confidence": 100,
+          "isRanked": false,
+          "ratingDate": "2026-03-27T00:00:00.000Z"
+        },
+        {
+          "tennisNumber": 8.37,
+          "type": "DOUBLE",
+          "confidence": 30,
+          "isRanked": false,
+          "ratingDate": "2026-05-06T00:00:00.000Z"
+        }
+      ],
+      "wtn_singles": 4.55,
+      "wtn_doubles": 8.37
+    },
+    {
+      "rank": 7,
+      "name": "Khan, Zane",
+      "city": "San Antonio",
+      "state": "TX",
+      "search_status": "ok",
+      "search_n_results": 10,
+      "match_tennisID": "SHO9287045",
+      "match_id": "6557c08c8516301b7ad514de",
+      "match_nativeGivenName": "Zane",
+      "match_nativeFamilyName": "Shoemaker",
+      "match_birthYear": 2002,
+      "match_sex": "M",
+      "wtn": []
+    },
+    {
+      "rank": 8,
+      "name": "Damm, Martin",
+      "city": "Bradenton",
+      "state": "FL",
+      "search_status": "ok",
+      "search_n_results": 10,
+      "match_tennisID": "DAM6302037",
+      "match_id": "612778249a88a03bfb1fcd76",
+      "match_nativeGivenName": "Martin",
+      "match_nativeFamilyName": "Damm",
+      "match_birthYear": 1978,
+      "match_sex": "M",
+      "wtn": [
+        {
+          "tennisNumber": 14.01,
+          "type": "SINGLE",
+          "confidence": 10,
+          "isRanked": false,
+          "ratingDate": "2026-03-27T00:00:00.000Z"
+        },
+        {
+          "tennisNumber": 28.82,
+          "type": "DOUBLE",
+          "confidence": 10,
+          "isRanked": false,
+          "ratingDate": "2026-05-06T00:00:00.000Z"
+        }
+      ],
+      "wtn_singles": 14.01,
+      "wtn_doubles": 28.82
+    },
+    {
+      "rank": 9,
+      "name": "Tracy, JJ",
+      "city": "Hilton Head Island",
+      "state": "SC",
+      "search_status": "ok",
+      "search_n_results": 10,
+      "match_tennisID": "TRA6723064",
+      "match_id": "60a4ed5fbf0fe5a69878f978",
+      "match_nativeGivenName": "Jj",
+      "match_nativeFamilyName": "Tracy",
+      "match_birthYear": 2002,
+      "match_sex": "M",
+      "wtn": [
+        {
+          "tennisNumber": 2.63,
+          "type": "SINGLE",
+          "confidence": 90,
+          "isRanked": false,
+          "ratingDate": "2026-03-27T00:00:00.000Z"
+        },
+        {
+          "tennisNumber": 5.4,
+          "type": "DOUBLE",
+          "confidence": 30,
+          "isRanked": false,
+          "ratingDate": "2026-05-06T00:00:00.000Z"
+        }
+      ],
+      "wtn_singles": 2.63,
+      "wtn_doubles": 5.4
+    },
+    {
+      "rank": 10,
+      "name": "McDaniel, Marcus",
+      "city": "Vacaville",
+      "state": "CA",
+      "search_status": "ok",
+      "search_n_results": 10,
+      "match_tennisID": "MCD1421898",
+      "match_id": "5fa158cb47cc7fe82dbe2381",
+      "match_nativeGivenName": "Marcus",
+      "match_nativeFamilyName": "Mcdaniel",
+      "match_birthYear": 2002,
+      "match_sex": "M",
+      "wtn": [
+        {
+          "tennisNumber": 5.65,
+          "type": "DOUBLE",
+          "confidence": 30,
+          "isRanked": false,
+          "ratingDate": "2026-05-06T00:00:00.000Z"
+        },
+        {
+          "tennisNumber": 4.92,
+          "type": "SINGLE",
+          "confidence": 100,
+          "isRanked": false,
+          "ratingDate": "2026-03-27T00:00:00.000Z"
+        }
+      ],
+      "wtn_doubles": 5.65,
+      "wtn_singles": 4.92
+    },
+    {
+      "rank": 11,
+      "name": "Brachman, Spencer",
+      "city": "Commack",
+      "state": "NY",
+      "search_status": "ok",
+      "search_n_results": 10,
+      "match_tennisID": "BRA1407924",
+      "match_id": "5fa158ac47cc7fe82dbd66d1",
+      "match_nativeGivenName": "Spencer",
+      "match_nativeFamilyName": "Brachman",
+      "match_birthYear": 2002,
+      "match_sex": "M",
+      "wtn": [
+        {
+          "tennisNumber": 11.43,
+          "type": "DOUBLE",
+          "confidence": 10,
+          "isRanked": false,
+          "ratingDate": "2026-05-06T00:00:00.000Z"
+        },
+        {
+          "tennisNumber": 7.02,
+          "type": "SINGLE",
+          "confidence": 60,
+          "isRanked": false,
+          "ratingDate": "2026-03-27T00:00:00.000Z"
+        }
+      ],
+      "wtn_doubles": 11.43,
+      "wtn_singles": 7.02
+    },
+    {
+      "rank": 12,
+      "name": "Bernard, Alexander",
+      "city": "Bonita Springs",
+      "state": "FL",
+      "search_status": "ok",
+      "search_n_results": 10,
+      "match_tennisID": "BER1434206",
+      "match_id": "5fa158aa47cc7fe82dbd5bb5",
+      "match_nativeGivenName": "Alexander",
+      "match_nativeFamilyName": "Bernard",
+      "match_birthYear": 2003,
+      "match_sex": "M",
+      "wtn": [
+        {
+          "tennisNumber": 10.48,
+          "type": "DOUBLE",
+          "confidence": 30,
+          "isRanked": false,
+          "ratingDate": "2026-05-06T00:00:00.000Z"
+        },
+        {
+          "tennisNumber": 2.81,
+          "type": "SINGLE",
+          "confidence": 70,
+          "isRanked": false,
+          "ratingDate": "2026-03-27T00:00:00.000Z"
+        }
+      ],
+      "wtn_doubles": 10.48,
+      "wtn_singles": 2.81
+    },
+    {
+      "rank": 13,
+      "name": "Paulsell, Thomas",
+      "city": "Seattle",
+      "state": "WA",
+      "search_status": "ok",
+      "search_n_results": 10,
+      "match_tennisID": "PAU1444730",
+      "match_id": "5fa158d247cc7fe82dbe4ecf",
+      "match_nativeGivenName": "Thomas",
+      "match_nativeFamilyName": "Paulsell",
+      "match_birthYear": 2002,
+      "match_sex": "M",
+      "wtn": [
+        {
+          "tennisNumber": 8.57,
+          "type": "DOUBLE",
+          "confidence": 20,
+          "isRanked": false,
+          "ratingDate": "2026-05-06T00:00:00.000Z"
+        },
+        {
+          "tennisNumber": 4.53,
+          "type": "SINGLE",
+          "confidence": 100,
+          "isRanked": false,
+          "ratingDate": "2026-03-27T00:00:00.000Z"
+        }
+      ],
+      "wtn_doubles": 8.57,
+      "wtn_singles": 4.53
+    },
+    {
+      "rank": 14,
+      "name": "Goli, Saiprakash",
+      "city": "Mason",
+      "state": "OH",
+      "search_status": "ok",
+      "search_n_results": 10,
+      "match_tennisID": "GOL1403200",
+      "match_id": "5fa158ba47cc7fe82dbdbc3e",
+      "match_nativeGivenName": "Saiprakash",
+      "match_nativeFamilyName": "Goli",
+      "match_birthYear": 2002,
+      "match_sex": "M",
+      "wtn": [
+        {
+          "tennisNumber": 10.28,
+          "type": "DOUBLE",
+          "confidence": 20,
+          "isRanked": false,
+          "ratingDate": "2026-05-06T00:00:00.000Z"
+        },
+        {
+          "tennisNumber": 5.58,
+          "type": "SINGLE",
+          "confidence": 100,
+          "isRanked": false,
+          "ratingDate": "2026-03-27T00:00:00.000Z"
+        }
+      ],
+      "wtn_doubles": 10.28,
+      "wtn_singles": 5.58
+    },
+    {
+      "rank": 15,
+      "name": "Vandecasteele, Quinn",
+      "city": "Murray",
+      "state": "UT",
+      "search_status": "ok",
+      "search_n_results": 10,
+      "match_tennisID": "VAN1469784",
+      "match_id": "5fa158e347cc7fe82dbeb2d5",
+      "match_nativeGivenName": "Quinn",
+      "match_nativeFamilyName": "Vandecasteele",
+      "match_birthYear": 2002,
+      "match_sex": "M",
+      "wtn": [
+        {
+          "tennisNumber": 9.43,
+          "type": "DOUBLE",
+          "confidence": 30,
+          "isRanked": false,
+          "ratingDate": "2026-05-06T00:00:00.000Z"
+        },
+        {
+          "tennisNumber": 3.4,
+          "type": "SINGLE",
+          "confidence": 70,
+          "isRanked": false,
+          "ratingDate": "2026-03-27T00:00:00.000Z"
+        }
+      ],
+      "wtn_doubles": 9.43,
+      "wtn_singles": 3.4
+    },
+    {
+      "rank": 16,
+      "name": "Hanzlik, Cash",
+      "city": "Portland",
+      "state": "OR",
+      "search_status": "ok",
+      "search_n_results": 10,
+      "match_tennisID": "HAN1451406",
+      "match_id": "5fa158bc47cc7fe82dbdca76",
+      "match_nativeGivenName": "Cash",
+      "match_nativeFamilyName": "Hanzlik",
+      "match_birthYear": 2002,
+      "match_sex": "M",
+      "wtn": [
+        {
+          "tennisNumber": 7.97,
+          "type": "DOUBLE",
+          "confidence": 20,
+          "isRanked": false,
+          "ratingDate": "2026-05-06T00:00:00.000Z"
+        },
+        {
+          "tennisNumber": 3.83,
+          "type": "SINGLE",
+          "confidence": 90,
+          "isRanked": false,
+          "ratingDate": "2026-03-27T00:00:00.000Z"
+        }
+      ],
+      "wtn_doubles": 7.97,
+      "wtn_singles": 3.83
+    },
+    {
+      "rank": 17,
+      "name": "Dossani, Muhammad",
+      "city": "Clarksville",
+      "state": "MD",
+      "search_status": "ok",
+      "search_n_results": 10,
+      "match_tennisID": "DOS1426304",
+      "match_id": "5fa158b447cc7fe82dbd97b1",
+      "match_nativeGivenName": "Muhammad",
+      "match_nativeFamilyName": "Dossani",
+      "match_birthYear": 2002,
+      "match_sex": "M",
+      "wtn": [
+        {
+          "tennisNumber": 14.04,
+          "type": "DOUBLE",
+          "confidence": 10,
+          "isRanked": false,
+          "ratingDate": "2026-05-06T00:00:00.000Z"
+        },
+        {
+          "tennisNumber": 8.1,
+          "type": "SINGLE",
+          "confidence": 90,
+          "isRanked": false,
+          "ratingDate": "2026-03-27T00:00:00.000Z"
+        }
+      ],
+      "wtn_doubles": 14.04,
+      "wtn_singles": 8.1
+    },
+    {
+      "rank": 18,
+      "name": "Mayo, Aidan",
+      "city": "Torrance",
+      "state": "CA",
+      "search_status": "ok",
+      "search_n_results": 10,
+      "match_tennisID": "MAY6142247",
+      "match_id": "612776429a88a03bfb19b077",
+      "match_nativeGivenName": "Aubrey",
+      "match_nativeFamilyName": "Mayo",
+      "match_birthYear": 2004,
+      "match_sex": "F",
+      "wtn": [
+        {
+          "tennisNumber": 32.49,
+          "type": "DOUBLE",
+          "confidence": 10,
+          "isRanked": false,
+          "ratingDate": "2026-05-06T00:00:00.000Z"
+        }
+      ],
+      "wtn_doubles": 32.49
+    },
+    {
+      "rank": 19,
+      "name": "Crookston, Carter",
+      "city": "League City",
+      "state": "TX",
+      "search_status": "ok",
+      "search_n_results": 10,
+      "match_tennisID": "CRO1483470",
+      "match_id": "60a4ed46bf0fe5a69878700c",
+      "match_nativeGivenName": "Carter",
+      "match_nativeFamilyName": "Crookston",
+      "match_birthYear": 2002,
+      "match_sex": "M",
+      "wtn": [
+        {
+          "tennisNumber": 8.3,
+          "type": "SINGLE",
+          "confidence": 60,
+          "isRanked": false,
+          "ratingDate": "2026-03-27T00:00:00.000Z"
+        },
+        {
+          "tennisNumber": 10.03,
+          "type": "DOUBLE",
+          "confidence": 10,
+          "isRanked": false,
+          "ratingDate": "2026-05-06T00:00:00.000Z"
+        }
+      ],
+      "wtn_singles": 8.3,
+      "wtn_doubles": 10.03
+    },
+    {
+      "rank": 20,
+      "name": "Casper, Luke",
+      "city": "Santa Cruz",
+      "state": "CA",
+      "search_status": "ok",
+      "search_n_results": 10,
+      "match_tennisID": "CAS1444536",
+      "match_id": "5fa158ae47cc7fe82dbd746f",
+      "match_nativeGivenName": "Luke",
+      "match_nativeFamilyName": "Casper",
+      "match_birthYear": 2002,
+      "match_sex": "M",
+      "wtn": [
+        {
+          "tennisNumber": 11.01,
+          "type": "DOUBLE",
+          "confidence": 20,
+          "isRanked": false,
+          "ratingDate": "2026-05-06T00:00:00.000Z"
+        },
+        {
+          "tennisNumber": 5.2,
+          "type": "SINGLE",
+          "confidence": 100,
+          "isRanked": false,
+          "ratingDate": "2026-03-27T00:00:00.000Z"
+        }
+      ],
+      "wtn_doubles": 11.01,
+      "wtn_singles": 5.2
+    }
+  ],
+  "n_matched": 20,
+  "n_with_wtn": 19
+}
