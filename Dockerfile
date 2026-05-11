@@ -1,22 +1,34 @@
-# Railway-ready image. Built on Microsoft's official Playwright Python image
-# so Chromium and all its system libs are pre-installed (the Nixpacks recipe
-# kept breaking on xorg attribute renames in current nixpkgs).
+# Railway-ready image. Python 3.11 slim base + playwright install-deps gives
+# us the Chromium system libs without dragging in the MS Playwright image's
+# Python 3.10 (which is incompatible with this project's requires-python).
 
-FROM mcr.microsoft.com/playwright/python:v1.48.0-jammy
+FROM python:3.11-slim-bookworm
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \
     DATABASE_URL=sqlite:////data/db/usta.db \
-    RAW_CACHE_DIR=/data/raw
+    RAW_CACHE_DIR=/data/raw \
+    PLAYWRIGHT_BROWSERS_PATH=/opt/playwright
+
+# Minimum runtime tooling. Playwright fetches the rest of its deps
+# via `playwright install --with-deps` below.
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+    ca-certificates curl wget git \
+ && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-# Install deps first so cold rebuilds stay cheap.
+# Install Python deps first so cold rebuilds stay cheap. pip install -e .
+# pulls playwright as a transitive dep; we then invoke `playwright install`
+# to fetch the Chromium binary + every shared library it needs.
 COPY pyproject.toml README.md LICENSE ./
 COPY src ./src
-RUN pip install --upgrade pip && pip install -e .
+RUN pip install --upgrade pip \
+ && pip install -e . \
+ && python -m playwright install --with-deps chromium
 
 # Now copy the rest of the repo (templates, scripts, fixtures, docs).
 COPY . .
