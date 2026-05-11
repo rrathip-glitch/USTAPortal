@@ -69,14 +69,59 @@ Player record links from the rankings table:
 Mobile alias (302-redirects to desktop):
 - `https://m.tennislink.usta.com/rankinghome?RankingListID={LIST_ID}`
 
-NOTE on freshness: TennisLink stopped accepting new *tournament* records in
-late 2018 (see STATE.md). The *rankings* surface freshness needs separate
-verification — the rankings agent and the TennisLink-rankings recon agent
-(in flight as of 2026-05-11) will confirm whether the lists above contain
-current 2025/2026 standings or are stale.
+FRESHNESS VERDICT (resolved 2026-05-11): TennisLink rankings are
+**historical-only**. Concrete reachability:
 
-U10 boys: list IDs not yet indexed publicly. Reachable via the same form
-by selecting age category in the dropdown.
+| Year       | Boys' 12 (D1007) National | Boys' 10 (D1009) National |
+| ---------- | ------------------------- | ------------------------- |
+| 2017-2020  | data present              | "No ranking information"  |
+| 2021-2026  | "No ranking information"  | "No ranking information"  |
+
+The B12 rankings plane froze in **early 2021** (last Final list published
+2021-01-03). B10 was **never** nationally published on TennisLink. So
+`rankinglistid=1234828` (1,298 players, indexed as "B12 Singles National
+Championship Seeding") is a historical seeding snapshot, not current
+standings.
+
+Form-POST flow (the actual usable surface — already wired in
+`src/fetch/tennislink_client.py:get_ranking_list`):
+
+```
+POST https://tennislink.usta.com/tournaments/Rankings/RankingHome.aspx
+ctl00$mainContent$SectionDistrict=00   # 00 = National
+ctl00$mainContent$Year=2018            # 2017-2020 inclusive for B12
+ctl00$mainContent$Division=D1007       # B12=D1007, B10=D1009, B14=D1005,
+                                       # B16=D1003, B18=D1001
+ctl00$mainContent$ListType=-1          # -1=All, 0=Standing, 2=Final
+ctl00$mainContent$btnSearch_Ranking=FIND IT!
+```
+
+Terminal print URL after locating a list-id: `RankingListsPrint.aspx?id=<list_id>&e=1&sortby=rank`.
+
+Top of B12 2018 National Final (list_id=2082185) for sanity:
+1. Quan, Rudy (CA) — 16,534 pts
+2. Razeghi, Alexander (TX)
+3. Charlap, Dylan (CA)
+4. Woestendick, Cooper (KS)
+5. Exsted, Maxwell (MN)
+
+(2006-born; ~20 years old in 2026. Confirms historical not current.)
+
+WTN exposure on TennisLink: **none**. The `WTN Rating Level:` strings in
+`RankingHome.aspx` HTML are template stubs for the logged-in-user navbar
+widget, not bound to looked-up player data. Player profile pages
+(`PlayerRecordsPrint.aspx?listid=...&playerid=...`) surface tournament/match
+results only, no WTN. WTN must come from the Clubspark surface.
+
+Implication for Rankings-First: TennisLink can serve historical trajectory
+context for older players (useful for the "12-month ranking trend" sparkline
+on opponent scouting cards, when the opponent is old enough to have
+2017-2020 records). It **cannot** answer "what is Janav's current Boys' 12
+national ranking?" — that comes from Clubspark only.
+
+Saved recon artifacts (2026-05-11 wave): see
+`data/recon/2026-05-11-tennislink-rankings/` for the full set of probe
+results that established this verdict.
 
 ---
 

@@ -71,6 +71,10 @@ data/recon/*/network.jsonl
 data/recon/*/dom/
 data/recon/*/gql/
 
+# uv lockfile — project uses pip+setuptools per pyproject.toml; uv.lock is
+# a transient artifact when an agent invokes uv in passing
+uv.lock
+
 # Railway
 .railway/
 
