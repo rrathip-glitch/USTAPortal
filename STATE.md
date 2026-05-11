@@ -1,4 +1,4 @@
-snapshot: 2026-05-11T12:00:00Z
+snapshot: 2026-05-11T13:30:00Z
 
 # STATE.md — live project status
 
@@ -17,9 +17,16 @@ snapshot: 2026-05-11T12:00:00Z
 
 ## Active workstreams
 
-- **Orchestrator (2026-05-11T12:00Z)** — Rankings-First Pivot wave. Dispatching 6 parallel agents: (1) Rankings URL + Janav OSINT research, (2) Aggressive Cloudflare bypass attempts, (3) TennisLink rankings exploration, (4) Resend notification module build (resolves Q-010), (5) TODO.md + AGENTS.md rewrite, (6) SPEC.md + ADR-006 + QUESTIONS.md update. Sync barrier: all six return before wave 2 (parser + UI + WTN crawler) is dispatched.
+- **Awaiting residential-proxy API credentials from user** — once provided, wave 2 (rankings parser + fetch wiring + WTN crawler + UI + repository + CLI) launches in parallel. Wave 1 (orchestrator + 6 parallel subagents) complete as of 2026-05-11T13:30Z.
 
 ## Recently completed
+
+### Wave 1 verdicts (2026-05-11)
+
+- **TennisLink rankings: historical-only.** B12 (D1007) National last published Jan 2021 (for the 2020 season); B10 (D1009) National never published; no WTN exposure anywhere on TennisLink. The legacy surface can serve historical trajectory context for 2017-2020 records but cannot answer "what is Janav's current Boys' 12 national ranking?". Details in `data/reference/known_urls.md` and `data/recon/2026-05-11-tennislink-rankings/`.
+- **Bypass: structurally impossible from this sandbox; paid residential proxy chosen.** Anthropic egress is a TLS-inspecting MITM (cert issuer `O=Anthropic, CN=sandbox-egress-production TLS Inspection CA`), so JA3/JA4 spoofing via curl_cffi cannot work — the spoofed handshake terminates at Anthropic's proxy rather than reaching Cloudflare. Hostname allowlist also blocks archive.org, bing.com, etc. User opted for paid residential proxy (Bright Data Web Unlocker recommended). Proxy-API reachability probe confirms Bright Data, ScrapFly, ZenRows, ScraperAPI, and Smartproxy are all reachable from this sandbox — they are not on Anthropic's egress block list. Once API credentials arrive, the data collector runs autonomously from here. Artifacts under `data/recon/2026-05-11-bypass/`.
+- **Resend wired (Q-010 resolved); 288 tests green.** `src/notify/` Resend backend lands with retry + config + 5 tests. Q-012 opened on the FROM-domain decision.
+- **Doc pivot: TODO/AGENTS/SPEC/ADR-006/QUESTIONS landed.** TODO.md rewritten around the rankings-first scope, AGENTS.md adds rankings + bypass agent rows, SPEC.md picks up scope and roadmap edits, ADR-006 filed Accepted.
 
 - **Live recon attempt (recon agent, 2026-05-10).** Ran `scripts/live_recon.py` against `playtennis.usta.com` with credentials from `settings`, Chromium 141 via Playwright in both legacy headless and Xvfb-backed non-headless modes, with full anti-detection flags (`--disable-blink-features=AutomationControlled`, `navigator.webdriver` hider, Chrome-141 UA, US locale + ET timezone). **Cloudflare 403'd the very first GET on `playtennis.usta.com/`** (cf-ray `9f9b89cf9e96c0a8-ORD`). Login was never reached. Side-by-side host-reachability probe (`data/recon/2026-05-10-live/host_reachability.json`) confirms Auth0 (`account.usta.com`) is reachable from this environment but every Cloudflare-fronted Clubspark host returns 403. Diagnostic: outbound IP `34.58.203.104` (GCP) is on Cloudflare's datacenter blocklist for the Clubspark edge — reproduces from passive curl/urllib too. Per the recon charter, the script halted on bot-wall and did not attempt evasion. **ADR-001 was filed Accepted as Strategy C** (Playwright-resident requests) with the operational rider that recon and sync must run from a residential egress; rationale anchored on Strategy C being strictly more general than A-prime (testable later as a perf optimization once a residential capture proves it). Updated: RECON.md (Status flipped to BLOCKED, new "Findings (live recon attempt, 2026-05-10)" section, host reachability matrix), API_CONTRACTS.md (Anti-bot posture section refined to distinguish IP/ASN vs TLS-fingerprint blocking), DECISIONS.md (ADR-001 → Accepted with full live-recon evidence and consequences), QUESTIONS.md (new Q-011 top-priority: user must re-run recon from a residential egress), CHANGELOG.md.
 - **Score parser (parser agent, 2026-05-10).** Implemented `parse_score`, `format_score`, and `infer_winner` in `src/parse/matches.py` covering standard sets, tiebreaks, retirements, walkovers, defaults, unfinished, pro-sets, and 10-point match tiebreaks (both bracket and `1-0(L)` shapes). Added 16 concrete + 4 property tests in `tests/unit/test_score_parser.py` plus a `valid_score_string` Hypothesis strategy in `tests/strategies.py`. ruff and mypy clean; 25 tests passing.
@@ -33,8 +40,8 @@ snapshot: 2026-05-11T12:00:00Z
 
 ## Open blockers
 
-- **Q-011 (top priority): live data-plane recon blocked on residential egress.** This environment's GCP egress is Cloudflare-blocked at IP/ASN level. ADR-001 is filed Accepted (Strategy C) on the strength of consistent live + passive blocking evidence, but no real GraphQL captures exist yet. See QUESTIONS.md Q-011.
-- **Need to confirm WTN exposure pathway.** Tracked as Q-003. The leading hypothesis (research-backed) is that WTN is in the same Clubspark GraphQL surface as tournament data; residential recon validates.
+- **Residential-proxy API credentials from user (top priority).** Bright Data Web Unlocker recommended. Without these, the Clubspark rankings / WTN data plane remains synthetic-seed only and wave 2 cannot launch. Wave 1 bypass recon confirmed that no in-sandbox technique unblocks the Clubspark edge (Anthropic MITM proxy + Cloudflare ASN block on egress IPs + hostname allowlist on archive.org / bing.com). Once credentials land, the data collector runs autonomously from this environment because the proxy APIs themselves are reachable. See `data/recon/2026-05-11-bypass/` and ADR-006.
+- **Need to confirm WTN exposure pathway.** Tracked as Q-003. The leading hypothesis (research-backed) is that WTN is in the same Clubspark GraphQL surface as tournament data; residential-proxy fetches will validate.
 
 ## Recent decisions awaiting closure
 

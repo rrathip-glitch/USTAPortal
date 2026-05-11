@@ -1,0 +1,60 @@
+{
+  "janav_thasen_clubspark_guid": "971BA48D-A2EA-4FB7-8305-F42EA466F6DF",
+  "tennisid_candidate_in_stg": "JAN9450835",
+  "stg_endpoint_result_via_TennisID": {
+    "errors": [
+      {
+        "message": "Not Authorised!",
+        "locations": [
+          {
+            "line": 5,
+            "column": 5
+          }
+        ],
+        "path": [
+          "person",
+          "matchUps"
+        ],
+        "extensions": {
+          "code": "UNAUTHENTICATED"
+        }
+      }
+    ],
+    "data": {
+      "person": {
+        "matchUps": null,
+        "id": "64a2a8a537ba49a277cc3fc2",
+        "tennisID": "JAN9450835",
+        "tournaments": null
+      }
+    }
+  },
+  "control_query_janav_shah": {
+    "data": {
+      "person": {
+        "id": "60a4ed50bf0fe5a69878af35",
+        "tennisID": "SHA3801111",
+        "nativeGivenName": "Janav",
+        "nativeFamilyName": "Shah",
+        "birthYear": 2004,
+        "worldTennisNumbers": [
+          {
+            "tennisNumber": 15.7,
+            "type": "DOUBLE",
+            "confidence": 10,
+            "isRanked": false,
+            "ratingDate": "2026-05-06T00:00:00.000Z"
+          },
+          {
+            "tennisNumber": 11.84,
+            "type": "SINGLE",
+            "confidence": 10,
+            "isRanked": false,
+            "ratingDate": "2026-03-27T00:00:00.000Z"
+          }
+        ]
+      }
+    }
+  },
+  "note": "stg endpoint reachable via curl_cffi chrome131. Janav Thasen present in stg DB but with placeholder data (birthDate 1970-01-01, birthYear 0, name fields swapped, no WTN). Production WTN must be on prd-itf-kube.clubspark.pro/tods-gw-api/graphql which is Cloudflare-blocked from this egress."
+}
