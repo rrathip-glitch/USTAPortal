@@ -1,2 +1,2 @@
-web: python -m src.cli.main init-db && uvicorn src.main:app --host 0.0.0.0 --port ${PORT:-8000}
-worker: python -m src.cli.main init-db && python -m src.cli.main sync-loop --interval 3600 --iterations -1
+web: uvicorn src.main:app --host 0.0.0.0 --port ${PORT:-8000}
+worker: python -m src.cli.main sync-loop --interval 3600 --iterations -1

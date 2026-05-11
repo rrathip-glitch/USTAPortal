@@ -2,10 +2,17 @@
 
 The dashboard pages live in ``src.ui.app`` and are mounted as a router.
 ``/health`` stays here because Railway's deploy config points at it.
+
+Schema initialization runs inside an asyncio task fired from the
+startup hook so uvicorn can bind to ``$PORT`` immediately — Railway's
+healthcheck probes the moment the port opens, and a slow init-db at
+container boot was making the probe time out.
 """
 
 from __future__ import annotations
 
+import asyncio
+import logging
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -15,6 +22,8 @@ from fastapi.staticfiles import StaticFiles
 
 from src.config import settings
 from src.ui.app import router as ui_router
+
+logger = logging.getLogger(__name__)
 
 app = FastAPI(title="USTA Portal", version="0.1.0")
 
@@ -27,14 +36,39 @@ if _STATIC_DIR.is_dir():
 app.include_router(ui_router)
 
 
+def _init_schema_safely() -> None:
+    """Best-effort schema init. Never raises so it can't crash uvicorn."""
+    try:
+        from src.store.db import init_schema
+
+        init_schema()
+        logger.info("init_schema: ok")
+    except Exception as exc:  # noqa: BLE001
+        logger.warning("init_schema: skipped (%s: %s)", type(exc).__name__, exc)
+
+
+@app.on_event("startup")
+async def _on_startup() -> None:
+    # Run schema init in a background thread so the event loop is free
+    # to start accepting requests. Railway's healthcheck fires as soon
+    # as the port is bound.
+    loop = asyncio.get_event_loop()
+    loop.run_in_executor(None, _init_schema_safely)
+
+
 @app.get("/health")
 async def health() -> JSONResponse:
-    """Health probe used by Railway's deploy config.
+    """Cheap, always-200 health probe for Railway.
 
-    Always returns 200 (Railway will mark the deploy healthy as long as
-    the response code is in the 2xx range). The body carries best-effort
-    diagnostics so a curl shows useful state without paging anyone.
+    Returns immediately with no DB I/O so the healthcheck can't time
+    out. Richer diagnostics live at ``/health/full``.
     """
+    return JSONResponse({"status": "ok"})
+
+
+@app.get("/health/full")
+async def health_full() -> JSONResponse:
+    """Verbose health view — does best-effort DB introspection."""
     db_state: str = "unknown"
     last_sync: str | None = None
     tournament_count: int | None = None
