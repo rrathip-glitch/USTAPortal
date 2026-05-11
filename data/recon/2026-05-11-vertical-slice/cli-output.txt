@@ -1,0 +1,8 @@
+sync-rankings: age=12 gender=B scope=national section=- force=False list_id=2072448 from_fixture=data/recon/2026-05-11-janav-browse/tennislink-2072448.html
+  loading fixture: data/recon/2026-05-11-janav-browse/tennislink-2072448.html
+  Persisted 1014 entries from list 2072448 (Boys 12s, as_of=2026-05-11)
+sync summary:
+  fetched  : 1
+  parsed   : 1
+  persisted: 1015
+  errored  : 0

@@ -1,0 +1,21 @@
+status: 200
+size: 402103 bytes
+---first row preview---
+Quan, Rudy</a>
+              </td>
+              <td>No. California</td>
+              <td class="num">19304</td>
+              
+            </tr>
+          
+            
+            
+            
+            
+
+---source footnote---
+TennisLink (historical). The TennisLink Boys' 12 national
+        ranking plane froze in early 2021 (last Final list published
+        2021-01-03), so these standings reflect that era — they are not
+        current 2025/2026 rankings. WTN columns are hidden because
+        TennisLink does not expose

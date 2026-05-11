@@ -47,11 +47,27 @@ from __future__ import annotations
 
 import re
 from datetime import UTC, date, datetime
+from typing import TypedDict
 
 from bs4 import BeautifulSoup, Tag
 
 from src.models.ranking import Gender, RankingList, RankingListEntry, Scope
 from src.parse.players import ParseError
+
+
+class _ListMetadata(TypedDict):
+    """Structured shape returned by :func:`_parse_metadata`.
+
+    The narrow types here mirror the columns on
+    :class:`~src.models.ranking.RankingList` so the caller can pass the
+    dict straight into the model + the slug builder without ``cast``s.
+    """
+
+    age_category: str
+    gender: Gender
+    scope: Scope
+    section: str | None
+    as_of: date
 
 __all__ = [
     "ParseError",
@@ -323,7 +339,7 @@ def _extract_title(soup: BeautifulSoup) -> str | None:
     return None
 
 
-def _parse_metadata(title: str | None) -> dict:
+def _parse_metadata(title: str | None) -> _ListMetadata:
     """Best-effort metadata from the page's header line.
 
     Returns a dict with keys ``age_category`` (str), ``gender`` (Gender),

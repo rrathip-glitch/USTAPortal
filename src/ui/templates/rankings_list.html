@@ -18,8 +18,14 @@
     <div class="empty-state">
       <h2>No ranking list synced yet</h2>
       <p>
-        Run <code>usta sync-rankings --age={{ age|default(12) }} --gender={{ gender_flag|default('B') }} --scope={{ scope|default('national') }}</code>
-        to fetch this list from the configured residential-proxy provider.
+        Run the demo capture to load the bundled TennisLink fixture (1,014
+        Boys' 12 Combined players) into the local DB:
+      </p>
+      <pre><code>usta sync-rankings --list-id {{ default_list_id|default('2072448') }} --from-fixture {{ fixture_path|default('data/recon/2026-05-11-janav-browse/tennislink-2072448.html') }}</code></pre>
+      <p>
+        Or, with the residential-proxy provider configured, fetch the
+        canonical Clubspark list:
+        <code>usta sync-rankings --age={{ age|default(12) }} --gender={{ gender_flag|default('B') }} --scope={{ scope|default('national') }}</code>.
       </p>
       <p>
         See <code>data/reference/known_urls.md</code> for the data-plane
@@ -27,6 +33,7 @@
       </p>
     </div>
   {% else %}
+    {% set is_tennislink = ranking_list.source == 'tennislink' %}
     <section class="card flush">
       <table class="rankings-table">
         <thead>
@@ -35,13 +42,19 @@
             <th>Player</th>
             <th>Section</th>
             <th class="num">Points</th>
-            <th class="num">WTN-S</th>
-            <th class="num">WTN-D</th>
+            {% if not is_tennislink %}
+              <th class="num">WTN-S</th>
+              <th class="num">WTN-D</th>
+            {% endif %}
           </tr>
         </thead>
         <tbody>
           {% for entry in entries %}
-            {% set is_user = user_player_id and entry.player_usta_id == user_player_id %}
+            {% set name_lower = (entry.player_name_raw or '')|lower %}
+            {% set match_token = (user_name_match or '')|lower %}
+            {% set is_user_by_id = user_player_id and entry.player_usta_id == user_player_id %}
+            {% set is_user_by_name = match_token and match_token in name_lower %}
+            {% set is_user = is_user_by_id or is_user_by_name %}
             <tr class="{% if is_user %}user-highlight{% endif %}">
               <td class="num rank">{{ entry.position }}</td>
               <td class="pname{% if is_user %} you{% endif %}">
@@ -49,13 +62,26 @@
               </td>
               <td>{{ entry.section or "—" }}</td>
               <td class="num">{{ entry.points if entry.points is not none else "—" }}</td>
-              <td class="num">{{ "%.1f"|format(entry.wtn_singles) if entry.wtn_singles is not none else "—" }}</td>
-              <td class="num">{{ "%.1f"|format(entry.wtn_doubles) if entry.wtn_doubles is not none else "—" }}</td>
+              {% if not is_tennislink %}
+                <td class="num">{{ "%.1f"|format(entry.wtn_singles) if entry.wtn_singles is not none else "—" }}</td>
+                <td class="num">{{ "%.1f"|format(entry.wtn_doubles) if entry.wtn_doubles is not none else "—" }}</td>
+              {% endif %}
             </tr>
           {% endfor %}
         </tbody>
       </table>
     </section>
+    {% if is_tennislink %}
+      <p class="source-note">
+        Source: TennisLink (historical). The TennisLink Boys' 12 national
+        ranking plane froze in early 2021 (last Final list published
+        2021-01-03), so these standings reflect that era — they are not
+        current 2025/2026 rankings. WTN columns are hidden because
+        TennisLink does not expose World Tennis Numbers; the Clubspark
+        pipeline fills those in once residential-proxy egress is
+        configured (see <code>data/reference/known_urls.md</code>).
+      </p>
+    {% endif %}
   {% endif %}
 {% endblock %}
 
@@ -91,6 +117,25 @@
     .rankings-table .pname.you a { color: var(--court-green-dark); font-weight: 700; }
     .rankings-table tr.user-highlight td { background: var(--court-green-soft); }
     .rankings-table tr.user-highlight .rank { color: var(--court-green-dark); }
+    .source-note {
+      margin-top: 1rem;
+      padding: 0.7rem 1rem;
+      background: var(--surface-2);
+      border-left: 3px solid var(--muted);
+      color: var(--muted);
+      font-size: 0.85rem;
+      line-height: 1.45;
+    }
+    .source-note code {
+      font-size: 0.85em;
+    }
+    .empty-state pre {
+      padding: 0.6rem 0.9rem;
+      background: var(--surface-2);
+      border-radius: 4px;
+      overflow-x: auto;
+      font-size: 0.85rem;
+    }
     @media (max-width: 720px) {
       .rankings-table {
         font-size: 0.82rem;
