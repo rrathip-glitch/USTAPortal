@@ -49,12 +49,18 @@ logger = logging.getLogger(__name__)
 # Endpoints / constants
 # ---------------------------------------------------------------------------
 
-# TODO: confirm exact endpoint shape against Bright Data's Web Unlocker
-# docs when an API key is provided. Docs: https://docs.brightdata.com/scraping-automation/web-unlocker/overview
-# The placeholder URL below follows Bright Data's public docs as of late 2025;
-# the actual `format=raw` payload and Basic-auth scheme are documented at
-# https://docs.brightdata.com/api-reference/web-unlocker/sending-requests .
+# Bright Data Web Unlocker — REST-mode endpoint. Verified live on 2026-05-11
+# against playtennis.usta.com (static HTML) and prd-itf-kube.clubspark.pro
+# (GraphQL POST). See data/reference/known_urls.md, "Bright Data Web Unlocker
+# — verified API shape (2026-05-11)" for the exact payload schema and the
+# header conventions (Authorization: Bearer; upstream status via
+# ``x-brd-response-status``).
 BRIGHT_DATA_API_URL = "https://api.brightdata.com/request"
+
+# Default Bright Data zone. The trial account ships with a single zone named
+# ``web_unlocker1``; the JSON payload's ``zone`` field is required, so this
+# default keeps callers from having to pass it explicitly.
+BRIGHT_DATA_DEFAULT_ZONE = "web_unlocker1"
 
 # ScrapFly's scrape endpoint is GET-based with query parameters. Docs:
 # https://scrapfly.io/docs/scrape-api/getting-started
@@ -121,15 +127,23 @@ class ResidentialProxyBackend(Protocol):
     - Issue requests via ``httpx.AsyncClient``.
     - Honour the ``render_js`` flag: ``True`` means render JavaScript /
       execute SPA bootstrap before snapshotting the DOM. Required for the
-      Clubspark targets (single-page React apps).
+      Clubspark targets (single-page React apps). Some providers (Bright
+      Data Web Unlocker with ``format: "raw"``) render automatically and
+      the flag is a no-op; conformers document their behaviour.
     - Honour the ``country`` flag: ISO-3166-1 alpha-2 (lowercase).
       ``"us"`` is the default since every USTA target is US-geographic.
+    - Accept an optional HTTP ``method`` (``"GET"`` or ``"POST"``) plus a
+      raw ``body`` and ``extra_headers`` for POST flows (Clubspark
+      GraphQL goes through here).
     """
 
     async def fetch(
         self,
         url: str,
         *,
+        method: Literal["GET", "POST"] = "GET",
+        body: str | None = None,
+        extra_headers: dict[str, str] | None = None,
         render_js: bool = True,
         country: str = "us",
     ) -> ResidentialProxyResponse:
@@ -147,38 +161,57 @@ class ResidentialProxyBackend(Protocol):
 
 
 class BrightDataWebUnlockerBackend:
-    """Bright Data Web Unlocker adapter.
+    """Bright Data Web Unlocker adapter — REST-mode, Bearer auth.
 
     Bright Data's Web Unlocker exposes a JSON POST endpoint that takes a
-    target URL, returns the rendered upstream body in ``format: "raw"``,
-    and handles all the Cloudflare / JS-rendering ceremony server-side.
+    target URL plus optional ``method``/``body``/``headers`` for upstream
+    POSTs, and returns the upstream body verbatim under ``format: "raw"``.
+    All Cloudflare / JS-rendering ceremony is handled server-side.
 
-    Authentication is HTTP Basic with username
-    ``brd-customer-<customer_id>-zone-<zone>`` and password being the
-    zone's password — see
-    https://docs.brightdata.com/api-reference/web-unlocker/sending-requests .
+    Authentication is REST-mode Bearer:
+    ``Authorization: Bearer <api_token>``. (The older proxy-mode style
+    used HTTP Basic with username ``brd-customer-<id>-zone-<zone>``;
+    we're not using that.)
 
-    TODO: validate against a real Bright Data zone once the orchestrator
-    supplies credentials. The exact payload key names below
-    (``zone`` / ``url`` / ``format`` / ``country`` / ``render``) follow
-    Bright Data's public docs as of late 2025 — confirm + adjust on
-    first live call. If the live payload differs, only this class needs
-    to change; the protocol stays stable.
+    Payload shape (verified live 2026-05-11 — see
+    ``data/reference/known_urls.md`` "Bright Data Web Unlocker — verified
+    API shape"):
+
+    .. code-block:: json
+
+        {
+          "zone": "web_unlocker1",      // required
+          "url": "<target>",            // required
+          "format": "raw",              // returns upstream body verbatim
+          "country": "us",              // ISO-2; controls residential exit IP
+          "method": "POST",             // optional; default GET
+          "body": "<raw post body>",    // optional; key is "body" not "data"
+          "headers": { "...": "..." }   // optional; passed through to target
+        }
+
+    The API rejects unknown keys with
+    ``{"error":"Request validation failed","error_code":"validation"}``,
+    so this adapter only emits the documented keys.
+
+    The ``render_js`` flag is a no-op for Bright Data Web Unlocker.
+    ``format: "raw"`` already returns rendered upstream content (Bright
+    Data executes JS and clears Cloudflare server-side without an
+    explicit render flag — verified against Cloudflare-fronted Clubspark
+    on 2026-05-11). The flag is retained for protocol compatibility with
+    other backends (e.g. ScrapFly) that do require it.
     """
 
     def __init__(
         self,
+        api_key: str,
+        zone: str = BRIGHT_DATA_DEFAULT_ZONE,
         *,
-        customer_id: str,
-        zone: str,
-        password: str,
         api_url: str = BRIGHT_DATA_API_URL,
         timeout: float = DEFAULT_TIMEOUT_SECONDS,
         client: httpx.AsyncClient | None = None,
     ) -> None:
-        self._customer_id = customer_id
+        self._api_key = api_key
         self._zone = zone
-        self._password = password
         self._api_url = api_url
         self._client: httpx.AsyncClient = client or httpx.AsyncClient(timeout=timeout)
         self._owns_client: bool = client is None
@@ -187,31 +220,40 @@ class BrightDataWebUnlockerBackend:
         self,
         url: str,
         *,
+        method: Literal["GET", "POST"] = "GET",
+        body: str | None = None,
+        extra_headers: dict[str, str] | None = None,
         render_js: bool = True,
         country: str = "us",
     ) -> ResidentialProxyResponse:
-        # The username pattern documented by Bright Data is
-        # ``brd-customer-<id>-zone-<zone>``. The zone password is the
-        # secret we pass alongside.
-        username = f"brd-customer-{self._customer_id}-zone-{self._zone}"
+        # ``render_js`` is accepted for protocol compatibility but ignored —
+        # ``format: "raw"`` already returns rendered output. See class
+        # docstring.
+        del render_js
+
         payload: dict[str, object] = {
             "zone": self._zone,
             "url": url,
             "format": "raw",
             "country": country.lower(),
         }
-        if render_js:
-            # Bright Data's Web Unlocker enables JS rendering when this flag
-            # is set. The exact key name may be "render" or "render_js" —
-            # confirm against live docs before shipping. See module-level
-            # TODO.
-            payload["render"] = True
+        # Only emit ``method`` when it differs from the API default (GET).
+        # The API treats an absent ``method`` as GET; omitting it keeps the
+        # payload minimal and matches the verified probes.
+        if method != "GET":
+            payload["method"] = method
+        # The verified key is ``body`` — NOT ``data`` / ``payload`` /
+        # ``postdata``. The API rejects unknown keys with a validation error.
+        if body is not None:
+            payload["body"] = body
+        if extra_headers:
+            payload["headers"] = dict(extra_headers)
 
         try:
             response = await self._client.post(
                 self._api_url,
                 json=payload,
-                auth=(username, self._password),
+                headers={"Authorization": f"Bearer {self._api_key}"},
             )
         except httpx.HTTPError as exc:
             raise ResidentialProxyError(
@@ -230,7 +272,11 @@ class BrightDataWebUnlockerBackend:
         # the proxy's own status if that header is missing.
         upstream_status_hdr = response.headers.get("x-brd-response-status")
         try:
-            upstream_status = int(upstream_status_hdr) if upstream_status_hdr else response.status_code
+            upstream_status = (
+                int(upstream_status_hdr)
+                if upstream_status_hdr
+                else response.status_code
+            )
         except ValueError:
             upstream_status = response.status_code
 
@@ -283,9 +329,20 @@ class ScrapflyBackend:
         self,
         url: str,
         *,
+        method: Literal["GET", "POST"] = "GET",
+        body: str | None = None,
+        extra_headers: dict[str, str] | None = None,
         render_js: bool = True,
         country: str = "us",
     ) -> ResidentialProxyResponse:
+        # ScrapFly's GET-based scrape API does not support upstream POST
+        # bodies through this adapter today. The Clubspark POST flow goes
+        # through Bright Data; ScrapFly is the GET-only fallback.
+        if method != "GET" or body is not None or extra_headers:
+            raise ResidentialProxyError(
+                "ScrapFly backend only supports GET fetches in this adapter; "
+                "POST/body/headers passthrough is not wired."
+            )
         params: dict[str, str] = {
             "url": url,
             "key": self._api_key,
@@ -417,36 +474,18 @@ def get_residential_proxy(
 def _build_brightdata() -> BrightDataWebUnlockerBackend:
     from src.config import settings as live_settings
 
-    customer_id = (
-        live_settings.bright_data_customer_id.get_secret_value()
-        if live_settings.bright_data_customer_id is not None
+    api_key = (
+        live_settings.bright_data_api_key.get_secret_value()
+        if live_settings.bright_data_api_key is not None
         else ""
     )
-    zone = live_settings.bright_data_zone or ""
-    password = (
-        live_settings.bright_data_password.get_secret_value()
-        if live_settings.bright_data_password is not None
-        else ""
-    )
-    missing = [
-        name
-        for name, value in (
-            ("BRIGHT_DATA_CUSTOMER_ID", customer_id),
-            ("BRIGHT_DATA_ZONE", zone),
-            ("BRIGHT_DATA_PASSWORD", password),
-        )
-        if not value
-    ]
-    if missing:
+    zone = live_settings.bright_data_zone or BRIGHT_DATA_DEFAULT_ZONE
+    if not api_key:
         raise ResidentialProxyConfigError(
-            "Bright Data backend missing required credentials: "
-            + ", ".join(missing)
+            "Bright Data backend missing required credential: "
+            "BRIGHT_DATA_API_KEY (set the REST-mode Bearer token in .env)."
         )
-    return BrightDataWebUnlockerBackend(
-        customer_id=customer_id,
-        zone=zone,
-        password=password,
-    )
+    return BrightDataWebUnlockerBackend(api_key=api_key, zone=zone)
 
 
 def _build_scrapfly() -> ScrapflyBackend:

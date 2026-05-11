@@ -62,17 +62,23 @@ class Settings(BaseSettings):
             "unset to disable residential-proxy fetches entirely."
         ),
     )
-    bright_data_customer_id: SecretStr | None = Field(
+    bright_data_api_key: SecretStr | None = Field(
         default=None,
-        description="Bright Data customer ID — the 'brd-customer-<id>-...' segment.",
+        description=(
+            "Bright Data API token (REST-mode Bearer auth). Sent as the "
+            "``Authorization: Bearer <token>`` header on every "
+            "``POST https://api.brightdata.com/request`` call. See "
+            "data/reference/known_urls.md (Bright Data Web Unlocker — "
+            "verified API shape) for the verified payload shape."
+        ),
     )
-    bright_data_zone: str | None = Field(
-        default=None,
-        description="Bright Data Web Unlocker zone name (e.g. 'web_unlocker1').",
-    )
-    bright_data_password: SecretStr | None = Field(
-        default=None,
-        description="Bright Data zone password (paired with the customer ID + zone).",
+    bright_data_zone: str = Field(
+        default="web_unlocker1",
+        description=(
+            "Bright Data Web Unlocker zone name. Sent as the ``zone`` field "
+            "in the JSON payload. Defaults to 'web_unlocker1' which matches "
+            "the trial-account zone."
+        ),
     )
     scrapfly_api_key: SecretStr | None = Field(
         default=None,
