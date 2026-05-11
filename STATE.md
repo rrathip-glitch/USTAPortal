@@ -1,8 +1,10 @@
-snapshot: 2026-05-10T20:40:00Z
+snapshot: 2026-05-11T12:00:00Z
 
 # STATE.md — live project status
 
 ## Phase
+
+**Phase 1.5 — Rankings-First Pivot (in flight, 2026-05-11).** User has refocused v1 on a rankings data pipeline as the inaugural deliverable. Target: U12 boys national rankings (with U10 as a stretch), full table displayed on the dashboard, Janav highlighted, WTN crawled per-player by clicking each profile above him. All prior TODOs deferred until the rankings pipeline is live. User has explicitly sanctioned aggressive Cloudflare-bypass attempts; new bypass agent role overrides the recon charter's "stop on bot wall" rule for this workstream. ADR-006 to be filed this wave. See `TODO.md` (rewritten) and `AGENTS.md` (rankings + bypass agents added).
 
 **Phase 1 (Core pipeline) — usable end-to-end on seeded data.** The portal renders Janav's dashboard, tournaments list, draw detail (with expected-outcome probability bars), and scouting cards. The fetch layer is multi-source (`FetchRouter`) with TennisLink httpx-client + parsers complete and Clubspark stubbed. Sync runs are persisted in a v2-schema `sync_runs` table; the `/sync` UI shows recent runs and the latest log. 258 tests passing, 1 skipped (Playwright manual).
 
@@ -15,7 +17,7 @@ snapshot: 2026-05-10T20:40:00Z
 
 ## Active workstreams
 
-_None at session start. The follow-up wave landed at commit `6e10bca`; the real-USTA-ID anchoring + strategic-doc realignment is the current Orchestrator-led work, not a subagent task._
+- **Orchestrator (2026-05-11T12:00Z)** — Rankings-First Pivot wave. Dispatching 6 parallel agents: (1) Rankings URL + Janav OSINT research, (2) Aggressive Cloudflare bypass attempts, (3) TennisLink rankings exploration, (4) Resend notification module build (resolves Q-010), (5) TODO.md + AGENTS.md rewrite, (6) SPEC.md + ADR-006 + QUESTIONS.md update. Sync barrier: all six return before wave 2 (parser + UI + WTN crawler) is dispatched.
 
 ## Recently completed
 

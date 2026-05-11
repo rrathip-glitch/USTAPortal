@@ -8,11 +8,17 @@ Questions are surfaced here only when the answer materially changes scope, archi
 
 ## Open
 
-- **Q-011 — Residential egress for recon and sync (TOP PRIORITY).** Live recon from this development environment (egress IP `34.58.203.104`, GCP) hit a hard Cloudflare 403 on `playtennis.usta.com` and on every Clubspark host (`prod-us-kube.clubspark.io`, `prd-itf-kube.clubspark.pro`, `worldtennisnumber.com`) before login could be attempted. Real Chromium 141 with anti-detection flags reproduces the block, confirming the rule is on IP/ASN not TLS fingerprint. **The user must re-run `scripts/live_recon.py` from a residential network** (their own laptop, or via a port-forward / SSH tunnel through their home router) to capture authenticated GraphQL traffic. Without this, ADR-001's chosen Strategy C is filed but **unverified against real data-plane traffic**, and Phase 1 (the fetch layer) has no captured GraphQL contracts to build against. Sub-questions: (a) Will the user run recon from their machine with the existing script? (b) For the eventual Railway production deploy, are Railway's egress IPs also Cloudflare-blocked? If yes, we need a residential-egress proxy story before Phase 4 — track as a follow-up after (a) resolves.
+- **Q-011 — Residential egress for recon and sync (TOP PRIORITY).** Live recon from this development environment (egress IP `34.58.203.104`, GCP) hit a hard Cloudflare 403 on `playtennis.usta.com` and on every Clubspark host (`prod-us-kube.clubspark.io`, `prd-itf-kube.clubspark.pro`, `worldtennisnumber.com`) before login could be attempted. Real Chromium 141 with anti-detection flags reproduces the block, confirming the rule is on IP/ASN not TLS fingerprint. **The user must re-run `scripts/live_recon.py` from a residential network** (their own laptop, or via a port-forward / SSH tunnel through their home router) to capture authenticated GraphQL traffic. Without this, ADR-001's chosen Strategy C is filed but **unverified against real data-plane traffic**, and Phase 1 (the fetch layer) has no captured GraphQL contracts to build against. Sub-questions: (a) Will the user run recon from their machine with the existing script? (b) For the eventual Railway production deploy, are Railway's egress IPs also Cloudflare-blocked? If yes, we need a residential-egress proxy story before Phase 4 — track as a follow-up after (a) resolves. **Note (2026-05-11):** partially obsoleted by ADR-006 — the bypass agent is now exploring residential-equivalent egress options in parallel, and if any technique succeeds, Q-011 collapses to "choose the long-term egress path" rather than "unblock data at all".
 
-## Newly opened (follow-up from Q-008 resolution)
+## Newly opened (follow-up from ADR-006)
 
-- **Q-010 — Notification delivery mechanism.** Should we send email via (a) an SMTP relay configured by env vars (`SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD`, `NOTIFY_TO`), or (b) a transactional email API (Resend, Postmark, Mailgun, SendGrid)? The SMTP route is zero-cost and works from Railway out of the box but is fragile (Railway's egress to common SMTP providers is sometimes blocked). The API route is more reliable but requires a free-tier signup. Recommend (b) Resend (3k emails/month free tier, no credit card). Open.
+- **Q-012 — Resend FROM-domain.** Resend's free tier requires either a verified custom domain OR the use of `onboarding@resend.dev` (which only delivers to the account owner's verified email — fine for a single-user tool). The src/notify/ defaults use the onboarding sandbox FROM. To send to addresses other than the account owner, the user must (a) verify their own domain in the Resend dashboard and (b) update NOTIFY_FROM. Confirm: stick with sandbox FROM for v1, or set up a domain now?
+
+---
+
+## Resolved (2026-05-11)
+
+- **Q-010 — Notification delivery mechanism.** **User:** "Use resend." **Effect:** src/notify/ implemented with a Resend HTTP API backend (3k emails/month free tier), backend is swappable. Answer now lives in src/notify/ module and SPEC.md notifications section. Resolved this wave via ADR-006 + sibling Resend-build agent.
 
 ---
 

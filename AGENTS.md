@@ -4,7 +4,7 @@ This file defines how human contributors and Claude-driven subagents share state
 
 ## Why this file exists
 
-The project is bootstrapped and developed primarily by Claude Code subagents working under an Orchestrator. Subagents start cold each session: they have no memory of prior conversations and only see the files in the repo plus the prompt the Orchestrator gives them. The canonical state files (STATE, DECISIONS, QUESTIONS, TODO, RECON, RESEARCH, DATA_MODEL, API_CONTRACTS, RUNBOOK, TESTING, CHANGELOG, SPEC) are how knowledge persists across sessions. If those files are stale or contradictory, the next agent does the wrong work.
+The project is bootstrapped and developed primarily by Claude Code subagents working under an Orchestrator. Subagents start cold each session: they have no memory of prior conversations and only see the files in the repo plus the prompt the Orchestrator gives them. The canonical state files (STATE, DECISIONS, QUESTIONS, TODO, RECON, RESEARCH, DATA_MODEL, API_CONTRACTS, RUNBOOK, TESTING, CHANGELOG, SPEC) are how knowledge persists across sessions. If those files are stale or contradictory, the next agent does the wrong work. Since 2026-05-11, the project is in a Rankings-First wave (ADR-006) optimized for high-parallelism dispatch on a tight rankings-data delivery goal; the agent fleet has been extended accordingly.
 
 ## Agent registry
 
@@ -20,8 +20,12 @@ Each named agent has a charter file in `.claude/agents/` that scopes its tools a
 | tennislink | (charter deferred) | TennisLink parsers, TennisLink sync wiring, Janav profile sync from legacy surface | Phase 1.5 wave; primary live data plane while Clubspark is blocked |
 | rearchitect | (charter deferred) | SPEC.md and DECISIONS.md edits when scope changes warrant it | When a wave's evidence demands updates to canonical strategy docs |
 | docs-clean | (charter deferred) | Alignment passes across README, RUNBOOK, TESTING, TODO, AGENTS, DATA_MODEL, QUESTIONS, CHANGELOG | After multi-agent waves leave drift between the code and the docs |
+| rankings | `.claude/agents/rankings.md` (charter to be authored) | one rankings-pipeline slice (fetch + parse + persist + UI for one age category) | Phase 1.5; invoked per (age, scope) pair |
+| bypass | `.claude/agents/bypass.md` (charter to be authored) | Cloudflare egress experiments; authorized to attempt bypass techniques (curl_cffi, alternative routes, residential proxies) | Phase 1.5; invoked only with explicit user authorization in-session |
 
-The bottom three rows are agents that have emerged in practice during the multi-wave development cycle but do not yet have formal charter files in `.claude/agents/`. Their scopes are constrained by the prompts the Orchestrator dispatches them with rather than a checked-in charter; the formal charter files are deferred until each role stabilizes. Agents not in this table — formal or de-facto — should not exist. If a workstream doesn't fit any row, the Orchestrator first proposes a new charter (a new file in `.claude/agents/`, or a new row here for an emerging role) before spawning.
+The bottom rows are agents that have emerged in practice during the multi-wave development cycle but do not yet have formal charter files in `.claude/agents/`. Their scopes are constrained by the prompts the Orchestrator dispatches them with rather than a checked-in charter; the formal charter files are deferred until each role stabilizes. Agents not in this table — formal or de-facto — should not exist. If a workstream doesn't fit any row, the Orchestrator first proposes a new charter (a new file in `.claude/agents/`, or a new row here for an emerging role) before spawning.
+
+The **recon** agent retains its no-evasion charter (per the original charter file in `.claude/agents/recon.md`): it only investigates the live USTA surface within ToS boundaries and surfaces what it finds. The **bypass** agent is the sibling role that is permitted to attempt evasion techniques when the user has explicitly authorized it in the active session. Before the Orchestrator dispatches bypass, it must record that authorization in STATE.md (the in-session authorization line, with timestamp), so the audit trail is preserved across sessions and the next Orchestrator can verify the scope it was granted.
 
 ## Coordination protocol
 

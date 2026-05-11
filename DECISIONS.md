@@ -110,4 +110,33 @@ The leading post-passive-recon expectation is therefore **either Strategy A-prim
 
 ---
 
+## ADR-006 — Rankings-First Pivot and Sanctioned-Bypass Agent Role
+
+**Status:** Accepted (2026-05-11).
+
+**Context.** v1 as originally specified was end-to-end: pre-tournament briefing covering the user's projected path through every draw he is entered in, with opponent scouting cards backed by current rankings, WTN, recent results, and head-to-head. That target stands as the v1 ceiling but produces no visible value to the user until the full pipeline (auth, fetch, parse, store, enrich, render) lands. The user has redirected v1 to a narrower inaugural deliverable: U12 boys US national rankings on the dashboard with Janav highlighted, plus U10 boys if reachable, and per-player WTN crawled from individual profile pages. Simultaneously, the user has sanctioned aggressive Cloudflare-bypass attempts against the Clubspark edge for this legitimate single-user case — explicitly overriding the recon agent's "stop on bot wall" rule, but only for a new dedicated agent role; the recon charter itself is unchanged. ADR-001 (Strategy C) and ADR-005 (multi-source FetchRouter) both remain in force; this ADR layers a new agent role on top of them and resequences Phase 1.
+
+**Options.**
+
+- **(1) Keep current end-to-end plan, defer rankings.** Continue building toward the full pre-tournament briefing as the first user-visible artifact. Pro: no resequencing, no new agent role. Con: longer time to any visible value, indefinite if any single layer stalls.
+- **(2) Rankings-first with no bypass.** Narrow scope to the rankings pipeline but accept whatever data plane is reachable today (TennisLink + archive snapshots only). Pro: tight scope, single agent role addition (rankings). Con: leaves Clubspark deferred indefinitely, accepts whatever data fidelity TennisLink happens to expose.
+- **(3) Rankings-first plus sanctioned bypass agent.** Narrow scope to the rankings pipeline *and* spin up a parallel bypass agent role that pursues aggressive Cloudflare-evasion against the Clubspark edge under explicit per-session user authorization. Pro: parallel narrowing-of-scope and broadening-of-data-plane. Con: two new agent roles, additional risk surface from the bypass attempts.
+
+**Decision.** Option 3.
+
+**Rationale.** The rankings-first scope shortens time-to-real-data: a populated ranking list with WTN is something the user can read and react to without waiting for the rest of the briefing stack. Tighter scope means faster wave cycles — each wave produces a visible delta rather than a deep but invisible foundation slab. The bypass agent is a constrained role: it is only invoked with explicit per-session user authorization, and its charter is its own document separate from the recon charter, so the recon agent's safety properties ("stop on first bot wall") are preserved for all default work. The sibling-agent decomposition matches the multi-agent coordination protocol in AGENTS.md — new roles are added by filing a charter, not by widening an existing agent's scope. Bypass success or failure is logged, evaluated, and folded back into the data-plane decision via a follow-on ADR if a technique proves stable.
+
+**Consequences.**
+
+- Pro: faster delivery of visible value — the dashboard shows real U12 boys rankings and real WTN within one wave once a reachable data plane is identified.
+- Pro: the bypass agent opens up the Clubspark egress decision space (currently frozen behind Q-011) without polluting the recon agent's charter; if any bypass technique succeeds, Q-011 collapses from "unblock data at all" to "choose the long-term egress path".
+- Pro: well-scoped — one age category (U12), one country (US), one gender split (boys), one data type per pass (rankings, then WTN). Easy to test, easy to verify on the dashboard.
+- Con: the full pre-tournament briefing slips to Phase 2; the original v1 ceiling is now v2's floor.
+- Con: aggressive bypass increases the risk of USTA account flags or IP-level rate-limit responses; the user has accepted this risk per the pivot statement and is the only authorization point for each bypass session.
+- Con: the per-player WTN profile crawl multiplies request volume by the rankings depth (a 256-name ladder is 256 extra profile fetches); the existing one-request-per-two-seconds default is preserved, but a deeper crawl needs an explicit rate-limit posture documented in the rankings agent's charter.
+
+**Cross-references.** ADR-001 (Strategy C; still in force), ADR-005 (multi-source FetchRouter; still in force), Q-010 (resolved this wave — Resend for notifications), Q-011 (partially obsoleted — if any bypass technique succeeds the question collapses to long-term egress choice rather than data-plane unblock).
+
+---
+
 > _Future ADRs land below as they're filed._
