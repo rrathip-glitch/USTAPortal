@@ -393,10 +393,13 @@ class ScrapflyBackend:
 
         # Normalise to bytes regardless of whether ScrapFly returned text or
         # base64-encoded binary; the upstream client always wants bytes.
+        # NB: local name is ``response_body`` (not ``body``) so it doesn't
+        # shadow this method's ``body`` parameter for upstream POSTs.
+        response_body: bytes
         if isinstance(upstream_content_raw, bytes):
-            body = upstream_content_raw
+            response_body = upstream_content_raw
         else:
-            body = str(upstream_content_raw).encode("utf-8")
+            response_body = str(upstream_content_raw).encode("utf-8")
 
         if isinstance(upstream_status_raw, int):
             upstream_status = upstream_status_raw
@@ -417,7 +420,7 @@ class ScrapflyBackend:
         return ResidentialProxyResponse(
             status=upstream_status,
             headers=headers,
-            body=body,
+            body=response_body,
             final_url=str(upstream_final_url_raw),
         )
 
