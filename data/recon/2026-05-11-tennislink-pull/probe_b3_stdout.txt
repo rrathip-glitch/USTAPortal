@@ -1,0 +1,19 @@
+Running 23 Florida queries...
+  [0] D1007 y=2018 sec=15: 66 list IDs
+  [3] D1007 y=2019 sec=15: 68 list IDs
+  [6] D1007 y=2020 sec=15: 59 list IDs
+  [7] D1009 y=2020 sec=15: 2 list IDs
+
+Total distinct Florida list IDs: 195
+
+Fetching each Florida list and grepping for Thasen...
+  ...20/195 done
+  ...40/195 done
+  ...60/195 done
+  ...80/195 done
+  ...100/195 done
+  ...120/195 done
+  ...140/195 done
+  ...160/195 done
+  ...180/195 done
+DONE. Thasen hits: 0 / 195 lists

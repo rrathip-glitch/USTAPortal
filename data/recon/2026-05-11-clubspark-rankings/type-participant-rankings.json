@@ -1,0 +1,1 @@
+{"data":{"__type":{"name":"ParticipantRankingsAndRatings","kind":"OBJECT","fields":[{"name":"participantId","type":{"name":"ID","kind":"SCALAR","ofType":null}},{"name":"ranking","type":{"name":"JSON","kind":"SCALAR","ofType":null}},{"name":"rating","type":{"name":"JSON","kind":"SCALAR","ofType":null}}]}}}

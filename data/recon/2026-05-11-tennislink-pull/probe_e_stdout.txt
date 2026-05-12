@@ -1,0 +1,6 @@
+Running 96 Florida-region queries...
+
+Total Florida-region list IDs: 0
+
+Fetching each Florida-region list and searching for Thasen...
+DONE. Thasen hits: 0 / 0

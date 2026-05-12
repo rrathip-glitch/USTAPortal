@@ -1,0 +1,449 @@
+1680000	HIT	None	359	['Lair, Graydon', 'Cassone, Murphy', 'Brewer, Eli']
+1680500	HIT	None	143	['Banerjee, Samir', 'Williams, Cooper', 'Wen, Evan']
+1681000	HIT	None	60	['Pozo, Caroline', 'Lee, Dohee', 'duplicateCao, duplicateKatherine']
+1681500	HIT	NTRP Women's 3.5 Singles Seedings	46	['Manfredi, Timea', 'Saltman, Denise', 'Leppert, Leticia']
+1682000	HIT	None	181	['Lilov, Victor', 'Mayew, Will', 'Qadir, Waleed']
+1682500	HIT	None	84	['Kimball, S /Kimball, M', 'Stanley, A /Stanley, A', 'Barker, J /Barker, D']
+1683000	EMPTY	noinfo=False
+1683500	HIT	None	24	['Possokhova, Darya', 'Long, Katherine', 'Saltzen, Seriana']
+1684000	EMPTY	noinfo=False
+1684500	HIT	*Boys 16 (Combined)	1091	['Hilderbrand, Trey', 'Sands, Jake', 'Thomas, Danny']
+1684671	HIT	Men's 85 Singles	3	['Stennett, Richard', 'Palmer, Denny', 'Child, James']
+1684672	HIT	Men's 80 Doubles	6	['Fuentes, R /Kuechenmeister, G', 'Heise, W /Nelson, C', 'Sykes, J /Nixon, J']
+1684673	HIT	Men's 80 Singles	15	['Sack, Lester', 'Nelson, C Kenneth', 'Kuechenmeister, George']
+1684674	HIT	Men's 75 Doubles	15	['Hooker, L /Baughman, H', 'Fuentes, R /Kuechenmeister, G', 'Keiger, R /Anderson, W']
+1684675	HIT	Men's 75 Singles	30	['Butchee, Thay', 'Barbic, Ivo', 'May, Pete']
+1684676	HIT	Men's 70 Doubles	19	['Grieco, R /Simon, W', 'Edwards, D /Kroelinger, M', 'Barbic, I /Thomson, H']
+1684677	HIT	Men's 70 Singles	50	['Thomson, Hugh', 'Stock, Robert', 'Buck, Les']
+1684678	HIT	Men's 65 Doubles	53	['Pearson, M /Pearce, R', 'McEwen, J /Thomson, H', 'Maland, C /Strickler, D']
+1684679	HIT	Men's 65 Singles	82	['Dunlavy, Dean', 'Bolton, Padg', 'Yearwood, Al']
+1684680	HIT	Men's 60 Doubles	30	['Stephens, R /Callen, J', 'Lineberger, J /Crolley, M', 'Shepherd, S /Bussert, C']
+1684681	HIT	Men's 60 Singles	51	['Robinson, Fred', 'Hart, Jonathan', 'Meigs, Tom']
+1684682	HIT	Men's 55 Doubles	41	['Crofford, S /Davis, B', 'Gifford, K /White, L', 'Brown, V /Buchi, R']
+1684683	HIT	Men's 55 Singles	98	['Wilkison, Andy', 'Bulso, Gino', 'White, Lonnie']
+1684684	HIT	Men's 50 Doubles	7	['Meyers, D /Buise, J', 'Perdue, J /Lauer, P', 'Busbey, C /Crawford, C']
+1684685	HIT	Men's 50 Singles	21	['Nusenow, Theodore', 'Bobbitt, Jeffrey', 'Ward, Benjamin']
+1684686	HIT	Men's 45 Doubles	24	['Bulow, M /Menzie, C', 'Bailey, J /Dunkle, R', 'Hamrin, D /Clark, C']
+1684687	HIT	Men's 45 Singles	47	['Potts, Kevin', 'Menzie, Craig', 'Kasper, Chase']
+1684688	HIT	Men's 40 Doubles	8	['Fritts, J /Groer, C', 'Rincon, E /Bernal, R', 'Barone, B /Buffa, S']
+1684689	HIT	Men's 40 Singles	22	['Bolton, Bruce', 'Persson, Claes', 'Bernal, Ramon']
+1684690	HIT	Men's 35 Doubles	15	['Safarian, A /Miller, B', 'Goldman, L /Parker, M', 'Rutsche, M /Cole, M']
+1684691	HIT	Men's 35 Singles	36	['Vogt, Christoph', 'Wassell, William', 'Emerson, Phillip']
+1684692	HIT	Men's 30 Doubles	5	['Hurtig, M /Ross, B', 'Sruk, J /Shoptaugh, M', 'Lang, M /Lopoo, J']
+1684693	HIT	Men's 30 Singles	14	['Wassell, William', 'Vogt, Christoph', 'Yessoufou, Hamed']
+1684694	EMPTY	noinfo=False
+1684695	EMPTY	noinfo=False
+1684696	HIT	None	195	['Antoine, J /Bauer, A', 'Carl, C /Hughes, J', 'Rowell, E /Vaughn, B']
+1684697	HIT	None	394	['Pereira, Michael', 'Everett, Erik', 'Bussert, Shaun']
+1684698	HIT	Girls 12 Doubles Seeding	695	['Canete, Christine Inah', 'Byrd, Mya', 'Scott, Katrina']
+1684699	HIT	Girls 14 Doubles Seeding	966	['Beck, Chloe', 'Hrastar, Ava', 'Baptiste, Hailey']
+1684700	HIT	Girls 16 Doubles Seeding	1070	['Li, Ann', 'Subhash, Natasha', 'Kourkina, Dasha']
+1684701	HIT	Girls 18 Doubles  Seeding	1207	['Shibahara, Ena', 'Rogers, Anna', 'Milunovich, Lexi']
+1684702	HIT	Boys 12 Doubles Seeding	719	['Kittay, Benjamin', 'Landau, Sam', 'Deaton, Phillip']
+1684703	HIT	Boys 14 Doubles Seeding	955	['GARCIA, NICHOLAS', 'Jachuck, Ronan', 'Nakashima, Brandon']
+1684704	HIT	Boys 16 Doubles Seeding	1091	['Hilderbrand, Trey', 'Sands, Jake', 'Thomas, Danny']
+1684705	HIT	Boys 18 Doubles Seeding	1268	['Kirkov, Vasil', 'Holt, Brandon', 'Crawford, Oliver']
+1684706	HIT	Girls 12 Singles Seeding	906	['Scott, Katrina', 'Yanez, Nikki', 'Canete, Christine Inah']
+1684707	HIT	Girls 14 Singles Seeding	1188	['Volynets, Katie', 'Canete, Mae Fmar', 'Baptiste, Hailey']
+1684708	HIT	Girls 16 Singles Seeding	1302	['Choy, Sara', 'Subhash, Natasha', 'Lairmore, Hannah']
+1684709	HIT	Girls 18 Singles Seeding	1315	['Day, Kayla', 'Liu, Claire', 'Sanford, Alexandra']
+1684710	HIT	Boys 12 Singles Seeding	964	['Landau, Sam', 'Basavareddy, Nishesh', 'Wen, Evan']
+1684712	HIT	Boys 16 Singles Seeding	1320	['Haskins, Carson', 'Huang, Austen', 'Rotsaert, Alexandre']
+1684713	HIT	Boys 18 Singles Seeding	1472	['Riffice, Sam', 'McNally, John', 'Clark, Zeke']
+1684714	EMPTY	noinfo=False
+1684715	EMPTY	noinfo=False
+1684716	EMPTY	noinfo=False
+1684717	HIT	None	1	['Devoue, B /Devoue, D']
+1684718	HIT	None	1	['Cohen, J /Cohen, R']
+1684719	EMPTY	noinfo=False
+1684720	HIT	PPR NTRP Combined Mixed 8.0 Doubles	12	['Clemmer, T /Salkowski, A', 'Jacobs, J /Foster, G', 'Gershanok, G /Narayanan, P']
+1684721	HIT	PPR NTRP Combined Mixed 7.0 Doubles	8	['Bridges, R /Scott, F', 'McCafferty, K /McCafferty, S', 'Christopher, R /Avitello, B']
+1684722	EMPTY	noinfo=False
+1684723	EMPTY	noinfo=False
+1684724	EMPTY	noinfo=False
+1684725	HIT	PPR NTRP Women's 4.0 Doubles	6	['Crosten, K /Russell, A', 'Salkowski, A /Jacobs, J', 'Paisley, L /Connelly, G']
+1684726	HIT	PPR NTRP Women's 4.0 Singles	12	['Soderhielm, Aino', 'Hamlett, Toni', 'Rickard, Beth']
+1684727	HIT	PPR NTRP Women's 3.5 Singles	4	['Swearingen, Ekaterina', 'Marascio, Jess', 'Cinaglia, Anne']
+1684728	HIT	PPR NTRP Women's 3.0 Doubles	2	['Byrne, S /Jenkins, A', 'Meyer, M /Bartlett, M']
+1684729	HIT	PPR NTRP Women's 3.5 Doubles	10	['Lamar, L /Galatic, C', 'Watson, S /Ward, M', 'DUPLICATEbelsky, D /Borek, K']
+1684730	HIT	PPR NTRP Women's 3.0 Singles	2	['Stout, Suzanne', 'Lemma, Danielle']
+1684731	EMPTY	noinfo=False
+1684732	HIT	PPR NTRP Men's 4.5 Doubles	1	['Arsenault, T /Paetow, A']
+1684733	HIT	PPR NTRP Men's 4.5 Singles	16	['Jones, Christopher', 'Muthu, Kasi', 'Behrens, Bryan']
+1684734	HIT	PPR NTRP Men's 4.0 Doubles	4	['Stewart, P /Smith, C', 'Aguillard, T /Napson, J', 'Workman, J /Edvardsson, B']
+1684735	HIT	PPR NTRP Men's 4.0 Singles	42	['Pierce, Ryan', 'Gandotra, Gaurav', 'Lopes, Victor']
+1684736	HIT	PPR NTRP Men's 3.5 Doubles	2	['Larkin, M /Levin, L', 'Pastoriza, L /Noll, C']
+1684737	HIT	PPR NTRP Men's 3.5 Singles	21	['Koiloth, Maruthi', 'Takahashi, Hiro', 'Schneider, Max']
+1684738	EMPTY	noinfo=False
+1684739	HIT	PPR NTRP Men's 3.0 Singles	1	['Harris, Adam']
+1684740	HIT	PPR Mixed 60 Doubles	1	['Wilson, R /Azizi, M']
+1684741	HIT	PPR Mixed 55 Doubles	4	['Bell, M /Meehan, L', 'Smith, D /Neurell, B', 'Wilson, R /Azizi, M']
+1684742	HIT	PPR Mixed 45 Doubles	5	['Zhu, M /Milstein, H', 'Allen, J /Bell, M', 'Tassone, E /Ray, M']
+1684743	HIT	PPR Mixed 35 Doubles	3	['Wise, S /Layman, J', 'Babe, C /Dearth, K', 'Peterson, L /Gallagher, H']
+1684744	HIT	None	48	['Sollenberger, A /Knarr, R', 'Roshan, N /Cohen, J', 'Bazaz, R /Costa, D']
+1684745	EMPTY	noinfo=False
+1684746	EMPTY	noinfo=False
+1684747	HIT	PPR Women's 70 Doubles	31	['Cheesman, B /Anderson, L', 'Duncan, A /Lancet, K', 'Maroney, E /Lambert, D']
+1684748	EMPTY	noinfo=False
+1684749	EMPTY	noinfo=False
+1684750	HIT	PPR Women's 65 Singles	1	['Perrin, Katherine']
+1684751	HIT	PPR Women's 60 Doubles	2	['Foreman, C /Albright, A', 'Azizi, M /Hodge, C']
+1685000	HIT	None	190	['Shin, Janice', 'Kung, Chelsea', 'Niezgoda, Priya']
+1685500	HIT	NTRP Combined Women's 7.5 Doubles	2	['Fannon, M /Norris, S', 'McMillin, K /Vineyard, M']
+1686000	HIT	Girls' 12 Singles	1	['Widiaman, Naomi']
+1686500	HIT	Girls' 18 Singles	42	['Daavettila, Sara', 'Hanover, Olivia', 'Ketels, Kate']
+1687000	EMPTY	noinfo=False
+1687500	EMPTY	noinfo=False
+1688000	HIT	Boys' 14 Doubles	5	['Ostler, Jayden', 'Scott, Nicholas', 'Smith, Rory']
+1688500	EMPTY	noinfo=False
+1689000	EMPTY	noinfo=False
+1689500	HIT	Men's 45 Doubles	50	['Asbell, Kevin', 'Menzie, Craig', 'Bulow, Matthew']
+1690000	HIT	None	157	['Lamb, Jaxon', 'Garcia, Jose', 'Stone, Jackson']
+1690500	HIT	PPR EPD Boys 14's Singles Standings	13	['Lynn, David', 'Gruber, Louis', 'Jaeger, Sean']
+1691000	HIT	*Girls' 16 Standings (Combined)	21	['Boggs, Lora', 'McCorkle, Rachel', 'Holcomb, Melody']
+1691500	HIT	*Boys 10 (Combined)	62	['Lewis, William', 'Kroll, Carson', 'Colson, Luke']
+1692000	HIT	Boys' 10 Singles	7	['Vens, Isaac', 'Vens, Landon', 'Miller, Nick']
+1692500	HIT	None	58	['Bandy, Maddox', 'Adams, Julia', 'Huth, Winslow']
+1693000	HIT	*Boys 18 (Combined)	1245	['Holt, Brandon', 'Ponwith, Nathan', 'Crawford, Oliver']
+1693500	HIT	Senior 50 NTRP Women's 3.0 Doubles	12	['Duncan, Carolyn', 'Federick, Jamie', 'Privitello, Joann']
+1694000	HIT	Women's 60 Doubles	10	['Barnes, Andrea', 'Airola-Murveit, Leslie', 'Karwasky, Tina']
+1694500	HIT	NTRP Women's 5.0 Doubles	8	['Lee Molotky, Trina', 'Mills, Keri', 'Bailey, Kristen']
+1695000	HIT	None	1572	['Hayes, Carri', 'Yun-Thayer, Kayleigh', 'Mathivanan, Vennmukiil']
+1695500	HIT	*Girls' 14 12 Month Endorsement (Combined)	148	['Pielet, Gianna', 'Stein, Lauren', 'Neyestani, Ava']
+1696000	HIT	Sr 50s NTRP Women's 2.5 Singles	15	['Gayler, Michael', 'Peredo, Paulrick', 'Guerrero, Nathan']
+1696500	EMPTY	noinfo=False
+1697000	HIT	None	471	['Huang, Austen', 'Brooksby, Jenson', 'Mayo, Keenan']
+1697500	HIT	Boys 14 Challenger Standings	91	['Epperson, Luke', 'Park, Roman', 'Winslow, Luke']
+1698000	HIT	None	20	['Ovrootsky, Vivian', 'Ashar, Anushka', 'Main, Tomi']
+1698500	HIT	None	159	['Gretkowski, Allie', 'Durham, Avery', 'McClure, Sara']
+1699000	HIT	None	103	['Spicer, Jack', 'Boutahli, Adil', 'Aguilar, Enrique']
+1699500	HIT	*Girls 12 (Combined)	890	['Canete, Christine Inah', 'Scott, Katrina', 'Wiersholm, Katja']
+1700000	HIT	*Girls 14 (Combined)	160	['Young, Karin', 'Heinitz, Nore Ann', 'Schurhamer, Delaney']
+1700500	HIT	12Month Rolling Standing Nat Women's 30 Team Dbls	20	['Dockter, E /Takeuchi, E', 'Thu, J /Smashey, K', 'McGaffigan, L /Norton, I']
+1701000	EMPTY	noinfo=False
+1701500	EMPTY	noinfo=False
+1702000	EMPTY	noinfo=False
+1702500	EMPTY	noinfo=False
+1703000	HIT	Mens 55 Singles Ranking	70	['Benbadis, Selim', 'Saiki, Stuart', 'Kramer, George']
+1703500	HIT	CIN Men 55 Singles Standing List	1	['Haltom, Mark']
+1704000	EMPTY	noinfo=False
+1704500	HIT	12Month Rolling Standing Nat Women's 45 Team Dbls	81	['Silveira, J /Ichikawa-Abel, M', 'Finerman, A /Cass, J', 'Cass, J /Bowes, B']
+1705000	EMPTY	noinfo=False
+1705500	HIT	Mixed 55 Doubles	1	['Moore, C /Warden, G']
+1706000	EMPTY	noinfo=False
+1706500	HIT	NTRP Combined Mixed 5.0 Doubles	60	['Rowan, Lucas', 'Buck, Shelley', 'Buck, Adam']
+1707000	HIT	Men's 4.5 Doubles	34	['Williams, C /Ko, J', 'Welling, A /Steingold, A', 'Crosby, G /Dalton, W']
+1707500	HIT	None	64	['Anthrop, Jack', 'Salu, Andrew', 'Braswell, Jonah']
+1708000	HIT	None	807	['Collins, Kylie', 'Hiser, AnneMarie', 'Hrastar, Ava']
+1708500	HIT	None	8	['St Amant, Parker', 'Roth, Ella', 'Smelley, Madalyn']
+1709000	HIT	Girls' 14 Singles	9	['Manjon, Samantha', 'Anyanwu, Victoria', 'Larsen, Annika']
+1709500	EMPTY	noinfo=False
+1710000	EMPTY	noinfo=False
+1710500	HIT	None	8	['Lutz, Eric', 'Ingram, Eric', 'Stringer, Brian']
+1711000	HIT	None	50	['Prinyarux, Alisa', 'Flanagan, Callie', 'Hammond, Zoe']
+1711500	HIT	*Boys 18 (Combined)	1257	['Smith, Keegan', 'Crawford, Oliver', 'Kirkov, Vasil']
+1712000	HIT	Girls' 12 Singles	33	['Jacobson, Karolina', 'Jordaan, Anna', 'Geiss, Beilynn']
+1712500	EMPTY	noinfo=False
+1713000	HIT	None	8	['Williams, Elizabeth', 'de Groot, Diede', 'Zhu, Zhen Zhen']
+1713500	HIT	None	374	['Ong, Vanessa', 'Kuckelman, Ellie', 'Alons, Anna']
+1714000	HIT	None	378	['Campana, Carolyn', 'Yeah, Ashley', 'Tabachnik, Katya']
+1714500	EMPTY	noinfo=False
+1715000	HIT	Men's 40 Doubles	6	['Bragonier, J /Viani, M', 'Lamonica, M /Hiddleson, D', 'Flynn, T /Brandt, D']
+1715500	HIT	Women 3.5 Singles	21	['Steinberg, Danna', 'Westerback, Lois', 'Bracken, Linda']
+1716000	EMPTY	noinfo=False
+1716500	HIT	None	73	['Mitchell, Sidney', 'Kingsley, Taylor', 'Harrelson, Lauren']
+1717000	HIT	Men's 3.5 Singles	12	['Keyhea, Vinson', 'McDonald, Brad', 'Castano, Juan']
+1717500	EMPTY	noinfo=False
+1718000	HIT	None	89	['Nedkov, Leo', 'Raidt, Bodie', 'Thomas, Barnes']
+1718500	HIT	PPR NTRP Men's 3.0 Singles	4	['Freeman, George', 'Minner, Steven', 'Peddi, Veera']
+1719000	EMPTY	noinfo=False
+1719500	HIT	None	609	['Corse, Cameron', 'Lu, Irene', 'Gulihur, Catherine']
+1720000	HIT	None	64	['Richardson, Ethan', 'Hart, Evan', 'McClure, Wesley']
+1720500	HIT	None	1101	['Greif, Lukas', 'Alshon, Christian', 'Brooksby, Jenson']
+1721000	HIT	None	241	['Hiser, AnneMarie', 'Hrastar, Ava', 'Collins, Kylie']
+1721500	EMPTY	noinfo=False
+1722000	HIT	Girls' 16 Doubles	16	['Wong, Jennifer', 'Harrison, Elizabeth', 'Boylan, Lina']
+1722500	HIT	Girls' 14 Singles	5	['Jackson, Sophie', 'Davies, Paige', 'Krey, Gwynevere Marie']
+1723000	HIT	Boys' 18 Ranking 2016 (Doubles Only)	503	['Cory, Randy', 'Batta, Amit', 'Jayaraman, Arjith']
+1723500	EMPTY	noinfo=False
+1724000	HIT	None	136	['Stevens, Elizabeth', 'Chu, Chloe', 'Lin, Yolanda']
+1724500	EMPTY	noinfo=False
+1725000	EMPTY	noinfo=False
+1725500	EMPTY	noinfo=False
+1726000	HIT	None	114	['Novotny, Trevor', 'Goodroe, Gibson', 'Tomovski, Logan']
+1726500	EMPTY	noinfo=False
+1727000	EMPTY	noinfo=False
+1727500	HIT	None	35	['Ashley, L /Ashley, E', 'Davydova, A /Stennes, B', 'Eisenberg, S /Eisenberg, M']
+1728000	EMPTY	noinfo=False
+1728500	HIT	Women's 4.0 Doubles	108	['Culclasure, K /Windham, C', 'Mainwaring, T /Saxon, T', 'Juhasz, S /Johnson, K']
+1729000	HIT	None	61	['Lopes, Trystin', 'Ralar, Kaitlyn', 'Loui, Sabrina']
+1729500	HIT	*Girls 14 (Combined)	58	['Gallagher, Olivia', 'Beckman, Carrie', 'Beavin, Katie']
+1730000	HIT	Women 4.0 Doubles	1	['Pierce, L /Sullivan, A']
+1730500	EMPTY	noinfo=False
+1731000	EMPTY	noinfo=False
+1731500	HIT	Girls' 10 Singles	4	['Fuduric, Lucia', 'Rhegness, Catherine', 'Washington, Kennedi']
+1732000	EMPTY	noinfo=False
+1732500	HIT	*Girls 18 (Combined)	1184	['Shibahara, Ena', 'Bolton, Elysia', 'Chiu, Abigail']
+1733000	EMPTY	noinfo=False
+1733500	HIT	Men's 40 Team Doubles	7	['Polsky, G /Calhoun, W', 'Andersen, M /Weidl, M', 'Hunter, K /Erikson, C']
+1734000	HIT	Boys' 18 Singles	60	['Duo, Bill', 'Oosterbaan, TJ', 'Henry, Daniel']
+1734500	HIT	NTRP Men's 4.0 Singles	93	['Blackwell, Crendal', 'Ruben, Eric', 'Graves, Griffin']
+1735000	EMPTY	noinfo=False
+1735500	HIT	None	123	['Chu, Chloe', 'Stevens, Elizabeth', 'Lin, Yolanda']
+1736000	HIT	Men's 50 Doubles	22	['Leahy, Brian', 'Griffin, Jack', 'Stonas, Al']
+1736500	HIT	Women's 2.5 Singles Grand Prix 2	4	['de Souza, Donzi', 'Dong, Nguyet', 'Cocciardo, Christina']
+1737000	HIT	12 Month Rolling Standing List National Women's 60	93	['Karwasky, Tina', 'Nichols, Carolyn', 'Airola-Murveit, Leslie']
+1737500	HIT	NTRP Men's 4.0 Doubles	124	['Howard, Danny', 'Bobbitt, Dave', 'Wiseman, Shaun']
+1738000	HIT	None	6	['Speer, Jennifer', 'Burnett, Amy', 'Chapman, Donna']
+1738500	HIT	None	45	['Nayak, Dev', 'Rajan, AKASH', 'Vallurupalli, Jai']
+1739000	HIT	Girls' 12 Singles	129	['Miller, Vivian', 'Matta, Sonal', 'Kolli, Alaina']
+1739500	HIT	*Boys' 16 Endorsement + (Combined)	187	['Sridhar, Sangeet', 'Xu, Joshua', 'Parikh, Harsh']
+1740000	HIT	None	1	['Stroud, Conner']
+1740500	HIT	Women's 4.5 Singles	6	['Butler, Tabatha', 'Hines, Andrea', 'Stanford, Allison']
+1741000	HIT	Mixed 70 Doubles	1	['Schlueter, R /Simonton, K']
+1741500	EMPTY	noinfo=False
+1742000	EMPTY	noinfo=False
+1742500	HIT	*Boys 16 Standings (Combined)	47	['Fritts, James', 'Lair, Graydon', 'McLaughlin, Brogan']
+1743000	EMPTY	noinfo=False
+1743500	HIT	*KY Boys 18 (Combined)	142	['Singerman, Drew', 'Wesbrooks, Alex', 'Blandford, Spencer']
+1744000	EMPTY	noinfo=False
+1744500	HIT	None	559	['Spizzirri, Eliot', 'Fishback, Ryan', 'Banerjee, Samir']
+1745000	HIT	Girls' 12 Singles	63	['Myers, Ellie', 'Long, Lauren', 'Boyer, Chase']
+1745500	HIT	*Girls' 14 Summer Endorsement (Combined)	71	['Pielet, Gianna', 'Ruja, MiaAngelina', 'Neyestani, Ava']
+1746000	HIT	None	124	['Petty, Katherine', 'Evans, Kailey', 'Vedula, Saumya']
+1746500	HIT	None	50	['Kintiroglou, Mia', 'Wagle, Elise', 'Malik, Tara']
+1747000	HIT	Mens 80 Doubles Seeding	14	['Winegar, M /Thoms, A', 'Yates, A /Fitz, N', 'Prusinowski, H /Poindexter, R']
+1747500	EMPTY	noinfo=False
+1748000	HIT	None	360	['Byrd, Mya', 'Montgomery, Robin', 'Karamyshev, Aleksandra']
+1748500	HIT	12 Month Rolling Standing List National Women's 90	8	['Price, Rita', 'Hall, Catherine', 'Vanderpol, Joyce']
+1749000	HIT	Senior 50 NTRP Women's 3.5 Doubles	20	['Kovaleski, Vicki', 'Martin, Denise', 'Thomason, Barbara']
+1749500	EMPTY	noinfo=False
+1750000	HIT	Boys' 14 Singles	30	['Lu, Andrew', 'Howard, Keon', 'Shioi, Ayson']
+1750500	HIT	*Boys' 18 Singles + (Combined)	205	['Prost, Ethan', 'Ponwith, Nathan', 'Stringfellow, Brandon']
+1751000	HIT	12Month Rolling Standing Nat. Men's 65 Indiv. Dbls	344	['Wofford, Leonard', 'Wulf, Paul', 'Landauer, Philip']
+1751500	HIT	*Boys 10's TR (Combined)	33	['Garrett, Everett', 'Fruge, Charles', 'Bowman, Bradyn']
+1752000	HIT	Women's 55 Doubles	41	['Vander Berg, C /Hubbart, D', 'Wilson, P /Lang, A', 'Pettit, M /Johnson, D']
+1752500	HIT	Men's 65 Team Doubles	10	['Abbott, A /Walton, J', 'Witten, E /Hunter, D', 'Soden, K /Shipman, R']
+1752947	EMPTY	noinfo=False
+1752948	EMPTY	noinfo=False
+1752949	EMPTY	noinfo=False
+1752950	HIT	Women's 65 Singles	2	['Abbott, Kathleen', 'Liley, Suz']
+1752951	EMPTY	noinfo=False
+1752952	HIT	Women's 55 Singles	4	['Peebles, SuLan', 'Jackson, Fatima', 'Baker, Katherine']
+1752953	EMPTY	noinfo=False
+1752954	HIT	Women's 45 Singles	8	['Weikel, Sandra', 'Alvarez, Patricia', 'WILLIAMS, NANCY']
+1752955	HIT	Women's 40 Singles	2	['Joseph, Lisa', 'Bradley, Laura']
+1752956	EMPTY	noinfo=False
+1752957	EMPTY	noinfo=False
+1752958	HIT	None	65	['Puehse, Natasha', 'Houk, Meghan', 'Sauerman, Amy']
+1752959	HIT	12Month Rolling Standing Nat Women's 65 Team Dbls	95	['Hubbard, B /Babb, C', 'Bennett, K /Downing, M', 'Vallejo, L /Barnes, K']
+1752960	HIT	12Month Rolling Standing Nat Women's 65 Indiv.Dbls	154	['Hahn, Molly', 'Babb, Cynthia', 'Hubbard, Barbara']
+1752961	HIT	12 Month Rolling Standing List National Women's 65	86	['Barnes, Kathy', 'Hahn, Molly', 'Novack, Toni']
+1752962	HIT	None	20	['Tonidandel, J /Tonidandel, R', 'Vail, C /Vail, C', 'Barham, J /Barham, M']
+1752963	HIT	None	41	['Parker, C /Parker, J', 'Gaillard, R /Gaillard, T', 'Hoeveler, C /Hoeveler, C']
+1752964	HIT	None	36	['Morse-Karzen, J /Morse-Karzen, B', 'Carlson, D /Carlson, C', 'Dickens, N /Dickens, M']
+1752965	HIT	None	226	['Lake, T /Lake, A', 'Morse-Karzen, J /Morse-Karzen, B', 'Settles, C /Settles, P']
+1752966	HIT	None	20	['Tonidandel, J /Tonidandel, R', 'Vail, C /Vail, C', 'Barham, J /Barham, M']
+1752967	HIT	None	41	['Parker, C /Parker, J', 'Gaillard, R /Gaillard, T', 'Hoeveler, C /Hoeveler, C']
+1752968	HIT	None	36	['Morse-Karzen, J /Morse-Karzen, B', 'Carlson, D /Carlson, C', 'Dickens, N /Dickens, M']
+1752969	HIT	None	226	['Lake, T /Lake, A', 'Morse-Karzen, J /Morse-Karzen, B', 'Settles, C /Settles, P']
+1752970	HIT	Girls' 10 Singles	8	['RANGAN, TIANNA', 'ARCHER, ELEANOR', 'Creel, Juliana']
+1752971	HIT	Boys' 10 Singles	12	['Hagen, Blake', 'Muhala, Santiago', 'Riggs, Cal']
+1752972	HIT	Girls' 10 Singles	5	['Herrera, Regina', 'Bowe, Mya', 'Blakey, MacKenzie']
+1752973	HIT	Boys' 10 Singles	8	['Nambiar, Pranav', 'Sparks, Benjamin', 'Chunduru, Abhinav']
+1752974	HIT	Girls' 10 Singles	26	['RANGAN, TIANNA', 'ARCHER, ELEANOR', 'Creel, Juliana']
+1752975	HIT	Boys' 10 Singles	49	['Hagen, Blake', 'Muhala, Santiago', 'Riggs, Cal']
+1752976	HIT	Girls' 10 Singles	59	['Herrera, Regina', 'Bowe, Mya', 'Blakey, MacKenzie']
+1752977	HIT	Boys' 10 Singles	77	['Nambiar, Pranav', 'Sparks, Benjamin', 'Chunduru, Abhinav']
+1752978	HIT	*STA Girls 18 Standings (Combined)	1354	['Kurtz, Emma', 'Bojczuk, Ally', 'Kessler, McCartney']
+1752979	HIT	None	1084	['Kurtz, Emma', 'Bojczuk, Ally', 'Otsuka, Nami']
+1752980	HIT	None	814	['Kurtz, Emma', 'Kessler, McCartney', 'Bojczuk, Ally']
+1752981	HIT	*STA Boys 18 Standings (Combined)	1707	['Huryn, Aleks', 'Terry, Matthew', 'Pelletier, Beau']
+1752982	HIT	*Boys 18 Combined (Combined)	1410	['Huryn, Aleks', 'Terry, Matthew', 'Pelletier, Beau']
+1752983	HIT	*Boys 18 Combined (Combined)	1057	['Pratt, Jared', 'Johnston, Britton', 'Sculley, Sean']
+1752984	HIT	*STA Girls 16 Standings (Combined)	1469	['Beck, Chloe', 'Hrastar, Ava', 'Navarro, Emma']
+1752985	HIT	None	1348	['Hrastar, Ava', 'Beck, Chloe', 'Briggs, Carly']
+1752986	HIT	None	767	['Beck, Chloe', 'Navarro, Emma', 'Cubitt, Maggie']
+1752988	HIT	None	1544	['Chopra, Keshav', 'Stice, Tyler', 'Jordan, Phillip']
+1752989	HIT	None	847	['Croyder, Blake', 'Mascagni, Jonathan', 'Stice, Tyler']
+1752990	HIT	*STA Girls 14 Standings (Combined)	1483	['Collins, Kylie', 'Hrastar, Ava', 'Hiser, AnneMarie']
+1752991	HIT	None	1387	['Collins, Kylie', 'Hrastar, Ava', 'Hiser, AnneMarie']
+1752992	HIT	None	767	['Collins, Kylie', 'Hiser, AnneMarie', 'Hrastar, Ava']
+1752993	HIT	*STA Boys 14 Standings (Combined)	1761	['Tracy, JJ', 'Sai, Baylor', 'Durham, Grant']
+1752994	HIT	None	1637	['Tracy, JJ', 'Sai, Baylor', 'Delgado, James']
+1752995	HIT	None	933	['Tracy, JJ', 'Mitchell, Jacob', 'Sharma, Daiven']
+1752996	HIT	*STA Boys 12 Standings (Combined)	1477	['Lilov, Victor', 'Mayew, Will', 'Qadir, Waleed']
+1752997	HIT	None	1420	['Lilov, Victor', 'Mayew, Will', 'Qadir, Waleed']
+1752998	HIT	None	682	['Lilov, Victor', 'Rico, James', 'Lasanajak, John']
+1752999	HIT	*STA Girls 12 Standings (Combined)	1308	['Thornton, Maeve', 'Navarro, Margaret', 'Chan, Jo-Yee']
+1753000	HIT	None	1257	['Thornton, Maeve', 'Navarro, Margaret', 'Gauff, Cori']
+1753001	HIT	None	618	['Chan, Jo-Yee', 'Thornhill, Isabela', 'Danford, Christina']
+1753002	HIT	*STA Girls 11 Green Ball Standings (Combined)	959	['Severance, Saige', 'Hartung, Isabella', 'Mulberry, Hayden']
+1753003	HIT	None	920	['Severance, Saige', 'Hartung, Isabella', 'Mulberry, Hayden']
+1753004	HIT	None	534	['Severance, Saige', 'Raidt, Conley', 'Tanjuatco, Isabelle']
+1753005	HIT	*STA Boys 11 Green Ball Standings (Combined)	1188	['Sachdev, Rahul', 'Mangiapane, Nicholas', 'Rundle, Andrew']
+1753006	HIT	None	1150	['Sachdev, Rahul', 'Mangiapane, Nicholas', 'Rundle, Andrew']
+1753007	HIT	None	619	['Sachdev, Rahul', 'Kennedy, Jake', 'Suk, Eric']
+1753008	HIT	*STA Girls 10 Standings (Combined)	615	['Sciara, Adriana', 'Longmire, Mary Ellen', 'Kranec, Lisa']
+1753009	HIT	None	585	['Sciara, Adriana', 'Longmire, Mary Ellen', 'Kranec, Lisa']
+1753010	HIT	None	268	['Longmire, Mary Ellen', 'Corcoran, Olivia', 'Murphy, Lillie']
+1753011	HIT	*STA Boys 10 Standings (Combined)	845	['Robin, Charlie', 'Farnham, Benjamin', 'Ballantine, Augie']
+1753012	HIT	None	805	['Robin, Charlie', 'Farnham, Benjamin', 'Ballantine, Augie']
+1753013	HIT	None	339	['Kennedy, Jake', 'Matuszak, Benjamin', 'Byrnes, Palmer']
+1753014	EMPTY	noinfo=False
+1753015	HIT	None	1348	['Hrastar, Ava', 'Beck, Chloe', 'Briggs, Carly']
+1753016	HIT	None	767	['Beck, Chloe', 'Navarro, Emma', 'Cubitt, Maggie']
+1753017	EMPTY	noinfo=False
+1753018	HIT	None	1544	['Chopra, Keshav', 'Stice, Tyler', 'Jordan, Phillip']
+1753019	HIT	None	847	['Croyder, Blake', 'Mascagni, Jonathan', 'Stice, Tyler']
+1753020	EMPTY	noinfo=False
+1753021	HIT	None	1084	['Kurtz, Emma', 'Bojczuk, Ally', 'Otsuka, Nami']
+1753022	HIT	None	814	['Kurtz, Emma', 'Kessler, McCartney', 'Bojczuk, Ally']
+1753023	EMPTY	noinfo=False
+1753024	HIT	None	1410	['Huryn, Aleks', 'Terry, Matthew', 'Pelletier, Beau']
+1753025	HIT	None	1057	['Pratt, Jared', 'Johnston, Britton', 'Sculley, Sean']
+1753026	EMPTY	noinfo=False
+1753027	EMPTY	noinfo=False
+1753500	EMPTY	noinfo=False
+1754000	EMPTY	noinfo=False
+1754500	HIT	Men's 35 Doubles	1	['Johnston, A /Grace, J']
+1755000	EMPTY	noinfo=False
+1755500	HIT	12Month Rolling Standing Nat Women's 75 Indiv.Dbls	66	['Steel, Suella', 'Tubbs, Jeanette', 'Meyering, Kathie']
+1756000	HIT	None	248	['Armistead, Jackson', 'Rundle, Andrew', 'Nawabi, David']
+1756500	EMPTY	noinfo=False
+1757000	EMPTY	noinfo=False
+1757500	HIT	Men's 70 Doubles	7	['Lapane, Leo', 'Ehrbright, Dale', 'Figueroa, Frank']
+1758000	HIT	None	815	['Kurtz, Emma', 'Kessler, McCartney', 'Bojczuk, Ally']
+1758500	EMPTY	noinfo=False
+1759000	EMPTY	noinfo=False
+1759500	HIT	YTD S Sr Womens 55 S	17	['Vick, Kathy', 'Lang, Teal', 'Panter, Sherrie']
+2060000	HIT	Women's 3.5 Singles	16	['Veprek, Kim', 'Hughes, Kathy', 'McAbee, Christi']
+2060500	HIT	None	323	['Serra, Bruno', 'Jarvis, Reid', 'Richards, Alexander']
+2061000	HIT	Future Boys 14 doubles standings	6	['Frank, Elliott', 'Smith, Brayden', 'Crosby, Ryan']
+2061500	HIT	NTRP Men's 3.0 Singles	72	['Lamoureux, Robert', 'Nehring, Jon', 'Motakatla, Sudheer Raj']
+2062000	HIT	*Boys' 12 Standings (Combined)	13	['Huston, JohnPaul', 'Bhadriraju, Krishna', 'Fellrath, Owen']
+2062500	HIT	*Girls 18 (Combined)	20	['Copeland, Nicole', 'Suk, Madeline', 'Jansson, Andrea']
+2063000	EMPTY	noinfo=False
+2063500	HIT	*Girls' 18 Ranking 2018 (Combined)	520	['Ma, Connie', 'Gordon, Jennamarie', 'Campana, Anna']
+2064000	HIT	None	277	['Cairo, Alex', 'Brown, Lucas', 'Lothringer, Grant']
+2064500	EMPTY	noinfo=False
+2065000	EMPTY	noinfo=False
+2065500	HIT	Men's 35 Doubles	10	['Barcklow, Chris', 'Smith, Perry', 'Johnson, Duane']
+2066000	EMPTY	noinfo=False
+2066500	HIT	Standing List National Women's 65 Team Doubles	24	['Karwasky, T /Kirkland, M', 'Oelschlager, J /MacHoian, M', 'Leprevost, C /Peltz-Petow, L']
+2067000	HIT	Men's 55 Doubles	5	['Kahn, A /Freischlag, W', 'Schultz, S /Zodin, A', 'Todd, J /Walters, P']
+2067500	HIT	Men 80 Singles	6	['Ourusoff, Nicholas', 'Anderson, Roy', 'Rauch, James']
+2068000	HIT	None	22	['Wilkinson, Owen', 'Hogue, Ellie', 'Lee, Lucy']
+2068500	HIT	Girls' 14 Singles	23	['Fuduric, Marina', 'Chaffee, Brynn', 'Patino, Marissa']
+2069000	EMPTY	noinfo=False
+2069500	HIT	None	64	['Houston, Mary', 'Humbert, Yasmine', 'Payne, Jenna']
+2070000	EMPTY	noinfo=False
+2070500	HIT	None	46	['Rabinowitz, M /Joshi, A', 'Brylin, A /Hoffman, T', 'Kukharchuk, N /Devashetty, J']
+2071000	EMPTY	noinfo=False
+2071500	EMPTY	noinfo=False
+2072000	EMPTY	noinfo=False
+2072408	HIT	None	150	['Quan, Rudy', 'Razeghi, Alexander', 'Woestendick, Cooper']
+2072409	HIT	None	150	['Quan, Rudy', 'Razeghi, Alexander', 'Belday, Rohan']
+2072410	HIT	None	150	['Woestendick, Cooper', 'Razeghi, Alexander', 'Exsted, Maxwell']
+2072411	HIT	None	150	['Kim, John', 'Wen, Evan', 'Brown, Lucas']
+2072412	HIT	None	150	['Kim, John', 'Wen, Evan', 'Brown, Lucas']
+2072413	HIT	None	150	['Kim, Aidan', 'Lasanajak, John', 'Brown, Lucas']
+2072414	HIT	None	149	['Fishback, Ryan', 'Chaudhary, Aryan', 'Lim, Zachery']
+2072415	HIT	None	149	['Fishback, Ryan', 'Chaudhary, Aryan', 'Lim, Zachery']
+2072416	HIT	None	150	['Heck, Hunter', 'McKennon, Maxwell', 'Mao, Nathan']
+2072417	HIT	None	155	['Woldeab, Siem', 'Nakashima, Brandon', 'Brooksby, Jenson']
+2072418	HIT	None	155	['Woldeab, Siem', 'Nakashima, Brandon', 'Brooksby, Jenson']
+2072419	HIT	None	154	['Martin, Andres', 'Nava, Emilio', 'Nanda, Govind']
+2072420	HIT	Girls 12 Doubles Seeding	639	['Perez, Natalia', 'Olson, Brooklyn', 'Yin, Amber']
+2072421	HIT	Girls 14 Doubles Seeding	1621	['Block, Natalie', 'Smith, Madison', 'Williams, Sophie']
+2072422	HIT	Girls 16 Doubles Seeding	1968	['Zamarripa, Maribella', 'Zamarripa, Allura', 'Catanzarite, Ava']
+2072423	HIT	Girls 18 Doubles  Seeding	1961	['Subhash, Natasha', 'Mcnally, Caty', 'Beck, Chloe']
+2072424	HIT	Boys 12 Doubles Seeding	761	['Woestendick, Cooper', 'Razeghi, Alexander', 'Exsted, Maxwell']
+2072425	HIT	Boys 14 Doubles Seeding	1823	['Kim, Aidan', 'Lasanajak, John', 'Brown, Lucas']
+2072426	HIT	Boys 16 Doubles Seeding	2194	['Heck, Hunter', 'McKennon, Maxwell', 'Mao, Nathan']
+2072427	HIT	Boys 18 Doubles Seeding	2242	['Martin, Andres', 'Nanda, Govind', 'Jordan, Phillip']
+2072428	HIT	Girls 12 Singles Seeding	789	['Ngounoue, Clervie', 'Olson, Brooklyn', 'Perez, Natalia']
+2072429	HIT	Girls 14 Singles Seeding	2002	['Yu, Eleana', 'Nelson, Priya', 'Ngounoue, Clervie']
+2072430	HIT	Girls 16 Singles Seeding	2356	['Xu, Valencia', 'Zamarripa, Allura', 'Crawley, Fiona']
+2072431	HIT	Girls 18 Singles Seeding	2433	['Navarro, Emma', 'Black, Hurricane Tyra', 'Xu, Valencia']
+2072432	HIT	Boys 12 Singles Seeding	874	['Quan, Rudy', 'Razeghi, Alexander', 'Belday, Rohan']
+2072433	HIT	Boys 14 Singles Seeding	2100	['Kim, John', 'Wen, Evan', 'Brown, Lucas']
+2072434	HIT	Boys 16 Singles Seeding	2494	['Fishback, Ryan', 'Chaudhary, Aryan', 'Lim, Zachery']
+2072435	HIT	Boys 18 Singles Seeding	2677	['Woldeab, Siem', 'Brooksby, Jenson', 'Nakashima, Brandon']
+2072436	HIT	*Girls 12 (Combined)	881	['Ngounoue, Clervie', 'Olson, Brooklyn', 'Perez, Natalia']
+2072437	HIT	*Girls 12 (Combined)	796	['Ngounoue, Clervie', 'Olson, Brooklyn', 'Perez, Natalia']
+2072438	HIT	*Girls 12 (Combined)	644	['Perez, Natalia', 'Olson, Brooklyn', 'Yin, Amber']
+2072439	HIT	*Girls 14 (Combined)	2226	['Yu, Eleana', 'Nelson, Priya', 'Ngounoue, Clervie']
+2072440	HIT	*Girls 14 (Combined)	2031	['Yu, Eleana', 'Nelson, Priya', 'Ngounoue, Clervie']
+2072441	HIT	*Girls 14 (Combined)	1649	['Block, Natalie', 'Smith, Madison', 'Williams, Sophie']
+2072442	HIT	*Girls 16 (Combined)	2704	['Zamarripa, Allura', 'Xu, Valencia', 'Sieg, Madison']
+2072443	HIT	*Girls 16 (Combined)	2438	['Xu, Valencia', 'Zamarripa, Allura', 'Crawley, Fiona']
+2072444	HIT	*Girls 16 (Combined)	2046	['Zamarripa, Maribella', 'Zamarripa, Allura', 'Catanzarite, Ava']
+2072445	HIT	*Girls 18 (Combined)	2677	['Navarro, Emma', 'Black, Hurricane Tyra', 'Volynets, Katie']
+2072446	HIT	*Girls 18 (Combined)	2433	['Navarro, Emma', 'Black, Hurricane Tyra', 'Xu, Valencia']
+2072447	HIT	*Girls 18 (Combined)	1961	['Subhash, Natasha', 'Mcnally, Caty', 'Beck, Chloe']
+2072449	HIT	*Boys 12 (Combined)	876	['Quan, Rudy', 'Razeghi, Alexander', 'Belday, Rohan']
+2072450	HIT	*Boys 12 (Combined)	764	['Woestendick, Cooper', 'Razeghi, Alexander', 'Exsted, Maxwell']
+2072451	HIT	*Boys 14 (Combined)	2396	['Kim, John', 'Wen, Evan', 'Brown, Lucas']
+2072452	HIT	*Boys 14 (Combined)	2106	['Kim, John', 'Wen, Evan', 'Brown, Lucas']
+2072453	HIT	*Boys 14 (Combined)	1831	['Kim, Aidan', 'Lasanajak, John', 'Brown, Lucas']
+2072454	HIT	*Boys 16 (Combined)	2881	['Fishback, Ryan', 'Chaudhary, Aryan', 'Lim, Zachery']
+2072455	HIT	*Boys 16 (Combined)	2531	['Fishback, Ryan', 'Chaudhary, Aryan', 'Lim, Zachery']
+2072456	HIT	*Boys 16 (Combined)	2230	['Heck, Hunter', 'McKennon, Maxwell', 'Mao, Nathan']
+2072457	HIT	*Boys 18 (Combined)	3024	['Woldeab, Siem', 'Brooksby, Jenson', 'Nakashima, Brandon']
+2072458	HIT	*Boys 18 (Combined)	2677	['Woldeab, Siem', 'Brooksby, Jenson', 'Nakashima, Brandon']
+2072459	HIT	*Boys 18 (Combined)	2242	['Martin, Andres', 'Nanda, Govind', 'Jordan, Phillip']
+2072460	EMPTY	noinfo=False
+2072461	EMPTY	noinfo=False
+2072462	EMPTY	noinfo=False
+2072463	EMPTY	noinfo=False
+2072464	EMPTY	noinfo=False
+2072465	EMPTY	noinfo=False
+2072466	EMPTY	noinfo=False
+2072467	EMPTY	noinfo=False
+2072468	EMPTY	noinfo=False
+2072469	EMPTY	noinfo=False
+2072470	EMPTY	noinfo=False
+2072471	EMPTY	noinfo=False
+2072472	EMPTY	noinfo=False
+2072473	EMPTY	noinfo=False
+2072474	EMPTY	noinfo=False
+2072475	EMPTY	noinfo=False
+2072476	EMPTY	noinfo=False
+2072477	EMPTY	noinfo=False
+2072478	EMPTY	noinfo=False
+2072479	EMPTY	noinfo=False
+2072480	EMPTY	noinfo=False
+2072481	EMPTY	noinfo=False
+2072482	EMPTY	noinfo=False
+2072483	EMPTY	noinfo=False
+2072484	EMPTY	noinfo=False
+2072485	EMPTY	noinfo=False
+2072486	EMPTY	noinfo=False
+2072487	EMPTY	noinfo=False
+2072488	EMPTY	noinfo=False
+2072500	HIT	None	735	['Ngounoue, Clervie', 'Olson, Brooklyn', 'Slama, Mia']
+2073000	HIT	Boys' 18 Doubles	328	['Stinchcomb, Trey', 'Chrysostom, Jordan', 'Garner, Finn']
+2073500	HIT	None	406	['Foster, Zachery', 'Cloud, Louis', 'Zavala, Avery']
+2074000	EMPTY	noinfo=False
+2074500	HIT	*Girls' 18 12 Month Endorsement (Combined)	263	['Frazier, Josie', 'Broerman, Catherine', 'Koenig, McKenna']
+2075000	EMPTY	noinfo=False
+2075500	HIT	Girls' 12 Singles	662	['Briggs, Mischa', 'Gowda, Kavitha', 'Trinkle, Riley']
+2076000	HIT	Girls' 16 Singles	180	['MacAvei, Sonya', 'Ratliff, Sydni', 'Kim, Jamie']
+2076500	HIT	None	37	['Board, Camden', 'Anand, Ashwin', 'Kaydalin, David']
+2077000	HIT	PPR NTRP Women's 3.0 Doubles	2	['Johnson, N /Seck, D', 'Kessler, H /McDermott, K']
+2077500	HIT	None	36	['Dunavant, G /Murdock, A', 'Sullivan, C /Klazmer, K', 'Carter, H /Speaks, A']
+2078000	EMPTY	noinfo=False
+2078500	HIT	None	294	['Colombo, Kayden', 'Sama, Suchir', 'Frierson, Robert']
+2079000	EMPTY	noinfo=False
+2079500	HIT	None	36	['Johnston, Anna Kay', 'Jones, Caroline', 'Marino, Mercedes']
+2080000	EMPTY	noinfo=False
+2080500	EMPTY	noinfo=False
+2081000	EMPTY	noinfo=False
+2081500	HIT	*Girls 16's Combined Standings List (Combined)	614	['Jesudason, Meera', 'Honer, Amelia', 'Roshkoff, Saige']
+2082000	HIT	Girls 12 Top 200 Doubles	205	['Perez, Natalia', 'Olson, Brooklyn', 'Yin, Amber']
+2082500	EMPTY	noinfo=False
+2083000	HIT	*Boys' 12 Endorsement + (Combined)	78	['Cohen, Austin', 'Valenta, Mathis', 'Saez, Dean']
+2083500	HIT	None	320	['Kerrigan, Kristin', 'Cusano, Gabriella', 'LaMette, Melissa']
+2084000	HIT	Boys' 12 Singles	103	['Balthazor, Nolan', 'Shaub, Nolan', 'Bo, Ethan']
+2084500	EMPTY	noinfo=False

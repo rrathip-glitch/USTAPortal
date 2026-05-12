@@ -1,0 +1,631 @@
+{
+  "list_id": 2072448,
+  "label": "Boys 12 Combined",
+  "results": [
+    {
+      "rank": 1,
+      "name": "Quan, Rudy",
+      "city": "Sacramento",
+      "state": "CA",
+      "search_status": "ok",
+      "search_n_results": 10,
+      "match_tennisID": "QUA5507551",
+      "match_id": "600ef804fd2ea281fc28677b",
+      "match_nativeGivenName": "Rudy",
+      "match_nativeFamilyName": "Quan",
+      "match_birthYear": 2006,
+      "match_sex": "M",
+      "wtn": [
+        {
+          "tennisNumber": 3.79,
+          "type": "SINGLE",
+          "confidence": 80,
+          "isRanked": false,
+          "ratingDate": "2026-03-27T00:00:00.000Z"
+        },
+        {
+          "tennisNumber": 16.26,
+          "type": "DOUBLE",
+          "confidence": 30,
+          "isRanked": false,
+          "ratingDate": "2026-05-06T00:00:00.000Z"
+        }
+      ],
+      "wtn_singles": 3.79,
+      "wtn_doubles": 16.26
+    },
+    {
+      "rank": 2,
+      "name": "Razeghi, Alexander",
+      "city": "Humble",
+      "state": "TX",
+      "search_status": "ok",
+      "search_n_results": 10,
+      "match_tennisID": "RAZ1496451",
+      "match_id": "5fa158d647cc7fe82dbe65cb",
+      "match_nativeGivenName": "Alexander",
+      "match_nativeFamilyName": "Razeghi",
+      "match_birthYear": 2006,
+      "match_sex": "M",
+      "wtn": [
+        {
+          "tennisNumber": 5.95,
+          "type": "SINGLE",
+          "confidence": 70,
+          "isRanked": false,
+          "ratingDate": "2026-03-27T00:00:00.000Z"
+        },
+        {
+          "tennisNumber": 14.89,
+          "type": "DOUBLE",
+          "confidence": 30,
+          "isRanked": false,
+          "ratingDate": "2026-05-06T00:00:00.000Z"
+        }
+      ],
+      "wtn_singles": 5.95,
+      "wtn_doubles": 14.89
+    },
+    {
+      "rank": 3,
+      "name": "Woestendick, Cooper",
+      "city": "Olathe",
+      "state": "KS",
+      "search_status": "ok",
+      "search_n_results": 10,
+      "match_tennisID": "WOE9262487",
+      "match_id": "60e3fbfe13748ec6c6446bac",
+      "match_nativeGivenName": "Cooper",
+      "match_nativeFamilyName": "Woestendick",
+      "match_birthYear": 2006,
+      "match_sex": "M",
+      "wtn": [
+        {
+          "tennisNumber": 9.32,
+          "type": "DOUBLE",
+          "confidence": 50,
+          "isRanked": false,
+          "ratingDate": "2026-05-06T00:00:00.000Z"
+        },
+        {
+          "tennisNumber": 5.39,
+          "type": "SINGLE",
+          "confidence": 50,
+          "isRanked": false,
+          "ratingDate": "2026-03-27T00:00:00.000Z"
+        }
+      ],
+      "wtn_doubles": 9.32,
+      "wtn_singles": 5.39
+    },
+    {
+      "rank": 4,
+      "name": "Exsted, Maxwell",
+      "city": "Savage",
+      "state": "MN",
+      "search_status": "ok",
+      "search_n_results": 10,
+      "match_tennisID": "EXS8684817",
+      "match_id": "605a29a18edff3b84ae7390e",
+      "match_nativeGivenName": "Maxwell",
+      "match_nativeFamilyName": "Exsted",
+      "match_birthYear": 2007,
+      "match_sex": "M",
+      "wtn": [
+        {
+          "tennisNumber": 6.42,
+          "type": "SINGLE",
+          "confidence": 80,
+          "isRanked": false,
+          "ratingDate": "2026-03-27T00:00:00.000Z"
+        },
+        {
+          "tennisNumber": 17.2,
+          "type": "DOUBLE",
+          "confidence": 60,
+          "isRanked": false,
+          "ratingDate": "2026-05-06T00:00:00.000Z"
+        }
+      ],
+      "wtn_singles": 6.42,
+      "wtn_doubles": 17.2
+    },
+    {
+      "rank": 5,
+      "name": "Belday, Rohan",
+      "city": "West Orange",
+      "state": "NJ",
+      "search_status": "ok",
+      "search_n_results": 10,
+      "match_tennisID": "BEL1493695",
+      "match_id": "5fa158a947cc7fe82dbd585b",
+      "match_nativeGivenName": "Rohan",
+      "match_nativeFamilyName": "Belday",
+      "match_birthYear": 2006,
+      "match_sex": "M",
+      "wtn": [
+        {
+          "tennisNumber": 8.6,
+          "type": "SINGLE",
+          "confidence": 70,
+          "isRanked": false,
+          "ratingDate": "2026-03-27T00:00:00.000Z"
+        },
+        {
+          "tennisNumber": 21.5,
+          "type": "DOUBLE",
+          "confidence": 30,
+          "isRanked": false,
+          "ratingDate": "2026-05-06T00:00:00.000Z"
+        }
+      ],
+      "wtn_singles": 8.6,
+      "wtn_doubles": 21.5
+    },
+    {
+      "rank": 6,
+      "name": "Muhala, Santiago",
+      "city": "Katy",
+      "state": "TX",
+      "search_status": "ok",
+      "search_n_results": 10,
+      "match_tennisID": "MUH1499261",
+      "match_id": "60a4ed22bf0fe5a69877a009",
+      "match_nativeGivenName": "Santiago",
+      "match_nativeFamilyName": "Muhala",
+      "match_birthYear": 2006,
+      "match_sex": "M",
+      "wtn": [
+        {
+          "tennisNumber": 14.69,
+          "type": "SINGLE",
+          "confidence": 40,
+          "isRanked": false,
+          "ratingDate": "2026-03-27T00:00:00.000Z"
+        },
+        {
+          "tennisNumber": 17.74,
+          "type": "DOUBLE",
+          "confidence": 10,
+          "isRanked": false,
+          "ratingDate": "2026-05-06T00:00:00.000Z"
+        }
+      ],
+      "wtn_singles": 14.69,
+      "wtn_doubles": 17.74
+    },
+    {
+      "rank": 7,
+      "name": "Bigun, Kaylan",
+      "city": "College Park",
+      "state": "MD",
+      "search_status": "ok",
+      "search_n_results": 10,
+      "match_tennisID": "BIG1423398",
+      "match_id": "5fa158ab47cc7fe82dbd5e5e",
+      "match_nativeGivenName": "Kaylan",
+      "match_nativeFamilyName": "Bigun",
+      "match_birthYear": 2006,
+      "match_sex": "M",
+      "wtn": [
+        {
+          "tennisNumber": 4.92,
+          "type": "SINGLE",
+          "confidence": 80,
+          "isRanked": false,
+          "ratingDate": "2026-03-27T00:00:00.000Z"
+        },
+        {
+          "tennisNumber": 15.53,
+          "type": "DOUBLE",
+          "confidence": 30,
+          "isRanked": false,
+          "ratingDate": "2026-05-06T00:00:00.000Z"
+        }
+      ],
+      "wtn_singles": 4.92,
+      "wtn_doubles": 15.53
+    },
+    {
+      "rank": 8,
+      "name": "Lee, Mitchell",
+      "city": "Oakland",
+      "state": "CA",
+      "search_status": "ok",
+      "search_n_results": 10,
+      "match_tennisID": "LEE3733711",
+      "match_id": "600ef803fd2ea281fc2865b1",
+      "match_nativeGivenName": "Mitchell",
+      "match_nativeFamilyName": "Lee",
+      "match_birthYear": 2006,
+      "match_sex": "M",
+      "wtn": [
+        {
+          "tennisNumber": 7.92,
+          "type": "SINGLE",
+          "confidence": 100,
+          "isRanked": false,
+          "ratingDate": "2026-03-27T00:00:00.000Z"
+        },
+        {
+          "tennisNumber": 18.71,
+          "type": "DOUBLE",
+          "confidence": 30,
+          "isRanked": false,
+          "ratingDate": "2026-05-06T00:00:00.000Z"
+        }
+      ],
+      "wtn_singles": 7.92,
+      "wtn_doubles": 18.71
+    },
+    {
+      "rank": 9,
+      "name": "Sun, Adam",
+      "city": "Glendale",
+      "state": "AZ",
+      "search_status": "ok",
+      "search_n_results": 10,
+      "match_tennisID": "SUN6757115",
+      "match_id": "605a29fb8edff3b84ae76215",
+      "match_nativeGivenName": "ADAM",
+      "match_nativeFamilyName": "SUN",
+      "match_birthYear": 2006,
+      "match_sex": "M",
+      "wtn": [
+        {
+          "tennisNumber": 11.36,
+          "type": "SINGLE",
+          "confidence": 60,
+          "isRanked": false,
+          "ratingDate": "2026-03-27T00:00:00.000Z"
+        },
+        {
+          "tennisNumber": 18.86,
+          "type": "DOUBLE",
+          "confidence": 10,
+          "isRanked": false,
+          "ratingDate": "2026-05-06T00:00:00.000Z"
+        }
+      ],
+      "wtn_singles": 11.36,
+      "wtn_doubles": 18.86
+    },
+    {
+      "rank": 10,
+      "name": "Chunduru, Abhinav",
+      "city": "Plano",
+      "state": "TX",
+      "search_status": "ok",
+      "search_n_results": 10,
+      "match_tennisID": "CHU1485901",
+      "match_id": "605a29958edff3b84ae732e8",
+      "match_nativeGivenName": "Abhinav Venkat",
+      "match_nativeFamilyName": "Chunduru",
+      "match_birthYear": 2006,
+      "match_sex": "M",
+      "wtn": [
+        {
+          "tennisNumber": 9.19,
+          "type": "SINGLE",
+          "confidence": 70,
+          "isRanked": false,
+          "ratingDate": "2026-03-27T00:00:00.000Z"
+        },
+        {
+          "tennisNumber": 19.22,
+          "type": "DOUBLE",
+          "confidence": 30,
+          "isRanked": false,
+          "ratingDate": "2026-05-06T00:00:00.000Z"
+        }
+      ],
+      "wtn_singles": 9.19,
+      "wtn_doubles": 19.22
+    },
+    {
+      "rank": 11,
+      "name": "Rundle, Andrew",
+      "city": "Simpsonville",
+      "state": "SC",
+      "search_status": "ok",
+      "search_n_results": 10,
+      "match_tennisID": "RUN4807265",
+      "match_id": "612775689a88a03bfb169b02",
+      "match_nativeGivenName": "Andrew",
+      "match_nativeFamilyName": "Rundle",
+      "match_birthYear": 1968,
+      "match_sex": "M",
+      "wtn": [
+        {
+          "tennisNumber": 25.51,
+          "type": "DOUBLE",
+          "confidence": 10,
+          "isRanked": false,
+          "ratingDate": "2026-05-06T00:00:00.000Z"
+        },
+        {
+          "tennisNumber": 21.19,
+          "type": "SINGLE",
+          "confidence": 10,
+          "isRanked": false,
+          "ratingDate": "2026-03-27T00:00:00.000Z"
+        }
+      ],
+      "wtn_doubles": 25.51,
+      "wtn_singles": 21.19
+    },
+    {
+      "rank": 12,
+      "name": "Reznik, Jordan",
+      "city": "Great Neck",
+      "state": "NY",
+      "search_status": "ok",
+      "search_n_results": 10,
+      "match_tennisID": "REZ2637743",
+      "match_id": "614e9eda2e6b1bf6e949ef49",
+      "match_nativeGivenName": "Jordan",
+      "match_nativeFamilyName": "Reznik",
+      "match_birthYear": 2006,
+      "match_sex": "M",
+      "wtn": [
+        {
+          "tennisNumber": 20.57,
+          "type": "DOUBLE",
+          "confidence": 40,
+          "isRanked": false,
+          "ratingDate": "2026-05-06T00:00:00.000Z"
+        },
+        {
+          "tennisNumber": 9.12,
+          "type": "SINGLE",
+          "confidence": 90,
+          "isRanked": false,
+          "ratingDate": "2026-03-27T00:00:00.000Z"
+        }
+      ],
+      "wtn_doubles": 20.57,
+      "wtn_singles": 9.12
+    },
+    {
+      "rank": 13,
+      "name": "Filer, A",
+      "city": "South Bend",
+      "state": "IN",
+      "search_status": "ok",
+      "search_n_results": 10,
+      "match_tennisID": "FIL2764239",
+      "match_id": "61456454d133095180ef2dfa",
+      "match_nativeGivenName": "A David Filer",
+      "match_nativeFamilyName": "Filer",
+      "match_birthYear": 2006,
+      "match_sex": "M",
+      "wtn": [
+        {
+          "tennisNumber": 9.22,
+          "type": "SINGLE",
+          "confidence": 40,
+          "isRanked": false,
+          "ratingDate": "2026-03-27T00:00:00.000Z"
+        },
+        {
+          "tennisNumber": 23.89,
+          "type": "DOUBLE",
+          "confidence": 10,
+          "isRanked": false,
+          "ratingDate": "2026-05-06T00:00:00.000Z"
+        }
+      ],
+      "wtn_singles": 9.22,
+      "wtn_doubles": 23.89
+    },
+    {
+      "rank": 14,
+      "name": "Hobbs, Joseph",
+      "city": "Virginia Beach",
+      "state": "VA",
+      "search_status": "ok",
+      "search_n_results": 10,
+      "match_tennisID": "HOB6149934",
+      "match_id": "654accea3a4a01517668ec1c",
+      "match_nativeGivenName": "Darren",
+      "match_nativeFamilyName": "Hobbs",
+      "match_birthYear": 2012,
+      "match_sex": "M",
+      "wtn": []
+    },
+    {
+      "rank": 15,
+      "name": "Blokhin, Nathan",
+      "city": "Plantation",
+      "state": "FL",
+      "search_status": "ok",
+      "search_n_results": 10,
+      "match_tennisID": "BLO1525779",
+      "match_id": "5fa158ab47cc7fe82dbd60ca",
+      "match_nativeGivenName": "Nathan",
+      "match_nativeFamilyName": "Blokhin",
+      "match_birthYear": 2006,
+      "match_sex": "M",
+      "wtn": [
+        {
+          "tennisNumber": 9.82,
+          "type": "SINGLE",
+          "confidence": 100,
+          "isRanked": false,
+          "ratingDate": "2026-03-27T00:00:00.000Z"
+        },
+        {
+          "tennisNumber": 21.69,
+          "type": "DOUBLE",
+          "confidence": 30,
+          "isRanked": false,
+          "ratingDate": "2026-05-06T00:00:00.000Z"
+        }
+      ],
+      "wtn_singles": 9.82,
+      "wtn_doubles": 21.69
+    },
+    {
+      "rank": 16,
+      "name": "Kreynes, Benjamin",
+      "city": "Wesley Chapel",
+      "state": "FL",
+      "search_status": "ok",
+      "search_n_results": 10,
+      "match_tennisID": "KRE1523078",
+      "match_id": "605a29c08edff3b84ae745a0",
+      "match_nativeGivenName": "Benjamin",
+      "match_nativeFamilyName": "Kreynes",
+      "match_birthYear": 2006,
+      "match_sex": "M",
+      "wtn": [
+        {
+          "tennisNumber": 8.19,
+          "type": "SINGLE",
+          "confidence": 70,
+          "isRanked": false,
+          "ratingDate": "2026-03-27T00:00:00.000Z"
+        },
+        {
+          "tennisNumber": 19.62,
+          "type": "DOUBLE",
+          "confidence": 10,
+          "isRanked": false,
+          "ratingDate": "2026-05-06T00:00:00.000Z"
+        }
+      ],
+      "wtn_singles": 8.19,
+      "wtn_doubles": 19.62
+    },
+    {
+      "rank": 17,
+      "name": "Dussault, Maximus",
+      "city": "Leesburg",
+      "state": "VA",
+      "search_status": "ok",
+      "search_n_results": 10,
+      "match_tennisID": "DUS7208605",
+      "match_id": "600ef801fd2ea281fc28633c",
+      "match_nativeGivenName": "Maximus",
+      "match_nativeFamilyName": "Dussault",
+      "match_birthYear": 2007,
+      "match_sex": "M",
+      "wtn": [
+        {
+          "tennisNumber": 8.02,
+          "type": "SINGLE",
+          "confidence": 50,
+          "isRanked": false,
+          "ratingDate": "2026-03-27T00:00:00.000Z"
+        },
+        {
+          "tennisNumber": 19.89,
+          "type": "DOUBLE",
+          "confidence": 50,
+          "isRanked": false,
+          "ratingDate": "2026-05-06T00:00:00.000Z"
+        }
+      ],
+      "wtn_singles": 8.02,
+      "wtn_doubles": 19.89
+    },
+    {
+      "rank": 18,
+      "name": "Huang, Darren",
+      "city": "Whitestone",
+      "state": "NY",
+      "search_status": "ok",
+      "search_n_results": 10,
+      "match_tennisID": "HUA1531852",
+      "match_id": "60a4edcbbf0fe5a6987b2b04",
+      "match_nativeGivenName": "Darren",
+      "match_nativeFamilyName": "HUANG",
+      "match_birthYear": 2006,
+      "match_sex": "M",
+      "wtn": [
+        {
+          "tennisNumber": 15.33,
+          "type": "SINGLE",
+          "confidence": 100,
+          "isRanked": false,
+          "ratingDate": "2026-03-27T00:00:00.000Z"
+        },
+        {
+          "tennisNumber": 25.63,
+          "type": "DOUBLE",
+          "confidence": 10,
+          "isRanked": false,
+          "ratingDate": "2026-05-06T00:00:00.000Z"
+        }
+      ],
+      "wtn_singles": 15.33,
+      "wtn_doubles": 25.63
+    },
+    {
+      "rank": 19,
+      "name": "Bigun, Meecah",
+      "city": "College Park",
+      "state": "MD",
+      "search_status": "ok",
+      "search_n_results": 3,
+      "match_tennisID": "BIG1423399",
+      "match_id": "5fa158ab47cc7fe82dbd5e5f",
+      "match_nativeGivenName": "Meecah",
+      "match_nativeFamilyName": "Bigun",
+      "match_birthYear": 2006,
+      "match_sex": "M",
+      "wtn": [
+        {
+          "tennisNumber": 8.91,
+          "type": "SINGLE",
+          "confidence": 100,
+          "isRanked": false,
+          "ratingDate": "2026-03-27T00:00:00.000Z"
+        },
+        {
+          "tennisNumber": 17.73,
+          "type": "DOUBLE",
+          "confidence": 30,
+          "isRanked": false,
+          "ratingDate": "2026-05-06T00:00:00.000Z"
+        }
+      ],
+      "wtn_singles": 8.91,
+      "wtn_doubles": 17.73
+    },
+    {
+      "rank": 20,
+      "name": "Henceroth, Cole",
+      "city": "Midlothian",
+      "state": "VA",
+      "search_status": "ok",
+      "search_n_results": 10,
+      "match_tennisID": "HEN7715853",
+      "match_id": "6110f5c05e599e33dbb5974c",
+      "match_nativeGivenName": "Cole",
+      "match_nativeFamilyName": "Henceroth",
+      "match_birthYear": 2006,
+      "match_sex": "M",
+      "wtn": [
+        {
+          "tennisNumber": 16.98,
+          "type": "DOUBLE",
+          "confidence": 30,
+          "isRanked": false,
+          "ratingDate": "2026-05-06T00:00:00.000Z"
+        },
+        {
+          "tennisNumber": 10.46,
+          "type": "SINGLE",
+          "confidence": 100,
+          "isRanked": false,
+          "ratingDate": "2026-03-27T00:00:00.000Z"
+        }
+      ],
+      "wtn_doubles": 16.98,
+      "wtn_singles": 10.46
+    }
+  ],
+  "n_matched": 20,
+  "n_with_wtn": 19
+}

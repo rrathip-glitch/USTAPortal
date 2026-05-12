@@ -1,0 +1,32 @@
+1241762	EMPTY	noinfo=False
+1241763	HIT	*Girls' 18 Singles (Combined)	151	['Letzt, Alexandra', 'Satterfield, Michelle', 'Sanford, Allie']
+1241764	HIT	*Girls' 18 Singles (Combined)	75	['Letzt, Alexandra', 'Lee, Chloe', 'Satterfield, Michelle']
+1241765	EMPTY	noinfo=False
+1241766	HIT	*Boys' 10 Singles (Combined)	82	['Spurbeck, Daniel', 'Chong, Andrew', 'Perry, Jared']
+1241767	HIT	*Boys' 10 Singles (Combined)	13	['Perry, Jared', 'Richards, Ntal', 'Isayev, Maxim']
+1241768	EMPTY	noinfo=False
+1241769	HIT	*Boys' 12 Singles (Combined)	159	['Vallabhaneni, Niroop', 'Rata, Cezar', 'Parikh, Harsh']
+1241770	HIT	*Boys' 12 Singles (Combined)	52	['Parikh, Harsh', 'Vallabhaneni, Niroop', 'Yohannes, Abraham']
+1241771	EMPTY	noinfo=False
+1241772	HIT	*Boys' 14 Singles (Combined)	184	['Stofflet, Cole', 'Stringfellow, Brandon', 'Hassey, Carlos']
+1241773	HIT	*Boys' 14 Singles (Combined)	84	['Stringfellow, Brandon', 'Stofflet, Cole', 'Montoya, Yvan']
+1241774	EMPTY	noinfo=False
+1241775	HIT	*Boys' 16 Singles Combined (Combined)	212	['Brown, Nathan', 'Parikh, Yash', 'Cooper, George']
+1241776	HIT	*Boys' 16 Singles Combined (Combined)	77	['Cooper, George', 'Parks, Shawn', 'Niemiec, Nathan']
+1241777	EMPTY	noinfo=False
+1241778	HIT	*Boys' 18 Singles (Combined)	178	['Ge, Augustus', 'Cunningham, Bryan', 'Seby, Robert']
+1241779	HIT	*Boys' 18 Singles (Combined)	116	['Ge, Augustus', 'Seby, Robert', 'Ponwith, James']
+1241780	HIT	*Girls 12 (Combined)	1198	['Black, Hurricane Tyra', 'Branstine, Carson', 'Osuigwe, Whitney']
+1241781	HIT	*Girls 12 (Combined)	1145	['Black, Hurricane Tyra', 'Branstine, Carson', 'Desiatnikov, Abigail']
+1241782	HIT	*Girls 12 (Combined)	827	['Subhash, Natasha', 'Kourkina, Dasha', 'Sorokko, Michelle']
+1241783	HIT	*Girls 14 (Combined)	1509	['Liu, Claire', 'Bellis, Catherine', 'Dolehide, Caroline']
+1241784	HIT	*Girls 14 (Combined)	1396	['Liu, Claire', 'Bellis, Catherine', 'Dolehide, Caroline']
+1241785	HIT	*Girls 14 (Combined)	1050	['Goulak, Annette', 'Chen, Kelly', 'Joyce, Grace']
+1241786	HIT	*Girls 16 (Combined)	1722	['Bellis, Catherine', 'Ouellet-Pizer, Chloe', 'Shibahara, Ena']
+1241787	HIT	*Girls 16 (Combined)	1573	['Bellis, Catherine', 'Ouellet-Pizer, Chloe', 'Shibahara, Ena']
+1241788	HIT	*Girls 16 (Combined)	1182	['Dolehide, Caroline', 'Minor, Brienne', 'Shibahara, Ena']
+1241789	HIT	*Girls 18 (Combined)	1796	['Loeb, Jamie', 'McCarthy, Kaitlyn', 'Ouellet-Pizer, Chloe']
+1241790	HIT	*Girls 18 (Combined)	1565	['Ouellet-Pizer, Chloe', 'McCarthy, Kaitlyn', 'Loeb, Jamie']
+1241791	HIT	*Girls 18 (Combined)	1259	['Andrews, Gabrielle', 'Manasse, Maegan', 'Loeb, Jamie']
+1241792	HIT	*Boys 12 (Combined)	1299	['Nakashima, Brandon', 'Sun, Steven', 'Neff, Adam']
+# target hit count reached at i=31, stopping

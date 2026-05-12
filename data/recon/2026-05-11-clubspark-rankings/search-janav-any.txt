@@ -1,0 +1,10 @@
+HTTP/2 400 
+server: nginx
+date: Tue, 12 May 2026 00:09:12 GMT
+content-type: application/json; charset=utf-8
+content-length: 275
+etag: W/"113-iWceZvxpnveMld17WsvMIGIesLQ"
+vary: Accept-Encoding
+access-control-allow-origin: *
+
+{"error":"Request validation failed","error_code":"validation","details":[{"message":"\"Content-Type\" is not allowed","path":["Content-Type"],"type":"object.unknown","context":{"child":"Content-Type","label":"Content-Type","value":"application/json","key":"Content-Type"}}]}

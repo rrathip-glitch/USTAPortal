@@ -1,0 +1,86 @@
+[
+  {
+    "query": {
+      "first_name": "Janav",
+      "last_name": "Thasen",
+      "start": "01/01/2017",
+      "end": "12/31/2026"
+    },
+    "status": 200,
+    "n_results_label": null,
+    "has_target_name": true,
+    "has_thasen": true,
+    "playerids_found": [],
+    "file": "player-record-search-Thasen-Janav.html"
+  },
+  {
+    "query": {
+      "first_name": "Janav",
+      "last_name": "Thasen",
+      "start": "01/01/2023",
+      "end": "12/31/2026"
+    },
+    "status": 200,
+    "n_results_label": null,
+    "has_target_name": true,
+    "has_thasen": true,
+    "playerids_found": [],
+    "file": "player-record-search-Thasen-Janav.html"
+  },
+  {
+    "query": {
+      "first_name": "J",
+      "last_name": "Thasen",
+      "start": "01/01/2017",
+      "end": "12/31/2026"
+    },
+    "status": 200,
+    "n_results_label": null,
+    "has_target_name": true,
+    "has_thasen": true,
+    "playerids_found": [],
+    "file": "player-record-search-Thasen-J.html"
+  },
+  {
+    "query": {
+      "first_name": "",
+      "last_name": "Thasen",
+      "start": "01/01/2017",
+      "end": "12/31/2026"
+    },
+    "status": 200,
+    "n_results_label": null,
+    "has_target_name": true,
+    "has_thasen": true,
+    "playerids_found": [],
+    "file": "player-record-search-Thasen-noFirst.html"
+  },
+  {
+    "query": {
+      "first_name": "Vihana",
+      "last_name": "Thasen",
+      "start": "01/01/2017",
+      "end": "12/31/2026"
+    },
+    "status": 200,
+    "n_results_label": null,
+    "has_target_name": true,
+    "has_thasen": true,
+    "playerids_found": [],
+    "file": "player-record-search-Thasen-Vihana.html"
+  },
+  {
+    "query": {
+      "first_name": "Rudy",
+      "last_name": "Quan",
+      "start": "01/01/2017",
+      "end": "12/31/2026"
+    },
+    "status": 200,
+    "n_results_label": null,
+    "has_target_name": true,
+    "has_thasen": false,
+    "playerids_found": [],
+    "file": "player-record-search-Quan-Rudy.html"
+  }
+]

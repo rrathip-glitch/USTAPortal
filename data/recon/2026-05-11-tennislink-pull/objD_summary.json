@@ -1,0 +1,69 @@
+{
+  "total_calls": 180,
+  "elapsed_s": 411,
+  "per_list": [
+    {
+      "list_id": 2072448,
+      "label": "Boys 12 Combined",
+      "n_results": 20,
+      "n_matched": 20,
+      "n_with_wtn": 19
+    },
+    {
+      "list_id": 2072432,
+      "label": "Boys 12 Singles Seeding",
+      "n_results": 20,
+      "n_matched": 20,
+      "n_with_wtn": 20
+    },
+    {
+      "list_id": 2072424,
+      "label": "Boys 12 Doubles Seeding",
+      "n_results": 20,
+      "n_matched": 20,
+      "n_with_wtn": 19
+    },
+    {
+      "list_id": 2072451,
+      "label": "Boys 14 Combined",
+      "n_results": 20,
+      "n_matched": 20,
+      "n_with_wtn": 18
+    },
+    {
+      "list_id": 2072433,
+      "label": "Boys 14 Singles Seeding",
+      "n_results": 20,
+      "n_matched": 20,
+      "n_with_wtn": 17
+    },
+    {
+      "list_id": 2072425,
+      "label": "Boys 14 Doubles Seeding",
+      "n_results": 20,
+      "n_matched": 20,
+      "n_with_wtn": 20
+    },
+    {
+      "list_id": 2072454,
+      "label": "Boys 16 Combined",
+      "n_results": 20,
+      "n_matched": 20,
+      "n_with_wtn": 19
+    },
+    {
+      "list_id": 2072434,
+      "label": "Boys 16 Singles Seeding",
+      "n_results": 20,
+      "n_matched": 20,
+      "n_with_wtn": 19
+    },
+    {
+      "list_id": 2072426,
+      "label": "Boys 16 Doubles Seeding",
+      "n_results": 20,
+      "n_matched": 20,
+      "n_with_wtn": 19
+    }
+  ]
+}

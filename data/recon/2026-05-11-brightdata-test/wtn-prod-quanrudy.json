@@ -1,0 +1,1 @@
+{"errors":[{"message":"Field \"SearchFilterOptions.term\" of required type \"String!\" was not provided."},{"message":"Field \"SearchFilterOptions.term\" of required type \"String!\" was not provided."},{"message":"Field \"searchTerm\" is not defined by type \"SearchFilterOptions\"."},{"message":"Field \"searchTerm\" is not defined by type \"SearchFilterOptions\"."}]}

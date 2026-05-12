@@ -1,0 +1,1 @@
+{"errors":[{"message":"Not Authorised!","locations":[{"line":2,"column":3}],"path":["tournament"],"extensions":{"code":"UNAUTHENTICATED"}}],"data":{"tournament":null}}

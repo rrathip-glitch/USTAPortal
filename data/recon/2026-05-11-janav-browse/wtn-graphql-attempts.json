@@ -1,0 +1,8 @@
+{
+  "ID": "{\"errors\":[{\"message\":\"Cast to ObjectId failed for value \\\"971BA48D-A2EA-4FB7-8305-F42EA466F6DF\\\" (type string) at path \\\"_id\\\" for model \\\"Person\\\"\",\"locations\":[{\"line\":2,\"column\":3}],\"path\":[\"person\"],\"extensions\":{\"http\":{\"status\":200},\"code\":\"INVALID_ARGS\"}}],\"data\":{\"person\":null}}",
+  "ClubsparkID": "{\"data\":{\"person\":null}}",
+  "TennisID": "{\"errors\":[{\"message\":\"TennisId should be in format AAANNNNNNN (where A is letter and N is number)\",\"locations\":[{\"line\":2,\"column\":3}],\"path\":[\"person\"],\"extensions\":{\"code\":\"INVALID_ARGS\",\"exception\":{\"message\":\"TennisId should be in format AAANNNNNNN (where A is letter and N is number)\"},\"http\":{\"status\":200}}}],\"data\":{\"person\":null}}",
+  "NationalID": "{\"errors\":[{\"message\":\"Invalid Args - providerId\",\"locations\":[{\"line\":2,\"column\":3}],\"path\":[\"person\"],\"extensions\":{\"code\":\"INVALID_ARGS\",\"exception\":{\"message\":\"Invalid Args - providerId\"},\"http\":{\"status\":200}}}],\"data\":{\"person\":null}}",
+  "ExternalID": "{\"data\":{\"person\":null}}",
+  "PersonID": "{\"data\":{\"person\":null}}"
+}
