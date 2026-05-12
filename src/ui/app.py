@@ -23,6 +23,7 @@ the same file in production.
 
 from __future__ import annotations
 
+import os
 import sqlite3
 import subprocess
 import sys
@@ -60,6 +61,7 @@ from src.ui.helpers import (
     days_until,
     db_has_synthetic_data,
     format_record,
+    load_rankings_context,
     resolve_user_player,
     wtn_tier,
 )
@@ -306,6 +308,51 @@ async def dashboard(request: Request) -> HTMLResponse:
             next_opponent_card=next_opponent_card,
             recent_tournaments=recent_tournaments,
         ),
+    )
+
+
+@router.get("/rankings", response_class=HTMLResponse)
+async def rankings(request: Request) -> HTMLResponse:
+    """Cross-platform rankings & profile page for Janav Thasen.
+
+    Currently the hero subject is hard-coded — there is exactly one user of
+    this portal. The data is sourced from captured CoreTennis fixtures plus
+    a handful of static identifiers (TR rank 146, UTR ID, sister WTN).
+    Setting ``LIVE_DATA=true`` in the environment will eventually trigger a
+    live CoreTennis fetch; for now it's wired through as a flag so the
+    page-level toggle exists, and we fall through to the fixture.
+    """
+    live_data = os.environ.get("LIVE_DATA", "").lower() in {"1", "true", "yes"}
+    try:
+        context = load_rankings_context(live_data=live_data)
+    except Exception:
+        # Hard fallback: even if the helper blows up, render a minimal page.
+        context = {
+            "player_meta": {
+                "full_name": "Janav Thasen",
+                "age_category": "Boys 12s",
+                "section": "Florida",
+                "city": "Weston, FL",
+                "class_of": 2032,
+            },
+            "rankings": [],
+            "identifiers": [],
+            "matches": [],
+            "sister": None,
+            "data_state": {
+                "coretennis_state": "unavailable",
+                "profile_loaded": False,
+                "results_loaded": False,
+                "live_attempted": live_data,
+                "live_sources": [],
+                "gated_sources": [],
+            },
+        }
+
+    return templates.TemplateResponse(
+        request,
+        "rankings.html",
+        _base_context(None, **context),
     )
 
 

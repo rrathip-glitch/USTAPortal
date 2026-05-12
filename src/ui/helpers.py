@@ -405,7 +405,7 @@ def load_rankings_context(*, live_data: bool = False) -> dict[str, Any]:
     if results_html:
         try:
             matches = coretennis_match_rows(results_html)
-        except Exception:  # noqa: BLE001 — never block the page on a parse error
+        except Exception:
             matches = []
 
     sister = {

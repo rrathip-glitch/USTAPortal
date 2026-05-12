@@ -1,0 +1,506 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>USTA Portal &middot; Rankings &middot; Janav Thasen</title>
+    <link rel="stylesheet" href="/static/style.css" />
+    <script src="https://unpkg.com/htmx.org@1.9.12" defer></script>
+    
+  <style>
+    /* Rankings page — accent layout tweaks. Re-uses base classes (.hero, .stat-strip, .card, .chip) so the visual language stays consistent. */
+    .rankings-hero {
+      background: linear-gradient(135deg, var(--court-green-dark) 0%, #0d2f17 100%);
+    }
+    .rankings-hero .display {
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      margin: 0.5rem 0 0.2rem;
+    }
+    .rankings-hero .tagline {
+      font-size: 0.95rem;
+      opacity: 0.85;
+      margin: 0;
+    }
+    .rankings-hero .badge-row {
+      margin-top: 0.7rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+    .rankings-hero .badge-row .chip {
+      background: rgba(255, 255, 255, 0.14);
+      color: var(--line-white);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+    .nav-new-chip {
+      display: inline-block;
+      background: var(--amber);
+      color: #fff;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      padding: 0.05rem 0.32rem;
+      border-radius: 3px;
+      margin-left: 0.25rem;
+      vertical-align: 2px;
+    }
+    /* Source/freshness sub-line on each rankings stat — smaller than .sub. */
+    .stat .provenance {
+      font-size: 0.68rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 0.35rem;
+      line-height: 1.3;
+    }
+    .stat .provenance .src {
+      color: var(--court-green-dark);
+    }
+    /* Identifier grid */
+    .id-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.55rem;
+    }
+    @media (min-width: 720px) {
+      .id-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    .id-row {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 0.55rem 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+    .id-row .id-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .id-row .id-value {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.92rem;
+      word-break: break-all;
+    }
+    /* Results table */
+    .results-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    .results-table th, .results-table td {
+      text-align: left;
+      padding: 0.5rem 0.55rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    .results-table th {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      font-weight: 600;
+      background: var(--surface-2);
+    }
+    .results-table td.score {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-variant-numeric: tabular-nums;
+      color: var(--fg-soft);
+    }
+    .results-table td.result-cell {
+      font-weight: 700;
+      text-align: center;
+      width: 2.2rem;
+    }
+    .results-table td.result-cell.win { color: var(--win); }
+    .results-table td.result-cell.loss { color: var(--loss); }
+    .results-table .tourn-name { font-weight: 600; color: var(--fg); }
+    .results-table .tourn-venue { font-size: 0.78rem; color: var(--muted); margin-top: 0.1rem; }
+    @media (max-width: 719px) {
+      /* On mobile, collapse the results table into stacked cards. */
+      .results-table thead { display: none; }
+      .results-table, .results-table tbody, .results-table tr, .results-table td {
+        display: block;
+        width: 100%;
+      }
+      .results-table tr {
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        padding: 0.55rem 0.7rem;
+        margin-bottom: 0.5rem;
+        background: var(--surface);
+      }
+      .results-table td {
+        border-bottom: 0;
+        padding: 0.1rem 0;
+      }
+      .results-table td.result-cell { width: auto; text-align: left; }
+      .results-table td::before {
+        content: attr(data-label) ": ";
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--muted);
+        margin-right: 0.3rem;
+      }
+      .results-table td.tourn-cell::before { content: ""; }
+      .results-table td.tourn-cell { margin-bottom: 0.2rem; }
+    }
+    /* Family-context — visually smaller / set aside. */
+    .family-card {
+      background: var(--surface-2);
+      border-left: 3px solid var(--amber);
+      padding: 0.85rem 1rem;
+    }
+    .family-card h2 {
+      color: var(--amber);
+      margin-bottom: 0.3rem;
+    }
+    .family-card .name {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+    }
+    .family-card .wtn-row {
+      display: flex;
+      gap: 1.5rem;
+      margin-top: 0.5rem;
+    }
+    .family-card .wtn-row .stat-mini .label {
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .family-card .wtn-row .stat-mini .value {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--fg);
+    }
+    .family-card .wtn-row .stat-mini .sub {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+    /* Sources footer card */
+    .sources-list { list-style: none; padding: 0; margin: 0; }
+    .sources-list li {
+      padding: 0.4rem 0;
+      border-bottom: 1px dashed var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem 0.6rem;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+    .sources-list li:last-child { border-bottom: 0; }
+    .sources-list .src-name { font-weight: 500; color: var(--fg); }
+    .sources-list .src-status { font-size: 0.82rem; color: var(--fg-soft); }
+    .sources-list .src-status.gated { color: var(--loss); }
+  </style>
+
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="/">
+          <span class="brand-mark" aria-hidden="true"></span>
+          USTA Portal
+        </a>
+        <nav class="nav" aria-label="Primary">
+          <a href="/">Dashboard</a>
+          <a href="/rankings">Rankings<span class="nav-new-chip">NEW</span></a>
+          <a href="/tournaments">Tournaments</a>
+          <a href="/sync">Sync</a>
+        </nav>
+        <span class="last-sync-badge" title="Last successful sync">
+          Last sync: never
+        </span>
+      </div>
+    </header>
+    <main class="container">
+      
+
+  <section class="hero rankings-hero">
+    <p class="eyebrow">Rankings &amp; Profile</p>
+    <h1>Janav Thasen</h1>
+    <p class="display">Tournament Rankings &amp; Profile</p>
+    <p class="tagline">
+      Boys 12s
+       &middot; Weston, FL
+       &middot; Florida Section
+       &middot; Class of 2032
+    </p>
+    <div class="badge-row">
+      <span class="chip">Cross-platform ID linked</span>
+      <span class="chip">CoreTennis live</span>
+      <span class="chip">TR #146 national</span>
+      
+    </div>
+  </section>
+
+  <section class="stat-strip">
+    
+      <div class="stat">
+        <div class="label">TennisRecruiting</div>
+        <div class="value">146</div>
+        <div class="sub">TR composite, US national (Boys class of 2032)</div>
+        <div class="provenance">
+          <span class="src">tennisrecruiting.net</span><br/>
+          2026-05-11 (manual capture)
+        </div>
+      </div>
+    
+      <div class="stat">
+        <div class="label">CoreTennis</div>
+        <div class="value">active</div>
+        <div class="sub">Live profile, 4 tournaments tracked</div>
+        <div class="provenance">
+          <span class="src">coretennis.net</span><br/>
+          fixture 2026-05-11 03:08 UTC
+        </div>
+      </div>
+    
+      <div class="stat">
+        <div class="label">USTA national</div>
+        <div class="value">pending</div>
+        <div class="sub">Auth-walled — see DEPLOY.md open lead</div>
+        <div class="provenance">
+          <span class="src">playtennis.usta.com</span><br/>
+          Akamai gate, not yet captured
+        </div>
+      </div>
+    
+      <div class="stat">
+        <div class="label">UTR</div>
+        <div class="value">3059480</div>
+        <div class="sub">UTR ID, numeric rating gated</div>
+        <div class="provenance">
+          <span class="src">myutr.com</span><br/>
+          ID confirmed, rating fetch pending
+        </div>
+      </div>
+    
+  </section>
+
+  <section class="card">
+    <h2>Cross-platform identifiers</h2>
+    <p class="meta" style="margin-top:-0.4rem;margin-bottom:0.75rem;">
+      Stable IDs across every site we cross-reference. Use these to verify
+      that a row in one feed maps to the same human in another.
+    </p>
+    <div class="id-grid">
+      
+        <div class="id-row">
+          <span class="id-label">Clubspark / USTA GUID</span>
+          <span class="id-value">
+            
+              971BA48D-A2EA-4FB7-8305-F42EA466F6DF
+            
+          </span>
+        </div>
+      
+        <div class="id-row">
+          <span class="id-label">CoreTennis ID</span>
+          <span class="id-value">
+            
+              <a href="https://www.coretennis.net/tennis-player/janav-thasen/203938/profile.html" target="_blank" rel="noopener">203938 (janav-thasen)</a>
+            
+          </span>
+        </div>
+      
+        <div class="id-row">
+          <span class="id-label">UTR ID</span>
+          <span class="id-value">
+            
+              <a href="https://app.utrsports.net/profiles/3059480" target="_blank" rel="noopener">3059480</a>
+            
+          </span>
+        </div>
+      
+        <div class="id-row">
+          <span class="id-label">TennisRecruiting ID</span>
+          <span class="id-value">
+            
+              1065914
+            
+          </span>
+        </div>
+      
+        <div class="id-row">
+          <span class="id-label">USTA Play Tennis (search)</span>
+          <span class="id-value">
+            
+              <a href="https://playtennis.usta.com/" target="_blank" rel="noopener">Janav Thasen / Weston FL</a>
+            
+          </span>
+        </div>
+      
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Recent USTA Level 3 results</h2>
+    
+    
+      <p class="meta" style="margin-top:-0.4rem;margin-bottom:0.75rem;">
+        Source: CoreTennis.net results page (fixture).
+        4 matches parsed.
+      </p>
+      <div style="overflow-x:auto;">
+        <table class="results-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Tournament</th>
+              <th>Round</th>
+              <th>Opponent</th>
+              <th>Score</th>
+              <th>W/L</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td data-label="Date">Jan 17, 2026</td>
+                <td data-label="Tournament" class="tourn-cell">
+                  <div class="tourn-name">USTA National Level 3 Tournament</div>
+                  <div class="tourn-venue">Saddlebrook Tennis Resort Wesley Chapel, FL</div>
+                </td>
+                <td data-label="Round">1/32</td>
+                <td data-label="Opponent">Gustavo Lipinski</td>
+                <td data-label="Score" class="score">7-5 2-6 [10-12]</td>
+                <td data-label="Result" class="result-cell loss">
+                  L
+                </td>
+              </tr>
+            
+              <tr>
+                <td data-label="Date">Sep 13, 2025</td>
+                <td data-label="Tournament" class="tourn-cell">
+                  <div class="tourn-name">USTA National Level 3 Tournament</div>
+                  <div class="tourn-venue">The City Club at River Ranch Lafayette, LA</div>
+                </td>
+                <td data-label="Round">1/16</td>
+                <td data-label="Opponent">Satvik Challa</td>
+                <td data-label="Score" class="score">6-1 6-3</td>
+                <td data-label="Result" class="result-cell loss">
+                  L
+                </td>
+              </tr>
+            
+              <tr>
+                <td data-label="Date">Jun 14, 2025</td>
+                <td data-label="Tournament" class="tourn-cell">
+                  <div class="tourn-name">USTA National Level 3 Tournament</div>
+                  <div class="tourn-venue">USTA National Campus Orlando, FL</div>
+                </td>
+                <td data-label="Round">1/32</td>
+                <td data-label="Opponent">Jaxon Carpenter</td>
+                <td data-label="Score" class="score">6-1 6-3</td>
+                <td data-label="Result" class="result-cell loss">
+                  L
+                </td>
+              </tr>
+            
+              <tr>
+                <td data-label="Date">Jan 18, 2025</td>
+                <td data-label="Tournament" class="tourn-cell">
+                  <div class="tourn-name">USTA National Level 3 Tournament</div>
+                  <div class="tourn-venue">Saddlebrook Tennis Resort Wesley Chapel, FL</div>
+                </td>
+                <td data-label="Round">1/32</td>
+                <td data-label="Opponent">Raziel Rubenstein</td>
+                <td data-label="Score" class="score">6-0 6-0</td>
+                <td data-label="Result" class="result-cell loss">
+                  L
+                </td>
+              </tr>
+            
+          </tbody>
+        </table>
+      </div>
+    
+  </section>
+
+  
+    <section class="card family-card">
+      <h2>Family context</h2>
+      <div class="name">Sister: Vihana Thasen</div>
+      <div class="meta">
+        CoreTennis <code>192850</code>
+        &middot; TR <code>1020714</code>
+      </div>
+      <div class="wtn-row">
+        <div class="stat-mini">
+          <div class="label">Singles WTN</div>
+          <div class="value">27.97</div>
+          <div class="sub">confidence 100</div>
+        </div>
+        <div class="stat-mini">
+          <div class="label">Doubles WTN</div>
+          <div class="value">31.55</div>
+          <div class="sub">confidence 100</div>
+        </div>
+      </div>
+      <p class="meta" style="margin-top:0.6rem;">
+        Source: Bright Data + ITF GraphQL &middot; 2026-05-11 recon (wtn-prod-thasen-search-v2.json)
+      </p>
+    </section>
+  
+
+  <section class="card">
+    <h2>Data sources</h2>
+    <p class="meta" style="margin-top:-0.4rem;margin-bottom:0.75rem;">
+      Every card on this page is labeled with its origin. Open data is good;
+      opaque data is worse than no data.
+    </p>
+    <ul class="sources-list">
+      
+        <li>
+          <span class="src-name">CoreTennis profile + results</span>
+          <span class="src-status">live (fixture mirrored)</span>
+        </li>
+      
+        <li>
+          <span class="src-name">UTR ID lookup</span>
+          <span class="src-status">live (rating gated)</span>
+        </li>
+      
+        <li>
+          <span class="src-name">USTA Play Tennis AWS API</span>
+          <span class="src-status">live (tournament discovery)</span>
+        </li>
+      
+        <li>
+          <span class="src-name">WTN via Bright Data + ITF GraphQL</span>
+          <span class="src-status">live (sister data)</span>
+        </li>
+      
+      
+        <li>
+          <span class="src-name">USTA modern rankings (playtennis.usta.com)</span>
+          <span class="src-status gated">Akamai auth-walled — open lead documented in DEPLOY.md</span>
+        </li>
+      
+    </ul>
+    <p class="meta" style="margin-top:0.6rem;">
+      The modern USTA rankings endpoint is Akamai auth-walled. The open lead
+      to unblock it is documented in <code>DEPLOY.md</code> under "Open lead".
+    </p>
+  </section>
+
+
+    </main>
+    <footer class="site-footer">
+      <div class="row">
+        <span>USTA Portal v0.1.0</span>
+        
+      </div>
+    </footer>
+  </body>
+</html>

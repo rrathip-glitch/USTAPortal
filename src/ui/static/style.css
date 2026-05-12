@@ -115,6 +115,18 @@ code {
   opacity: 0.92;
 }
 .nav a:hover { background: rgba(255, 255, 255, 0.12); text-decoration: none; opacity: 1; }
+.nav-new-chip {
+  display: inline-block;
+  background: #c98a14;
+  color: var(--line-white);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 0.05rem 0.32rem;
+  border-radius: 3px;
+  margin-left: 0.3rem;
+  vertical-align: 2px;
+}
 .last-sync-badge {
   background: rgba(255, 255, 255, 0.14);
   padding: 0.2rem 0.65rem;
