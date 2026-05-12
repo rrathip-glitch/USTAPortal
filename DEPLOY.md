@@ -222,6 +222,58 @@ Claude Code session:
 
 ---
 
+## Open lead: current-rankings endpoint (2026-05-12)
+
+The Clubspark recon agent located the exact endpoint that backs USTA's
+modern Tournament Rankings tab:
+
+```
+POST https://prod-api-playtennis.usta.com/usta/api?type=playerRankings
+Content-Type: application/json
+
+{"selection": {"uaid": "<clubspark-guid>"}}
+```
+
+Same host as the production data plane already shipped on this branch
+(ADR-006). For Janav, the UAID is his Clubspark GUID
+`971BA48D-A2EA-4FB7-8305-F42EA466F6DF`. The endpoint's AEM declaration is
+labelled `endpoint-security-type="public"` but in practice the API gate
+is Akamai/OneTrust session-based (not Cloudflare): requests through
+Bright Data Web Unlocker return 403 even after Chrome rendering. The
+rendered page literally shows "Whoops, something went wrong. Please try
+logging in again."
+
+Two paths forward for a future agent:
+
+1. **Manually capture authenticated session cookies once** (`_abck`,
+   `bm_sz`, `ak_bmsc` from Akamai + an OAuth bearer from
+   `auth-playtennis.usta.com` for client `clubspark-ui`), persist them
+   alongside the residential-proxy config, replay against this endpoint.
+   Cookie refresh cadence + lifetime unknown — needs measurement.
+2. **Bright Data Scraping Browser** (sticky-session product; different
+   SKU from Web Unlocker) which would establish a real Akamai session
+   automatically. Higher per-call cost than Web Unlocker but skips the
+   manual cookie capture.
+
+Sibling endpoints discovered at the same host (also auth-walled):
+- `/usta/api?type=playerInfo` — bio + ratings + WTN by UAID
+- `/usta/api?type=playerRanklists&uaid=<uaid>` — list of available rank
+  lists for player
+- `/dataexchange/profile/search/public` — player search by name
+
+Full inventory + AEM `<v-api-container endpoint=...>` declarations in
+`data/reference/known_urls.md` "USTA current-rankings API surface
+(2026-05-12)" section.
+
+Side-discovery: the **`tournamentPublic(id)` GraphQL query on
+`prd-usta-kube.clubspark.pro/tournamentdesk-api/graphql` works
+**unauthenticated** for tournament IDs (verified against the user-supplied
+draw GUID `CB005855-...`). This is potentially useful for backfilling
+historical draw metadata without auth — separate workstream from
+rankings.
+
+---
+
 ## Where to look when something breaks
 
 1. **Build failure:** Railway dashboard → Deployments → click failed
