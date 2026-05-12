@@ -76,3 +76,7 @@ data/recon/*/gql/
 
 # Local scratch / test artifacts produced by integration tests
 tmp/
+
+# uv lockfile — project uses pip+setuptools per pyproject.toml; uv.lock
+# is a transient artifact when an agent invokes uv in passing
+uv.lock

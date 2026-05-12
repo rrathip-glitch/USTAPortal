@@ -1,0 +1,10 @@
+HTTP/2 200 
+server: nginx
+date: Tue, 12 May 2026 00:13:40 GMT
+x-brd-error: response status was rejected: 403 status code
+x-luminati-error: response status was rejected: 403 status code
+x-brd-error-code: http_status
+x-luminati-error-code: http_status
+x-brd-status-code: 502
+access-control-allow-origin: *
+
