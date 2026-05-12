@@ -2,7 +2,7 @@
 
 A personal tournament intelligence dashboard for a USTA tennis player. Authenticated sync from USTA-operated surfaces, persisted locally, augmented with computed intelligence (opponent scouting, WTN tracking, head-to-head, strength-of-draw). The dashboard becomes the canonical interface — you detach from the USTA site after sync.
 
-> **Status:** Phase 0 partial. The skeleton and the parser/enrichment math layers are in place. Live data-plane recon against the new Clubspark surface is BLOCKED on residential egress (Cloudflare 403s every datacenter IP this project can reach); the active data plane is TennisLink. See `STATE.md` for what's live right now.
+> **Status:** Phase 1.5 — Rankings pipeline live on TennisLink historical data (current Clubspark data path in flight via Bright Data Web Unlocker, verified working). See `STATE.md` for what's live right now.
 
 ## What it does (v1 target)
 
@@ -59,6 +59,19 @@ uvicorn src.main:app --reload
 ```
 
 `scripts/seed_dev_data.py` inserts a synthetic Janav-themed dataset (player, opponents, tournament, draw, matches, ranking and WTN snapshots) stamped with `dev-` id prefixes so it can never collide with real fetched data. The dashboard is immediately demoable from this seed, no live USTA fetch required.
+
+## Rankings pipeline (proven 2026-05-12)
+
+The TennisLink rankings vertical slice is live end-to-end against the captured Boys' 12 Combined fixture (list 2072448, 1,014 players). Load it into the rankings UI:
+
+```bash
+# Load the captured Boys 12 Combined fixture into the rankings UI:
+python -m src.cli.main sync-rankings --list-id 2072448 \
+  --from-fixture data/recon/2026-05-11-janav-browse/tennislink-2072448.html
+# Then visit http://localhost:8000/rankings/u12-boys-national
+```
+
+The page renders with Janav highlighted when his row is present and a "Source: TennisLink (historical)" footnote making the era explicit (TennisLink froze Boys' 12 national rankings in early 2021). Current 2025/2026 data requires the Bright Data Web Unlocker proxy (verified end-to-end, see `STATE.md`) plus completion of the Clubspark current-rankings recon (in flight).
 
 ## Deploy on Railway
 

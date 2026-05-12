@@ -4,13 +4,26 @@ Append-only. Most recent at the top.
 
 ---
 
-## 2026-05-11 — Rankings-First wave 1: pivot, recon verdicts, Resend wired
+## 2026-05-12 — Rankings vertical slice live; Bright Data verified; Railway deploy prep
 
-- 2026-05-11 Rankings-First pivot: TODO.md rewritten, AGENTS.md adds rankings + bypass agent rows, SPEC.md scope+roadmap edits, ADR-006 filed, Q-010 resolved (Resend), Q-012 opened (Resend FROM-domain). — Orchestrator
+- 2026-05-12 TennisLink rankings vertical slice complete: `src/parse/tennislink_rankings_list.py` + `usta sync-rankings` CLI + `/rankings/u12-boys-national` route rendering 1,014-player Boys' 12 fixture with Janav highlight. +19 tests (317 total). First real USTA data in the dashboard. — rankings-vertical-slice agent + Orchestrator
+- 2026-05-12 Bright Data Web Unlocker backend refactored to verified Bearer-auth + body-key + POST-support shape. 9/9 tests. — bright-data-refactor agent
+- 2026-05-12 notify-resend test isolation fixed: monkeypatch settings to clear `notify_to` and `resend_api_key` in the 2 `ConfigurationError` tests. Full suite now clean. — Orchestrator
+- 2026-05-12 Deploying to Railway: docs + tests cleaned, `.env.example` complete, schema v3 migration is additive-only. — Orchestrator
+
+---
+
+## 2026-05-11 — Rankings-First wave 1+2a: pivot, recon verdicts, proxy verified, Resend wired
+
+- 2026-05-11 Bright Data Web Unlocker proven end-to-end: Cloudflare bypass on `playtennis.usta.com`, production ITF/WTN GraphQL reachable at `prd-itf-kube.clubspark.pro/tods-gw-api/graphql`, real WTN data flows (Rudy Quan: singles 6.1, doubles 11.74). Payload shape verified (body key, not data; Bearer auth; zone `web_unlocker1`). — Orchestrator probe series
+- 2026-05-11 Wave-2 proxy-infra scaffolding: `src/fetch/residential_proxy.py` + `ranking_lists` / `ranking_list_entries` schema v3 + `RankingListRepository` + UI route + `sync-rankings` CLI. +12 tests. — proxy-infra agent
+- 2026-05-11 Data-pull harvest: 906 files / 67 historical TennisLink ranking lists / WTN crawl 94% success. Verdict: TennisLink is historical-only across every age group, every year. Florida section code = 15, district codes 1531-1538. — data-pull agent
+- 2026-05-11 Browse-Janav agent: confirmed Janav's stg ITF record (`JAN9450835`) has no WTN; production WTN required residential proxy. Sister Vihana (`THA5459427`) has full WTN (singles 27.97, doubles 31.55). — browse-janav agent
+- 2026-05-11 Rankings-First pivot landed (ADR-006). Q-010 resolved (Resend). Q-012 opened (Resend FROM-domain). TODO.md rewritten, AGENTS.md adds rankings + bypass agent rows, SPEC.md scope+roadmap edits. — Orchestrator + doc-rewrite agents
 - 2026-05-11 src/notify/ Resend backend with retry + config + 5 tests (288 total green). — notify-build agent
-- 2026-05-11 TennisLink rankings recon: historical-only verdict (B12 froze early 2021, B10 never published, no WTN). 36 probe HTMLs under data/recon/2026-05-11-tennislink-rankings/. — tennislink-rankings agent
+- 2026-05-11 TennisLink rankings recon: historical-only verdict (B12 froze early 2021, B10 never published, no WTN). 36 probe HTMLs under `data/recon/2026-05-11-tennislink-rankings/`. — tennislink-rankings agent
 - 2026-05-11 Aggressive Cloudflare bypass attempt: structurally impossible from this sandbox (Anthropic MITM proxy + Cloudflare ASN block on egress IPs + hostname allowlist on archive.org/bing.com). User opted for paid residential proxy (Bright Data Web Unlocker pending API key). — bypass agent + Orchestrator
-- 2026-05-11 data/reference/known_urls.md created: user-supplied draw URL, TennisLink ranking-list-id table with freshness verdict, Clubspark GraphQL endpoints, Janav cross-platform identifiers (Clubspark/TR/UTR/CoreTennis). — Orchestrator
+- 2026-05-11 `data/reference/known_urls.md` created: user-supplied draw URL, TennisLink ranking-list-id table with freshness verdict, Clubspark GraphQL endpoints, Janav cross-platform identifiers (Clubspark/TR/UTR/CoreTennis). — Orchestrator
 
 ---
 

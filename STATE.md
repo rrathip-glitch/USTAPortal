@@ -1,59 +1,65 @@
-snapshot: 2026-05-11T13:30:00Z
+snapshot: 2026-05-12T00:30:00Z
 
 # STATE.md — live project status
 
 ## Phase
 
-**Phase 1.5 — Rankings-First Pivot (in flight, 2026-05-11).** User has refocused v1 on a rankings data pipeline as the inaugural deliverable. Target: U12 boys national rankings (with U10 as a stretch), full table displayed on the dashboard, Janav highlighted, WTN crawled per-player by clicking each profile above him. All prior TODOs deferred until the rankings pipeline is live. User has explicitly sanctioned aggressive Cloudflare-bypass attempts; new bypass agent role overrides the recon charter's "stop on bot wall" rule for this workstream. ADR-006 to be filed this wave. See `TODO.md` (rewritten) and `AGENTS.md` (rankings + bypass agents added).
+**Phase 1.5 — Rankings pipeline LIVE on TennisLink historical data.** The end-to-end pipeline (fetch → parse → repo → UI) now works against the captured Boys' 12 Combined fixture (TennisLink list 2072448, 1,014 players). Real USTA data renders at `/rankings/u12-boys-national`, with Janav highlighted when his row is present and a "Source: TennisLink (historical)" footnote making the era explicit. This is the first real USTA data in the dashboard.
 
-**Phase 1 (Core pipeline) — usable end-to-end on seeded data.** The portal renders Janav's dashboard, tournaments list, draw detail (with expected-outcome probability bars), and scouting cards. The fetch layer is multi-source (`FetchRouter`) with TennisLink httpx-client + parsers complete and Clubspark stubbed. Sync runs are persisted in a v2-schema `sync_runs` table; the `/sync` UI shows recent runs and the latest log. 258 tests passing, 1 skipped (Playwright manual).
-
-**Phase 0 (Reconnaissance) — partial, with two material findings that reshape the strategy:**
-
-1. **TennisLink stopped accepting new tournament records in late 2018.** Confirmed by the TennisLink parsers agent: post-2018 searches return "No tournaments results found"; only pre-2019 ranking snapshots and historical match records are available. TennisLink is therefore a *historical* secondary source, not a current data source. Janav (class of 2032, Boys' 12s) doesn't appear in TennisLink — he would have been 4-5 years old in 2018, before he started competing.
-2. **Janav's real USTA ID is recovered: `971BA48D-A2EA-4FB7-8305-F42EA466F6DF`** — a Clubspark GUID surfaced via WebSearch on an indexed playtennis.usta.com tournament page. The seeded Player row now uses this real ID as its primary key, so when residential egress to Clubspark is eventually available, the seeded row and the GraphQL response align without a remapping step.
-
-**Net data-source reality.** Current-season tournament discovery and live draws live only on Clubspark, which is Cloudflare-blocked from every egress this project can reach. The dashboard runs on the realistic seeded dataset (Janav's real identity + synthetic opponents/draws anchored to real TriTennis tournament names). The architecture is forward-compatible: when residential egress arrives, the Clubspark client stops raising `NotImplementedError`, the sync orchestrator picks up real responses, and the synthetic surrounds get overwritten.
+The same pipeline targeting **current 2025/2026 rankings** is gated on two pieces still in flight: (1) the Clubspark current-rankings recon agent's identification of the production URL/GraphQL query for live Boys' 12 national standings (probing `ParticipantRankings` and `RankingsAndRatings` GraphQL types now), and (2) wiring the existing Bright Data Web Unlocker proxy backend into the WTN crawler so per-player WTN fetches succeed at scale. Both depend on infrastructure that has been verified end-to-end this wave — Bright Data clears Cloudflare on `playtennis.usta.com` and reaches `prd-itf-kube.clubspark.pro/tods-gw-api/graphql` from this sandbox, with real production WTN data flowing (Rudy Quan: singles 6.1, doubles 11.74).
 
 ## Active workstreams
 
-- **Awaiting residential-proxy API credentials from user** — once provided, wave 2 (rankings parser + fetch wiring + WTN crawler + UI + repository + CLI) launches in parallel. Wave 1 (orchestrator + 6 parallel subagents) complete as of 2026-05-11T13:30Z.
+- **Orchestrator: deploying to Railway** — docs and tests cleaned, `.env.example` complete, schema v3 migration is additive-only.
+- **Clubspark current-rankings recon (background)** — probing the production schema for `ParticipantRankings` + `RankingsAndRatings` types, hunting the public `playtennis.usta.com` URL pattern; the unified-search-api OpenAPI/Swagger surface has been discovered and is the strongest current lead.
 
 ## Recently completed
 
-### Wave 1 verdicts (2026-05-11)
+### Wave 2 (2026-05-12)
 
-- **TennisLink rankings: historical-only.** B12 (D1007) National last published Jan 2021 (for the 2020 season); B10 (D1009) National never published; no WTN exposure anywhere on TennisLink. The legacy surface can serve historical trajectory context for 2017-2020 records but cannot answer "what is Janav's current Boys' 12 national ranking?". Details in `data/reference/known_urls.md` and `data/recon/2026-05-11-tennislink-rankings/`.
-- **Bypass: structurally impossible from this sandbox; paid residential proxy chosen.** Anthropic egress is a TLS-inspecting MITM (cert issuer `O=Anthropic, CN=sandbox-egress-production TLS Inspection CA`), so JA3/JA4 spoofing via curl_cffi cannot work — the spoofed handshake terminates at Anthropic's proxy rather than reaching Cloudflare. Hostname allowlist also blocks archive.org, bing.com, etc. User opted for paid residential proxy (Bright Data Web Unlocker recommended). Proxy-API reachability probe confirms Bright Data, ScrapFly, ZenRows, ScraperAPI, and Smartproxy are all reachable from this sandbox — they are not on Anthropic's egress block list. Once API credentials arrive, the data collector runs autonomously from here. Artifacts under `data/recon/2026-05-11-bypass/`.
-- **Resend wired (Q-010 resolved); 288 tests green.** `src/notify/` Resend backend lands with retry + config + 5 tests. Q-012 opened on the FROM-domain decision.
-- **Doc pivot: TODO/AGENTS/SPEC/ADR-006/QUESTIONS landed.** TODO.md rewritten around the rankings-first scope, AGENTS.md adds rankings + bypass agent rows, SPEC.md picks up scope and roadmap edits, ADR-006 filed Accepted.
+- **TennisLink rankings vertical slice end-to-end.** `src/parse/tennislink_rankings_list.py` + `usta sync-rankings --from-fixture` CLI + `/rankings/u12-boys-national` route render the 1,014-player Boys' 12 Combined list with Janav-highlight + "Source: TennisLink (historical)" footnote. +19 net new tests (317 total green). First real USTA data in the dashboard. — rankings-vertical-slice agent + Orchestrator
+- **Bright Data Web Unlocker proven end-to-end through sandbox** (2026-05-11). Clears Cloudflare on `playtennis.usta.com`, reaches production ITF/WTN GraphQL at `prd-itf-kube.clubspark.pro/tods-gw-api/graphql`, real WTN data flows. Payload shape verified: POST `/request` with Bearer auth, body key (not data/payload), `zone="web_unlocker1"`. — Orchestrator probe series
+- **`BrightDataWebUnlockerBackend` refactored** to the verified Bearer-auth + body-key + POST-support shape. 9/9 tests. — bright-data-refactor agent
+- **Proxy-infra scaffolding landed.** `src/fetch/residential_proxy.py`, schema v3 (`ranking_lists` + `ranking_list_entries` tables), `RankingListRepository`, `/rankings/u12-boys-national` route, `usta sync-rankings` CLI, 12 new tests. — proxy-infra agent
+- **Janav's production ITF record located.** `tennisID JAN9450835`, name fields swapped, `worldTennisNumbers: null` (he is in the system but has no WTN — likely too young / no ITF events). Sister **Vihana Thasen** (`THA5459427`) has full WTN: singles 27.97, doubles 31.55. — Orchestrator
+- **notify-resend test isolation fixed.** Monkeypatched settings to clear `notify_to` and `resend_api_key` in the 2 `ConfigurationError` tests; full suite clean. — Orchestrator
 
-- **Live recon attempt (recon agent, 2026-05-10).** Ran `scripts/live_recon.py` against `playtennis.usta.com` with credentials from `settings`, Chromium 141 via Playwright in both legacy headless and Xvfb-backed non-headless modes, with full anti-detection flags (`--disable-blink-features=AutomationControlled`, `navigator.webdriver` hider, Chrome-141 UA, US locale + ET timezone). **Cloudflare 403'd the very first GET on `playtennis.usta.com/`** (cf-ray `9f9b89cf9e96c0a8-ORD`). Login was never reached. Side-by-side host-reachability probe (`data/recon/2026-05-10-live/host_reachability.json`) confirms Auth0 (`account.usta.com`) is reachable from this environment but every Cloudflare-fronted Clubspark host returns 403. Diagnostic: outbound IP `34.58.203.104` (GCP) is on Cloudflare's datacenter blocklist for the Clubspark edge — reproduces from passive curl/urllib too. Per the recon charter, the script halted on bot-wall and did not attempt evasion. **ADR-001 was filed Accepted as Strategy C** (Playwright-resident requests) with the operational rider that recon and sync must run from a residential egress; rationale anchored on Strategy C being strictly more general than A-prime (testable later as a perf optimization once a residential capture proves it). Updated: RECON.md (Status flipped to BLOCKED, new "Findings (live recon attempt, 2026-05-10)" section, host reachability matrix), API_CONTRACTS.md (Anti-bot posture section refined to distinguish IP/ASN vs TLS-fingerprint blocking), DECISIONS.md (ADR-001 → Accepted with full live-recon evidence and consequences), QUESTIONS.md (new Q-011 top-priority: user must re-run recon from a residential egress), CHANGELOG.md.
-- **Score parser (parser agent, 2026-05-10).** Implemented `parse_score`, `format_score`, and `infer_winner` in `src/parse/matches.py` covering standard sets, tiebreaks, retirements, walkovers, defaults, unfinished, pro-sets, and 10-point match tiebreaks (both bracket and `1-0(L)` shapes). Added 16 concrete + 4 property tests in `tests/unit/test_score_parser.py` plus a `valid_score_string` Hypothesis strategy in `tests/strategies.py`. ruff and mypy clean; 25 tests passing.
-- **Bootstrap (this session, 2026-05-10).** Repository scaffolded: directory structure, Python source stubs, Railway deployment config (Procfile, railway.json, nixpacks.toml, Dockerfile), test scaffolding, CI workflow, `.claude/` subagent charters and slash commands, self-improvement script (`scripts/update_canonical_docs.py`), and the canonical doc set (SPEC, AGENTS, DATA_MODEL, RECON, API_CONTRACTS, RUNBOOK, TESTING, RESEARCH). Two parallel subagents authored SPEC.md (~6,800 words across 16 sections) and RESEARCH.md (~2,500 words across 5 axes). RESEARCH.md surfaced the leading hypothesis — `playtennis.usta.com` is a Clubspark deployment with a documented GraphQL endpoint, suggesting we target GraphQL rather than HTML scraping.
+### Wave 1 (2026-05-11)
+
+- **Rankings-First pivot landed (ADR-006 Accepted).** All prior TODOs paused; v1 refocused on rankings + WTN crawl. — Orchestrator + doc-rewrite agents
+- **TennisLink rankings recon verdict: historical-only.** B12 froze early 2021 (last Final 2021-01-03), B10 never published, no WTN exposed anywhere on TennisLink. Every junior list is historical, every age group, every year. — tennislink-rankings agent
+- **Cloudflare bypass: structurally impossible from this sandbox.** Anthropic MITM proxy + Cloudflare ASN block on egress IPs + hostname allowlist — no in-sandbox technique can unblock the Clubspark edge. User opted for paid residential proxy (Bright Data Web Unlocker). — bypass agent + Orchestrator
+- **Browse-Janav recon.** Confirmed CURRENT B12 list id (2072448, later proved to be an early-2021 cohort), stg WTN GraphQL reachable via `curl_cffi chrome131`, stg ITF record for Janav is stub-only with no WTN. — browse-janav agent
+- **Resend notification module shipped.** `src/notify/` with retry + config + 5 tests; Q-010 resolved, Q-012 opened on FROM-domain. — notify-build agent
+- **Data-pull harvest.** 906 files, 67 historical TennisLink ranking lists, WTN crawl 94% success rate; Florida section code = 15, district codes 1531-1538. — data-pull agent
+- **`data/reference/known_urls.md` created.** Canonical URL/identifier reference: user-supplied draw URL, TennisLink ranking-list-id table with freshness verdict, Clubspark GraphQL endpoints, Janav cross-platform identifiers. — Orchestrator
 
 ## Next up
 
-1. **Q-011 — User to re-run `scripts/live_recon.py` from a residential egress** (their own laptop, or a tunnel through their home network). Without this we cannot capture real GraphQL contracts. The script is ready as-is; it loads credentials from `.env` and writes to `data/recon/2026-05-10-live/` (or whatever timestamped subdir the next run picks). Top-priority blocker for any further data-plane work.
-2. Phase 1 scaffolding (no live data needed). Build the Strategy C fetch shape — `BrowserContextPool`, `fetch_via_context`, raw-cache write — using mocked GraphQL responses based on community-documented `EventList` / `TournamentData` query names. Keep the parser API stable so swapping in real captured queries later is one-line per entity.
-3. After residential recon completes: lock the GraphQL contracts in API_CONTRACTS.md, write parsers, bind to the existing repositories.
+1. **Wire Clubspark current-rankings into the existing pipeline.** When the recon agent returns with the production URL + GraphQL query for live Boys' 12 national standings, plug it into `usta sync-rankings` via the Bright Data backend; swap the historical-fixture footnote for a live source label.
+2. **WTN crawler for the displayed list.** For every player at rank ≤ Janav's rank, fetch their profile via the refactored Bright Data backend, parse WTN singles/doubles, persist into the existing `Player` / WTN store. Honor rate limits; cache raw payloads under `data/raw/`.
+3. **Janav scouting card UI.** "Unranked + no WTN" treatment with TR rank ~146 + sister Vihana's WTN as context. Renders even when Janav is not in the displayed list (the realistic case for early-2021 historical data).
+4. **Name-match enrichment.** Resolve the synthetic `tl-rank:` USTA ids assigned during TennisLink ingest to real Clubspark GUIDs once the production identity surface is reachable.
+5. **(Done by Orchestrator)** The two notify-resend env-isolation test fixes — landed alongside the wave 2 cleanup.
 
 ## Open blockers
 
-- **Residential-proxy API credentials from user (top priority).** Bright Data Web Unlocker recommended. Without these, the Clubspark rankings / WTN data plane remains synthetic-seed only and wave 2 cannot launch. Wave 1 bypass recon confirmed that no in-sandbox technique unblocks the Clubspark edge (Anthropic MITM proxy + Cloudflare ASN block on egress IPs + hostname allowlist on archive.org / bing.com). Once credentials land, the data collector runs autonomously from this environment because the proxy APIs themselves are reachable. See `data/recon/2026-05-11-bypass/` and ADR-006.
-- **Need to confirm WTN exposure pathway.** Tracked as Q-003. The leading hypothesis (research-backed) is that WTN is in the same Clubspark GraphQL surface as tournament data; residential-proxy fetches will validate.
+- **Awaiting Clubspark recon agent's URL/query identification** to swap historical TennisLink data for current Clubspark data. Infrastructure (Bright Data Web Unlocker) is verified working; only the canonical query surface is unknown.
 
 ## Recent decisions awaiting closure
 
-- ADR-001 (Extraction Strategy) — **Accepted (2026-05-10) — Strategy C** with residential-egress rider. Filed.
-- ADR-002 (Storage layer: SQLite raw vs. SQLAlchemy ORM) — **Accepted** as raw SQLite for v1.
-- ADR-004 (future): `curl_cffi` bulk-fetch optimization on top of Strategy C. To be filed once residential recon captures a bearer token whose lifetime, audience, and scope can be inspected.
+- ADR-006 (Rankings-First Pivot) — **Accepted (2026-05-11).** Filed.
+- ADR-005 (Multi-source fetch with TennisLink primary, Clubspark deferred) — **Accepted.** Filed.
+- ADR-002 (Storage layer: raw SQLite over SQLAlchemy ORM) — **Accepted.** Filed.
+- ADR-001 (Extraction Strategy — Strategy C, Playwright-resident requests with residential-egress rider) — **Accepted (2026-05-10).** Filed.
 
 ## Doc snapshot health
 
-- SPEC.md: current as of bootstrap. Will need refresh after ADR-001 lands.
-- RECON.md: a plan, not findings. Replace with findings once Phase 0 runs.
-- API_CONTRACTS.md: all rows hypothesized. Replace with confirmed entries after recon.
-- DATA_MODEL.md: aligned with Pydantic models in `src/models/`.
-- DECISIONS.md: one Accepted ADR (storage), one Proposed (extraction).
-- TODO.md: bootstrap items archived; Phase 0/1 items listed.
+- SPEC.md: aligned with the rankings-first pivot; minor refresh due once Clubspark current-data path lands.
+- TODO.md: refreshed for wave 2; critical-path rankings items mostly complete, Clubspark + WTN crawler open.
+- CHANGELOG.md: current through 2026-05-12.
+- DECISIONS.md: ADR-001/002/005/006 all Accepted and filed.
+- QUESTIONS.md: Q-010 resolved (Resend), Q-012 open (Resend FROM-domain), Q-011 partially obsoleted by the Bright Data path.
+- DATA_MODEL.md: aligned with schema v3 (`ranking_lists` + `ranking_list_entries`).
+- RECON.md / API_CONTRACTS.md: TennisLink rows confirmed; Clubspark current-rankings rows pending the in-flight recon.
+- `data/reference/known_urls.md`: current.

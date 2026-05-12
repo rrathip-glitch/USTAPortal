@@ -1,34 +1,46 @@
 # TODO.md — outstanding work for the rankings-first wave
 
-This list reflects the 2026-05-11 strategic pivot: the project's near-term goal is to land a clean, real-data view of the U12 boys national rankings (and U10 if reachable), with Janav Thasen highlighted, and to enrich every player ranked at or above him with their WTN profile. Everything else is paused until that pipeline is live end-to-end.
+This list reflects the 2026-05-11 strategic pivot and the 2026-05-12 vertical-slice landing: the project's near-term goal is to land a clean, real-data view of the U12 boys national rankings (and U10 if reachable), with Janav Thasen highlighted, and to enrich every player ranked at or above him with their WTN profile. The TennisLink historical pipeline is live end-to-end; the current Clubspark data path is the last remaining gap.
 
 For history of what's already shipped, see `CHANGELOG.md`. For the architectural reasoning behind the pivot, see `DECISIONS.md` (ADR-006) and `STATE.md` (current wave snapshot).
 
 ---
 
+## Recently shipped (2026-05-11 + 2026-05-12)
+
+- **TennisLink rankings vertical slice live.** `src/parse/tennislink_rankings_list.py` + `usta sync-rankings` CLI + `/rankings/u12-boys-national` route render the 1,014-player Boys' 12 fixture with Janav highlight and historical-source footnote. First real USTA data in the dashboard.
+- **Bright Data Web Unlocker proven end-to-end** through this sandbox: Cloudflare bypass on `playtennis.usta.com`, production ITF/WTN GraphQL reachable, real WTN data flows. Backend refactored to the verified Bearer-auth + body-key shape (9/9 tests).
+- **Wave-2 proxy-infra landed.** `src/fetch/residential_proxy.py`, schema v3 (`ranking_lists` + `ranking_list_entries`), `RankingListRepository`, sync-rankings CLI step, UI route.
+- **Resend notification module shipped** (Q-010 resolved). FROM-domain decision tracked as Q-012.
+- **Two-session harvest verdicts.** TennisLink is historical-only across every age group and every year; Clubspark current-rankings recon is in flight against `ParticipantRankings` / `RankingsAndRatings` GraphQL types.
+
+---
+
 ## Critical path — rankings pipeline (v1.0)
 
-These items must land before v1.0 is declared done. They are ordered to roughly match dispatch order; several can run in parallel once the data plane is settled.
+These items must land before v1.0 is declared done. Items marked done are kept for visibility; items still open are ordered roughly by dispatch order.
 
-- [ ] **Data plane decision.** TBD pending wave-1 results, see STATE.md. The Orchestrator picks the unblock path (egress relay, browser-driver-as-a-service, clean-ASN VPS, or successful bypass) once the recon and bypass sibling agents return.
-- [ ] **U12 boys national rankings — fetch.** Resolve the canonical USTA ranking-list URL/endpoint for U12 boys national, capture the request/response shape, save an anonymized fixture in `tests/fixtures/`.
-- [ ] **U12 boys national rankings — parse.** New module under `src/parse/` consuming the captured fixture. Output: a list of `Ranking` rows (rank, player_name, player_id, section, points, ties-breaks if present). Fixture-driven tests with 90%+ coverage on the parser itself.
-- [ ] **U12 boys national rankings — persist.** Schema migration adding a `rankings` table (composite key: ranking_list_id + rank). `RankingRepository` with upsert semantics and a round-trip test. Idempotent re-runs.
-- [ ] **U10 boys national rankings — fetch + parse + persist.** Same pipeline as U12 if the list is reachable; if USTA does not publish a U10 national list, mark the item closed with a one-line note linking to the evidence.
-- [ ] **WTN profile crawl.** For every player at rank <= Janav's rank in the U12 boys national list, fetch their player profile page, parse out WTN singles and WTN doubles (with timestamp and confidence if present), and persist into the existing `Player` / WTN store. Honor a polite rate limit; cache raw payloads under `data/raw_cache/` per existing convention.
-- [ ] **Rankings display page.** New route `/rankings/u12-boys-national` (and `/rankings/u10-boys-national` if U10 is reachable). Sortable table, columns: rank, name, section, points, WTN-singles, WTN-doubles. Janav's row is visually highlighted. Mobile-first CSS consistent with the rest of the UI.
-- [ ] **Sync wiring.** A new `usta sync-rankings` CLI command. The sync orchestrator gains a `rankings` step; runs alongside the existing tournaments/draws/players/matches steps. Per-source health surfaces on `/sync`.
-- [ ] **Tests.**
-  - Parser fixture tests against the captured anonymized rankings list.
-  - Repository round-trip test (write a `Ranking` set, read it back, assert ordering preserved).
-  - UI integration test that hits `/rankings/u12-boys-national` against seeded ranking data and asserts Janav's row is rendered and highlighted.
-  - End-to-end sync test against a saved fixture: run `usta sync-rankings` with the fetcher pointed at a local fixture server; assert the DB ends in the expected state.
+- [x] **Data plane decision.** Bright Data Web Unlocker — verified end-to-end through the sandbox.
+- [x] **U12 boys national rankings — fetch (TennisLink, historical).** `src/parse/tennislink_rankings_list.py` against the captured 2072448 fixture.
+- [x] **U12 boys national rankings — parse.** New module under `src/parse/`; fixture-driven tests landed.
+- [x] **U12 boys national rankings — persist.** Schema v3: `ranking_lists` + `ranking_list_entries`. `RankingListRepository` with upsert + round-trip tests. Idempotent re-runs.
+- [x] **Rankings display page.** `/rankings/u12-boys-national`. Sortable, Janav-highlight, mobile-first CSS, historical-source footnote.
+- [x] **Sync wiring.** `usta sync-rankings [--list-id N] [--from-fixture path]`. Per-source health surfaces on `/sync`.
+- [x] **Tests (TennisLink path).** Parser fixture tests, repository round-trip, UI integration, end-to-end CLI sync against fixture. +19 net new tests this wave.
+- [ ] **Clubspark current-rankings wire-up.** Recon agent (in flight) returns the production URL + GraphQL query for live Boys' 12 national standings; plug it into `usta sync-rankings` via the Bright Data backend; swap the historical-source footnote for a live label.
+- [ ] **WTN profile crawl for the displayed list.** For every player at rank ≤ Janav's rank, fetch their player profile page via the refactored Bright Data backend, parse WTN singles/doubles, persist into the existing `Player` / WTN store. Honor a polite rate limit; cache raw payloads under `data/raw/`.
+- [ ] **Janav scouting card UI.** "Unranked + no WTN" treatment with TR rank 146 + sister Vihana's WTN (singles 27.97, doubles 31.55) as context. Renders gracefully when Janav is not in the displayed list (the realistic case for early-2021 historical data).
+- [ ] **Name-match enrichment.** Resolve the synthetic `tl-rank:` USTA ids assigned during TennisLink ingest to real Clubspark GUIDs once the production identity surface is reachable.
+- [ ] **U10 boys national rankings.** If USTA publishes a U10 national list via Clubspark, run the same pipeline; if not, close with a one-line note linking to the recon evidence (TennisLink already confirmed never-published).
 
 ## Critical path — supporting
 
-- [ ] **Resend notification module.** Done in parallel this wave by the notify sibling agent. Strike when that agent confirms green on its slice (module shipped, tests passing, dependency wired through `src/notify/`).
-- [ ] **Cloudflare bypass agent role formalized.** Charter at `.claude/agents/bypass.md`. Created in wave 2 after wave-1 recon results land.
-- [ ] **Rankings agent role formalized.** Charter at `.claude/agents/rankings.md`. Created in wave 2; will be dispatched per (age category, scope) pair.
+All items here are now complete; preserved as a record of what landed this wave.
+
+- [x] **Resend notification module.** Shipped under `src/notify/` with retry + config + 7 tests (5 original + 2 fixed for env isolation).
+- [x] **Bright Data Web Unlocker backend.** Refactored to the verified Bearer-auth + body-key + POST-support shape. 9/9 tests.
+- [x] **Cloudflare bypass agent role formalized.** Charter at `.claude/agents/bypass.md`.
+- [x] **Rankings agent role formalized.** Charter at `.claude/agents/rankings.md`.
 
 ## Deferred — post-rankings (was previously in flight, paused pending rankings v1.0)
 
@@ -60,10 +72,10 @@ The rankings pipeline ships under the same quality bars as the rest of the codeb
 
 - **mypy strict** — clean across the tree.
 - **ruff** — clean across the tree.
-- **pytest** — currently 283 passing + the new Resend tests landing this wave. Every new module ships with tests; the pipeline above adds at minimum a parser test, a repository test, a UI integration test, and an end-to-end sync test.
+- **pytest** — 319 passing as of the 2026-05-12 wave-2 landing (was 283 + Resend tests pre-pivot; +19 net new from the rankings vertical slice plus the bright-data refactor and the two notify env-isolation fixes). Every new module ships with tests.
 - **Coverage** — unchanged targets: 90% on `src/parse/`, `src/enrich/`, `src/models/`; 70% on `src/fetch/`, `src/auth/`, `src/store/`.
 - **Security notice from QUESTIONS.md still stands.** Credentials are committed in the working tree; rotation is pending. Do not assume the threat model has changed.
 
 ## Recently shipped (context only)
 
-See `CHANGELOG.md` for the full history of what landed before this pivot — bootstrap, recon, TennisLink integration, all four enrichments, repositories, sync orchestrator, seeded UI, and 283 passing tests. Treat that work as the foundation the rankings pipeline now builds on; do not re-enumerate it here.
+See `CHANGELOG.md` for the full history of what landed before this pivot — bootstrap, recon, TennisLink integration, all four enrichments, repositories, sync orchestrator, seeded UI. Treat that work as the foundation the rankings pipeline now builds on; do not re-enumerate it here.
