@@ -104,7 +104,10 @@ async def test_send_fails_fast_on_401_without_retry() -> None:
     assert route.call_count == 1
 
 
-async def test_send_raises_when_notify_to_unset_and_no_to_arg() -> None:
+async def test_send_raises_when_notify_to_unset_and_no_to_arg(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setattr("src.notify.resend.settings.notify_to", None)
     backend = ResendBackend(
         api_key="re_test_key",
         from_address="alerts@example.test",
@@ -115,7 +118,10 @@ async def test_send_raises_when_notify_to_unset_and_no_to_arg() -> None:
         await backend.send("Subject", "Body")
 
 
-async def test_send_raises_when_api_key_unset() -> None:
+async def test_send_raises_when_api_key_unset(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setattr("src.notify.resend.settings.resend_api_key", None)
     backend = ResendBackend(
         api_key=None,
         from_address="alerts@example.test",
